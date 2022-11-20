@@ -11,7 +11,7 @@ Download hugo from [here](https://gohugo.io/getting-started/installing/#windows)
 
 ### Clone this repository
 ```sh
-git clone --recurse-submodules https://github.com/osac/osac.github.io
+git clone --recurse-submodules https://github.com/bhandarikdr/bhandarikdr.github.io
 ```
 
 Then use,
