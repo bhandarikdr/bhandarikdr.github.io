@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade XI Computer Science - Course Orientation & Syllabus Overview</title>
+    <style>
+        :root {
+            --primary-color: #1e293b;
+            --secondary-color: #3b82f6;
+            --accent-color: #ef4444;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #334155;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header-banner {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--secondary-color);
+        }
+
+        .header-banner h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .header-banner p {
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
+            color: #94a3b8;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            padding: 35px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #475569;
+            background-color: #f1f5f9;
+            padding: 20px;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: 4px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stat-box {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-box .number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+
+        .stat-box .label {
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.yes {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge.no {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .resource-box {
+            border: 1px solid #bfdbfe;
+            background-color: #eff6ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .resource-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .resource-icon {
+            background-color: var(--secondary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .resource-name {
+            font-weight: 600;
+            color: #1e3a8a;
+            display: block;
+        }
+
+        .resource-meta {
+            font-size: 0.85rem;
+            color: #60a5fa;
+        }
+
+        .inline-download-btn {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .inline-download-btn:hover {
+            background-color: #2563eb;
+        }
+
+        .alert-box {
+            background-color: #fff7ed;
+            border: 1px solid #ffedd5;
+            border-left: 5px solid #f97316;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            color: #c2410c;
+        }
+
+        .report-requirements {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .report-requirements li {
+            margin-bottom: 10px;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <h1>Grade XI Computer Science</h1>
+        <p>Course Orientation & Syllabus Overview &bull; Resource Portal</p>
+    </div>
+
+    <div class="container">
+        
+        <div class="card">
+            <h2>👋 Welcome Message</h2>
+            <div class="welcome-text">
+                <p><strong>Dear students,</strong> Welcome to Grade 11 Computer Science! As your educator, I am thrilled to guide you through this fascinating journey into the world of computing. Information and Communication Technology (ICT) is rapidly reshaping our world, and this course is specifically designed to provide you with a robust foundation for future studies and entry into the tech job market.</p>
+                <p>Computer Science is inherently hands-on. To succeed this year, you must understand both the theoretical principles of technology and how to apply them practically. Let’s look at how our course is structured and what is required of you to successfully complete it.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📊 Course Grading & Assessment Structure</h2>
+            <p>Your final evaluation is split equally between your performance in the classroom and your hands-on laboratory capabilities:</p>
+            
+            <div class="grid-2">
+                <div class="stat-box">
+                    <div class="number">50</div>
+                    <div class="label">Theory (Written Examination) Marks</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">50</div>
+                    <div class="label">Practical Marks (Internal & External)</div>
+                </div>
+            </div>
+
+            <div class="alert-box">
+                <strong>⚠️ Important Breakdown:</strong> The 50 practical marks are split into two components. 25 marks come from your ongoing Internal Evaluation (classroom participation, terminal exams, and your project report/presentation). The remaining 25 marks come from an External Practical Examination where you will be tested on your writing process, live demonstration of tasks, and a viva voce.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📚 Syllabus Outline & Practical Involvement</h2>
+            <p>Our curriculum is divided into 8 core content areas. While some units focus primarily on fundamental concepts, the majority will require you to actively roll up your sleeves in the computer lab. Below is the mapping of units along with their laboratory practical involvement status and linked resource materials:</p>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>S.N.</th>
+                            <th>Content Area</th>
+                            <th>Practical Activity Involved?</th>
+                            <th>Focus Topics & Lab Assets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><strong>Computer System</strong></td>
+                            <td><span class="badge no">No</span></td>
+                            <td>Architecture, CPU, memory, and hardware interfaces.</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><strong>Number System & Boolean Logic</strong></td>
+                            <td><span class="badge yes">Yes</span></td>
+                            <td>Conversions and logic gate logic using simulators.</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>Computer Software & Operating System</strong></td>
+                            <td><span class="badge yes">Yes</span></td>
+                            <td>
+                                OS functions, GUI navigation, file management, and CLI.
+                                <div style="margin-top: 8px;">
+                                    <a href="Windows Command Line (CMD) Lab Questions.pdf" class="badge yes" style="text-decoration:none; text-transform:none;">📄 Windows CMD Lab Questions</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>Application Package</strong></td>
+                            <td><span class="badge yes">Yes</span></td>
+                            <td>
+                                Advanced Word Processing, Spreadsheets, and Presentations.
+                                <div style="margin-top: 8px;">
+                                    <a href="Application Packages Lab Questions.pdf" class="badge yes" style="text-decoration:none; text-transform:none;">📄 Application Packages Questions</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td><strong>Programming Concepts & Logics</strong></td>
+                            <td><span class="badge yes">Yes</span></td>
+                            <td>
+                                Problem-solving logic and fundamental C Programming.
+                                <div style="margin-top: 8px;">
+                                    <a href="C-Programming-I Lab Questions.pdf" class="badge yes" style="text-decoration:none; text-transform:none;">📄 C-Programming-I Questions</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td><strong>Web Technology I</strong></td>
+                            <td><span class="badge yes">Yes</span></td>
+                            <td>
+                                Building web pages using HTML5 and Cascading Style Sheets (CSS).
+                                <div style="margin-top: 8px;">
+                                    <a href="Web Technology-I Lab Questions.pdf" class="badge yes" style="text-decoration:none; text-transform:none;">📄 Web Technology-I Questions</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><strong>Multimedia</strong></td>
+                            <td><span class="badge yes">Yes</span></td>
+                            <td>Photo, audio, and video recording and editing.</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><strong>Information Security & Cyber Law</strong></td>
+                            <td><span class="badge no">No</span></td>
+                            <td>Digital ethics, cybercrime safety, and Nepali ICT policies.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card" style="border-left: 5px solid var(--accent-color);">
+            <h2>📝 Critical Course Requirement: The Lab Report</h2>
+            <p>To successfully complete this course and be eligible for your practical marks, you are <strong>strictly required to submit a comprehensive lab report</strong> at the end of the academic year.</p>
+            <p>This report is a compiled, systematic documentation of all the laboratory experiments, coding challenges, website mockups, and software exercises you perform throughout the term. Think of it as a portfolio of your technical skills.</p>
+            
+            <p><strong>What your Lab Report must include:</strong></p>
+            <ul class="report-requirements">
+                <li><strong>The Writing Process:</strong> The step-by-step methodology, algorithms, or setup procedures used for each practical task.</li>
+                <li><strong>The Deliverables:</strong> Clean source code (for C programming and HTML/CSS), data sheets, or edited media logs.</li>
+                <li><strong>The Outcome:</strong> Proof of working execution (such as program outputs or screenshots of built layouts).</li>
+            </ul>
+            
+            <div class="alert-box" style="background-color: #fef2f2; border: 1px solid #fee2e2; border-left: 5px solid var(--accent-color); color: #991b1b;">
+                Please do not leave this until the last minute. Treat every lab session as a step toward building your final report.
+            </div>
+            
+            <p style="margin-top: 20px; font-weight: 600; color: var(--primary-color);">
+                I am incredibly excited to see what you will build, program, and discover this year. Let's make it a fantastic, productive session!<br><br>
+                <span style="font-size: 0.95rem; font-weight: normal; color: #475569;">Best regards,<br><strong>Your Computer Science Educator</strong></span>
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>📥 Download Center & Attached Resources</h2>
+            <p>Download your official curriculum guides, sample templates, and questions below:</p>
+            
+            <div class="resource-grid">
+                
+                <div class="resource-box">
+                    <div class="resource-info">
+                        <div class="resource-icon" style="background-color: #ef4444;">PDF</div>
+                        <div>
+                            <span class="resource-name">Official Computer Science Curriculum</span>
+                            <span class="resource-meta">Combined Grade 11 & 12 Syllabus (CDC)</span>
+                        </div>
+                    </div>
+                    <a href="Curriculum-of-Grade-11-and-12-Computer-Science.pdf" download class="inline-download-btn">Download</a>
+                </div>
+
+                <div class="resource-box">
+                    <div class="resource-info">
+                        <div class="resource-icon" style="background-color: #2b6cb0;">DOCX</div>
+                        <div>
+                            <span class="resource-name">Grade XI Lab Report Sample</span>
+                            <span class="resource-meta">Official Format & Structural Template</span>
+                        </div>
+                    </div>
+                    <a href="Lab Report Sample - Grade XI.docx" download class="inline-download-btn">Download</a>
+                </div>
+
+                <div class="resource-box">
+                    <div class="resource-info">
+                        <div class="resource-icon">PDF</div>
+                        <div>
+                            <span class="resource-name">Windows Command Line (CMD) Questions</span>
+                            <span class="resource-meta">Lab Guide for Unit 3</span>
+                        </div>
+                    </div>
+                    <a href="Windows Command Line (CMD) Lab Questions.pdf" download class="inline-download-btn">Download</a>
+                </div>
+
+                <div class="resource-box">
+                    <div class="resource-info">
+                        <div class="resource-icon">PDF</div>
+                        <div>
+                            <span class="resource-name">Application Packages Lab Questions</span>
+                            <span class="resource-meta">Lab Guide for Unit 4</span>
+                        </div>
+                    </div>
+                    <a href="Application Packages Lab Questions.pdf" download class="inline-download-btn">Download</a>
+                </div>
+
+                <div class="resource-box">
+                    <div class="resource-info">
+                        <div class="resource-icon">PDF</div>
+                        <div>
+                            <span class="resource-name">C-Programming-I Lab Questions</span>
+                            <span class="resource-meta">Lab Guide for Unit 5</span>
+                        </div>
+                    </div>
+                    <a href="C-Programming-I Lab Questions.pdf" download class="inline-download-btn">Download</a>
+                </div>
+
+                <div class="resource-box">
+                    <div class="resource-info">
+                        <div class="resource-icon">PDF</div>
+                        <div>
+                            <span class="resource-name">Web Technology-I Lab Questions</span>
+                            <span class="resource-meta">Lab Guide for Unit 6</span>
+                        </div>
+                    </div>
+                    <a href="Web Technology-I Lab Questions.pdf" download class="inline-download-btn">Download</a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
