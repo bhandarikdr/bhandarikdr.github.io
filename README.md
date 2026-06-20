@@ -1,6 +1,4 @@
-# Kedar Pd. Bhandari
 **Computer Science Teacher & STEAM Specialist**
-
 ---
 
 ## 📍 Contact Information
