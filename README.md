@@ -1,4 +1,4 @@
-**Computer Science Teacher & STEAM Specialist**
+- **Computer Science Teacher & STEAM Specialist**
 ---
 
 ## 📍 Contact Information
