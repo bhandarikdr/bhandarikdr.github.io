@@ -1,6 +1,4 @@
-[Profile](https://bhandarikdr.github.io/Profile.html)
+[See Profile](https://bhandarikdr.github.io/index.html)
 ---
-### Interests & Well-being
-- Yoga & Meditation
-- Trekking & Hiking
-- Cycling
+## Computer Science
+| [Grade XI](https://bhandarikdr.github.io/CSXI.html) | [Grade XII](https://bhandarikdr.github.io/CSXII.html) |
