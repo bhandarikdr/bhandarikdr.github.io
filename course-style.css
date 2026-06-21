@@ -273,6 +273,38 @@ tr:hover {
     margin-top: 20px;
 }
 
+details.resource-section {
+    margin-top: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+details.resource-section summary {
+    padding: 15px 20px;
+    background-color: #f8fafc;
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+details.resource-section summary:hover {
+    background-color: #f1f5f9;
+}
+
+details[open].resource-section summary {
+    border-bottom: 1px solid var(--border-color);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+details.resource-section .resource-grid {
+    padding: 15px;
+    margin-top: 0;
+}
+
 .marks-list {
     list-style: none;
     padding: 0;
