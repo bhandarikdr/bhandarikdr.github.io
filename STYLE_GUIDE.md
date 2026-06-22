@@ -25,9 +25,13 @@ Defined in `:root` of `course-style.css`.
 ## 📐 Layout & Structure
 
 ### 0. Navigation (Glass Navbar)
-A floating, blurred navigation bar fixed to the top.
+A floating, blurred navigation bar fixed to the top with auto-hide logic.
+- **Trigger**: Requires a `<div class="nav-trigger"></div>` at the start of `<body>`.
+- **Active Class**: Use `class="active"` on the `<a>` tag of the current page.
+
 ```html
-<nav class="glass-nav">
+<div class="nav-trigger"></div>
+<nav class="glass-nav visible">
     <a href="index.html" class="nav-logo">
         <i class="fa-solid fa-user-graduate"></i>
         <span>Kedar Bhandari</span>
@@ -38,6 +42,17 @@ A floating, blurred navigation bar fixed to the top.
         <li><a href="CSXII.html">Grade XII</a></li>
     </ul>
 </nav>
+
+<script>
+    const nav = document.querySelector('.glass-nav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY <= 50) {
+            nav.classList.add('visible');
+        } else {
+            nav.classList.remove('visible');
+        }
+    });
+</script>
 ```
 
 ### 1. Header Banner
