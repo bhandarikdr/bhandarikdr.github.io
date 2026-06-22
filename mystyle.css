@@ -231,13 +231,45 @@ section h2 i { color: var(--primary); }
 .stat-box .number { font-size: 3rem; font-weight: bold; color: var(--secondary-color); }
 .stat-box .label { font-weight: 600; color: var(--primary-color); text-transform: uppercase; font-size: 0.9rem; }
 
-.badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+.badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
 .badge.practical { background: #dcfce7; color: #15803d; }
 .badge.theory { background: #f1f5f9; color: #475569; }
 .badge.marks { background: var(--secondary-color); color: white; border-radius: 20px; }
 .badge.marks-alt { background: var(--primary-color); color: white; border-radius: 20px; }
 
 .resource-grid, .syllabus-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px; }
+
+/* Resource Section (Expandable) */
+details.resource-section {
+    margin-top: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+details.resource-section summary {
+    padding: 15px 20px;
+    background-color: #f8fafc;
+    color: var(--primary-color);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 0.2s;
+}
+
+details.resource-section summary:hover {
+    background-color: #f1f5f9;
+}
+
+details[open].resource-section summary {
+    border-bottom: 1px solid var(--border-color);
+}
+
+details.resource-section .resource-grid {
+    padding: 20px;
+    margin-top: 0;
+}
+
 .resource-box { border: 1px solid var(--border-color); background: var(--bg-color); border-radius: 8px; padding: 20px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
 .resource-box:hover { border-color: var(--secondary-color); transform: translateY(-2px); }
 .resource-info { display: flex; align-items: center; gap: 15px; }
@@ -260,6 +292,50 @@ section h2 i { color: var(--primary); }
 .syllabus-item { background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
 .syllabus-info h4 { margin: 0 0 5px 0; color: var(--primary-color); }
 .syllabus-info p { margin: 0; font-size: 0.9rem; color: #64748b; }
+
+/* Syllabus Actions & Buttons */
+.syllabus-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.action-btn.handouts {
+    background-color: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.action-btn.handouts:hover {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.action-btn.lab-guide {
+    background-color: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.action-btn.lab-guide:hover {
+    background-color: #16a34a;
+    color: white;
+    border-color: #16a34a;
+}
+
 .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
 .status-practical { background: #dbeafe; color: #1e40af; }
 .status-theory { background: #f1f5f9; color: #475569; }
