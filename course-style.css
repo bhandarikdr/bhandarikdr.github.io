@@ -22,7 +22,7 @@ body {
 .header-banner {
     background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     color: #ffffff;
-    padding: 40px 20px;
+    padding: 100px 20px 60px 20px;
     text-align: center;
     border-bottom: 5px solid var(--secondary-color);
 }
@@ -349,6 +349,48 @@ details.resource-section .resource-grid {
     margin: 0;
     font-size: 0.9rem;
     color: #64748b;
+}
+
+.syllabus-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.action-btn.handouts {
+    background-color: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #bfdbfe;
+}
+
+.action-btn.handouts:hover {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+.action-btn.lab-guide {
+    background-color: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+
+.action-btn.lab-guide:hover {
+    background-color: #16a34a;
+    color: white;
+    border-color: #16a34a;
 }
 
 .status-badge {

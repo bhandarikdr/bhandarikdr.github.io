@@ -6,7 +6,8 @@
     <title>Kedar Pd. Bhandari | Online Profile</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="navbar.css">
+
     <style>
         :root {
             --primary: #1e3a8a; /* Deep professional blue */
@@ -33,7 +34,7 @@
 
         .container {
             max-width: 1100px;
-            margin: 40px auto;
+            margin: 100px auto 40px;
             padding: 0 20px;
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -287,6 +288,30 @@
     </style>
 </head>
 <body>
+
+    <div class="nav-trigger"></div>
+    <nav class="glass-nav visible">
+        <a href="index.html" class="nav-logo">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Kedar Bhandari</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Home</a></li>
+            <li><a href="CSXI.html">Grade XI</a></li>
+            <li><a href="CSXII.html">Grade XII</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        const nav = document.querySelector('.glass-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY <= 50) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+    </script>
 
     <div class="container">
         

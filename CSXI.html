@@ -4,9 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade XI Computer Science - Course Orientation & Syllabus Overview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="course-style.css">
+    <link rel="stylesheet" href="navbar.css">
 </head>
 <body>
+
+    <div class="nav-trigger"></div>
+    <nav class="glass-nav visible">
+        <a href="index.html" class="nav-logo">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Kedar Bhandari</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="CSXI.html" class="active">Grade XI</a></li>
+            <li><a href="CSXII.html">Grade XII</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        const nav = document.querySelector('.glass-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY <= 50) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+    </script>
 
     <div class="header-banner">
         <h1>Grade XI Computer Science</h1>
@@ -52,6 +78,9 @@
                     <div class="syllabus-info">
                         <h4>Unit 1: Computer System</h4>
                         <p>Evolution and classification of computers, hardware components (CPU, ALU, CU, Registers), Memory types (Primary, Secondary, Cache), and Computer Architecture (Von Neumann model).</p>
+                        <div class="syllabus-actions">
+                            <a href="https://1drv.ms/f/c/46155f2903841d6e/IgBuHYQDKV8VIIBG0gAAAAAAAaifhK3eKzMc0IDtHoqsoC8?e=rmcWc7" target="_blank" class="action-btn handouts">📖 Handouts</a>
+                        </div>
                     </div>
                     <span class="status-badge status-theory">Theory Focus</span>
                 </div>
@@ -60,6 +89,9 @@
                     <div class="syllabus-info">
                         <h4>Unit 2: Number System & Boolean Logic</h4>
                         <p>Binary, Octal, Decimal, and Hexadecimal conversions. 1's and 2's complement arithmetic. Introduction to Boolean logic, logic gates, and truth tables.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                        </div>
                     </div>
                     <span class="status-badge status-theory">Theory & Numericals</span>
                 </div>
@@ -68,6 +100,10 @@
                     <div class="syllabus-info">
                         <h4>Unit 3: Computer Software & Operating System</h4>
                         <p>System and Application software. OS functions and types. Navigation of GUI-based OS and introduction to CLI with basic Windows CMD practice.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                            <a href="Windows Command Line (CMD) Lab Questions.pdf" class="action-btn lab-guide">🧪 Lab Guide</a>
+                        </div>
                     </div>
                     <span class="status-badge status-practical">Theory & CMD Practice</span>
                 </div>
@@ -76,6 +112,10 @@
                     <div class="syllabus-info">
                         <h4>Unit 4: Application Package</h4>
                         <p>In-depth features of Word Processing (Mail Merge, Tables), Spreadsheets (Complex Formulas, Functions, Charts), and Presentation tools.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                            <a href="https://1drv.ms/b/c/46155f2903841d6e/IQAxjW3IJ5WXSpjYTJ3clbOJAV4YEUHwlJMxCfkFTENNP6w?e=cijzTN" target="_blank" class="action-btn lab-guide">🧪 Lab Guide</a>
+                        </div>
                     </div>
                     <span class="status-badge status-practical">Highly Practical</span>
                 </div>
@@ -84,6 +124,10 @@
                     <div class="syllabus-info">
                         <h4>Unit 5: Programming Concepts & Logics</h4>
                         <p>Program design tools (Algorithms, Flowcharts, Pseudocode). C Programming: Data types, Variables, Control structures (If-else, Switch, Loops).</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                            <a href="C-Programming-I Lab Questions.pdf" class="action-btn lab-guide">🧪 Lab Guide</a>
+                        </div>
                     </div>
                     <span class="status-badge status-practical">Highly Practical (C)</span>
                 </div>
@@ -92,6 +136,10 @@
                     <div class="syllabus-info">
                         <h4>Unit 6: Web Technology I</h4>
                         <p>Foundations of WWW and HTTP. Building static web pages using HTML5 tags and styling with basic CSS properties.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                            <a href="Web Technology-I Lab Questions.pdf" class="action-btn lab-guide">🧪 Lab Guide</a>
+                        </div>
                     </div>
                     <span class="status-badge status-practical">Highly Practical (HTML/CSS)</span>
                 </div>
@@ -100,6 +148,9 @@
                     <div class="syllabus-info">
                         <h4>Unit 7: Multimedia</h4>
                         <p>Exploration of multimedia elements: Text, Graphics, Audio, Video, and Animation. Discussion on applications in education and industry.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                        </div>
                     </div>
                     <span class="status-badge status-theory">Theory & Discussion</span>
                 </div>
@@ -108,6 +159,9 @@
                     <div class="syllabus-info">
                         <h4>Unit 8: Information Security & Cyber Law</h4>
                         <p>Security threats (Viruses, Phishing) and countermeasures. Overview of digital ethics, Cyber Law, and the Electronic Transaction Act of Nepal.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                        </div>
                     </div>
                     <span class="status-badge status-theory">Theory Focus</span>
                 </div>
@@ -145,7 +199,7 @@
                                 <span class="resource-meta">Combined Grade 11 & 12 Syllabus (CDC)</span>
                             </div>
                         </div>
-                        <a href="Curriculum-of-Grade-11-and-12-Computer-Science.pdf" download class="inline-download-btn">Download</a>
+                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQDUO4A43UfwS7EjF-uiIX9VAdHE6rxfHjEiP2_ckRggXhI?e=1hbA59" target="_blank" class="inline-download-btn">View/Download</a>
                     </div>
 
                     <div class="resource-box">
@@ -178,7 +232,7 @@
                                 <span class="resource-meta">Lab Guide for Unit 4</span>
                             </div>
                         </div>
-                        <a href="Application Packages Lab Questions.pdf" download class="inline-download-btn">Download</a>
+                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQAxjW3IJ5WXSpjYTJ3clbOJAV4YEUHwlJMxCfkFTENNP6w?e=cijzTN" target="_blank" class="inline-download-btn">View/Download</a>
                     </div>
 
                     <div class="resource-box">
@@ -217,7 +271,7 @@
                                 <span class="resource-meta">Orientation Reflective writing assignment</span>
                             </div>
                         </div>
-                        <a href="GradeXI_Assignment1.pdf" download class="inline-download-btn">Download</a>
+                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQAMiLJT6x-aQaxW6MB86HGWASDqpVuacVn097hBD9q6v30?e=Fw1uOw" target="_blank" class="inline-download-btn">View/Download</a>
                     </div>
                 </div>
             </details>

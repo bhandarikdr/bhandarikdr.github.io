@@ -4,9 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grade XII Computer Science - Course Orientation & Syllabus Overview</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="course-style.css">
+    <link rel="stylesheet" href="navbar.css">
 </head>
 <body>
+
+    <div class="nav-trigger"></div>
+    <nav class="glass-nav visible">
+        <a href="index.html" class="nav-logo">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Kedar Bhandari</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="CSXI.html">Grade XI</a></li>
+            <li><a href="CSXII.html" class="active">Grade XII</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        const nav = document.querySelector('.glass-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY <= 50) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+    </script>
 
     <div class="header-banner">
         <h1>Grade XII Computer Science</h1>
@@ -74,6 +100,10 @@
                     <div class="syllabus-info">
                         <h4>Unit 1: DBMS Concept</h4>
                         <p>Introduction to DBMS, advantages, database models, normalization, centralized vs. distributed databases, and database security. Practical focus on SQL DDL and DML for CRUD operations.</p>
+                        <div class="syllabus-actions">
+                            <a href="https://1drv.ms/f/c/46155f2903841d6e/IgBuHYQDKV8VIIBGGQcAAAAAAT7EY35QMVujXHfrpTOnwYg?e=6XhOPv" target="_blank" class="action-btn handouts">📖 Handouts</a>
+                            <a href="https://1drv.ms/b/c/46155f2903841d6e/IQCTnM_Ri6evS7L6R-RmlNHiAfLN5Ws9qZ-pLozzQHgSBdQ?e=xL5wOf" target="_blank" class="action-btn lab-guide">🧪 Lab Guide</a>
+                        </div>
                     </div>
                     <span class="status-badge status-practical">Theory & Practical (SQL CRUD)</span>
                 </div>
@@ -82,6 +112,9 @@
                     <div class="syllabus-info">
                         <h4>Unit 2: Concept of Network and Data Communication</h4>
                         <p>Basic elements and models of communication systems, transmission media, LAN and WAN configurations, network architectures, topologies, devices, OSI Reference Model, and Internet Protocol Addressing.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                        </div>
                     </div>
                     <span class="status-badge status-theory">Theory & Topologies</span>
                 </div>
@@ -90,6 +123,10 @@
                     <div class="syllabus-info">
                         <h4>Unit 3: Web Technology II (CSS, JavaScript, PHP)</h4>
                         <p>Client-side scripting with JavaScript (fundamentals, functions, control structures, object-based programming, event handling) and server-side scripting with PHP (variables, operators, database connectivity, SQL queries).</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                            <a href="Web Technology-II Lab Questions.pdf" class="action-btn lab-guide">🧪 Lab Guide</a>
+                        </div>
                     </div>
                     <span class="status-badge status-practical">Highly Practical (JS & Server Tech)</span>
                 </div>
@@ -98,6 +135,10 @@
                     <div class="syllabus-info">
                         <h4>Unit 4: Programming II</h4>
                         <p>Review of C programming concepts, user-defined functions (prototypes, calls, returns), storage classes, recursion, structure and union differentiation, pointers, and sequential/random data file handling functions.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                            <a href="C-Programming-II Lab Questions.pdf" class="action-btn lab-guide">🧪 Lab Guide</a>
+                        </div>
                     </div>
                     <span class="status-badge status-practical">Highly Practical (C Language)</span>
                 </div>
@@ -106,6 +147,9 @@
                     <div class="syllabus-info">
                         <h4>Unit 5: OOP Concept</h4>
                         <p>Introduction to Object-Oriented Programming paradigms, core features, advantages, and real-world software applications.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                        </div>
                     </div>
                     <span class="status-badge status-theory">Theory & Concepts</span>
                 </div>
@@ -114,6 +158,9 @@
                     <div class="syllabus-info">
                         <h4>Unit 6: Software Process Model (SDLC, Software Process only)</h4>
                         <p>Software projects, development processes, Software Development Life Cycle (SDLC) models, roles of system analysts vs. software engineers, system design, and software quality factors.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                        </div>
                     </div>
                     <span class="status-badge status-theory">Theory & Systems Planning</span>
                 </div>
@@ -122,6 +169,9 @@
                     <div class="syllabus-info">
                         <h4>Unit 7: Recent Trends in ICT</h4>
                         <p>Exploration of current and emerging developments across recent technological trends in Information and Communication Technology.</p>
+                        <div class="syllabus-actions">
+                            <a href="#" class="action-btn handouts">📖 Handouts</a>
+                        </div>
                     </div>
                     <span class="status-badge status-theory">Theory & Industry Focus</span>
                 </div>
@@ -150,7 +200,7 @@
                                 <span class="resource-meta">Combined Grade 11 & 12 Syllabus (CDC)</span>
                             </div>
                         </div>
-                        <a href="Curriculum-of-Grade-11-and-12-Computer-Science.pdf" download class="inline-download-btn">Download</a>
+                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQDUO4A43UfwS7EjF-uiIX9VAdHE6rxfHjEiP2_ckRggXhI?e=1hbA59" target="_blank" class="inline-download-btn">View/Download</a>
                     </div>
 
                     <div class="resource-box">
@@ -172,7 +222,7 @@
                                 <span class="resource-meta">Laboratory guide sheet covering DDL and DML scripts</span>
                             </div>
                         </div>
-                        <a href="Lab Activity_ Mastering SQL Commands.pdf" download class="inline-download-btn">Download Guide</a>
+                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQCTnM_Ri6evS7L6R-RmlNHiAfLN5Ws9qZ-pLozzQHgSBdQ?e=xL5wOf" target="_blank" class="inline-download-btn">View/Download</a>
                     </div>
 
                     <div class="resource-box">
@@ -210,7 +260,7 @@
                                 <span class="resource-meta">Orientation Reflective writing assignment</span>
                             </div>
                         </div>
-                        <a href="GradeXII_Assignment1.pdf" download class="inline-download-btn">Download</a>
+                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQAimzKTGRpRSLE_zRy2MRRSAdqgZO8ozkSy5cEdj-a6vok?e=gx47cM" target="_blank" class="inline-download-btn">View/Download</a>
                     </div>
                 </div>
             </details>
