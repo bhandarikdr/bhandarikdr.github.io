@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Commands Lab Activity Guide - Grade XI</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #18bc9c;
+            --accent-color: #3498db;
+            --bg-light: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-dark: #2b2b2b;
+            --text-light: #555555;
+            --code-bg: #2d3748;
+            --code-text: #f7fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #f0f2f5;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 4px solid var(--primary-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .badge {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .instruction-box {
+            background: var(--bg-light);
+            border-left: 5px solid var(--accent-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .step-list {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-list li {
+            margin-bottom: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .step-list strong {
+            color: var(--primary-color);
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            color: var(--code-text);
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+            border: 1px solid #1a202c;
+        }
+
+        code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: #e53e3e;
+            font-size: 0.9rem;
+        }
+
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: inherit;
+            font-size: inherit;
+        }
+
+        .quiz-container {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .quiz-question {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .quiz-options {
+            list-style-type: none;
+            margin-left: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .quiz-options li {
+            margin-bottom: 0.25rem;
+            color: var(--text-light);
+        }
+
+        .answer-key {
+            background: #e6fffa;
+            border: 1px solid #b2f5ea;
+            color: #234e52;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1.5rem;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Lab Activity: Mastering SQL Commands</h1>
+        <p>Comprehensive Laboratory Work Guide</p>
+        <p style="font-size: 1rem; margin-top: 0.3rem; color: var(--secondary-color);">Grade XII &bull; Computer Science</p>
+    </header>
+
+    <!-- SETUP ENVIRONMENT -->
+    <div class="section-title">
+        <span class="badge">Setup</span> Environment Installation & Connection
+    </div>
+    
+    <div class="instruction-box">
+        <p style="margin-bottom: 1rem; font-weight: 600; color: var(--primary-color);">Follow these steps to set up XAMPP and access the MySQL/MariaDB environment:</p>
+        <ol class="step-list">
+            <li><strong>Install XAMPP:</strong> Download the <a href="https://www.apachefriends.org/download.html">XAMPP installer</a> executable package matching your host environment platform layout from the official Apache Friends portal. Complete the deployment setup package wizard utilizing default port options.</li>
+            <li><strong>Launch the Services:</strong> Open the <code>XAMPP Control Panel</code> from your desktop or Applications folder. Click the <strong>Start</strong> actions next to both the <strong>Apache</strong> and <strong>MySQL</strong> rows. Ensure their modules turn green.</li>
+            <li><strong>Navigate using Command Prompt (CLI):</strong> Launch your terminal interface shell environment (e.g., CMD on Windows) and run the change directory instructions sequence to jump directly into the standard location path:
+                <pre>cd C:\xampp\mysql\bin</pre>
+            </li>
+            <li><strong>Login to MySQL/MariaDB Server:</strong> Authenticate securely into your local transactional database cluster using the administrative user account (<code>root</code>) with no default password assignment query rule:
+                <pre>mysql -u root</pre>
+                Upon hitting Enter, the interface command cursor should shift to a live dashboard engine prompt state matching <code>MariaDB [(none)]&gt;</code> or <code>mysql&gt;</code>.
+            </li>
+        </ol>
+    </div>
+
+    <!-- OBJECTIVE -->
+    <div class="instruction-box" style="border-left-color: var(--secondary-color); background-color: #fdfdfd;">
+        <p><strong>Activity Objective:</strong> Create a relational database schema structural engine for a library management system framework tracking inventory, and perform core <strong>CRUD</strong> (Create, Read, Update, Delete) procedural transactional instructions.</p>
+    </div>
+
+    <!-- PART 1 -->
+    <div class="section-title">
+        <span class="badge">Part 1</span> Database and Table Setup
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>Step 1.1: Initialize a new database</strong> named <code>LibraryDB</code> inside your workspace cluster instance storage repository.</p>
+        <pre>CREATE DATABASE LibraryDB;</pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Step 1.2: Verify and Select Database</strong> context to confirm presence and make it the active query operations target scope.</p>
+        <pre>SHOW DATABASES;
+USE LibraryDB;</pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Step 1.3: Create Books Table</strong> object infrastructure framework columns tracking core information variables.</p>
+<pre>CREATE TABLE Books (
+    BookID int,
+    Title varchar(255),
+    Author varchar(255),
+    PublishedYear int
+);</pre>
+    </div>
+
+    <!-- PART 2 -->
+    <div class="section-title">
+        <span class="badge">Part 2</span> Data Manipulation (CRUD Operations)
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>Step 2.1: Insert Data</strong> record states securely to store data samples into your <code>Books</code> grid parameters table layout:</p>
+<pre>INSERT INTO Books (BookID, Title, Author, PublishedYear)
+VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);</pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Step 2.2: Read Data</strong> rows matching query selections to fetch information back to the client interface layout:</p>
+        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Query all data details stored globally inside the table matrix context:</p>
+        <pre>SELECT * FROM Books;</pre>
+        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Query specific attribute keys selectively:</p>
+        <pre>SELECT Title, Author FROM Books;</pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Step 2.3: Update Data</strong> profiles globally or conditionally targeting accurate unique row definitions safely using the conditional filtering clause tool:</p>
+        <pre>UPDATE Books SET PublishedYear = 1926 WHERE BookID = 1;</pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Step 2.4: Delete Data</strong> profiles and isolate particular transactional elements using explicit row identifier matching specifications:</p>
+        <pre>DELETE FROM Books WHERE BookID = 1;</pre>
+    </div>
+
+    <!-- PART 3 -->
+    <div class="section-title">
+        <span class="badge">Part 3</span> Advanced Structure & Cleanup Operations
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>Step 3.1: Modify Table Structure</strong> dynamically to add a new category property column labeled <code>Genre</code> seamlessly:</p>
+        <pre>ALTER TABLE Books ADD Genre varchar(100);</pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Step 3.2: Index Management optimization</strong> initialization rules layout to speed up analytical target queries searching over titles:</p>
+        <pre>CREATE INDEX idx_title ON Books(Title);</pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Step 3.3: Systematic Schema Cleanup routines</strong> implementation processing commands to drop entities from working environment allocations:</p>
+        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Remove operational tracking speed indexing configurations:</p>
+        <pre>DROP INDEX idx_title ON Books;</pre>
+        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Drop table structure and records completely from physical memory allocations:</p>
+        <pre>DROP TABLE Books;</pre>
+        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Drop entire logical structural database workspace tracking records context:</p>
+        <pre>DROP DATABASE LibraryDB;</pre>
+    </div>
+
+    <!-- CHALLENGE QUIZ -->
+    <div class="section-title">
+        <span class="badge">Quiz</span> Challenge Quiz: Test Your SQL Skills
+    </div>
+
+    <div class="quiz-container">
+        <p class="quiz-question">1. Which clause is mandatory in an UPDATE statement to prevent changing all rows?</p>
+        <ul class="quiz-options">
+            <li>A) SET</li>
+            <li>B) FROM</li>
+            <li>C) WHERE</li>
+            <li>D) GROUP BY</li>
+        </ul>
+
+        <p class="quiz-question">2. What happens if you run <code>DELETE FROM Books;</code> without a WHERE clause?</p>
+        <ul class="quiz-options">
+            <li>A) It deletes the table structure.</li>
+            <li>B) It deletes all records in the table.</li>
+            <li>C) It deletes only the first record.</li>
+            <li>D) The command fails.</li>
+        </ul>
+
+        <p class="quiz-question">3. Which statement is used to remove an entire table and all its data?</p>
+        <ul class="quiz-options">
+            <li>A) DELETE TABLE</li>
+            <li>B) REMOVE TABLE</li>
+            <li>C) DROP TABLE</li>
+            <li>D) TRUNCATE</li>
+        </ul>
+
+        <div class="answer-key">
+            Verification Keys Check: 1-C, 2-B, 3-C.
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>~ Thank you. See you in next chapter ~</p>
+        <p style="font-size: 0.8rem; margin-top: 0.25rem; color: #a0aec0;">Ensure all laboratory terminal output tasks are executed under workspace supervision guidelines.</p>
+    </div>
+</div>
+
+</body>
+</html>

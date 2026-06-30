@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Packages - Lab Manual (Grade XI)</title>
+    <style>
+        :root {
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-color: #319795;
+            --bg-light: #f7fafc;
+            --border-color: #e2e8f0;
+            --text-dark: #2d3748;
+            --text-light: #4a5568;
+            --code-bg: #edf2f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #f8fafc;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 2.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.25rem;
+            border-bottom: 2px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .question-card {
+            background: var(--bg-light);
+            border-left: 4px solid var(--secondary-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .question-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .instruction-list {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .instruction-list li {
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .text-box {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.05rem;
+        }
+
+        .text-box h3 {
+            text-align: center;
+            color: #002b66;
+            margin-bottom: 0.75rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: #fff;
+        }
+
+        th, td {
+            border: 1px solid #cbd5e0;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #ebf8ff;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .formula {
+            font-family: Consolas, Monaco, monospace;
+            background: var(--code-bg);
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            color: #c53030;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+         <h1>Lab Activity: Application Packages</h1>
+        <p>Comprehensive Laboratory Work Guide</p>
+        <p style="font-size: 1rem; margin-top: 0.25rem; color: var(--accent-color);">Grade XI &bull; Computer Science</p>
+    </header>
+
+    <!-- WORD PROCESSING -->
+    <div class="section-title">
+        <span class="badge">Part 1</span> Word Processing Application
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Q. No. 1. Basic Editing, Proofing, and Formatting Operations</div>
+        <p style="margin-bottom: 0.5rem;"><strong>Task:</strong> Open a word processing program (e.g., Microsoft Word) on your computer, type the following exact text into a new document, and perform the actions listed below.</p>
+        
+        <div class="text-box">
+            <h3>Computer in Near Future</h3>
+            <p>Today the computer has affected all aspects of people's lives. It has become a need in our daily activities. In this century, computer has changed the style of our daily activities. In near future, we shall totally depend on the computer. In the near future, the advancement in computer technology will occur in the following areas:</p>
+            <ul style="margin-left: 2rem; margin-top: 0.5rem; margin-bottom: 0.5rem;">
+                <li>Hardware</li>
+                <li>Software</li>
+                <li>Communication and Networks</li>
+                <li>Robotizes</li>
+            </ul>
+            <p><strong>Hardware</strong></p>
+            <p style="text-indent: 1.5rem;">In future the nanotechnology will be used to build molecular devices. The molecular devices will have an extra ordinary computing speed of power. The following hardware devices will be commonly used in near future:</p>
+            <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                <li><strong>Atomic Quantum Computer:</strong> In future the personal computer (PCs) will be replaced by quantum computer (Qcs). The speed of Qcs will be up to a billion times faster than today's Pentium IV computers. In these computers quantum mechanics will be used rather than digital technology.</li>
+                <li><strong>Optical computers:</strong> In future the optical technology will be used in computer. Due to this technology the computing speed will increase and physical size of computers will also reduce.</li>
+                <li><strong>Storage Device:</strong> In future the storage capacity will be in terabytes. The holographic video storage devices are also intercedes. Its storage capacity will be up to 1000 terabytes or more. Its life will be 50 years or more.</li>
+            </ul>
+        </div>
+
+        <ol class="instruction-list">
+            <li>Select the first paragraph and copy it to the very end of the document.</li>
+            <li>Select the second paragraph ("Hardware..."), cut it, and paste it at the beginning of the document.</li>
+            <li>Delete the current first paragraph.</li>
+            <li>Use the <strong>Undo</strong> command repeatedly until the document returns to its original state (how it looked before Step 1).</li>
+            <li>Use the <strong>Redo</strong> command once to re-apply the very last action.</li>
+            <li>Check the entire document for spelling and grammar mistakes and correct them (e.g., *computere*, *live*, *phisical*, *storrage*).</li>
+            <li>Use the <strong>Find and Replace</strong> feature to change all instances of the phrase <code class="formula">"near future"</code> to <code class="formula">"future"</code>.</li>
+            <li>Save the document with the filename: <code>Computer in near future</code></li>
+        </ol>
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Q. No. 2. Document Designing (Admission Notice)</div>
+        <p><strong>Task:</strong> Create and design a professional one-page publication notice layout containing the following details:</p>
+        <div class="text-box" style="font-family: inherit;">
+            <h2 style="text-align:center; text-decoration: underline; margin-bottom:0.5rem;">Einstein Academy</h2>
+            <p style="text-align:center; font-style: italic; margin-bottom: 0.5rem;">Announces admission open for the Bachelor of Business Studies (BBS) programs</p>
+            <p style="text-align:center; font-size: 0.9rem; margin-bottom: 1rem; color: var(--text-light);">Affiliated to Tribhuvan University</p>
+            <p style="font-size: 0.95rem; margin-bottom: 1rem; text-align: justify;">Einstein College was established in 2001 AD, as a modern and dynamic education institution imparting quality education in an affordable and conducive environment.</p>
+            
+            <p><strong>Eligibility:</strong></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Passed level</th>
+                        <th>Preferred grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>10+2</td>
+                        <td>At least <strong>'D+'</strong> grade</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p><strong>Application Process:</strong></p>
+            <p style="font-size: 0.95rem; margin-bottom: 0.5rem;">The admission form is available at the college reception. The admission must be filled up and submitted along with following documents:</p>
+            <ol style="margin-left: 2rem; margin-bottom: 1rem; font-size: 0.95rem;">
+                <li>Academic Transcript of grade 11 and 12</li>
+                <li>Character Certificate</li>
+                <li>Migration Certificate</li>
+            </ol>
+
+            <p><strong>Salient Features:</strong></p>
+            <ul style="margin-left: 2rem; margin-bottom: 1.5rem; font-size: 0.95rem; list-style-type: square;">
+                <li>Founded & run by a team of veteran academicians with decades of working experience in Nepal & abroad, accompanied by a team of well-qualified, dynamic & dedicated faculty.</li>
+                <li>Excellent Academic Environment in a unique system at state-of-art facilities with scholarship scheme.</li>
+                <li>Outstanding BBS result and Top Ten +2, honored by NEB.</li>
+            </ul>
+
+            <div style="text-align: center; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+                <p><strong><u>For Details Contact:</u></strong></p>
+                <p style="color: var(--secondary-color); font-weight: bold; margin-top: 0.25rem;">EINSTEIN ACADEMY</p>
+                <p style="font-size: 0.9rem; color: var(--text-light);">Thasikhel, Mahalaxmi Chowk, Ring Road, Lalitpur-14<br>Tel - 5170418, 5171139</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Q. No. 3. Professional Resume Building</div>
+        <p><strong>Task:</strong> Prepare a structured professional two-column resume template. Organize your layout to match professional standards including sections for: Contact Info, Career Objective, Technical Skills, Experience/Academic Background, Hobbies, and Languages.</p>
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Q. No. 4. Advanced Report Formatting (Long Document Management)</div>
+        <p><strong>Task:</strong> Create a formal 5-page document consisting of three chapters following strict corporate formatting styles:</p>
+        
+        <p style="margin-top: 0.5rem; margin-bottom: 0.25rem;"><strong>Part A: Style Definitions</strong></p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem; font-size: 0.95rem;">
+            <li><strong>Normal Style:</strong> Arial font, size 11, 1.15 line spacing, 0.6cm left indent.</li>
+            <li><strong>Heading 1:</strong> Times New Roman, size 14, Bold, Level 1 numbering (1, 2, 3...). Spacing: 12mm before, 6mm after.</li>
+            <li><strong>Heading 2:</strong> Arial font, size 12, Bold, Level 2 numbering (1.1, 1.2...). Spacing: 6mm before, 6mm after.</li>
+            <li><strong>Heading 3:</strong> Arial font, size 11 (Regular / Not Bold), Level 3 numbering (1.1.1...). Spacing: 6mm before, 3mm after.</li>
+        </ul>
+
+        <p style="margin-bottom: 0.25rem;"><strong>Part B: Document Structure & Nesting Rules</strong></p>
+        <ul style="margin-left: 1.5rem; margin-bottom: 1rem; font-size: 0.95rem;">
+            <li><strong>Page 1-2:</strong> Chapter 1 &bull; <strong>Page 3-4:</strong> Chapter 2 &bull; <strong>Page 5:</strong> Chapter 3</li>
+            <li><strong>Nesting Rule 1:</strong> Under every <em>Heading 1</em>, you must include at least two <em>Heading 2s</em>.</li>
+            <li><strong>Nesting Rule 2:</strong> Under every <em>Heading 2</em>, you must include at least three <em>Heading 3s</em>.</li>
+        </ul>
+
+        <p style="margin-bottom: 0.25rem;"><strong>Part C: Layout, Headers & Pagination</strong></p>
+        <ul style="margin-left: 1.5rem; font-size: 0.95rem;">
+            <li><strong>Headers & Section Breaks:</strong> Use Next Page Section Breaks so each chapter displays its own distinct title/chapter number in the header.</li>
+            <li><strong>Tables:</strong> Insert at least one fully styled grid table on each of the 5 pages.</li>
+            <li><strong>Front Matter:</strong> Prepend an unnumbered/separate section featuring an automated <strong>Table of Contents (TOC)</strong> followed by a <strong>Table of Tables (TOT)</strong>.</li>
+            <li><strong>Page Numbering:</strong> Front matter pages must use lowercase Roman numerals (<code class="formula">i, ii, iii</code>) in the footer, while chapters must restart at standard Arabic numbers (<code class="formula">1, 2, 3...</code>).</li>
+        </ul>
+    </div>
+
+
+    <!-- SPREADSHEETS -->
+    <div class="section-title">
+        <span class="badge">Part 2</span> Spreadsheets Application
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Q. No. 1. Basic Inventory Calculations</div>
+        <p><strong>Task:</strong> Create the worksheet layout below and enter the correct multiplication and sum formulas into Column D and Cell D6.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cell</th>
+                    <th>A (ITEM)</th>
+                    <th>B (RATE)</th>
+                    <th>C (QTY)</th>
+                    <th>D (TOTAL)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1</strong></td>
+                    <td>ITEM</td>
+                    <td>RATE</td>
+                    <td>QTY</td>
+                    <td>TOTAL</td>
+                </tr>
+                <tr>
+                    <td><strong>2</strong></td>
+                    <td>Book</td>
+                    <td>300</td>
+                    <td>10</td>
+                    <td><span class="formula">=B2*C2</span></td>
+                </tr>
+                <tr>
+                    <td><strong>3</strong></td>
+                    <td>Copy</td>
+                    <td>100</td>
+                    <td>20</td>
+                    <td><span class="formula">=B3*C3</span></td>
+                </tr>
+                <tr>
+                    <td><strong>4</strong></td>
+                    <td>Pencil</td>
+                    <td>10</td>
+                    <td>100</td>
+                    <td><span class="formula">=B4*C4</span></td>
+                </tr>
+                <tr>
+                    <td><strong>5</strong></td>
+                    <td>Pencil</td>
+                    <td>50</td>
+                    <td>50</td>
+                    <td><span class="formula">=B5*C5</span></td>
+                </tr>
+                <tr>
+                    <td><strong>6</strong></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><span class="formula">=SUM(D2:D5)</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Q. No. 2. Commercial Bill / Invoice System</div>
+        <p><strong>Task:</strong> Build a complete hardware sales invoice with dynamic parameters.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>S.N.</th>
+                    <th>Particulars</th>
+                    <th>QTY</th>
+                    <th>Rate</th>
+                    <th>Amount Formula</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>monitor</td><td>5</td><td>12000</td><td rowspan="4" style="vertical-align: middle; text-align: center;"><span class="formula">= QTY * Rate</span><br>(e.g., <code class="formula">=C2*D2</code>)</td></tr>
+                <tr><td>2</td><td>printer</td><td>3</td><td>7000</td></tr>
+                <tr><td>3</td><td>scanner</td><td>6</td><td>3500</td></tr>
+                <tr><td>4</td><td>keyboard</td><td>10</td><td>300</td></tr>
+            </tbody>
+        </table>
+        
+        <div style="margin-top: 1rem; background: #fff; padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px;">
+            <p><strong>Required Calculations:</strong></p>
+            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                <li><strong>Total Amount:</strong> <span class="formula">=SUM(E2:E13)</span></li>
+                <li><strong>VAT (13%):</strong> <span class="formula">=Total_Amount * 13%</span></li>
+                <li><strong>Grand Total:</strong> <span class="formula">=Total_Amount + VAT_Amount</span></li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 1rem; font-size: 0.95rem; color: #718096;">
+            <p><strong>Sub-Tasks:</strong></p>
+            <p><strong>Q. 2(a):</strong> Add a column labeled <strong>"Delivery Charge"</strong> (Column F). Assign a flat value of <span class="formula">Rs. 50</span> to each line item row, then revise your formulas to incorporate it into the row's total amount.</p>
+            <p><strong>Q. 2(b):</strong> Modify your VAT parameter cell from <span class="formula">13%</span> to <span class="formula">15%</span> and verify the dynamic updates across your Grand Total field.</p>
+        </div>
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Q. No. 3. Student Grading System & Advanced Logic Blocks</div>
+        <p><strong>Task:</strong> Prepare a school terminal result ledger sheet supporting columns from A to M. Input records for <strong>8 to 10 students</strong> and apply the following exact logical definitions:</p>
+        
+        <div style="background: #fff; padding: 1rem; border: 1px solid var(--border-color); border-radius: 4px; font-family: monospace; font-size: 0.9rem; margin-top: 0.5rem;">
+            <strong>TOTAL (Cell J2):</strong><br>
+            <span class="formula">=SUM(D2:I2)</span><br><br>
+            
+            <strong>PERCENTAGE (Cell K2):</strong><br>
+            <span class="formula">=J2/600*100</span><br><br>
+            
+            <strong>RESULT (Cell L2):</strong> (Pass marks criteria: >32 across all individual subjects)<br>
+            <span class="formula">=IF(AND(D2>32, E2>32, F2>32, G2>32, H2>32, I2>32), "PASS", "FAILED")</span><br><br>
+            
+            <strong>DIVISION (Cell M2):</strong><br>
+            <span class="formula">=IF(K2>79, "DISTINCTION", IF(K2>59, "FIRST", IF(K2>44, "SECOND", "THIRD")))</span>
+        </div>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-light);"><em>*Subjects: D: English, E: Maths, F: Science, G: Computer, H: O.B.T, I: Social.</em></p>
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Q. No. 4. Data Visualization & Charts</div>
+        <p><strong>Task:</strong> Input the following sample data array into an empty grid sheet and generate a combined <strong>Column-Line chart</strong> with legends mapping series performance metrics.</p>
+        <table style="max-width: 400px;">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Series One</th>
+                    <th>Series Two</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>alpha</td><td>1</td><td>2</td></tr>
+                <tr><td>beta</td><td>3</td><td>4</td></tr>
+                <tr><td>gamma</td><td>2</td><td>3</td></tr>
+                <tr><td>delta</td><td>4</td><td>5</td></tr>
+                <tr><td>epsilon</td><td>3</td><td>4</td></tr>
+                <tr><td>zeta</td><td>5</td><td>6</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- ADDITIONAL SECTIONS -->
+    <div class="section-title">
+        <span class="badge">Part 3</span> Presentation & Databases
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Presentation Application Task</div>
+        <p><strong>Requirement:</strong> Create a comprehensive <strong>10–12 slide deck</strong> using a presentation framework (e.g., MS PowerPoint).</p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem; font-size: 0.95rem;">
+            <li><strong>Topic Options:</strong> Your personal Computer Science educational path/lab experiences OR a specific domain area you are deeply passionate about.</li>
+            <li><strong>Required Features:</strong> Explanatory text layout, graphical components, integrated matrix charts, custom object animations, and smooth slide transition sequences.</li>
+        </ul>
+    </div>
+
+    <div class="question-card">
+        <div class="question-title">Database Application Task (MS Access relational tracking)</div>
+        <p><strong>Objective:</strong> Design and build a structural relational schema named <code>Einstein_Academy.accdb</code> to manage student details, guardian info, and faculty information.</p>
+        <ol class="instruction-list" style="margin-top: 0.5rem;">
+            <li><strong>Table Definitions:</strong> Construct <em>Student Details</em> containing fields: <code class="formula">StudentID</code> (Primary Key), <code>FirstName</code>, <code>LastName</code>, <code>DateOfBirth</code>, <code>ContactNumber</code>, and <code>EmailAddress</code>.</li>
+            <li><strong>Relational Configurations:</strong> Establish link mappings across primary keys and corresponding foreign key fields in child tables. Select <strong>"Enforce Referential Integrity"</strong> inside the relationship dialog grid.</li>
+            <li><strong>Forms Design:</strong> Implement an auto-generated input Form to log 5 to 10 active student sample profiles safely.</li>
+            <li><strong>Structured Queries (SQL/Design Grid):</strong> Setup custom filters to fetch records selectively (e.g., records where <code class="formula">Marks > 70</code> or matching specific patterns like <code class="formula">LastName = "Rai"</code>).</li>
+            <li><strong>Report Generation:</strong> Use the Report Wizard tool to group, sort, and publish structured layouts optimized for printing.</li>
+        </ol>
+    </div>
+
+    <div class="footer">
+        <p>&bull; End of Application Packages Lab Assignment Grid &bull;</p>
+        <p style="font-size: 0.8rem; margin-top: 0.25rem; color: #a0aec0;">Ensure all outputs are saved properly for student portfolio grading sheets.</p>
+    </div>
+</div>
+
+</body>
+</html>
