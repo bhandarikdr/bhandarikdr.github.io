@@ -6,15 +6,30 @@
     <title>SQL Commands Lab Activity Guide - Grade XI</title>
     <style>
         :root {
+            /* Colors */
             --primary-color: #2c3e50;
             --secondary-color: #18bc9c;
             --accent-color: #3498db;
-            --bg-light: #f8f9fa;
-            --border-color: #dee2e6;
-            --text-dark: #2b2b2b;
-            --text-light: #555555;
-            --code-bg: #2d3748;
-            --code-text: #f7fafc;
+            --bg-body: #f4f7f9;
+            --bg-card: #ffffff;
+            --bg-light: #f8fafc;
+            --border-color: #e2e8f0;
+
+            /* Text Colors */
+            --text-main: #2d3748;
+            --text-muted: #4a5568;
+            --text-light: #718096;
+
+            /* Code Colors */
+            --code-bg: #1a202c;
+            --code-text: #e2e8f0;
+            --code-accent: #f6ad55;
+
+            /* Spacing */
+            --spacing-sm: 0.5rem;
+            --spacing-md: 1rem;
+            --spacing-lg: 1.5rem;
+            --spacing-xl: 2.5rem;
         }
 
         * {
@@ -24,104 +39,128 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: var(--text-dark);
-            background-color: #f0f2f5;
-            padding: 2rem 1rem;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            padding: var(--spacing-xl) var(--spacing-md);
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 950px;
+            max-width: 900px;
             margin: 0 auto;
-            background: #ffffff;
-            padding: 2.5rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            background: var(--bg-card);
+            padding: var(--spacing-xl);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
 
         header {
             text-align: center;
-            border-bottom: 4px solid var(--primary-color);
-            padding-bottom: 1.5rem;
-            margin-bottom: 2.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
         }
 
         header h1 {
             color: var(--primary-color);
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
         }
 
-        header p {
-            color: var(--text-light);
-            font-size: 1.2rem;
+        header .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
             font-weight: 500;
+        }
+
+        header .grade-badge {
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            color: var(--secondary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .section-title {
             color: var(--primary-color);
-            font-size: 1.6rem;
-            margin-top: 2.5rem;
-            margin-bottom: 1.25rem;
-            padding-bottom: 0.4rem;
+            font-size: 1.5rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--border-color);
             display: flex;
             align-items: center;
             gap: 0.75rem;
+            font-weight: 700;
         }
 
         .badge {
             background-color: var(--secondary-color);
             color: white;
-            padding: 0.25rem 0.75rem;
+            padding: 0.2rem 0.6rem;
             border-radius: 4px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            font-weight: bold;
+            font-weight: 800;
+            letter-spacing: 0.05em;
         }
 
         .instruction-box {
             background: var(--bg-light);
-            border-left: 5px solid var(--accent-color);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
             border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .instruction-box.objective {
+            border-left-color: var(--secondary-color);
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            border-left-width: 4px;
         }
 
         .step-list {
-            margin-left: 1.5rem;
+            margin-left: 1.25rem;
             margin-bottom: 1rem;
         }
 
         .step-list li {
             margin-bottom: 0.75rem;
-            color: var(--text-light);
+            color: var(--text-muted);
         }
 
         .step-list strong {
             color: var(--primary-color);
+            font-weight: 600;
         }
 
         pre {
             background-color: var(--code-bg);
             color: var(--code-text);
-            padding: 1rem;
-            border-radius: 6px;
-            font-family: 'Consolas', 'Courier New', Courier, monospace;
-            font-size: 0.95rem;
+            padding: 1.25rem;
+            border-radius: 8px;
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
             overflow-x: auto;
-            margin: 0.75rem 0;
-            border: 1px solid #1a202c;
+            margin: 1rem 0;
+            line-height: 1.5;
+            border: 1px solid #2d3748;
         }
 
         code {
-            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
             background: #edf2f7;
-            padding: 0.2rem 0.4rem;
+            padding: 0.15rem 0.4rem;
             border-radius: 4px;
-            color: #e53e3e;
-            font-size: 0.9rem;
+            color: #d53f8c;
+            font-size: 0.85em;
+            font-weight: 500;
         }
 
         pre code {
@@ -129,51 +168,146 @@
             padding: 0;
             color: inherit;
             font-size: inherit;
+            font-weight: inherit;
         }
 
         .quiz-container {
             background: #fff;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1.5rem;
+            border-radius: 10px;
+            padding: var(--spacing-lg);
             margin-top: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .quiz-card {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
         }
 
         .quiz-question {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
             color: var(--primary-color);
+            font-size: 1.05rem;
         }
 
         .quiz-options {
             list-style-type: none;
-            margin-left: 1rem;
-            margin-bottom: 1.25rem;
+            padding-left: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .quiz-options li {
-            margin-bottom: 0.25rem;
-            color: var(--text-light);
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
         }
 
         .answer-key {
-            background: #e6fffa;
-            border: 1px solid #b2f5ea;
-            color: #234e52;
-            padding: 1rem;
-            border-radius: 6px;
+            background: #f0fff4;
+            border: 1px solid #c6f6d5;
+            color: #22543d;
+            padding: var(--spacing-lg);
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .answer-key pre {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            padding: 0.75rem;
+        }
+
+        .answer-key p.label {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Expandable Panel Styles */
+        details {
             margin-top: 1.5rem;
-            font-weight: bold;
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--primary-color);
+            background-color: #f7fafc;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        summary:hover {
+            background-color: #edf2f7;
+        }
+
+        summary::-webkit-details-marker {
+            display: none;
+        }
+
+        summary::after {
+            content: '\002B';
+            font-size: 1.1rem;
+        }
+
+        details[open] summary::after {
+            content: '\2212';
+        }
+
+        details[open] summary {
+            border-bottom: 1px solid var(--border-color);
+            background-color: #edf2f7;
         }
 
         .footer {
             text-align: center;
             margin-top: 4rem;
-            padding-top: 1.5rem;
+            padding-top: 2rem;
             border-top: 1px solid var(--border-color);
             color: var(--text-light);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #2b6cb0;
+        }
+
+        /* Utility */
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .text-small { font-size: 0.875rem; }
     </style>
 </head>
 <body>
@@ -181,8 +315,8 @@
 <div class="container">
     <header>
         <h1>Lab Activity: Mastering SQL Commands</h1>
-        <p>Comprehensive Laboratory Work Guide</p>
-        <p style="font-size: 1rem; margin-top: 0.3rem; color: var(--secondary-color);">Grade XII &bull; Computer Science</p>
+        <p class="subtitle">Comprehensive Laboratory Work Guide</p>
+        <p class="grade-badge">Grade XII &bull; Computer Science</p>
     </header>
 
     <!-- SETUP ENVIRONMENT -->
@@ -191,7 +325,7 @@
     </div>
     
     <div class="instruction-box">
-        <p style="margin-bottom: 1rem; font-weight: 600; color: var(--primary-color);">Follow these steps to set up XAMPP and access the MySQL/MariaDB environment:</p>
+        <p class="quiz-question mb-2">Follow these steps to set up XAMPP and access the MySQL/MariaDB environment:</p>
         <ol class="step-list">
             <li><strong>Install XAMPP:</strong> Download the <a href="https://www.apachefriends.org/download.html">XAMPP installer</a> executable package matching your host environment platform layout from the official Apache Friends portal. Complete the deployment setup package wizard utilizing default port options.</li>
             <li><strong>Launch the Services:</strong> Open the <code>XAMPP Control Panel</code> from your desktop or Applications folder. Click the <strong>Start</strong> actions next to both the <strong>Apache</strong> and <strong>MySQL</strong> rows. Ensure their modules turn green.</li>
@@ -206,7 +340,7 @@
     </div>
 
     <!-- OBJECTIVE -->
-    <div class="instruction-box" style="border-left-color: var(--secondary-color); background-color: #fdfdfd;">
+    <div class="instruction-box objective">
         <p><strong>Activity Objective:</strong> Create a relational database schema structural engine for a library management system framework tracking inventory, and perform core <strong>CRUD</strong> (Create, Read, Update, Delete) procedural transactional instructions.</p>
     </div>
 
@@ -219,11 +353,11 @@
         <p><strong>Step 1.1: Initialize a new database</strong> named <code>LibraryDB</code> inside your workspace cluster instance storage repository.</p>
         <pre>CREATE DATABASE LibraryDB;</pre>
 
-        <p style="margin-top: 1.5rem;"><strong>Step 1.2: Verify and Select Database</strong> context to confirm presence and make it the active query operations target scope.</p>
+        <p class="mt-4"><strong>Step 1.2: Verify and Select Database</strong> context to confirm presence and make it the active query operations target scope.</p>
         <pre>SHOW DATABASES;
 USE LibraryDB;</pre>
 
-        <p style="margin-top: 1.5rem;"><strong>Step 1.3: Create Books Table</strong> object infrastructure framework columns tracking core information variables.</p>
+        <p class="mt-4"><strong>Step 1.3: Create Books Table</strong> object infrastructure framework columns tracking core information variables.</p>
 <pre>CREATE TABLE Books (
     BookID int,
     Title varchar(255),
@@ -242,16 +376,16 @@ USE LibraryDB;</pre>
 <pre>INSERT INTO Books (BookID, Title, Author, PublishedYear)
 VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);</pre>
 
-        <p style="margin-top: 1.5rem;"><strong>Step 2.2: Read Data</strong> rows matching query selections to fetch information back to the client interface layout:</p>
-        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Query all data details stored globally inside the table matrix context:</p>
+        <p class="mt-4"><strong>Step 2.2: Read Data</strong> rows matching query selections to fetch information back to the client interface layout:</p>
+        <p class="text-small mt-2">Query all data details stored globally inside the table matrix context:</p>
         <pre>SELECT * FROM Books;</pre>
-        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Query specific attribute keys selectively:</p>
+        <p class="text-small mt-2">Query specific attribute keys selectively:</p>
         <pre>SELECT Title, Author FROM Books;</pre>
 
-        <p style="margin-top: 1.5rem;"><strong>Step 2.3: Update Data</strong> profiles globally or conditionally targeting accurate unique row definitions safely using the conditional filtering clause tool:</p>
+        <p class="mt-4"><strong>Step 2.3: Update Data</strong> profiles globally or conditionally targeting accurate unique row definitions safely using the conditional filtering clause tool:</p>
         <pre>UPDATE Books SET PublishedYear = 1926 WHERE BookID = 1;</pre>
 
-        <p style="margin-top: 1.5rem;"><strong>Step 2.4: Delete Data</strong> profiles and isolate particular transactional elements using explicit row identifier matching specifications:</p>
+        <p class="mt-4"><strong>Step 2.4: Delete Data</strong> profiles and isolate particular transactional elements using explicit row identifier matching specifications:</p>
         <pre>DELETE FROM Books WHERE BookID = 1;</pre>
     </div>
 
@@ -264,16 +398,79 @@ VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);</pre>
         <p><strong>Step 3.1: Modify Table Structure</strong> dynamically to add a new category property column labeled <code>Genre</code> seamlessly:</p>
         <pre>ALTER TABLE Books ADD Genre varchar(100);</pre>
 
-        <p style="margin-top: 1.5rem;"><strong>Step 3.2: Index Management optimization</strong> initialization rules layout to speed up analytical target queries searching over titles:</p>
+        <p class="mt-4"><strong>Step 3.2: Index Management optimization</strong> initialization rules layout to speed up analytical target queries searching over titles:</p>
         <pre>CREATE INDEX idx_title ON Books(Title);</pre>
 
-        <p style="margin-top: 1.5rem;"><strong>Step 3.3: Systematic Schema Cleanup routines</strong> implementation processing commands to drop entities from working environment allocations:</p>
-        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Remove operational tracking speed indexing configurations:</p>
+        <p class="mt-4"><strong>Step 3.3: Systematic Schema Cleanup routines</strong> implementation processing commands to drop entities from working environment allocations:</p>
+        <p class="text-small mt-2">Remove operational tracking speed indexing configurations:</p>
         <pre>DROP INDEX idx_title ON Books;</pre>
-        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Drop table structure and records completely from physical memory allocations:</p>
+        <p class="text-small mt-2">Drop table structure and records completely from physical memory allocations:</p>
         <pre>DROP TABLE Books;</pre>
-        <p style="margin-size: 0.5rem 0; font-size: 0.95rem; color: var(--text-light);">Drop entire logical structural database workspace tracking records context:</p>
+        <p class="text-small mt-2">Drop entire logical structural database workspace tracking records context:</p>
         <pre>DROP DATABASE LibraryDB;</pre>
+    </div>
+
+    <div class="section-title">
+        <span class="badge">Challenge</span> Practical Lab Tasks: CRUD Operations
+    </div>
+
+    <div class="quiz-container">
+        <p class="mb-4">
+            Complete the following two hands-on challenge tasks in your MySQL terminal. Each challenge requires you to write and run code for all four CRUD operations.
+        </p>
+
+        <div class="quiz-card">
+            <p class="quiz-question">Challenge Set 1: Student Enrollment Management</p>
+            <p class="text-small mb-2">
+                Assume you have a table named <code>Students</code> with the following columns: <code>StudentID (int)</code>, <code>FullName (varchar)</code>, <code>Grade (int)</code>, and <code>Section (varchar)</code>. Write the SQL statements to complete these operations:
+            </p>
+            <ul class="step-list mt-2">
+                <li><strong>1. Create (Insert):</strong> Add a new student named 'Anil Sharma', who is in Grade 11, Section 'A' with a StudentID of 101.</li>
+                <li><strong>2. Read (Select):</strong> Write a query to display only the <code>FullName</code> and <code>Section</code> of all students who are in Grade 11.</li>
+                <li><strong>3. Update:</strong> Modify the record to change Anil Sharma's section from 'A' to 'B'.</li>
+                <li><strong>4. Delete:</strong> Remove the student from the table whose StudentID is exactly 101.</li>
+            </ul>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">Challenge Set 2: Store Inventory Control</p>
+            <p class="text-small mb-2">
+                Assume you have a table named <code>Inventory</code> with the following columns: <code>ItemID (int)</code>, <code>ItemName (varchar)</code>, <code>Price (int)</code>, and <code>StockQuantity (int)</code>. Write the SQL statements to complete these operations:
+            </p>
+            <ul class="step-list mt-2">
+                <li><strong>1. Create (Insert):</strong> Add a new item named 'Wireless Mouse' with an ItemID of 5, a price of 1200, and a stock quantity of 15.</li>
+                <li><strong>2. Read (Select):</strong> Write a query to list all details for items in the inventory that have a <code>StockQuantity</code> of less than 20.</li>
+                <li><strong>3. Update:</strong> Increase the stock quantity of the 'Wireless Mouse' (ItemID 5) by adding 10 more items (changing the total stock value to 25).</li>
+                <li><strong>4. Delete:</strong> Remove the item from the inventory completely where the ItemID is 5.</li>
+            </ul>
+        </div>
+
+        <details>
+            <summary>View Challenge Solutions</summary>
+            <div class="answer-key">
+                <p class="label">Expected Syntax Solutions for Verification:</p>
+
+                <p class="quiz-question text-small">[Set 1 Solutions]</p>
+                <pre>-- 1. Create
+INSERT INTO Students (StudentID, FullName, Grade, Section) VALUES (101, 'Anil Sharma', 11, 'A');
+-- 2. Read
+SELECT FullName, Section FROM Students WHERE Grade = 11;
+-- 3. Update
+UPDATE Students SET Section = 'B' WHERE StudentID = 101;
+-- 4. Delete
+DELETE FROM Students WHERE StudentID = 101;</pre>
+
+                <p class="quiz-question text-small mt-4">[Set 2 Solutions]</p>
+                <pre>-- 1. Create
+INSERT INTO Inventory (ItemID, ItemName, Price, StockQuantity) VALUES (5, 'Wireless Mouse', 1200, 15);
+-- 2. Read
+SELECT * FROM Inventory WHERE StockQuantity &lt; 20;
+-- 3. Update
+UPDATE Inventory SET StockQuantity = 25 WHERE ItemID = 5;
+-- 4. Delete
+DELETE FROM Inventory WHERE ItemID = 5;</pre>
+            </div>
+        </details>
     </div>
 
     <!-- CHALLENGE QUIZ -->
@@ -282,38 +479,48 @@ VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);</pre>
     </div>
 
     <div class="quiz-container">
-        <p class="quiz-question">1. Which clause is mandatory in an UPDATE statement to prevent changing all rows?</p>
-        <ul class="quiz-options">
-            <li>A) SET</li>
-            <li>B) FROM</li>
-            <li>C) WHERE</li>
-            <li>D) GROUP BY</li>
-        </ul>
-
-        <p class="quiz-question">2. What happens if you run <code>DELETE FROM Books;</code> without a WHERE clause?</p>
-        <ul class="quiz-options">
-            <li>A) It deletes the table structure.</li>
-            <li>B) It deletes all records in the table.</li>
-            <li>C) It deletes only the first record.</li>
-            <li>D) The command fails.</li>
-        </ul>
-
-        <p class="quiz-question">3. Which statement is used to remove an entire table and all its data?</p>
-        <ul class="quiz-options">
-            <li>A) DELETE TABLE</li>
-            <li>B) REMOVE TABLE</li>
-            <li>C) DROP TABLE</li>
-            <li>D) TRUNCATE</li>
-        </ul>
-
-        <div class="answer-key">
-            Verification Keys Check: 1-C, 2-B, 3-C.
+        <div class="mb-4">
+            <p class="quiz-question">1. Which clause is mandatory in an UPDATE statement to prevent changing all rows?</p>
+            <ul class="quiz-options">
+                <li>A) SET</li>
+                <li>B) FROM</li>
+                <li>C) WHERE</li>
+                <li>D) GROUP BY</li>
+            </ul>
         </div>
+
+        <div class="mb-4">
+            <p class="quiz-question">2. What happens if you run <code>DELETE FROM Books;</code> without a WHERE clause?</p>
+            <ul class="quiz-options">
+                <li>A) It deletes the table structure.</li>
+                <li>B) It deletes all records in the table.</li>
+                <li>C) It deletes only the first record.</li>
+                <li>D) The command fails.</li>
+            </ul>
+        </div>
+
+        <div>
+            <p class="quiz-question">3. Which statement is used to remove an entire table and all its data?</p>
+            <ul class="quiz-options">
+                <li>A) DELETE TABLE</li>
+                <li>B) REMOVE TABLE</li>
+                <li>C) DROP TABLE</li>
+                <li>D) TRUNCATE</li>
+            </ul>
+        </div>
+
+        <details>
+            <summary>Check Quiz Answers</summary>
+            <div class="answer-key">
+                <p class="label">Verification Keys Check:</p>
+                <p>1-C, 2-B, 3-C.</p>
+            </div>
+        </details>
     </div>
 
     <div class="footer">
-        <p>~ Thank you. See you in next chapter ~</p>
-        <p style="font-size: 0.8rem; margin-top: 0.25rem; color: #a0aec0;">Ensure all laboratory terminal output tasks are executed under workspace supervision guidelines.</p>
+        <p>&mdash; Thank you. See you in the next chapter &mdash;</p>
+        <p class="text-small">Ensure all laboratory terminal output tasks are executed under workspace supervision guidelines.</p>
     </div>
 </div>
 
