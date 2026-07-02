@@ -335,6 +335,17 @@ details.resource-section .resource-grid {
     color: white;
     border-color: #16a34a;
 }
+.action-btn.test-yourself {
+   background-color: #eff6ff;
+   color: #7851a9;
+   border: 1px solid #7851a9;
+}
+
+.action-btn.test-yourself:hover {
+    background-color: #7851a9;
+    color: white;
+    border-color: #7851a9;
+}
 
 .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
 .status-practical { background: #dbeafe; color: #1e40af; }
