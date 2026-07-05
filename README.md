@@ -40,6 +40,17 @@ To maintain a consistent "look and feel" across the educational pages, a shared 
 *   **Typography**: Clean 'Segoe UI' based font stack.
 *   **Components**: Standardized cards, status badges, resource boxes, and responsive grid layouts.
 
+### 5. CSS Architecture
+The project uses separate CSS files for different sections:
+
+| CSS File | Applied To | Purpose |
+| :--- | :--- | :--- |
+| `css/mystyle.css` | `index.html`, `main_pages/` | Main profile and course pages (CSXI, CSXII) |
+| `css/activity.css` | `activities/` | Lab activity guides with standardized components |
+| `css/canvas.css` | `assessments/` | Interactive assessment pages |
+
+**Note**: `STYLE_GUIDE.md` documents the design system for `mystyle.css`. `ACTIVITY_PROMPT.md` documents the standardization guide for `activity.css`.
+
 ## 🛠️ Technology Stack
 
 *   **HTML5 & CSS3**: Structural layout and custom styling.
