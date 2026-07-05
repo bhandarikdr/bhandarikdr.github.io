@@ -189,3 +189,68 @@ Used inside the first card for the instructor's message.
 - Main containers use relative padding (`20px`).
 - Grids (`.grid-2`) switch to single column at `768px`.
 - Syllabus items stack vertically at `600px`.
+
+---
+
+## 🤖 Reusable Prompt: Auditing & Fixing Activity/Assessment Files
+
+Copy the block below when asking opencode to audit and fix a batch of new activity/assessment files. It captures every convention discovered across the existing codebase.
+
+### How to trigger the prompt
+
+Send the block below, prefixed with the file paths (or a glob) of the files to process. For example:
+
+> Apply the standards below to `activities/Foo_Activity.html` and `assessments/Foo_Assessment.html`.
+
+The prompt will be scoped to the specific files mentioned in your message. opencode will read them, compare against the rules, and apply fixes.
+
+### Prompt text
+
+```
+## Scope
+- The files listed in my message above are new activity/assessment pages.
+- Compare each against the standards documented in ACTIVITY_PROMPT.md and ASSESSMENT_PROMPT.md.
+- Fix every violation found; do not stop after the first issue.
+
+## File placement
+- Theory worksheets → `activities/` directory; link to `../css/activity.css`.
+- Interactive assessments → `assessments/` directory; link to `../css/assessment.css`.
+- If a file is in the wrong directory, move it.
+- **Filename tells the type**: The filename itself indicates lab vs theory:
+  - `_Activity.html` (no "lab") → theory worksheet → use `.activity` (amber) + `🧪 <Name>` / `📝 Test`
+  - `_lab_guide.html` or `_Lab_Activity.html` → lab activity → use `.lab-guide` (green) + `🧪 <Name> Lab` / `📝 Lab Test`
+  - `_Assessment.html` (no "lab") → theory/normal assessment
+  - `_lab_assessment.html` → lab assessment
+
+## Activity pages (theory worksheets)
+- Uses `<link href="../css/activity.css">`.
+- When order matters (numbered steps, sequences), use `<ol class="step-list">`.
+- When order does not matter (bullets, non-sequential items), use `<ul>` (no class needed unless it is a step-list).
+- Hidden answers (for self-check) MUST use `<details>`/`<summary>`; never leave answers visible inline.
+- No CSS overrides that conflict with activity.css (e.g. do not force `list-style: disc` on an `<ol>`).
+- Only `<title>` in the `<head>`; no `<h1>`. The page title appears as the first visible heading inside the content.
+
+## Assessment pages (interactive lab tests)
+- Uses `<link href="../css/assessment.css">`.
+- Entry modal uses `celebration-overlay`/`celebration-card` classes, with three plain `<input>` fields (Full Name, Roll Number, Room Number), a single `.error-msg` div (`#entryError`), and a `.btn-primary` button (`#enterBtn`).
+- The enter button must use `addEventListener`, not `onclick`.
+- Validation: show/hide `#entryError`; no `alert()` calls.
+- Submission uses a `SUBMISSION_CONFIG` object with a `url` and `fields` map, then `fetch(url, { method: 'POST', mode: 'no-cors', body: formData })`. No hidden iframe or form element submission.
+- Verification status uses `verification-text verified/unverified` CSS classes, not `feedback valid/invalid`.
+- Simplify all language: no buzzwords ("engine", "pipeline", "matrix", "metrics", "namespace", "synchronize", "telemetry", "manifest", "payload", "ledger", "canvas" as a generic term). Use plain task descriptions like "Task 5: Spreadsheet Formula" not "Dynamic Multiplier Engine". Status text shows short phrases like "❌ Correct the typos" / "✅ Spelling corrected".
+- Completion screen uses `celebration-overlay`/`celebration-card`, heading "🎉 Assessment Complete", student/score summary, timing line, and "You may close this page."
+- Avoid HTML comments.
+
+## Both activity AND assessment pages
+- Keep emojis (user preference).
+- Do NOT add code comments (no `//`, `/* */`, or `<!-- -->`).
+- Keep `<title>` short and descriptive.
+- File naming: PascalCase with underscores and no spaces (e.g. `Computer_Introduction_Activity.html`).
+- `<html lang="en">` at the top, `<!DOCTYPE html>` first line.
+- Each file must have exactly one `</html>`, `</body>`, `</script>`.
+```
+
+### Notes
+- This prompt works best when you provide the file paths explicitly in your message. opencode will read them, apply each rule, and make edits until all violations are resolved.
+- If the files are in a subdirectory not yet covered by these rules, mention it so opencode can adapt the relative CSS path.
+- The `SUBMISSION_CONFIG` fields (Google Form entry IDs) should match the existing pattern if the same form is reused, or be adapted for new forms.

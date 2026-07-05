@@ -3,64 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab Activity: Introduction to Computers · Grade XI</title>
+    <title>Activity: Introduction to Computers · Grade XI</title>
     <link rel="stylesheet" href="../css/activity.css">
     <style>
-        /* consistent styling – adheres to prompt standards */
-        body { background: #f8fafc; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
-        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
-        header { background: linear-gradient(145deg, #0b2b4f, #1a4b6d); color: white; padding: 2rem 2rem 1.8rem; border-radius: 2rem 2rem 1rem 1rem; box-shadow: 0 12px 24px -8px rgba(0,20,40,0.3); }
-        header h1 { font-size: 2.4rem; font-weight: 600; letter-spacing: -0.5px; margin: 0; }
-        .subtitle { font-size: 1.2rem; opacity: 0.85; margin-top: 0.3rem; font-weight: 300; }
-        .grade-badge { display: inline-block; background: #ffb347; color: #0a1e2f; padding: 0.3rem 1.2rem; border-radius: 40px; font-weight: 600; font-size: 0.9rem; margin-top: 0.8rem; letter-spacing: 0.3px; }
-        .section-title { display: flex; align-items: center; gap: 0.8rem; font-size: 1.8rem; font-weight: 600; margin: 2.5rem 0 1.2rem 0; border-bottom: 3px solid #e2e8f0; padding-bottom: 0.5rem; }
-        .badge { background: #1e4a6b; color: white; padding: 0.15rem 1rem; border-radius: 40px; font-size: 1rem; font-weight: 500; }
-        .instruction-box { background: white; padding: 1.5rem 1.8rem; border-radius: 1.5rem; box-shadow: 0 6px 16px rgba(0,0,0,0.04); margin: 1.8rem 0; border-left: 8px solid #2b7a9e; transition: 0.2s; }
-        .instruction-box.objective { border-left-color: #f39c12; background: #fefaf0; }
-        .instruction-box.setup { border-left-color: #27ae60; background: #f0faf5; }
-        .step-list { list-style: none; padding: 0; counter-reset: step; }
-        .step-list li { counter-increment: step; padding: 0.6rem 0 0.6rem 2.8rem; position: relative; border-bottom: 1px solid #edf2f7; }
-        .step-list li::before { content: counter(step); background: #1e4a6b; color: white; width: 1.8rem; height: 1.8rem; border-radius: 30px; display: inline-flex; align-items: center; justify-content: center; position: absolute; left: 0; top: 0.6rem; font-weight: 600; font-size: 0.9rem; }
-        .formula { background: linear-gradient(145deg, #eef2ff, #e0e7ff); padding: 0.2rem 0.7rem; border-radius: 40px; font-family: 'JetBrains Mono', monospace; color: #1e3c72; font-size: 0.9rem; border: 1px solid #b8c9f0; }
-        .highlight { background: linear-gradient(120deg, #ffe78c 0%, #ffd966 80%); padding: 0.1rem 0.4rem; border-radius: 12px; font-weight: 500; }
-        .quiz-container { display: grid; gap: 1.5rem; margin: 2rem 0; }
-        .quiz-card { background: white; padding: 1.5rem; border-radius: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #e9edf4; }
-        .quiz-question { font-weight: 600; margin-bottom: 0.5rem; }
-        .quiz-options { padding-left: 1.2rem; margin: 0.3rem 0 0.8rem; }
-        .quiz-options li { list-style: lower-alpha; margin-bottom: 0.2rem; }
-        details { margin: 0.8rem 0; }
-        summary { color: #1e4a6b; font-weight: 600; cursor: pointer; background: #eef4fa; padding: 0.3rem 0.8rem; border-radius: 40px; display: inline-block; }
-        .answer-key { background: #eaf6e6; padding: 0.6rem 1.2rem; border-radius: 1rem; margin-top: 0.5rem; border-left: 4px solid #2e7d32; }
+        .question-block { margin: 1.2rem 0 0.8rem 0; }
+        .question-block strong { font-size: 1.05rem; }
         .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        th { background: #1e3a5f; color: white; font-weight: 600; padding: 0.7rem 0.8rem; }
-        td, th { border: 1px solid #dce3ec; padding: 0.6rem 0.8rem; text-align: left; }
-        tr:nth-child(even) { background: #f8fafc; }
-        .pre { background: #1e293b; color: #e2e8f0; padding: 1rem 1.5rem; border-radius: 1rem; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
-        .mt-4 { margin-top: 1.5rem; }
-        .mb-4 { margin-bottom: 1.5rem; }
-        .text-small { font-size: 0.9rem; opacity: 0.8; }
+        details { margin: 0.8rem 0; }
+        summary { color: var(--secondary-color); font-weight: 600; cursor: pointer; background: #eef4fa; padding: 0.3rem 0.8rem; border-radius: 40px; display: inline-block; }
+        .answer-key { background: #eaf6e6; padding: 0.6rem 1.2rem; border-radius: 1rem; margin-top: 0.5rem; border-left: 4px solid #2e7d32; }
+        .instruction-box.setup { border-left-color: #27ae60; background: #f0faf5; }
         .footer-checklist { background: #edf2f9; border-radius: 2rem; padding: 1.5rem 2rem; margin: 2.5rem 0 1rem; }
         .footer-checklist ul { columns: 2; list-style: none; padding: 0; }
         .footer-checklist li::before { content: "✓ "; color: #1e7e34; font-weight: 700; }
         @media (max-width: 600px) { header h1 { font-size: 1.8rem; } .section-title { font-size: 1.4rem; } }
-        .badge-secondary { background: #3b6b8f; }
-        img.placeholder-diagram { max-width: 100%; height: auto; border-radius: 1rem; background: #dde5ef; padding: 0.5rem; display: block; margin: 0.8rem 0; }
-        /* consistent question numbering */
-        .question-block { margin: 1.2rem 0 0.8rem 0; }
-        .question-block strong { font-size: 1.05rem; }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- HEADER -->
     <header>
-        <h1>Lab Activity: Introduction to Computer</h1>
-        <p class="subtitle">Comprehensive Laboratory Work Guide</p>
+        <h1>Activity: Introduction to Computer</h1>
+        <p class="subtitle">Understanding computer fundamentals &amp; evolution</p>
         <span class="grade-badge">Grade XI • Computer Science</span>
     </header>
 
-    <!-- PREREQUISITES & SETUP -->
     <section>
         <div class="section-title"><span class="badge">⚙️ Setup</span> Before you begin</div>
         <div class="instruction-box setup">
@@ -73,7 +39,6 @@
         </div>
     </section>
 
-    <!-- LEARNING OBJECTIVES -->
     <section>
         <div class="section-title"><span class="badge">🎯 Objectives</span> What you will learn</div>
         <div class="instruction-box objective">
@@ -87,7 +52,6 @@
         </div>
     </section>
 
-    <!-- CONCEPTUAL WALKTHROUGH -->
     <section>
         <div class="section-title"><span class="badge">🧠 Overview</span> Computer fundamentals</div>
         <div class="instruction-box">
@@ -106,7 +70,6 @@
         </div>
     </section>
 
-    <!-- ACTIVITY PARTS – all questions numbered Q. No. 1 .. 14 -->
     <section>
         <div class="section-title"><span class="badge">📌 Part 1</span> Characteristics &amp; applications</div>
         <div class="instruction-box">
@@ -158,7 +121,6 @@
         </div>
     </section>
 
-    <!-- CHALLENGE / QUIZ SECTION -->
     <section>
         <div class="section-title"><span class="badge">🧪 Challenge</span> Quiz yourself</div>
         <div class="quiz-container">
@@ -205,7 +167,6 @@
         </div>
     </section>
 
-    <!-- ASSESSMENT PREPARATION -->
     <section>
         <div class="section-title"><span class="badge">📝 Assessment prep</span> Key points to remember</div>
         <div class="instruction-box objective">
@@ -220,11 +181,10 @@
         </div>
     </section>
 
-    <!-- FOOTER + checklist -->
     <div class="footer-checklist">
         <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
             <span style="font-weight: 600; font-size: 1.2rem;">✅ Completion checklist</span>
-            <span style="background: #1e4a6b; color: white; padding: 0.1rem 1rem; border-radius: 30px;">⏱️ ~ 2 hours</span>
+            <span style="background: var(--secondary-color); color: white; padding: 0.1rem 1rem; border-radius: 30px;">⏱️ ~ 2 hours</span>
         </div>
         <ul>
             <li>Answered all 14 questions in the activity parts</li>
@@ -233,13 +193,12 @@
             <li>Understood mobile computing components</li>
             <li>Prepared for the interactive assessment</li>
         </ul>
-        <p style="margin-top: 1rem; border-top: 1px solid #cbd5e1; padding-top: 1rem; font-style: italic;">📚 Next: practice with the interactive assessment in the lab. Good luck!</p>
+        <p style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem; font-style: italic;">📚 Next: practice with the interactive assessment. Good luck!</p>
     </div>
 
-    <!-- reference -->
-    <div style="background: #f1f5f9; border-radius: 2rem; padding: 1rem 1.5rem; margin: 1.5rem 0;">
+    <div style="background: var(--bg-light); border-radius: 2rem; padding: 1rem 1.5rem; margin: 1.5rem 0;">
         <p style="margin: 0;"><span class="formula">🔗 Reference</span> “Introduction to Computer”, “Evolution of Computer Technology”, “Measurement units”, “Classifications of Computer”, “Mobile Computing” — all topics covered.</p>
-        <p style="margin: 0.2rem 0 0; font-size: 0.9rem;">🎥 Suggested video: <a href="https://www.youtube.com/watch?v=eKPEVNlmaUg" target="_blank" style="color: #1e4a6b;">Computer history</a> (optional)</p>
+        <p style="margin: 0.2rem 0 0; font-size: 0.9rem;">🎥 Suggested video: <a href="https://www.youtube.com/watch?v=eKPEVNlmaUg" target="_blank" style="color: var(--accent-color);">Computer history</a> (optional)</p>
     </div>
 </div>
 </body>

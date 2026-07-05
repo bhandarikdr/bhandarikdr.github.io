@@ -3,37 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab Activity: Computer Organization & I/O · Grade XI</title>
+    <title>Activity: Computer Organization & I/O · Grade XI</title>
     <link rel="stylesheet" href="../css/activity.css">
     <style>
-        body { background: #f8fafc; font-family: 'Segoe UI', Roboto, system-ui, sans-serif; }
-        .container { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
-        header { background: linear-gradient(145deg, #0b2b4f, #1a4b6d); color: white; padding: 2rem 2rem 1.8rem; border-radius: 2rem 2rem 1rem 1rem; box-shadow: 0 12px 24px -8px rgba(0,20,40,0.3); }
-        header h1 { font-size: 2.4rem; font-weight: 600; letter-spacing: -0.5px; margin: 0; }
-        .subtitle { font-size: 1.2rem; opacity: 0.85; margin-top: 0.3rem; font-weight: 300; }
-        .grade-badge { display: inline-block; background: #ffb347; color: #0a1e2f; padding: 0.3rem 1.2rem; border-radius: 40px; font-weight: 600; font-size: 0.9rem; margin-top: 0.8rem; letter-spacing: 0.3px; }
-        .section-title { display: flex; align-items: center; gap: 0.8rem; font-size: 1.8rem; font-weight: 600; margin: 2.5rem 0 1.2rem 0; border-bottom: 3px solid #e2e8f0; padding-bottom: 0.5rem; }
-        .badge { background: #1e4a6b; color: white; padding: 0.15rem 1rem; border-radius: 40px; font-size: 1rem; font-weight: 500; }
-        .instruction-box { background: white; padding: 1.5rem 1.8rem; border-radius: 1.5rem; box-shadow: 0 6px 16px rgba(0,0,0,0.04); margin: 1.8rem 0; border-left: 8px solid #2b7a9e; transition: 0.2s; }
-        .instruction-box.objective { border-left-color: #f39c12; background: #fefaf0; }
-        .instruction-box.setup { border-left-color: #27ae60; background: #f0faf5; }
-        .formula { background: linear-gradient(145deg, #eef2ff, #e0e7ff); padding: 0.2rem 0.7rem; border-radius: 40px; font-family: 'JetBrains Mono', monospace; color: #1e3c72; font-size: 0.9rem; border: 1px solid #b8c9f0; }
-        .highlight { background: linear-gradient(120deg, #ffe78c 0%, #ffd966 80%); padding: 0.1rem 0.4rem; border-radius: 12px; font-weight: 500; }
         .question-block { margin: 1.2rem 0 0.8rem 0; }
         .question-block strong { font-size: 1.05rem; }
         .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
-        th { background: #1e3a5f; color: white; font-weight: 600; padding: 0.7rem 0.8rem; }
-        td, th { border: 1px solid #dce3ec; padding: 0.6rem 0.8rem; text-align: left; }
-        tr:nth-child(even) { background: #f8fafc; }
-        .quiz-container { display: grid; gap: 1.5rem; margin: 2rem 0; }
-        .quiz-card { background: white; padding: 1.5rem; border-radius: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.04); border: 1px solid #e9edf4; }
-        .quiz-question { font-weight: 600; margin-bottom: 0.5rem; }
-        .quiz-options { padding-left: 1.2rem; margin: 0.3rem 0 0.8rem; }
-        .quiz-options li { list-style: lower-alpha; margin-bottom: 0.2rem; }
         details { margin: 0.8rem 0; }
-        summary { color: #1e4a6b; font-weight: 600; cursor: pointer; background: #eef4fa; padding: 0.3rem 0.8rem; border-radius: 40px; display: inline-block; }
+        summary { color: var(--secondary-color); font-weight: 600; cursor: pointer; background: #eef4fa; padding: 0.3rem 0.8rem; border-radius: 40px; display: inline-block; }
         .answer-key { background: #eaf6e6; padding: 0.6rem 1.2rem; border-radius: 1rem; margin-top: 0.5rem; border-left: 4px solid #2e7d32; }
+        .instruction-box.setup { border-left-color: #27ae60; background: #f0faf5; }
         .footer-checklist { background: #edf2f9; border-radius: 2rem; padding: 1.5rem 2rem; margin: 2.5rem 0 1rem; }
         .footer-checklist ul { columns: 2; list-style: none; padding: 0; }
         .footer-checklist li::before { content: "✓ "; color: #1e7e34; font-weight: 700; }
@@ -42,14 +21,12 @@
 </head>
 <body>
 <div class="container">
-    <!-- HEADER -->
     <header>
-        <h1>Lab Activity: Computer Organization & I/O</h1>
-        <p class="subtitle">Comprehensive Laboratory Work Guide</p>
+        <h1>Activity: Computer Organization & I/O</h1>
+        <p class="subtitle">Understanding system architecture &amp; input/output devices</p>
         <span class="grade-badge">Grade XI • Computer Science</span>
     </header>
 
-    <!-- SETUP -->
     <section>
         <div class="section-title"><span class="badge">⚙️ Setup</span> Before you begin</div>
         <div class="instruction-box setup">
@@ -62,178 +39,155 @@
         </div>
     </section>
 
-    <!-- LEARNING OBJECTIVES -->
     <section>
         <div class="section-title"><span class="badge">🎯 Objectives</span> What you will learn</div>
         <div class="instruction-box objective">
             <ul style="margin: 0; padding-left: 1.2rem;">
-                <li><strong>Differentiate</strong> between Computer Architecture and Computer Organization.</li>
-                <li><strong>Identify</strong> and classify input, output, and memory devices.</li>
-                <li><strong>Explain</strong> the working of primary and secondary memory (RAM, ROM, Cache, Hard Disk, Optical, Flash).</li>
-                <li><strong>Describe</strong> microprocessor architecture and its key features.</li>
-                <li><strong>Understand</strong> bus architecture and communication ports.</li>
+                <li><strong>Distinguish</strong> computer architecture from computer organization.</li>
+                <li><strong>Describe</strong> the functions of CPU, Control Unit, ALU, and registers.</li>
+                <li><strong>Explain</strong> the instruction cycle (Fetch → Decode → Execute).</li>
+                <li><strong>Identify</strong> various I/O devices and storage types (primary vs secondary).</li>
+                <li><strong>Understand</strong> the role of system buses (data, address, control).</li>
             </ul>
         </div>
     </section>
 
-    <!-- CONCEPTUAL WALKTHROUGH -->
     <section>
-        <div class="section-title"><span class="badge">🧠 Overview</span> Computer Organization Fundamentals</div>
+        <div class="section-title"><span class="badge">🧠 Overview</span> System architecture &amp; I/O</div>
         <div class="instruction-box">
-            <p><strong>Computer Architecture</strong> defines <span class="highlight">WHAT</span> the computer does (the design, the instruction set). <strong>Computer Organization</strong> defines <span class="highlight">HOW</span> it does it (the hardware implementation).</p>
-            <div style="background: #eef2f9; padding: 0.8rem 1.2rem; border-radius: 1rem; margin: 0.8rem 0;">
-                <p><strong>🧩 Key Components:</strong></p>
-                <ul>
-                    <li><strong>Input Unit</strong> – keyboard, mouse, scanner, microphone, etc.</li>
-                    <li><strong>Memory Unit</strong> – Primary (RAM, ROM, Cache) &amp; Secondary (HDD, SSD, CD, DVD, Pen Drive)</li>
-                    <li><strong>CPU</strong> – ALU, Control Unit, Registers</li>
-                    <li><strong>Output Unit</strong> – Monitor, Printer, Speaker, Plotter</li>
-                </ul>
-            </div>
-            <p><strong>⚡ Microprocessor</strong> – the brain on a chip. Follows <span class="formula">Fetch → Decode → Execute</span> cycle. RISC (simpler instructions, faster) vs CISC (complex instructions, fewer lines of code).</p>
-            <p><strong>🔌 Bus Architecture</strong> – Data bus, Address bus, Control bus. <strong>Ports</strong> – Serial, Parallel, USB, SCSI, IEEE 1394, PCI.</p>
-        </div>
-    </section>
-
-    <!-- ACTIVITY PARTS -->
-    <section>
-        <div class="section-title"><span class="badge">📌 Part 1</span> Architecture vs Organization &amp; Basic Components</div>
-        <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 1</strong> Differentiate between <span class="formula">Computer Architecture</span> and <span class="formula">Computer Organization</span> in your own words. (2 differences minimum)</div>
-            <div class="question-block"><strong>Q. No. 2</strong> List the four main components of a computer system. Briefly describe the function of each.</div>
-            <div class="question-block"><strong>Q. No. 3</strong> What is the difference between <span class="formula">Soft copy</span> and <span class="formula">Hard copy</span> output? Give one example of each.</div>
+            <p><strong>Computer Architecture</strong> refers to the design and structure of the computer system as seen by the programmer (instruction set, addressing modes, data types). <strong>Computer Organization</strong> deals with how the hardware components are implemented and interconnected.</p>
+            <p>The <span class="highlight">CPU (Central Processing Unit)</span> consists of three main units:</p>
+            <ul>
+                <li><strong>ALU</strong> – performs arithmetic and logical operations</li>
+                <li><strong>Control Unit</strong> – coordinates and controls the execution of instructions</li>
+                <li><strong>Registers</strong> – high-speed temporary storage inside the CPU</li>
+            </ul>
+            <p>The <span class="highlight">Instruction Cycle</span> follows: <strong>Fetch → Decode → Execute</strong>.</p>
+            <p>⚡ <strong>System Bus</strong> is a set of parallel wires connecting major components. It includes <span class="formula">Data Bus</span> (carries data), <span class="formula">Address Bus</span> (carries memory addresses), and <span class="formula">Control Bus</span> (carries control signals).</p>
         </div>
     </section>
 
     <section>
-        <div class="section-title"><span class="badge">📌 Part 2</span> Input &amp; Output Devices</div>
+        <div class="section-title"><span class="badge">📌 Part 1</span> CPU architecture &amp; organization</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 4</strong> Classify the following as input or output devices: <span class="formula">Scanner, Monitor, Mouse, Plotter, Microphone, Printer, Joystick, Speaker</span>.</div>
-            <div class="question-block"><strong>Q. No. 5</strong> What is the working principle of a <span class="highlight">CRT Monitor</span>? List two merits and two demerits.</div>
-            <div class="question-block"><strong>Q. No. 6</strong> Compare <span class="formula">LED</span> and <span class="formula">LCD</span> monitors on the basis of size, power consumption, brightness, and cost.</div>
-            <div class="question-block"><strong>Q. No. 7</strong> What is a <span class="formula">Non-impact printer</span>? Give two examples and list their advantages over impact printers.</div>
+            <div class="question-block"><strong>Q. No. 1</strong> Differentiate between Computer Architecture and Computer Organization. Give two points for each.</div>
+            <div class="question-block"><strong>Q. No. 2</strong> List the three main components of the CPU. Write one function of each.</div>
+            <div class="question-block"><strong>Q. No. 3</strong> What is the role of the Control Unit? How does it interact with the ALU and memory?</div>
+            <div class="question-block"><strong>Q. No. 4</strong> Name four CPU registers and state their functions.</div>
+            <div class="question-block"><strong>Q. No. 5</strong> Explain the instruction cycle with a diagram. What happens during the fetch phase?</div>
         </div>
     </section>
 
     <section>
-        <div class="section-title"><span class="badge">📌 Part 3</span> Memory Devices</div>
+        <div class="section-title"><span class="badge">📌 Part 2</span> Memory &amp; storage</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 8</strong> Fill in the blanks:</div>
-            <ol type="a" style="margin: 0.2rem 0 0.8rem 1.5rem; padding-left: 1.5rem;">
-                <li>RAM is ______ (volatile/non-volatile) memory.</li>
-                <li>ROM stands for ______.</li>
-                <li>Cache memory is placed between ______ and ______.</li>
-                <li>CD-RW can be ______ (erased/updated) multiple times.</li>
-            </ol>
-            <div class="question-block"><strong>Q. No. 9</strong> Complete the comparison table for <span class="formula">S-RAM</span> vs <span class="formula">D-RAM</span>:</div>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Feature</th><th>S-RAM</th><th>D-RAM</th></tr></thead>
-                    <tbody>
-                        <tr><td>Speed</td><td>______</td><td>Slower</td></tr>
-                        <tr><td>Refreshing circuit</td><td>Not required</td><td>______</td></tr>
-                        <tr><td>Used in</td><td>______</td><td>Widely used in PC</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="question-block"><strong>Q. No. 10</strong> Explain the difference between <span class="formula">Magnetic</span>, <span class="formula">Optical</span>, and <span class="formula">Flash</span> memory with one example of each.</div>
+            <div class="question-block"><strong>Q. No. 6</strong> Differentiate between Primary Memory and Secondary Memory with examples.</div>
+            <div class="question-block"><strong>Q. No. 7</strong> What is RAM? Differentiate between SRAM and DRAM.</div>
+            <div class="question-block"><strong>Q. No. 8</strong> What is ROM? List four types of ROM and describe each.</div>
+            <div class="question-block"><strong>Q. No. 9</strong> What is Cache Memory? Explain its levels (L1, L2, L3) with respect to speed and size.</div>
+            <div class="question-block"><strong>Q. No. 10</strong> Arrange the following in ascending order of access speed: <span class="formula">Cache</span>, <span class="formula">RAM</span>, <span class="formula">Hard Disk</span>, <span class="formula">Registers</span>, <span class="formula">SSD</span>.</div>
         </div>
     </section>
 
     <section>
-        <div class="section-title"><span class="badge">📌 Part 4</span> Microprocessor &amp; Bus Architecture</div>
+        <div class="section-title"><span class="badge">📌 Part 3</span> Input &amp; output devices</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 11</strong> Draw a simple block diagram of a microprocessor and label: ALU, Register Array, Control Unit.</div>
-            <div class="question-block"><strong>Q. No. 12</strong> What is the <span class="formula">Fetch-Decode-Execute</span> cycle? Explain in brief.</div>
-            <div class="question-block"><strong>Q. No. 13</strong> Compare <span class="formula">RISC</span> and <span class="formula">CISC</span> processors on the basis of instruction set, execution time, and compiler work.</div>
-            <div class="question-block"><strong>Q. No. 14</strong> Define <span class="formula">Bus</span>. List and explain the three types of buses (Data, Address, Control) with their direction of data flow.</div>
-            <div class="question-block"><strong>Q. No. 15</strong> What is a <span class="formula">USB port</span>? List two advantages over older serial/parallel ports.</div>
+            <div class="question-block"><strong>Q. No. 11</strong> List any eight input devices. Write the function of each.</div>
+            <div class="question-block"><strong>Q. No. 12</strong> List any eight output devices. Write the function of each.</div>
+            <div class="question-block"><strong>Q. No. 13</strong> Differentiate between a Monitor and a Printer. Give two examples of each.</div>
+            <div class="question-block"><strong>Q. No. 14</strong> What is a touchscreen? Is it an input or output device? Justify your answer.</div>
+            <div class="question-block"><strong>Q. No. 15</strong> Explain the types of printers: Impact (Dot Matrix) vs Non-Impact (Laser, Inkjet).</div>
         </div>
     </section>
 
-    <!-- CHALLENGE / QUIZ -->
+    <section>
+        <div class="section-title"><span class="badge">📌 Part 4</span> I/O buses &amp; interfaces</div>
+        <div class="instruction-box">
+            <div class="question-block"><strong>Q. No. 16</strong> What is a system bus? Explain the three types of buses in the system bus architecture.</div>
+            <div class="question-block"><strong>Q. No. 17</strong> Differentiate between serial and parallel data transmission.</div>
+            <div class="question-block"><strong>Q. No. 18</strong> What is USB? List three advantages of USB over older port types.</div>
+            <div class="question-block"><strong>Q. No. 19</strong> What is HDMI? Where is it commonly used?</div>
+        </div>
+    </section>
+
     <section>
         <div class="section-title"><span class="badge">🧪 Challenge</span> Quiz yourself</div>
         <div class="quiz-container">
             <div class="quiz-card">
-                <div class="quiz-question">1. Which memory is directly accessible to the CPU?</div>
+                <div class="quiz-question">1. Which component of the CPU performs arithmetic operations?</div>
                 <ul class="quiz-options">
-                    <li>a) Secondary memory</li>
-                    <li>b) Primary memory</li>
-                    <li>c) Cache memory</li>
-                    <li>d) Both b and c</li>
+                    <li>a) Control Unit</li>
+                    <li>b) ALU</li>
+                    <li>c) Register</li>
+                    <li>d) Cache</li>
                 </ul>
-                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ d) Both Primary memory (RAM/ROM) and Cache are directly accessible to the CPU.</div></details>
+                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ b) ALU (Arithmetic Logic Unit).</div></details>
             </div>
             <div class="quiz-card">
-                <div class="quiz-question">2. Which bus carries memory addresses from CPU to other components?</div>
+                <div class="quiz-question">2. Which memory type loses its data when the power is turned off?</div>
                 <ul class="quiz-options">
-                    <li>a) Data bus</li>
-                    <li>b) Control bus</li>
-                    <li>c) Address bus</li>
-                    <li>d) Internal bus</li>
+                    <li>a) ROM</li>
+                    <li>b) Flash</li>
+                    <li>c) RAM</li>
+                    <li>d) Hard Disk</li>
                 </ul>
-                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ c) Address bus carries memory addresses. It is uni-directional from CPU.</div></details>
+                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ c) RAM (Random Access Memory).</div></details>
             </div>
             <div class="quiz-card">
-                <div class="quiz-question">3. Which of the following is a Non-impact printer?</div>
+                <div class="quiz-question">3. Which bus carries memory addresses from the CPU to memory?</div>
                 <ul class="quiz-options">
-                    <li>a) Dot Matrix printer</li>
-                    <li>b) Daisy wheel printer</li>
-                    <li>c) Laser printer</li>
-                    <li>d) Line printer</li>
+                    <li>a) Data Bus</li>
+                    <li>b) Address Bus</li>
+                    <li>c) Control Bus</li>
+                    <li>d) Power Bus</li>
                 </ul>
-                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ c) Laser printer is a non-impact printer. Others are impact printers.</div></details>
+                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ b) Address Bus.</div></details>
             </div>
             <div class="quiz-card">
-                <div class="quiz-question">4. What does RISC stand for?</div>
+                <div class="quiz-question">4. Which of the following is an output device?</div>
                 <ul class="quiz-options">
-                    <li>a) Reduced Instruction Set Computer</li>
-                    <li>b) Random Instruction Set Computer</li>
-                    <li>c) Regular Instruction Set Computer</li>
-                    <li>d) Reliable Instruction Set Computer</li>
+                    <li>a) Scanner</li>
+                    <li>b) Keyboard</li>
+                    <li>c) Monitor</li>
+                    <li>d) Microphone</li>
                 </ul>
-                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ a) Reduced Instruction Set Computer – designed for simpler, faster instructions.</div></details>
+                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ c) Monitor.</div></details>
             </div>
         </div>
     </section>
 
-    <!-- ASSESSMENT PREPARATION -->
     <section>
         <div class="section-title"><span class="badge">📝 Assessment prep</span> Key points to remember</div>
         <div class="instruction-box objective">
             <ul style="margin: 0;">
-                <li>🔹 <strong>Architecture</strong> (WHAT) vs <strong>Organization</strong> (HOW)</li>
-                <li>🔹 <strong>Input devices</strong>: Keyboard, Mouse, Scanner, MICR, OMR, BCR, etc.</li>
-                <li>🔹 <strong>Output devices</strong>: Monitor (CRT, LCD, LED, Plasma), Printer (Impact, Non-impact), Plotter, Speaker</li>
-                <li>🔹 <strong>Memory</strong>: Primary (RAM – S-RAM, D-RAM; ROM – PROM, EPROM, EEPROM; Cache), Secondary (Magnetic, Optical, Flash)</li>
-                <li>🔹 <strong>Microprocessor</strong>: RISC vs CISC, Coprocessor, DSP, Transputer</li>
-                <li>🔹 <strong>Bus</strong>: Data (bi-directional), Address (uni-directional), Control (uni-directional)</li>
-                <li>🔹 <strong>Ports</strong>: Serial, Parallel, USB, SCSI, IEEE 1394, PCI</li>
+                <li>🔹 <strong>Architecture</strong> = what the computer does; <strong>Organization</strong> = how it does it.</li>
+                <li>🔹 <strong>CPU</strong> = ALU + Control Unit + Registers.</li>
+                <li>🔹 <strong>Instruction cycle</strong>: Fetch → Decode → Execute.</li>
+                <li>🔹 <strong>Memory hierarchy</strong>: Registers > Cache > RAM > SSD > HDD (speed descending).</li>
+                <li>🔹 <strong>I/O devices</strong>: Input (keyboard, mouse, scanner) vs Output (monitor, printer, speaker).</li>
+                <li>🔹 <strong>Buses</strong>: Data (bi-directional), Address (uni-directional), Control (signals).</li>
             </ul>
         </div>
     </section>
 
-    <!-- FOOTER -->
     <div class="footer-checklist">
         <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
             <span style="font-weight: 600; font-size: 1.2rem;">✅ Completion checklist</span>
-            <span style="background: #1e4a6b; color: white; padding: 0.1rem 1rem; border-radius: 30px;">⏱️ ~ 2 hours</span>
+            <span style="background: var(--secondary-color); color: white; padding: 0.1rem 1rem; border-radius: 30px;">⏱️ ~ 2 hours</span>
         </div>
         <ul>
-            <li>Answered all 15 questions in the activity parts</li>
+            <li>Answered all 19 questions in the activity parts</li>
             <li>Completed the quiz / challenge</li>
-            <li>Reviewed comparison tables (Architecture vs Organization, S-RAM vs D-RAM)</li>
-            <li>Understood microprocessor architecture and bus types</li>
+            <li>Understood CPU, memory, I/O, and bus architecture</li>
+            <li>Reviewed the memory hierarchy concepts</li>
             <li>Prepared for the interactive assessment</li>
         </ul>
-        <p style="margin-top: 1rem; border-top: 1px solid #cbd5e1; padding-top: 1rem; font-style: italic;">📚 Next: practice with the interactive assessment in the lab. Good luck!</p>
+        <p style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem; font-style: italic;">📚 Next: practice with the interactive assessment. Good luck!</p>
     </div>
 
-    <!-- reference -->
-    <div style="background: #f1f5f9; border-radius: 2rem; padding: 1rem 1.5rem; margin: 1.5rem 0;">
-        <p style="margin: 0;"><span class="formula">🔗 Reference</span> Computer Architecture & Organization, Input Devices, Output Devices, Memory Devices, Microprocessor, Bus Architecture & Communication Ports — all topics covered.</p>
-        <p style="margin: 0.2rem 0 0; font-size: 0.9rem;">📖 Based on Grade XI Computer Science curriculum.</p>
+    <div style="background: var(--bg-light); border-radius: 2rem; padding: 1rem 1.5rem; margin: 1.5rem 0;">
+        <p style="margin: 0;"><span class="formula">🔗 Reference</span> “Computer Organization”, “Memory Systems”, “Input/Output Devices”, “System Buses” — all topics covered.</p>
+        <p style="margin: 0.2rem 0 0; font-size: 0.9rem;">🎥 Suggested video: <a href="https://www.youtube.com/watch?v=H5yACoTpIiU" target="_blank" style="color: var(--accent-color);">Computer Organization & Architecture</a> (optional)</p>
     </div>
 </div>
 </body>
