@@ -4,32 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web Technology-I Interactive Lab Canvas</title>
+    <link rel="stylesheet" href="../css/canvas.css">
     <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --secondary: #10b981;
-            --dark: #1f2937;
-            --light: #f3f4f6;
-            --white: #ffffff;
-            --error: #ef4444;
-            --border: #e5e7eb;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: #f8fafc;
-            color: var(--dark);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
         .container {
             max-width: 850px;
             margin: 0 auto;
@@ -45,72 +21,6 @@
             margin-bottom: 20px;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* Login Screen */
-        .auth-screen {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .auth-form {
-            max-width: 400px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #4b5563;
-        }
-
-        input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.2s;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--primary);
-            color: var(--white);
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-
-        .btn:hover {
-            background-color: var(--primary-hover);
-        }
-
-        .error-msg {
-            color: var(--error);
-            font-size: 14px;
-            margin-top: 5px;
-            display: none;
-        }
-
         /* Top Bar Status */
         .status-bar {
             display: flex;
@@ -121,22 +31,6 @@
             margin-bottom: 25px;
             font-size: 14px;
             color: #6b7280;
-        }
-
-        .progress-container {
-            width: 100%;
-            background-color: var(--light);
-            border-radius: 10px;
-            height: 8px;
-            margin-top: 5px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background-color: var(--secondary);
-            width: 0%;
-            border-radius: 10px;
-            transition: width 0.3s ease;
         }
 
         /* Canvas Task Styles */
@@ -221,35 +115,6 @@
             font-size: 64px;
             color: var(--secondary);
             margin-bottom: 20px;
-        }
-
-        /* Entry & Exit Modal Overlay Style */
-        .celebration-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(31, 41, 55, 0.75);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-
-        .celebration-card {
-            background-color: var(--white);
-            padding: 40px;
-            border-radius: 16px;
-            text-align: center;
-            width: 90%;
-            max-width: 480px;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
-            animation: popIn 0.3s ease-out;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
         }
     </style>
 </head>

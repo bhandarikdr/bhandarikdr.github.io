@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Learning Canvas: Application Packages</title>
+    <link rel="stylesheet" href="../css/canvas.css">
     <style>
         :root {
             --primary: #1e3a8a;
@@ -18,18 +19,8 @@
             --accent: #d97706;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
             padding: 2rem 1rem;
-            line-height: 1.5;
         }
 
         .container {
@@ -37,80 +28,9 @@
             margin: 0 auto;
         }
 
-        /* Setup & Completion Modal Overlay Style */
-        .celebration-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(15, 23, 42, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-
-        .celebration-card {
-            background-color: var(--bg-card);
-            padding: 2.5rem;
-            border-radius: 16px;
-            text-align: center;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
-            animation: popIn 0.3s ease-out;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
         h1, h2, h3 {
             color: var(--text-main);
             margin-bottom: 1rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.25rem;
-            text-align: left;
-        }
-
-        label {
-            display: block;
-            font-size: 0.875rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-        }
-
-        input[type="text"], select, textarea {
-            width: 100%;
-            padding: 0.75rem;
-            background: #ffffff;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: 2px solid var(--primary-light);
-            border-color: transparent;
-        }
-
-        button {
-            background: var(--primary-light);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-        }
-
-        button:hover {
-            background: #2563eb;
         }
 
         /* Main Canvas Layout */
@@ -125,22 +45,6 @@
             border-bottom: 1px solid var(--border);
             padding-bottom: 1.5rem;
             margin-bottom: 2rem;
-        }
-
-        .progress-bar-container {
-            background: var(--border);
-            height: 10px;
-            border-radius: 5px;
-            width: 100%;
-            margin: 1rem 0 2rem 0;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            background: var(--success);
-            height: 100%;
-            width: 0%;
-            transition: width 0.4s ease;
         }
 
         .canvas-card {
@@ -341,7 +245,7 @@
                 <input type="text" id="student-room" placeholder="e.g., 7">
             </div>
 
-            <button type="button" onclick="initializeCanvas()">Enter Laboratory Canvas 🚀</button>
+            <button type="button" class="btn btn-primary" onclick="initializeCanvas()">Enter Laboratory Canvas 🚀</button>
         </div>
     </div>
 
@@ -357,8 +261,8 @@
             </div>
         </header>
 
-        <div class="progress-bar-container">
-            <div id="canvas-progress" class="progress-bar-fill"></div>
+        <div class="progress-container">
+            <div id="canvas-progress" class="progress-bar"></div>
         </div>
 
         <div class="canvas-card" id="c1">
@@ -369,8 +273,8 @@
             </div>
             <div class="workspace">
                 <div class="btn-row">
-                    <button class="btn-sm" onclick="alert('Simulated: Paragraph Selected')">Select Paragraph</button>
-                    <button class="btn-sm" onclick="alert('Simulated: Action Undo Cache Cleared')">Undo Command</button>
+                    <button class="btn btn-sm" onclick="alert('Simulated: Paragraph Selected')">Select Paragraph</button>
+                    <button class="btn btn-sm" onclick="alert('Simulated: Action Undo Cache Cleared')">Undo Command</button>
                 </div>
                 <div id="text-sim" class="text-editor-sim" contenteditable="true" oninput="checkCanvas1()">
 Today the computere has affected all aspects of people's lives. Future holographic video storrage devices will scale up to 1000 terabytes.
@@ -496,7 +400,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
                 <div style="font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem; color: #1d4ed8;">
                     =IF(AND(English><input type="number" id="c7-marks" style="width:60px; padding:2px;" oninput="checkCanvas7()">, ...), "PASS", "FAILED")
                 </div>
-                <div id="v7" class="verification-text unverified">Status: Conditional parameters blank</div>
+                <div id="v7" class="verification-text unverified">Status: Conditional parameters blank or incorrect</div>
             </div>
         </div>
 
@@ -555,7 +459,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
         </div>
 
         <div style="margin: 3rem 0; text-align: center;">
-            <button type="button" id="submit-btn" style="background: var(--success); font-size: 1.25rem; padding: 1rem 2rem; width: auto;" onclick="dispatchPayload()">Lock Answers & Log Laboratory Records</button>
+            <button type="button" id="submit-btn" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 2rem; width: auto;" onclick="dispatchPayload()">Lock Answers & Log Laboratory Records</button>
         </div>
     </div>
 

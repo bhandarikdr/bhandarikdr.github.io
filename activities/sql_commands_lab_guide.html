@@ -4,317 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL Commands Lab Activity Guide - Grade XI</title>
-    <style>
-        :root {
-            /* Colors */
-            --primary-color: #2c3e50;
-            --secondary-color: #18bc9c;
-            --accent-color: #3498db;
-            --bg-body: #f4f7f9;
-            --bg-card: #ffffff;
-            --bg-light: #f8fafc;
-            --border-color: #e2e8f0;
-
-            /* Text Colors */
-            --text-main: #2d3748;
-            --text-muted: #4a5568;
-            --text-light: #718096;
-
-            /* Code Colors */
-            --code-bg: #1a202c;
-            --code-text: #e2e8f0;
-            --code-accent: #f6ad55;
-
-            /* Spacing */
-            --spacing-sm: 0.5rem;
-            --spacing-md: 1rem;
-            --spacing-lg: 1.5rem;
-            --spacing-xl: 2.5rem;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.6;
-            color: var(--text-main);
-            background-color: var(--bg-body);
-            padding: var(--spacing-xl) var(--spacing-md);
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            padding: var(--spacing-xl);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-
-        header {
-            text-align: center;
-            border-bottom: 3px solid var(--primary-color);
-            padding-bottom: var(--spacing-lg);
-            margin-bottom: var(--spacing-xl);
-        }
-
-        header h1 {
-            color: var(--primary-color);
-            font-size: 2.2rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        header .subtitle {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-
-        header .grade-badge {
-            font-size: 0.95rem;
-            margin-top: 0.5rem;
-            color: var(--secondary-color);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .section-title {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-top: 3rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-weight: 700;
-        }
-
-        .badge {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-        }
-
-        .instruction-box {
-            background: var(--bg-light);
-            border-left: 4px solid var(--accent-color);
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-            border-radius: 0 8px 8px 0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .instruction-box.objective {
-            border-left-color: var(--secondary-color);
-            background-color: #fff;
-            border: 1px solid var(--border-color);
-            border-left-width: 4px;
-        }
-
-        .step-list {
-            margin-left: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .step-list li {
-            margin-bottom: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .step-list strong {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-
-        pre {
-            background-color: var(--code-bg);
-            color: var(--code-text);
-            padding: 1.25rem;
-            border-radius: 8px;
-            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-            font-size: 0.9rem;
-            overflow-x: auto;
-            margin: 1rem 0;
-            line-height: 1.5;
-            border: 1px solid #2d3748;
-        }
-
-        code {
-            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
-            background: #edf2f7;
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            color: #d53f8c;
-            font-size: 0.85em;
-            font-weight: 500;
-        }
-
-        pre code {
-            background: transparent;
-            padding: 0;
-            color: inherit;
-            font-size: inherit;
-            font-weight: inherit;
-        }
-
-        .quiz-container {
-            background: #fff;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: var(--spacing-lg);
-            margin-top: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        }
-
-        .quiz-card {
-            background: var(--bg-light);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: var(--spacing-lg);
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .quiz-question {
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            color: var(--primary-color);
-            font-size: 1.05rem;
-        }
-
-        .quiz-options {
-            list-style-type: none;
-            padding-left: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .quiz-options li {
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-            display: flex;
-            align-items: flex-start;
-            gap: 0.5rem;
-        }
-
-        .answer-key {
-            background: #f0fff4;
-            border: 1px solid #c6f6d5;
-            color: #22543d;
-            padding: var(--spacing-lg);
-            border-radius: 8px;
-            font-weight: 500;
-        }
-
-        .answer-key pre {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            color: var(--text-main);
-            font-size: 0.85rem;
-            padding: 0.75rem;
-        }
-
-        .answer-key p.label {
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Expandable Panel Styles */
-        details {
-            margin-top: 1.5rem;
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        summary {
-            padding: 0.75rem 1.25rem;
-            cursor: pointer;
-            font-weight: 700;
-            color: var(--primary-color);
-            background-color: #f7fafc;
-            list-style: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s;
-            user-select: none;
-        }
-
-        summary:hover {
-            background-color: #edf2f7;
-        }
-
-        summary::-webkit-details-marker {
-            display: none;
-        }
-
-        summary::after {
-            content: '\002B';
-            font-size: 1.1rem;
-        }
-
-        details[open] summary::after {
-            content: '\2212';
-        }
-
-        details[open] summary {
-            border-bottom: 1px solid var(--border-color);
-            background-color: #edf2f7;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-
-        .footer p {
-            margin-bottom: 0.5rem;
-        }
-
-        a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: #2b6cb0;
-        }
-
-        /* Utility */
-        .mt-1 { margin-top: 0.25rem; }
-        .mt-2 { margin-top: 0.5rem; }
-        .mt-4 { margin-top: 1rem; }
-        .mb-2 { margin-bottom: 0.5rem; }
-        .text-small { font-size: 0.875rem; }
-    </style>
+    <link rel="stylesheet" href="../css/activity.css">
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>Lab Activity: Mastering SQL Commands</h1>
+        <h1>Lab Activity: SQL Commands</h1>
         <p class="subtitle">Comprehensive Laboratory Work Guide</p>
         <p class="grade-badge">Grade XII &bull; Computer Science</p>
     </header>
@@ -325,23 +21,68 @@
     </div>
     
     <div class="instruction-box">
-        <p class="quiz-question mb-2">Follow these steps to set up XAMPP and access the MySQL/MariaDB environment:</p>
+        <p class="quiz-question mb-2">Set up XAMPP and access MySQL/MariaDB:</p>
         <ol class="step-list">
-            <li><strong>Install XAMPP:</strong> Download the <a href="https://www.apachefriends.org/download.html">XAMPP installer</a> executable package matching your host environment platform layout from the official Apache Friends portal. Complete the deployment setup package wizard utilizing default port options.</li>
-            <li><strong>Launch the Services:</strong> Open the <code>XAMPP Control Panel</code> from your desktop or Applications folder. Click the <strong>Start</strong> actions next to both the <strong>Apache</strong> and <strong>MySQL</strong> rows. Ensure their modules turn green.</li>
-            <li><strong>Navigate using Command Prompt (CLI):</strong> Launch your terminal interface shell environment (e.g., CMD on Windows) and run the change directory instructions sequence to jump directly into the standard location path:
+            <li><strong>Install XAMPP:</strong> Download from <a href="https://www.apachefriends.org/download.html">Apache Friends</a> and run the installer with default settings.</li>
+            <li><strong>Launch Services:</strong> Open XAMPP Control Panel. Click <strong>Start</strong> for both Apache and MySQL. Wait for them to turn green.</li>
+            <li><strong>Open Terminal:</strong> Launch CMD (Windows) or Terminal (Mac/Linux) and navigate to MySQL bin:
                 <pre>cd C:\xampp\mysql\bin</pre>
             </li>
-            <li><strong>Login to MySQL/MariaDB Server:</strong> Authenticate securely into your local transactional database cluster using the administrative user account (<code>root</code>) with no default password assignment query rule:
+            <li><strong>Login to MySQL:</strong> Connect as root user (no password):
                 <pre>mysql -u root</pre>
-                Upon hitting Enter, the interface command cursor should shift to a live dashboard engine prompt state matching <code>MariaDB [(none)]&gt;</code> or <code>mysql&gt;</code>.
+                You should see <code>MariaDB [(none)]&gt;</code> or <code>mysql&gt;</code> prompt.
             </li>
         </ol>
     </div>
 
-    <!-- OBJECTIVE -->
+    <!-- LEARNING OBJECTIVES -->
+    <div class="section-title">
+        <span class="badge">Objectives</span> Learning Goals & Outcomes
+    </div>
+
     <div class="instruction-box objective">
-        <p><strong>Activity Objective:</strong> Create a relational database schema structural engine for a library management system framework tracking inventory, and perform core <strong>CRUD</strong> (Create, Read, Update, Delete) procedural transactional instructions.</p>
+        <p><strong>By the end of this lab activity, you will be able to:</strong></p>
+        <ul class="step-list">
+            <li>Set up and configure a MySQL/MariaDB database environment using XAMPP</li>
+            <li>Create and manage database schemas and table structures using DDL commands</li>
+            <li>Perform CRUD (Create, Read, Update, Delete) operations on database tables</li>
+            <li>Modify table structures using ALTER commands and manage indexes</li>
+            <li>Apply SQL commands to solve real-world data management problems</li>
+        </ul>
+        <p class="text-small mt-4"><strong>Real-World Application:</strong> These skills are essential for building dynamic websites, managing business data, and working with any application that requires persistent data storage.</p>
+    </div>
+
+    <!-- CONCEPTUAL WALKTHROUGH -->
+    <div class="section-title">
+        <span class="badge">Concept Overview</span> Understanding SQL Fundamentals
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>What is SQL?</strong></p>
+        <p class="text-small mb-2">SQL (Structured Query Language) is a standard language for managing relational databases. It allows you to create, modify, and query data stored in database systems like MySQL, PostgreSQL, and SQL Server.</p>
+
+        <p class="mt-4"><strong>Key SQL Command Categories:</strong></p>
+        <ul class="step-list mt-2">
+            <li><strong>DDL (Data Definition Language):</strong> CREATE, ALTER, DROP - Used to define database structure</li>
+            <li><strong>DML (Data Manipulation Language):</strong> INSERT, SELECT, UPDATE, DELETE - Used to manipulate data</li>
+            <li><strong>DCL (Data Control Language):</strong> GRANT, REVOKE - Used to control access permissions</li>
+        </ul>
+
+        <p class="mt-4"><strong>Common Mistakes to Avoid:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Forgetting semicolons (;) at the end of SQL statements</li>
+            <li>Using UPDATE or DELETE without a WHERE clause (affects all rows!)</li>
+            <li>Mixing single and double quotes inconsistently</li>
+            <li>Not checking table structure before inserting data</li>
+        </ul>
+
+        <p class="mt-4"><strong>Best Practices:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Always use uppercase for SQL keywords (SELECT, FROM, WHERE) for readability</li>
+            <li>Use descriptive table and column names</li>
+            <li>Test SELECT queries before running UPDATE/DELETE operations</li>
+            <li>Use transactions for critical operations when available</li>
+        </ul>
     </div>
 
     <!-- PART 1 -->
@@ -350,14 +91,14 @@
     </div>
 
     <div class="instruction-box">
-        <p><strong>Step 1.1: Initialize a new database</strong> named <code>LibraryDB</code> inside your workspace cluster instance storage repository.</p>
+        <p><strong>Step 1.1: Create database</strong> named <code>LibraryDB</code>.</p>
         <pre>CREATE DATABASE LibraryDB;</pre>
 
-        <p class="mt-4"><strong>Step 1.2: Verify and Select Database</strong> context to confirm presence and make it the active query operations target scope.</p>
+        <p class="mt-4"><strong>Step 1.2: Verify and select database</strong>.</p>
         <pre>SHOW DATABASES;
 USE LibraryDB;</pre>
 
-        <p class="mt-4"><strong>Step 1.3: Create Books Table</strong> object infrastructure framework columns tracking core information variables.</p>
+        <p class="mt-4"><strong>Step 1.3: Create Books table</strong> with columns for book information.</p>
 <pre>CREATE TABLE Books (
     BookID int,
     Title varchar(255),
@@ -372,20 +113,20 @@ USE LibraryDB;</pre>
     </div>
 
     <div class="instruction-box">
-        <p><strong>Step 2.1: Insert Data</strong> record states securely to store data samples into your <code>Books</code> grid parameters table layout:</p>
+        <p><strong>Step 2.1: Insert data</strong> into the <code>Books</code> table:</p>
 <pre>INSERT INTO Books (BookID, Title, Author, PublishedYear)
 VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);</pre>
 
-        <p class="mt-4"><strong>Step 2.2: Read Data</strong> rows matching query selections to fetch information back to the client interface layout:</p>
-        <p class="text-small mt-2">Query all data details stored globally inside the table matrix context:</p>
+        <p class="mt-4"><strong>Step 2.2: Read data</strong> from the table:</p>
+        <p class="text-small mt-2">Query all data:</p>
         <pre>SELECT * FROM Books;</pre>
-        <p class="text-small mt-2">Query specific attribute keys selectively:</p>
+        <p class="text-small mt-2">Query specific columns:</p>
         <pre>SELECT Title, Author FROM Books;</pre>
 
-        <p class="mt-4"><strong>Step 2.3: Update Data</strong> profiles globally or conditionally targeting accurate unique row definitions safely using the conditional filtering clause tool:</p>
+        <p class="mt-4"><strong>Step 2.3: Update data</strong> using WHERE clause:</p>
         <pre>UPDATE Books SET PublishedYear = 1926 WHERE BookID = 1;</pre>
 
-        <p class="mt-4"><strong>Step 2.4: Delete Data</strong> profiles and isolate particular transactional elements using explicit row identifier matching specifications:</p>
+        <p class="mt-4"><strong>Step 2.4: Delete data</strong> using WHERE clause:</p>
         <pre>DELETE FROM Books WHERE BookID = 1;</pre>
     </div>
 
@@ -395,18 +136,18 @@ VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);</pre>
     </div>
 
     <div class="instruction-box">
-        <p><strong>Step 3.1: Modify Table Structure</strong> dynamically to add a new category property column labeled <code>Genre</code> seamlessly:</p>
+        <p><strong>Step 3.1: Modify table structure</strong> by adding a <code>Genre</code> column:</p>
         <pre>ALTER TABLE Books ADD Genre varchar(100);</pre>
 
-        <p class="mt-4"><strong>Step 3.2: Index Management optimization</strong> initialization rules layout to speed up analytical target queries searching over titles:</p>
+        <p class="mt-4"><strong>Step 3.2: Create index</strong> to speed up title searches:</p>
         <pre>CREATE INDEX idx_title ON Books(Title);</pre>
 
-        <p class="mt-4"><strong>Step 3.3: Systematic Schema Cleanup routines</strong> implementation processing commands to drop entities from working environment allocations:</p>
-        <p class="text-small mt-2">Remove operational tracking speed indexing configurations:</p>
+        <p class="mt-4"><strong>Step 3.3: Clean up</strong> by removing objects:</p>
+        <p class="text-small mt-2">Drop index:</p>
         <pre>DROP INDEX idx_title ON Books;</pre>
-        <p class="text-small mt-2">Drop table structure and records completely from physical memory allocations:</p>
+        <p class="text-small mt-2">Drop table:</p>
         <pre>DROP TABLE Books;</pre>
-        <p class="text-small mt-2">Drop entire logical structural database workspace tracking records context:</p>
+        <p class="text-small mt-2">Drop database:</p>
         <pre>DROP DATABASE LibraryDB;</pre>
     </div>
 
@@ -415,62 +156,87 @@ VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);</pre>
     </div>
 
     <div class="quiz-container">
-        <p class="mb-4">
-            Complete the following two hands-on challenge tasks in your MySQL terminal. Each challenge requires you to write and run code for all four CRUD operations.
-        </p>
+        <p class="mb-4">Complete these challenge tasks in your MySQL terminal. Each requires all four CRUD operations.</p>
 
         <div class="quiz-card">
-            <p class="quiz-question">Challenge Set 1: Student Enrollment Management</p>
-            <p class="text-small mb-2">
-                Assume you have a table named <code>Students</code> with the following columns: <code>StudentID (int)</code>, <code>FullName (varchar)</code>, <code>Grade (int)</code>, and <code>Section (varchar)</code>. Write the SQL statements to complete these operations:
-            </p>
+            <p class="quiz-question">Challenge Set 1: Student Enrollment</p>
+            <p class="text-small mb-2">Table: <code>Students</code> with columns <code>StudentID (int)</code>, <code>FullName (varchar)</code>, <code>Grade (int)</code>, <code>Section (varchar)</code>.</p>
             <ul class="step-list mt-2">
-                <li><strong>1. Create (Insert):</strong> Add a new student named 'Anil Sharma', who is in Grade 11, Section 'A' with a StudentID of 101.</li>
-                <li><strong>2. Read (Select):</strong> Write a query to display only the <code>FullName</code> and <code>Section</code> of all students who are in Grade 11.</li>
-                <li><strong>3. Update:</strong> Modify the record to change Anil Sharma's section from 'A' to 'B'.</li>
-                <li><strong>4. Delete:</strong> Remove the student from the table whose StudentID is exactly 101.</li>
+                <li><strong>Insert:</strong> Add student 'Anil Sharma', Grade 11, Section 'A', StudentID 101.</li>
+                <li><strong>Select:</strong> Display <code>FullName</code> and <code>Section</code> for Grade 11 students.</li>
+                <li><strong>Update:</strong> Change Anil Sharma's section from 'A' to 'B'.</li>
+                <li><strong>Delete:</strong> Remove student with StudentID 101.</li>
             </ul>
         </div>
 
         <div class="quiz-card">
-            <p class="quiz-question">Challenge Set 2: Store Inventory Control</p>
-            <p class="text-small mb-2">
-                Assume you have a table named <code>Inventory</code> with the following columns: <code>ItemID (int)</code>, <code>ItemName (varchar)</code>, <code>Price (int)</code>, and <code>StockQuantity (int)</code>. Write the SQL statements to complete these operations:
-            </p>
+            <p class="quiz-question">Challenge Set 2: Inventory Control</p>
+            <p class="text-small mb-2">Table: <code>Inventory</code> with columns <code>ItemID (int)</code>, <code>ItemName (varchar)</code>, <code>Price (int)</code>, <code>StockQuantity (int)</code>.</p>
             <ul class="step-list mt-2">
-                <li><strong>1. Create (Insert):</strong> Add a new item named 'Wireless Mouse' with an ItemID of 5, a price of 1200, and a stock quantity of 15.</li>
-                <li><strong>2. Read (Select):</strong> Write a query to list all details for items in the inventory that have a <code>StockQuantity</code> of less than 20.</li>
-                <li><strong>3. Update:</strong> Increase the stock quantity of the 'Wireless Mouse' (ItemID 5) by adding 10 more items (changing the total stock value to 25).</li>
-                <li><strong>4. Delete:</strong> Remove the item from the inventory completely where the ItemID is 5.</li>
+                <li><strong>Insert:</strong> Add 'Wireless Mouse', ItemID 5, Price 1200, Stock 15.</li>
+                <li><strong>Select:</strong> List items with <code>StockQuantity</code> less than 20.</li>
+                <li><strong>Update:</strong> Increase stock of ItemID 5 to 25.</li>
+                <li><strong>Delete:</strong> Remove item with ItemID 5.</li>
             </ul>
         </div>
 
         <details>
             <summary>View Challenge Solutions</summary>
             <div class="answer-key">
-                <p class="label">Expected Syntax Solutions for Verification:</p>
+                <p class="label">Solutions:</p>
 
-                <p class="quiz-question text-small">[Set 1 Solutions]</p>
-                <pre>-- 1. Create
+                <p class="quiz-question text-small">Set 1:</p>
+                <pre>-- Insert
 INSERT INTO Students (StudentID, FullName, Grade, Section) VALUES (101, 'Anil Sharma', 11, 'A');
--- 2. Read
+-- Select
 SELECT FullName, Section FROM Students WHERE Grade = 11;
--- 3. Update
+-- Update
 UPDATE Students SET Section = 'B' WHERE StudentID = 101;
--- 4. Delete
+-- Delete
 DELETE FROM Students WHERE StudentID = 101;</pre>
 
-                <p class="quiz-question text-small mt-4">[Set 2 Solutions]</p>
-                <pre>-- 1. Create
+                <p class="quiz-question text-small mt-4">Set 2:</p>
+                <pre>-- Insert
 INSERT INTO Inventory (ItemID, ItemName, Price, StockQuantity) VALUES (5, 'Wireless Mouse', 1200, 15);
--- 2. Read
+-- Select
 SELECT * FROM Inventory WHERE StockQuantity &lt; 20;
--- 3. Update
+-- Update
 UPDATE Inventory SET StockQuantity = 25 WHERE ItemID = 5;
--- 4. Delete
+-- Delete
 DELETE FROM Inventory WHERE ItemID = 5;</pre>
             </div>
         </details>
+    </div>
+
+    <!-- ASSESSMENT PREPARATION -->
+    <div class="section-title">
+        <span class="badge">Assessment Prep</span> Ready for the Interactive Assessment
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>What to Expect in the Assessment:</strong></p>
+        <ul class="step-list mt-2">
+            <li>You will complete 10 sequential tasks testing your SQL command knowledge</li>
+            <li>Tasks include writing SQL commands for database creation, table operations, and CRUD operations</li>
+            <li>You'll need to apply concepts from all three parts of this lab guide</li>
+            <li>The assessment tracks your completion time and progress</li>
+        </ul>
+
+        <p class="mt-4"><strong>Key Points to Remember:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Always end SQL statements with semicolons</li>
+            <li>Use WHERE clauses carefully in UPDATE and DELETE commands</li>
+            <li>Remember the difference between DROP (removes structure) and DELETE (removes data)</li>
+            <li>Practice the challenge tasks before attempting the assessment</li>
+        </ul>
+
+        <p class="mt-4"><strong>Practice Recommendations:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Complete all steps in Parts 1, 2, and 3 at least once</li>
+            <li>Try the Challenge section tasks without looking at solutions first</li>
+            <li>Review the Concept Overview section if you're unsure about any concept</li>
+            <li>Ensure your XAMPP MySQL server is running before starting the assessment</li>
+        </ul>
     </div>
 
     <!-- CHALLENGE QUIZ -->
@@ -512,15 +278,39 @@ DELETE FROM Inventory WHERE ItemID = 5;</pre>
         <details>
             <summary>Check Quiz Answers</summary>
             <div class="answer-key">
-                <p class="label">Verification Keys Check:</p>
+                <p class="label">Answers:</p>
                 <p>1-C, 2-B, 3-C.</p>
             </div>
         </details>
     </div>
 
+    <!-- FOOTER -->
     <div class="footer">
-        <p>&mdash; Thank you. See you in the next chapter &mdash;</p>
-        <p class="text-small">Ensure all laboratory terminal output tasks are executed under workspace supervision guidelines.</p>
+        <div class="instruction-box">
+            <p><strong>Completion Checklist:</strong></p>
+            <ul class="step-list mt-2">
+                <li>XAMPP installed and MySQL server running</li>
+                <li>Successfully created LibraryDB database</li>
+                <li>Created Books table with proper structure</li>
+                <li>Performed all CRUD operations (INSERT, SELECT, UPDATE, DELETE)</li>
+                <li>Modified table structure using ALTER command</li>
+                <li>Created and dropped an index</li>
+                <li>Cleaned up by dropping table and database</li>
+                <li>Completed at least one challenge task</li>
+                <li>Attempted the quiz questions</li>
+            </ul>
+        </div>
+
+        <p class="mt-4"><strong>Next Steps:</strong></p>
+        <ul class="step-list mt-2">
+            <li><a href="../assessments/sql_commands_lab_assessment.html">Proceed to the SQL Commands Lab Assessment</a> to test your knowledge</li>
+            <li>Explore advanced SQL topics like JOINs, subqueries, and aggregate functions</li>
+            <li>Practice with different database systems (PostgreSQL, SQL Server)</li>
+            <li>Learn about database normalization and design principles</li>
+        </ul>
+
+        <p class="mt-4 text-center">&mdash; Thank you. See you in the next chapter &mdash;</p>
+        <p class="text-small text-center">Ensure all laboratory terminal output tasks are executed under workspace supervision guidelines.</p>
     </div>
 </div>
 

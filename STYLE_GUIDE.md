@@ -30,6 +30,7 @@ A floating, blurred navigation bar fixed to the top with auto-hide logic.
 - **Active Class**: Use `class="active"` on the `<a>` tag of the current page.
 
 ```html
+
 <div class="nav-trigger"></div>
 <nav class="glass-nav visible">
     <a href="index.html" class="nav-logo">
@@ -38,8 +39,8 @@ A floating, blurred navigation bar fixed to the top with auto-hide logic.
     </a>
     <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="CSXI.html" class="active">Grade XI</a></li>
-        <li><a href="CSXII.html">Grade XII</a></li>
+        <li><a href="main_pages/CSXI.html" class="active">Grade XI</a></li>
+        <li><a href="main_pages/CSXII.html">Grade XII</a></li>
     </ul>
 </nav>
 

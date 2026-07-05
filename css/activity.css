@@ -169,6 +169,28 @@ pre code {
     font-weight: inherit;
 }
 
+.highlight {
+    background: linear-gradient(120deg, #ffd700 0%, #ffed4e 100%);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #1a202c;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.formula {
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+    display: inline-block;
+    margin: 0.25rem 0;
+}
+
 .quiz-container {
     background: #fff;
     border: 1px solid var(--border-color);
