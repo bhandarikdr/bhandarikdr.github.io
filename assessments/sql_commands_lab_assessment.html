@@ -425,11 +425,15 @@
             <p>Please log your student configuration profile metrics below before beginning the query terminal platform pipeline.</p>
             <div class="form-group">
                 <label for="student-name">Full Student Name:</label>
-                <input type="text" id="student-name" placeholder="e.g., Ram Kumar Shrestha" required>
+                <input type="text" id="student-name" placeholder="e.g., Rishi Tiwari" required>
             </div>
             <div class="form-group">
                 <label for="student-roll">Roll Number / ID:</label>
-                <input type="text" id="student-roll" placeholder="e.g., Pinna_4_102" required>
+                <input type="text" id="student-roll" placeholder="e.g., 106" required>
+            </div>
+            <div class="form-group">
+                <label for="student-room">Room Number:</label>
+                <input type="text" id="student-room" placeholder="e.g., 4" required>
             </div>
             <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="initializeStudentData()">Enter Sandbox 🚀</button>
         </div>
@@ -497,7 +501,8 @@
             <p style="font-size:0.85rem; background-color:#f1f5f9; padding:10px; border-radius:6px; color:#475569;" id="form-submit-status">
                 📤 Synchronizing workspace payload data variables cleanly to professor's assessment panel sheets ledger sheet...
             </p>
-            <button class="btn btn-primary" style="margin-top:15px;" onclick="closeCelebration()">Restart Laboratory Activity</button>
+            <p style="font-size:0.85rem; color:#64748b; margin-top:10px;" id="timing-summary"></p>
+            <p style="font-size:0.85rem; color:#94a3b8; margin-top:15px;">✅ Your lab session is complete. You may now close this tab.</p>
         </div>
     </div>
 
@@ -519,7 +524,8 @@
         // Engine State Variables Setup
         let currentStepIndex = 0;
         let completedSteps = new Set();
-        let studentProfile = { name: "", roll: "" };
+        let studentProfile = { name: "", roll: "", room: "" };
+        let sessionTiming = { startTime: null, endTime: null };
         let dbState = {
             hasDatabase: false,
             dbName: null,
@@ -529,25 +535,41 @@
             rows: []
         };
 
+        // Formats a Date as time-only, e.g. "3:45:12 PM"
+        function formatClockTime(date) {
+            return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+        }
+
+        // Formats a millisecond duration as human readable, e.g. "4m 32s"
+        function formatElapsed(ms) {
+            const totalSeconds = Math.max(0, Math.round(ms / 1000));
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+        }
+
         function initializeStudentData() {
             const nameInp = document.getElementById("student-name").value.trim();
             const rollInp = document.getElementById("student-roll").value.trim();
+            const roomInp = document.getElementById("student-room").value.trim();
             
-            if (!nameInp || !rollInp) {
+            if (!nameInp || !rollInp || !roomInp) {
                 alert("Please fully fill out your profile metadata details to register inside the ledger database sheet context.");
                 return;
             }
 
             studentProfile.name = nameInp;
             studentProfile.roll = rollInp;
+            studentProfile.room = roomInp;
+            sessionTiming.startTime = new Date();
 
             // Adjust workspace view layouts headers
             const metaBox = document.getElementById("student-meta-box");
-            metaBox.innerText = `Student: ${studentProfile.name} [ID: ${studentProfile.roll}]`;
+            metaBox.innerText = `Student: ${studentProfile.name} [ID: ${studentProfile.roll} / Room: ${studentProfile.room}]`;
             metaBox.style.display = "block";
             
             document.getElementById("init-modal").style.display = "none";
-            logConsole(`Profile initialized: ${studentProfile.name} (Roll: ${studentProfile.roll}). Ready to monitor execution variables.`, "success");
+            logConsole(`Profile initialized: ${studentProfile.name} (Roll: ${studentProfile.roll} / Room: ${studentProfile.room}). Ready to monitor execution variables.`, "success");
             
             renderSidebar();
             updateWorkspaceUI();
@@ -668,14 +690,25 @@
 
         // Asynchronous Background Google Forms Submission Channel Engine Logic
         function triggerFormSync() {
-            const formActionUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc_FiDd1yUP-BdBLjaAVWLd8f6eIePgCYWa5P9GDABZ5lyzTA/formResponse";
+            sessionTiming.endTime = new Date();
+            const elapsedMs = sessionTiming.endTime - sessionTiming.startTime;
+
+            const formActionUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse";
             
             // Build key value pairs corresponding parameters map
             const formData = new FormData();
-            formData.append("entry.727804376", studentProfile.name);
-            formData.append("entry.818860312", studentProfile.roll);
-            formData.append("entry.598150453", `${completedSteps.size}/${tasks.length}`);
-            formData.append("entry.1180693153", "Completed successfully");
+            formData.append("entry.1920009954", "SQL Commands Lab Activity");
+            formData.append("entry.2015805623", studentProfile.name);
+            formData.append("entry.419024899", studentProfile.roll);
+            formData.append("entry.2086415032", `XII - ${studentProfile.room}`);
+            formData.append("entry.1234471729", `Completed successfully - ${completedSteps.size}/${tasks.length}`);
+            formData.append("entry.597147393", formatClockTime(sessionTiming.startTime));
+            formData.append("entry.1045529602", formatClockTime(sessionTiming.endTime));
+            formData.append("entry.2019742758", formatElapsed(elapsedMs));
+
+            document.getElementById("timing-summary").innerText = `⏱ Started: ${formatClockTime(sessionTiming.startTime)} · Finished: ${formatClockTime(sessionTiming.endTime)} · Time Taken: ${formatElapsed(elapsedMs)}`;
+
+            //https://docs.google.com/forms/d/e/1FAIpQLSc_FiDd1yUP-BdBLjaAVWLd8f6eIePgCYWa5P9GDABZ5lyzTA/viewform?usp=pp_url&entry.727804376=SQL+Commands+Lab&entry.818860312=Rishi+Tiwari&entry.598150453=50&entry.1180693153=6&entry.719411321=Completed+-+10/10
 
             fetch(formActionUrl, {
                 method: "POST",
@@ -744,21 +777,6 @@
             }
         }
 
-        function closeCelebration() {
-            document.getElementById("finish-modal").style.display = "none";
-            completedSteps.clear();
-            currentStepIndex = 0;
-            dbState = { hasDatabase: false, dbName: null, hasTable: false, hasIndex: false, columns: [], rows: [] };
-            
-            // Re-show initialization view to wipe old metrics cleanly
-            document.getElementById("student-name").value = "";
-            document.getElementById("student-roll").value = "";
-            document.getElementById("init-modal").style.display = "flex";
-            document.getElementById("form-submit-status").innerHTML = "📤 Synchronizing workspace payload data variables cleanly to professor's assessment panel sheets ledger sheet...";
-            
-            renderSidebar();
-            updateWorkspaceUI();
-        }
     </script>
 </body>
 </html>

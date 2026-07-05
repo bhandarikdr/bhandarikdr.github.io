@@ -1,0 +1,204 @@
+/*
+ * Activity Core Stylesheet
+ * Used for Lab Activity Guides / Manuals
+ */
+
+:root {
+    /* Colors */
+    --primary-color: #2c3e50;
+    --secondary-color: #18bc9c;
+    --accent-color: #3498db;
+    --bg-body: #f4f7f9;
+    --bg-card: #ffffff;
+    --bg-light: #f8fafc;
+    --border-color: #e2e8f0;
+
+    /* Text Colors */
+    --text-main: #2d3748;
+    --text-muted: #4a5568;
+    --text-light: #718096;
+
+    /* Code Colors */
+    --code-bg: #1a202c;
+    --code-text: #e2e8f0;
+    --code-accent: #f6ad55;
+
+    /* Spacing */
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2.5rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: var(--text-main);
+    background-color: var(--bg-body);
+    padding: var(--spacing-xl) var(--spacing-md);
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    padding: var(--spacing-xl);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+header {
+    text-align: center;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+header h1 {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+header .subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+header .grade-badge {
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+    color: var(--secondary-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.section-title {
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 700;
+}
+
+.badge {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+}
+
+.instruction-box {
+    background: var(--bg-light);
+    border-left: 4px solid var(--accent-color);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.instruction-box.objective {
+    border-left-color: var(--secondary-color);
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-left-width: 4px;
+}
+
+.step-list {
+    margin-left: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.step-list li {
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+}
+
+.step-list strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+pre {
+    background-color: var(--code-bg);
+    color: var(--code-text);
+    padding: 1.25rem;
+    border-radius: 8px;
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    line-height: 1.5;
+    border: 1px solid #2d3748;
+}
+
+code {
+    font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    background: #edf2f7;
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    color: #d53f8c;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+.quiz-container {
+    background: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: var(--spacing-lg);
+    margin-top: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.quiz-card {
+    background: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.quiz-question {
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--primary-color);
+    font-size: 1.05rem;
+}
+
+.quiz-options {
+    list-style-type: none;
+    padding-left: 0.5rem;
+}
+
+.quiz-options li {
+    padding: 0.5rem 0;
+    color: var(--text-muted);
+}

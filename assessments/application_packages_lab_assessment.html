@@ -10,11 +10,11 @@
             --primary-light: #3b82f6;
             --secondary: #0f766e;
             --success: #16a34a;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
+            --bg-dark: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
             --accent: #d97706;
         }
 
@@ -37,16 +37,31 @@
             margin: 0 auto;
         }
 
-        /* Setup Screen Style */
-        #auth-panel {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
+        /* Setup & Completion Modal Overlay Style */
+        .celebration-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .celebration-card {
+            background-color: var(--bg-card);
             padding: 2.5rem;
-            max-width: 500px;
-            margin: 5rem auto;
+            border-radius: 16px;
             text-align: center;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+            animation: popIn 0.3s ease-out;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         h1, h2, h3 {
@@ -69,9 +84,9 @@
         input[type="text"], select, textarea {
             width: 100%;
             padding: 0.75rem;
-            background: var(--bg-dark);
+            background: #ffffff;
             border: 1px solid var(--border);
-            color: white;
+            color: var(--text-main);
             border-radius: 6px;
             font-size: 1rem;
         }
@@ -135,6 +150,7 @@
             padding: 2rem;
             margin-bottom: 2.5rem;
             position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .canvas-badge {
@@ -142,6 +158,7 @@
             top: 1rem;
             right: 1rem;
             background: var(--secondary);
+            color: white;
             font-size: 0.75rem;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
@@ -243,8 +260,8 @@
             gap: 1.5rem;
             height: 200px;
             padding-top: 2rem;
-            border-bottom: 2px solid white;
-            border-left: 2px solid white;
+            border-bottom: 2px solid var(--border);
+            border-left: 2px solid var(--border);
             width: 80%;
             margin: 0 auto;
         }
@@ -281,7 +298,7 @@
         }
 
         .drop-zone {
-            background: rgba(255,255,255,0.05);
+            background: rgba(15, 23, 42, 0.03);
             border: 2px dashed var(--border);
             min-height: 80px;
             border-radius: 8px;
@@ -298,36 +315,34 @@
         .verified { color: var(--success); }
         .unverified { color: var(--accent); }
 
-        #final-screen {
-            display: none;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 3rem;
-            text-align: center;
-            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
 
-    <div id="auth-panel">
-        <h2>Einstein Academy Lab Portal</h2>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Grade XI - Application Packages Interactive Assessment</p>
-        
-        <div class="form-group">
-            <label for="student-name">Student Full Name *</label>
-            <input type="text" id="student-name" placeholder="e.g., Rishi Tiwari">
+    <div class="celebration-overlay" id="auth-panel">
+        <div class="celebration-card">
+            <h2>📝 Einstein Academy Lab Portal</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Grade XI - Application Packages Interactive Assessment</p>
+
+            <div class="form-group">
+                <label for="student-name">Student Full Name *</label>
+                <input type="text" id="student-name" placeholder="e.g., Rishi Tiwari">
+            </div>
+
+            <div class="form-group">
+                <label for="student-roll">Roll Number *</label>
+                <input type="text" id="student-roll" placeholder="e.g., 63">
+            </div>
+
+            <div class="form-group">
+                <label for="student-room">Room Number *</label>
+                <input type="text" id="student-room" placeholder="e.g., 7">
+            </div>
+
+            <button type="button" onclick="initializeCanvas()">Enter Laboratory Canvas 🚀</button>
         </div>
-        
-        <div class="form-group">
-            <label for="student-roll">Roll Number / Key ID *</label>
-            <input type="text" id="student-roll" placeholder="e.g., Pinna_7_057">
-        </div>
-        
-        <button type="button" onclick="initializeCanvas()">Enter Laboratory Canvas</button>
     </div>
 
     <div id="main-canvas">
@@ -478,7 +493,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
                 <strong>Objective:</strong> Complete the conditional grading block criteria logic. Set the passing marks conditional criteria check threshold value (e.g., <code>&gt;32</code>).
             </div>
             <div class="workspace">
-                <div style="font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem; color: #60a5fa;">
+                <div style="font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem; color: #1d4ed8;">
                     =IF(AND(English><input type="number" id="c7-marks" style="width:60px; padding:2px;" oninput="checkCanvas7()">, ...), "PASS", "FAILED")
                 </div>
                 <div id="v7" class="verification-text unverified">Status: Conditional parameters blank</div>
@@ -544,14 +559,20 @@ Today the computere has affected all aspects of people's lives. Future holograph
         </div>
     </div>
 
-    <div id="final-screen">
-        <h1 style="color: var(--success);">Lab Record Logged Successfully</h1>
-        <p style="color: var(--text-muted); margin-bottom: 2rem;">Your activity responses and completion status metrics have been captured and transmitted to the centralized evaluation store.</p>
-        <div style="background: var(--bg-dark); padding: 2rem; border-radius: 8px; display: inline-block; text-align: left; min-width: 300px; border:1px solid var(--border);">
-            <p><strong>Student Name:</strong> <span id="lbl-name" style="color:var(--primary-light);"></span></p>
-            <p><strong>Roll Identifier:</strong> <span id="lbl-roll" style="color:var(--primary-light);"></span></p>
-            <p><strong>Final Validated Score:</strong> <span id="lbl-score" style="color:var(--accent); font-weight:bold;"></span></p>
-            <p><strong>Status Payload:</strong> <span id="lbl-status" style="color:var(--success);">Completed</span></p>
+    <div class="celebration-overlay" id="final-screen" style="display: none;">
+        <div class="celebration-card">
+            <h2 style="color: var(--success);">🎉 Lab Record Logged Successfully!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;" id="lbl-title"></p>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Your activity responses and completion status metrics have been captured and transmitted to the centralized evaluation store.</p>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; text-align: left; border:1px solid var(--border);">
+                <p><strong>Student Name:</strong> <span id="lbl-name" style="color:var(--primary-light);"></span></p>
+                <p><strong>Roll Identifier:</strong> <span id="lbl-roll" style="color:var(--primary-light);"></span></p>
+                <p><strong>Room Number:</strong> <span id="lbl-room" style="color:var(--primary-light);"></span></p>
+                <p><strong>Final Validated Score:</strong> <span id="lbl-score" style="color:var(--accent); font-weight:bold;"></span></p>
+                <p><strong>Status Payload:</strong> <span id="lbl-status" style="color:var(--success);">Completed</span></p>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:15px;" id="lbl-timing"></p>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:20px;">✅ Your lab session is complete. You may now close this tab.</p>
         </div>
     </div>
 
@@ -560,16 +581,34 @@ Today the computere has affected all aspects of people's lives. Future holograph
 <script>
     let studentName = "";
     let studentRoll = "";
+    let studentRoom = "";
+    let sessionTiming = { startTime: null, endTime: null };
     let canvasScores = { c1:0, c2:0, c3:0, c4:0, c5:0, c6:0, c7:0, c8:0, c9:0, c10:0 };
+
+    // Formats a Date as time-only, e.g. "3:45:12 PM"
+    function formatClockTime(date) {
+        return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+    }
+
+    // Formats a millisecond duration as human readable, e.g. "4m 32s"
+    function formatElapsed(ms) {
+        const totalSeconds = Math.max(0, Math.round(ms / 1000));
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+    }
 
     function initializeCanvas() {
         studentName = document.getElementById('student-name').value.trim();
         studentRoll = document.getElementById('student-roll').value.trim();
+        studentRoom = document.getElementById('student-room').value.trim();
 
-        if(!studentName || !studentRoll) {
+        if(!studentName || !studentRoll || !studentRoom) {
             alert("Error: All Identification validation fields require mandatory configuration input parameters.");
             return;
         }
+
+        sessionTiming.startTime = new Date();
 
         document.getElementById('auth-panel').style.display = 'none';
         document.getElementById('main-canvas').style.display = 'block';
@@ -695,16 +734,29 @@ Today the computere has affected all aspects of people's lives. Future holograph
     function dispatchPayload() {
         const finalScore = calculateTotalScore();
         const scoreString = `${finalScore}/10`;
-        const statusString = "Completed";
+        const topicTitle = "Application Packages Interactive Assessment";
+
+        sessionTiming.endTime = new Date();
+        const elapsedMs = sessionTiming.endTime - sessionTiming.startTime;
+        const startTimeString = formatClockTime(sessionTiming.startTime);
+        const endTimeString = formatClockTime(sessionTiming.endTime);
+        const elapsedString = formatElapsed(elapsedMs);
 
         // Generate Target Encoded Submission Endpoint Url
         const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse";
         
         const params = new URLSearchParams();
-        params.append("entry.727804376", studentName);
-        params.append("entry.818860312", studentRoll);
-        params.append("entry.598150453", scoreString);
-        params.append("entry.1180693153", statusString);
+        params.append("entry.1920009954", topicTitle);
+        params.append("entry.2015805623", studentName);
+        params.append("entry.419024899", studentRoll);
+        params.append("entry.2086415032", `XI - ${studentRoom}`);
+        params.append("entry.1234471729", scoreString);
+        params.append("entry.597147393", startTimeString);
+        params.append("entry.1045529602", endTimeString);
+        params.append("entry.2019742758", elapsedString);
+        
+
+        /* https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/viewform?usp=pp_url&entry.176645060=Application+Packages+Lab&entry.727804376=Krishna+Bahadur&entry.818860312=63&entry.1180693153=4&entry.598150453=10/10 */
 
         const targetSubmissionUrl = `${formBaseUrl}?${params.toString()}`;
 
@@ -716,13 +768,15 @@ Today the computere has affected all aspects of people's lives. Future holograph
 
         // Update View Display Interfaces Screen Layer
         setTimeout(() => {
+            document.getElementById('lbl-title').innerText = topicTitle;
             document.getElementById('lbl-name').innerText = studentName;
             document.getElementById('lbl-roll').innerText = studentRoll;
+            document.getElementById('lbl-room').innerText = studentRoom;
             document.getElementById('lbl-score').innerText = scoreString;
-            document.getElementById('lbl-status').innerText = statusString;
+            document.getElementById('lbl-timing').innerText = `⏱ Started: ${startTimeString} · Finished: ${endTimeString} · Time Taken: ${elapsedString}`;
             
             document.getElementById('main-canvas').style.display = 'none';
-            document.getElementById('final-screen').style.display = 'block';
+            document.getElementById('final-screen').style.display = 'flex';
         }, 600);
     }
 </script>

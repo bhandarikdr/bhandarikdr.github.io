@@ -1,0 +1,159 @@
+/*
+ * Canvas Core Stylesheet
+ * Used for Interactive Lab Assessments
+ */
+
+:root {
+    --bg-primary: #f8fafc;
+    --panel-bg: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --accent-color: #4f46e5;
+    --accent-hover: #4338ca;
+    --success: #10b981;
+    --error: #ef4444;
+    --border-color: #e2e8f0;
+    --primary-light: #3b82f6;
+    --secondary: #0f766e;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* Modal Framework Overlay Rules (Entry/Exit Screens) */
+.celebration-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(15, 23, 42, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.celebration-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
+    animation: popIn 0.3s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.celebration-card h2 { color: var(--accent-color); margin-bottom: 12px; }
+.celebration-card p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; }
+
+/* Forms & Inputs */
+.form-group {
+    text-align: left;
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 0.75rem;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.error-msg {
+    color: var(--error);
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: none;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-align: center;
+    width: 100%;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-secondary {
+    background-color: #e2e8f0;
+    color: #475569;
+}
+
+.btn-secondary:hover {
+    background-color: #cbd5e1;
+}
+
+/* Progress Bar */
+.progress-container {
+    background: var(--border-color);
+    height: 10px;
+    border-radius: 5px;
+    width: 100%;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: var(--success);
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+/* Utility Classes */
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+.mt-4 { margin-top: 1rem; }
+.mb-4 { margin-bottom: 1rem; }
