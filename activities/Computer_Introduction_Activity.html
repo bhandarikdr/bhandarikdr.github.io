@@ -16,6 +16,9 @@
         .footer-checklist { background: #edf2f9; border-radius: 2rem; padding: 1.5rem 2rem; margin: 2.5rem 0 1rem; }
         .footer-checklist ul { columns: 2; list-style: none; padding: 0; }
         .footer-checklist li::before { content: "✓ "; color: #1e7e34; font-weight: 700; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: #fff; }
+        th, td { border: 1px solid var(--border-color); padding: 0.5rem 0.75rem; text-align: left; }
+        th { background: var(--primary-color); color: white; font-weight: 600; }
         @media (max-width: 600px) { header h1 { font-size: 1.8rem; } .section-title { font-size: 1.4rem; } }
     </style>
 </head>
@@ -170,7 +173,7 @@
     <section>
         <div class="section-title"><span class="badge">📝 Assessment prep</span> Key points to remember</div>
         <div class="instruction-box objective">
-            <ul style="margin: 0;">
+            <ul style="margin: 0; list-style: none; padding-left: 0;">
                 <li>🔹 <strong>IPO</strong> cycle – Input, Process, Output.</li>
                 <li>🔹 <strong>Five generations</strong>: technology, speed, language, memory, I/O devices.</li>
                 <li>🔹 <strong>Storage</strong> – bit (0/1) → byte → KB (1024 bytes) → MB → GB → TB → PB → EB → ZB → YB.</li>
