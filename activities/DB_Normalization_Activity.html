@@ -91,11 +91,11 @@
 
   <div class="instruction-box">
     <p><strong>Normalization</strong> means organizing a table to avoid repeated data and problems. We use three simple steps:</p>
-    <ul class="step-list">
+    <ol class="step-list">
       <li><strong>1NF</strong> -- No lists inside cells -- each cell has one value.</li>
       <li><strong>2NF</strong> -- Everything depends on the whole key -- no partial dependency.</li>
       <li><strong>3NF</strong> -- No chain dependencies -- no column depends on another non-key column.</li>
-    </ul>
+    </ol>
 
     <div class="info-note">
       <strong>Example:</strong> A table with <em>Student_ID, Project_Name, Supervisor, Supervisor_Phone</em>. The phone depends on the supervisor, not on the student. We need to split it.

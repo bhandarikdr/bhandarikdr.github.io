@@ -100,6 +100,19 @@ A flex container holding info and a status badge (badge is top-aligned via `alig
 
 All hover states fill solid with white text.
 
+### Button Labeling Convention
+
+Choose the CSS class and label text based on the activity type:
+
+| Type | CSS Class | Color | Button Label Pattern | Example |
+| :--- | :--- | :--- | :--- | :--- |
+| **Theory / worksheet** | `.activity` | Amber | `🧪 <Name>` + `📝 Test` | `🧪 CS Intro  📝 Test` |
+| **Hands-on lab** | `.lab-guide` | Green | `🧪 <Name> Lab` + `📝 Lab Test` | `🧪 SQL Lab  📝 Lab Test` |
+
+- Lab activities involve practical/software work (coding, database queries, web design).
+- Theory activities are conceptual comprehension worksheets (no hands-on software execution).
+- The activity name should be short and meaningful (e.g., "CS Intro", "Sys & IO", "App Packages", "Web Tech I").
+
 ### Organizing Multiple Buttons
 
 When a unit has several reference/activity/assessment links, group related items using `.action-group` and separate distinct groups with `.action-separator` (`|`).

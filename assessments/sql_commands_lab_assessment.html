@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive SQL Learning Canvas</title>
+    <title>Assessment: SQL Commands</title>
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
         /* Specific Layout for SQL Lab Workspace */
@@ -319,33 +319,26 @@
 
     <div class="celebration-overlay" id="init-modal">
         <div class="celebration-card">
-            <h2>📝 Lab Authentication</h2>
-            <p>Please log your student configuration profile metrics below before beginning the query terminal platform pipeline.</p>
-            <div class="form-group">
-                <label for="student-name">Full Student Name:</label>
-                <input type="text" id="student-name" placeholder="e.g., Rishi Tiwari" required>
-            </div>
-            <div class="form-group">
-                <label for="student-roll">Roll Number / ID:</label>
-                <input type="text" id="student-roll" placeholder="e.g., 106" required>
-            </div>
-            <div class="form-group">
-                <label for="student-room">Room Number:</label>
-                <input type="text" id="student-room" placeholder="e.g., 4" required>
-            </div>
-            <button class="btn btn-primary" style="width: 100%; padding: 12px;" onclick="initializeStudentData()">Enter Sandbox 🚀</button>
+            <h2>📋 Assessment Entry</h2>
+            <p style="color: #334155; margin-bottom: 1.5rem;">SQL Commands · Grade XII</p>
+            <input type="text" id="student-name" placeholder="Full Name" required>
+            <input type="text" id="student-roll" placeholder="Roll Number" required>
+            <input type="text" id="student-room" placeholder="Room Number" required>
+            <div id="entryError" class="error-msg" style="display:none;">All fields required.</div>
+            <button class="btn-primary" id="enterBtn">Start Assessment</button>
+            <p style="font-size: 0.75rem; color: #64748b; margin-top: 1rem;">10 interactive tasks · timing tracked</p>
         </div>
     </div>
 
     <header>
-        <h1>💻 SQL Lab Activity Canvas <span class="badge">Grade XII Practical</span></h1>
+        <h1>💻 Assessment: SQL Commands <span class="badge">Grade XII</span></h1>
         <div id="student-meta-box" class="student-info-display" style="display:none;">Loading metadata...</div>
         <div id="overall-progress" style="font-weight: 500;">Progress: 0/10 Completed</div>
     </header>
 
     <div class="main-container">
         <aside class="sidebar">
-            <div class="sidebar-header">Lab Exercise Roadmap</div>
+            <div class="sidebar-header">Lab Tasks</div>
             <ul class="task-list" id="task-list-container">
                 </ul>
         </aside>
@@ -362,7 +355,7 @@
                         </div>
                     </div>
                     <div class="editor-container">
-                        <textarea id="sql-input" placeholder="-- Type your SQL statement here matching the current active step...&#10;e.g., CREATE DATABASE LibraryDB;" autocomplete="off" spellcheck="false"></textarea>
+                        <textarea id="sql-input" placeholder="-- Type your SQL statement here...&#10;e.g., CREATE DATABASE LibraryDB;" autocomplete="off" spellcheck="false"></textarea>
                     </div>
                     <div class="action-bar">
                         <button class="btn btn-secondary" onclick="resetCurrentStep()">Reset Step</button>
@@ -386,7 +379,7 @@
             <div class="panel" style="height: 180px; min-height: 180px;">
                 <div class="panel-header">System Terminal Message Output Console</div>
                 <div class="console" id="console-log">
-                    <div class="console-line console-info">Simulator environment initialized. Waiting for profile configuration mapping...</div>
+                    <div class="console-line console-info">Simulator ready. Waiting for student login...</div>
                 </div>
             </div>
         </main>
@@ -394,32 +387,46 @@
 
     <div class="celebration-overlay" id="finish-modal" style="display: none;">
         <div class="celebration-card">
-            <h2>🎉 Excellent Achievement!</h2>
-            <p>You have successfully constructed the structural architecture, manipulated the records database safely using CRUD operations, and optimized indices according to Grade XII guidelines!</p>
-            <p style="font-size:0.85rem; background-color:#f1f5f9; padding:10px; border-radius:6px; color:#475569;" id="form-submit-status">
-                📤 Synchronizing workspace payload data variables cleanly to professor's assessment panel sheets ledger sheet...
-            </p>
-            <p style="font-size:0.85rem; color:#64748b; margin-top:10px;" id="timing-summary"></p>
-            <p style="font-size:0.85rem; color:#94a3b8; margin-top:15px;">✅ Your lab session is complete. You may now close this tab.</p>
+            <h2 style="color: var(--success);">🎉 Assessment Complete</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;" id="form-submit-status">Preparing summary...</p>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: left; border:1px solid var(--border);">
+                <p><strong>Student:</strong> <span id="report-name" style="color:var(--primary-light);"></span></p>
+                <p><strong>Roll:</strong> <span id="report-roll" style="color:var(--primary-light);"></span>  <strong>Room:</strong> <span id="report-room" style="color:var(--primary-light);"></span></p>
+                <p><strong>Status:</strong> <span id="report-status" style="color:var(--success); font-weight:bold;">Completed</span></p>
+            </div>
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom: 10px;" id="timing-summary"></p>
+            <p style="font-size:0.85rem; color:#64748b; margin-top: 20px;">You may close this page.</p>
         </div>
     </div>
 
     <script>
-        // Lab tasks specifications 
+        const SUBMISSION_CONFIG = {
+            url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+            fields: {
+                topic: "entry.1920009954",
+                name: "entry.2015805623",
+                roll: "entry.419024899",
+                room: "entry.2086415032",
+                status: "entry.1234471729",
+                startTime: "entry.597147393",
+                endTime: "entry.1045529602",
+                elapsedTime: "entry.2019742758"
+            }
+        };
+
         const tasks = [
-            { id: 1, title: "1. Create Database", desc: "Initialize a new database engine namespace named LibraryDB.", pattern: /CREATE\s+DATABASE\s+LibraryDB/i, hint: "CREATE DATABASE LibraryDB;" },
-            { id: 2, title: "2. Select Database", desc: "Ensure your commands focus perspective matches the system environment by executing inside LibraryDB context.", pattern: /USE\s+LibraryDB/i, hint: "USE LibraryDB;" },
-            { id: 3, title: "3. Create Table Architecture", desc: "Build a physical entity named Books containing BookID (int), Title, Author (varchar), and PublishedYear (int).", pattern: /CREATE\s+TABLE\s+Books/i, hint: "CREATE TABLE Books ( BookID int, Title varchar(255), Author varchar(255), PublishedYear int );" },
-            { id: 4, title: "4. Insert Data (Create)", desc: "Add a sample record book structure (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925).", pattern: /INSERT\s+INTO\s+Books/i, hint: "INSERT INTO Books (BookID, Title, Author, PublishedYear) VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);" },
-            { id: 5, title: "5. Read Data Rows", desc: "Query and pull structured columns or complete matrix maps safely outwards using standard selector syntax.", pattern: /SELECT\s+.*\s+FROM\s+Books/i, hint: "SELECT * FROM Books;" },
-            { id: 6, title: "6. Update Record (Update)", desc: "Modify the PublishedYear condition target field parameter safely to 1926 targeting BookID 1.", pattern: /UPDATE\s+Books\s+SET/i, hint: "UPDATE Books SET PublishedYear = 1926 WHERE BookID = 1;" },
-            { id: 7, title: "7. Delete Row (Delete)", desc: "Purge the entry row associated where key constraints map explicitly to BookID 1 values.", pattern: /DELETE\s+FROM\s+Books/i, hint: "DELETE FROM Books WHERE BookID = 1;" },
-            { id: 8, title: "8. Alter Table Layout", desc: "Expand data schemas safely by appending an auxiliary textual parameter field variable called Genre.", pattern: /ALTER\s+TABLE\s+Books\s+ADD/i, hint: "ALTER TABLE Books ADD Genre varchar(100);" },
-            { id: 9, title: "9. Index Optimization Management", desc: "Build performance acceleration trees indexing structural elements specifically over Title components.", pattern: /CREATE\s+INDEX\s+idx_title/i, hint: "CREATE INDEX idx_title ON Books(Title);" },
-            { id: 10, title: "10. Environment Teardown Cleanup", desc: "Clean your virtual environment by cleanly dropping the database constraint frame safely.", pattern: /DROP\s+DATABASE\s+LibraryDB/i, hint: "DROP DATABASE LibraryDB;" }
+            { id: 1, title: "1. Create Database", desc: "Create a database named LibraryDB.", pattern: /CREATE\s+DATABASE\s+LibraryDB/i, hint: "CREATE DATABASE LibraryDB;" },
+            { id: 2, title: "2. Select Database", desc: "Switch to the LibraryDB database.", pattern: /USE\s+LibraryDB/i, hint: "USE LibraryDB;" },
+            { id: 3, title: "3. Create Table", desc: "Create a Books table with BookID, Title, Author, PublishedYear.", pattern: /CREATE\s+TABLE\s+Books/i, hint: "CREATE TABLE Books ( BookID int, Title varchar(255), Author varchar(255), PublishedYear int );" },
+            { id: 4, title: "4. Insert Data", desc: "Insert a record: (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925).", pattern: /INSERT\s+INTO\s+Books/i, hint: "INSERT INTO Books VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);" },
+            { id: 5, title: "5. Read Data", desc: "Query all rows from the Books table.", pattern: /SELECT\s+.*\s+FROM\s+Books/i, hint: "SELECT * FROM Books;" },
+            { id: 6, title: "6. Update Record", desc: "Update PublishedYear to 1926 for BookID 1.", pattern: /UPDATE\s+Books\s+SET/i, hint: "UPDATE Books SET PublishedYear = 1926 WHERE BookID = 1;" },
+            { id: 7, title: "7. Delete Row", desc: "Delete the row where BookID = 1.", pattern: /DELETE\s+FROM\s+Books/i, hint: "DELETE FROM Books WHERE BookID = 1;" },
+            { id: 8, title: "8. Alter Table", desc: "Add a Genre column to Books.", pattern: /ALTER\s+TABLE\s+Books\s+ADD/i, hint: "ALTER TABLE Books ADD Genre varchar(100);" },
+            { id: 9, title: "9. Create Index", desc: "Create an index on the Title column named idx_title.", pattern: /CREATE\s+INDEX\s+idx_title/i, hint: "CREATE INDEX idx_title ON Books(Title);" },
+            { id: 10, title: "10. Drop Database", desc: "Drop the LibraryDB database.", pattern: /DROP\s+DATABASE\s+LibraryDB/i, hint: "DROP DATABASE LibraryDB;" }
         ];
 
-        // Engine State Variables Setup
         let currentStepIndex = 0;
         let completedSteps = new Set();
         let studentProfile = { name: "", roll: "", room: "" };
@@ -433,12 +440,10 @@
             rows: []
         };
 
-        // Formats a Date as time-only, e.g. "3:45:12 PM"
         function formatClockTime(date) {
             return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
         }
 
-        // Formats a millisecond duration as human readable, e.g. "4m 32s"
         function formatElapsed(ms) {
             const totalSeconds = Math.max(0, Math.round(ms / 1000));
             const minutes = Math.floor(totalSeconds / 60);
@@ -446,38 +451,37 @@
             return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
         }
 
-        function initializeStudentData() {
-            const nameInp = document.getElementById("student-name").value.trim();
-            const rollInp = document.getElementById("student-roll").value.trim();
-            const roomInp = document.getElementById("student-room").value.trim();
-            
-            if (!nameInp || !rollInp || !roomInp) {
-                alert("Please fully fill out your profile metadata details to register inside the ledger database sheet context.");
+        document.getElementById('enterBtn').addEventListener('click', function() {
+            const name = document.getElementById('student-name').value.trim();
+            const roll = document.getElementById('student-roll').value.trim();
+            const room = document.getElementById('student-room').value.trim();
+
+            if (!name || !roll || !room) {
+                document.getElementById('entryError').style.display = 'block';
                 return;
             }
+            document.getElementById('entryError').style.display = 'none';
 
-            studentProfile.name = nameInp;
-            studentProfile.roll = rollInp;
-            studentProfile.room = roomInp;
+            studentProfile.name = name;
+            studentProfile.roll = roll;
+            studentProfile.room = room;
             sessionTiming.startTime = new Date();
 
-            // Adjust workspace view layouts headers
-            const metaBox = document.getElementById("student-meta-box");
-            metaBox.innerText = `Student: ${studentProfile.name} [ID: ${studentProfile.roll} / Room: ${studentProfile.room}]`;
-            metaBox.style.display = "block";
-            
-            document.getElementById("init-modal").style.display = "none";
-            logConsole(`Profile initialized: ${studentProfile.name} (Roll: ${studentProfile.roll} / Room: ${studentProfile.room}). Ready to monitor execution variables.`, "success");
-            
+            const metaBox = document.getElementById('student-meta-box');
+            metaBox.innerText = `Student: ${studentProfile.name} [Roll: ${studentProfile.roll} / Room: ${studentProfile.room}]`;
+            metaBox.style.display = 'block';
+
+            document.getElementById('init-modal').style.display = 'none';
+            logConsole(`Session started: ${studentProfile.name}`, 'success');
             renderSidebar();
             updateWorkspaceUI();
-        }
+        });
 
         function renderSidebar() {
-            const container = document.getElementById("task-list-container");
-            container.innerHTML = "";
+            const container = document.getElementById('task-list-container');
+            container.innerHTML = '';
             tasks.forEach((task, index) => {
-                const li = document.createElement("li");
+                const li = document.createElement('li');
                 li.className = `task-item ${index === currentStepIndex ? 'active' : ''} ${completedSteps.has(index) ? 'completed' : ''}`;
                 li.onclick = () => selectStep(index);
                 li.innerHTML = `
@@ -489,26 +493,26 @@
                 `;
                 container.appendChild(li);
             });
-            document.getElementById("overall-progress").innerText = `Progress: ${completedSteps.size}/${tasks.length} Completed`;
+            document.getElementById('overall-progress').innerText = `Progress: ${completedSteps.size}/${tasks.length} Completed`;
         }
 
         function selectStep(index) {
             currentStepIndex = index;
             renderSidebar();
-            logConsole(`Switched workspace context tracking row to item task step action #${index + 1}`, "info");
-            document.getElementById("sql-input").value = "";
-            document.getElementById("sql-input").placeholder = `-- Mission Hint Guide Try typing:\n${tasks[index].hint}`;
+            logConsole(`Switched to task #${index + 1}`, 'info');
+            document.getElementById('sql-input').value = '';
+            document.getElementById('sql-input').placeholder = `-- Hint:\n${tasks[index].hint}`;
         }
 
         function insertHelper(text) {
-            const txtarea = document.getElementById("sql-input");
+            const txtarea = document.getElementById('sql-input');
             txtarea.value += text;
             txtarea.focus();
         }
 
-        function logConsole(msg, type = "info") {
-            const consoleLog = document.getElementById("console-log");
-            const div = document.createElement("div");
+        function logConsole(msg, type = 'info') {
+            const consoleLog = document.getElementById('console-log');
+            const div = document.createElement('div');
             div.className = `console-line console-${type}`;
             div.innerText = `> ${msg}`;
             consoleLog.appendChild(div);
@@ -516,66 +520,66 @@
         }
 
         function resetCurrentStep() {
-            document.getElementById("sql-input").value = "";
-            logConsole("Cleared editor canvas environment space values.", "info");
+            document.getElementById('sql-input').value = '';
+            logConsole('Editor cleared.', 'info');
         }
 
         function executeSQL() {
             if(!studentProfile.name) return;
-            const query = document.getElementById("sql-input").value.trim();
+            const query = document.getElementById('sql-input').value.trim();
             if (!query) {
-                logConsole("Error: Cannot execute empty workspace request syntax.", "error");
+                logConsole('Error: Query is empty.', 'error');
                 return;
             }
 
             const currentTask = tasks[currentStepIndex];
-            
+
             if (currentTask.pattern.test(query)) {
                 processStateChange(currentStepIndex);
                 completedSteps.add(currentStepIndex);
-                logConsole(`Success: Statement verified successfully! Task criteria satisfied perfectly.`, "success");
-                
+                logConsole('Correct! Task completed.', 'success');
+
                 if (currentStepIndex < tasks.length - 1) {
                     currentStepIndex++;
                 } else if (completedSteps.size === tasks.length) {
                     triggerFormSync();
-                    document.getElementById("finish-modal").style.display = "flex";
+                    document.getElementById('finish-modal').style.display = 'flex';
                 }
                 renderSidebar();
                 updateWorkspaceUI();
-                document.getElementById("sql-input").value = "";
+                document.getElementById('sql-input').value = '';
             } else {
-                logConsole(`Engine Validation Error: Syntactic value matches structure rules incorrectly for objective level criteria definitions. Check syntax instruction guide configuration settings map constraints.`, "error");
+                logConsole('Error: Query does not match the expected pattern for this task.', 'error');
             }
         }
 
         function processStateChange(stepIndex) {
             switch(stepIndex) {
-                case 0: 
+                case 0:
                     dbState.hasDatabase = true;
-                    dbState.dbName = "LibraryDB";
+                    dbState.dbName = 'LibraryDB';
                     break;
-                case 2: 
+                case 2:
                     dbState.hasTable = true;
-                    dbState.columns = ["BookID", "Title", "Author", "PublishedYear"];
+                    dbState.columns = ['BookID', 'Title', 'Author', 'PublishedYear'];
                     dbState.rows = [];
                     break;
-                case 3: 
-                    dbState.rows = [{ BookID: 1, Title: "The Great Gatsby", Author: "F. Scott Fitzgerald", PublishedYear: 1925 }];
+                case 3:
+                    dbState.rows = [{ BookID: 1, Title: 'The Great Gatsby', Author: 'F. Scott Fitzgerald', PublishedYear: 1925 }];
                     break;
-                case 5: 
+                case 5:
                     if (dbState.rows.length > 0) dbState.rows[0].PublishedYear = 1926;
                     break;
-                case 6: 
+                case 6:
                     dbState.rows = [];
                     break;
-                case 7: 
-                    if (dbState.hasTable && !dbState.columns.includes("Genre")) dbState.columns.push("Genre");
+                case 7:
+                    if (dbState.hasTable && !dbState.columns.includes('Genre')) dbState.columns.push('Genre');
                     break;
-                case 8: 
+                case 8:
                     dbState.hasIndex = true;
                     break;
-                case 9: 
+                case 9:
                     dbState.hasDatabase = false;
                     dbState.dbName = null;
                     dbState.hasTable = false;
@@ -586,68 +590,60 @@
             }
         }
 
-        // Asynchronous Background Google Forms Submission Channel Engine Logic
         function triggerFormSync() {
             sessionTiming.endTime = new Date();
             const elapsedMs = sessionTiming.endTime - sessionTiming.startTime;
+            const statusString = `Completed - ${completedSteps.size}/${tasks.length}`;
 
-            const formActionUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse";
-            
-            // Build key value pairs corresponding parameters map
             const formData = new FormData();
-            formData.append("entry.1920009954", "SQL Commands Lab Activity");
-            formData.append("entry.2015805623", studentProfile.name);
-            formData.append("entry.419024899", studentProfile.roll);
-            formData.append("entry.2086415032", `XII - ${studentProfile.room}`);
-            formData.append("entry.1234471729", `Completed successfully - ${completedSteps.size}/${tasks.length}`);
-            formData.append("entry.597147393", formatClockTime(sessionTiming.startTime));
-            formData.append("entry.1045529602", formatClockTime(sessionTiming.endTime));
-            formData.append("entry.2019742758", formatElapsed(elapsedMs));
+            formData.append(SUBMISSION_CONFIG.fields.topic, 'SQL Commands');
+            formData.append(SUBMISSION_CONFIG.fields.name, studentProfile.name);
+            formData.append(SUBMISSION_CONFIG.fields.roll, studentProfile.roll);
+            formData.append(SUBMISSION_CONFIG.fields.room, `XII - ${studentProfile.room}`);
+            formData.append(SUBMISSION_CONFIG.fields.status, statusString);
+            formData.append(SUBMISSION_CONFIG.fields.startTime, formatClockTime(sessionTiming.startTime));
+            formData.append(SUBMISSION_CONFIG.fields.endTime, formatClockTime(sessionTiming.endTime));
+            formData.append(SUBMISSION_CONFIG.fields.elapsedTime, formatElapsed(elapsedMs));
 
-            document.getElementById("timing-summary").innerText = `⏱ Started: ${formatClockTime(sessionTiming.startTime)} · Finished: ${formatClockTime(sessionTiming.endTime)} · Time Taken: ${formatElapsed(elapsedMs)}`;
+            document.getElementById('report-name').innerText = studentProfile.name;
+            document.getElementById('report-roll').innerText = studentProfile.roll;
+            document.getElementById('report-room').innerText = studentProfile.room;
+            document.getElementById('report-status').innerText = statusString;
+            document.getElementById('timing-summary').innerText = `⏱ Started: ${formatClockTime(sessionTiming.startTime)} · Finished: ${formatClockTime(sessionTiming.endTime)} · Time Taken: ${formatElapsed(elapsedMs)}`;
+            document.getElementById('form-submit-status').innerHTML = '✅ Submitted successfully.';
 
-            //https://docs.google.com/forms/d/e/1FAIpQLSc_FiDd1yUP-BdBLjaAVWLd8f6eIePgCYWa5P9GDABZ5lyzTA/viewform?usp=pp_url&entry.727804376=SQL+Commands+Lab&entry.818860312=Rishi+Tiwari&entry.598150453=50&entry.1180693153=6&entry.719411321=Completed+-+10/10
-
-            fetch(formActionUrl, {
-                method: "POST",
-                mode: "no-cors",
+            fetch(SUBMISSION_CONFIG.url, {
+                method: 'POST',
+                mode: 'no-cors',
                 body: formData
-            })
-            .then(() => {
-                document.getElementById("form-submit-status").innerHTML = "✅ **Telemetry Verified Successfully!** Practical logs recorded perfectly within backend sheet logs matrix layout data views.";
-                logConsole("Background metric sync engine completed payload update safely.", "success");
-            })
-            .catch((err) => {
-                console.error(err);
-                document.getElementById("form-submit-status").innerText = "⚠️ Network interface sync failed, but activity is complete. Alert teacher to manually log performance markers.";
-            });
+            }).catch(() => {});
         }
 
         function updateWorkspaceUI() {
-            const dbIndicator = document.getElementById("status-db");
-            const tblIndicator = document.getElementById("status-table");
-            const content = document.getElementById("canvas-content");
+            const dbIndicator = document.getElementById('status-db');
+            const tblIndicator = document.getElementById('status-table');
+            const content = document.getElementById('canvas-content');
 
             if (dbState.hasDatabase) {
                 dbIndicator.innerText = `Database: ${dbState.dbName}`;
-                dbIndicator.classList.add("active-status");
+                dbIndicator.classList.add('active-status');
             } else {
-                dbIndicator.innerText = "Database: None Selected";
-                dbIndicator.classList.remove("active-status");
+                dbIndicator.innerText = 'Database: None';
+                dbIndicator.classList.remove('active-status');
             }
 
             if (dbState.hasTable) {
-                tblIndicator.innerText = `Table: Books (${dbState.columns.length} Columns)`;
-                tblIndicator.classList.add("active-status");
+                tblIndicator.innerText = `Table: Books (${dbState.columns.length} cols)`;
+                tblIndicator.classList.add('active-status');
             } else {
-                tblIndicator.innerText = "Table: Missing Structure";
-                tblIndicator.classList.remove("active-status");
+                tblIndicator.innerText = 'Table: Not created';
+                tblIndicator.classList.remove('active-status');
             }
 
             if (!dbState.hasDatabase) {
-                content.innerHTML = `<div class="empty-state">No Active Server Connection Setup Detected. Initialize Database Environment Context Engine to Render Relational Model Components.</div>`;
+                content.innerHTML = `<div class="empty-state">No database selected. Run CREATE DATABASE or USE first.</div>`;
             } else if (!dbState.hasTable) {
-                content.innerHTML = `<div class="empty-state">Database Environment Loaded [LibraryDB]. No Physical Matrix Storage Layout Structure Assigned Yet. Type CREATE TABLE statements inside console fields workspace.</div>`;
+                content.innerHTML = `<div class="empty-state">Database loaded. Run CREATE TABLE to define a table.</div>`;
             } else {
                 let tableHtml = `<table class="grid-table"><thead><tr>`;
                 dbState.columns.forEach(col => {
@@ -656,7 +652,7 @@
                 tableHtml += `</tr></thead><tbody>`;
 
                 if (dbState.rows.length === 0) {
-                    tableHtml += `<tr><td colspan="${dbState.columns.length}" style="text-align:center; color:#94a3b8; padding:20px;">Empty Set (No structural data entity rows available matching constraints inside the engine view configuration pipeline parameters).</td></tr>`;
+                    tableHtml += `<tr><td colspan="${dbState.columns.length}" style="text-align:center; color:#94a3b8; padding:20px;">No rows returned.</td></tr>`;
                 } else {
                     dbState.rows.forEach(row => {
                         tableHtml += `<tr>`;
@@ -667,14 +663,13 @@
                     });
                 }
                 tableHtml += `</tbody></table>`;
-                
+
                 if (dbState.hasIndex) {
-                    tableHtml += `<div style="margin-top:10px; font-size:0.75rem; color:var(--success); font-weight:600;">⚡ B-Tree Performance Optimization Index Attached: [idx_title on Column (Title)]</div>`;
+                    tableHtml += `<div style="margin-top:10px; font-size:0.75rem; color:var(--success); font-weight:600;">⚡ Index: idx_title on Title</div>`;
                 }
                 content.innerHTML = tableHtml;
             }
         }
-
     </script>
 </body>
 </html>

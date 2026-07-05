@@ -20,8 +20,8 @@ Use this prompt (paste it as-is into a new conversation, then attach the resourc
 ## ESTABLISHED STANDARDS
 
 ### 1. Externalized Core CSS
-Core framework styles (modals, forms, buttons, progress bars) are provided in a shared file: `/css/canvas.css`.
-- The generated HTML file must link to it: `<link rel="stylesheet" href="../css/canvas.css">`.
+Core framework styles (modals, forms, buttons, progress bars) are provided in a shared file: `/css/assessment.css`.
+- The generated HTML file must link to it: `<link rel="stylesheet" href="../css/assessment.css">`.
 - Subject-specific layout or activity-unique styles should still be placed in an inline `<style>` block.
 
 ### 2. Light mode only

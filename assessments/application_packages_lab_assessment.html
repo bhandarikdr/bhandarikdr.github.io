@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Learning Canvas: Application Packages</title>
+    <title>Assessment: Application Packages</title>
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
         :root {
@@ -33,7 +33,7 @@
             margin-bottom: 1rem;
         }
 
-        /* Main Canvas Layout */
+        /* Main Task Layout */
         #main-canvas {
             display: none;
         }
@@ -227,32 +227,21 @@
 
     <div class="celebration-overlay" id="auth-panel">
         <div class="celebration-card">
-            <h2>📝 Einstein Academy Lab Portal</h2>
-            <p style="color: var(--text-muted); margin-bottom: 2rem;">Grade XI - Application Packages Interactive Assessment</p>
-
-            <div class="form-group">
-                <label for="student-name">Student Full Name *</label>
-                <input type="text" id="student-name" placeholder="e.g., Rishi Tiwari">
-            </div>
-
-            <div class="form-group">
-                <label for="student-roll">Roll Number *</label>
-                <input type="text" id="student-roll" placeholder="e.g., 63">
-            </div>
-
-            <div class="form-group">
-                <label for="student-room">Room Number *</label>
-                <input type="text" id="student-room" placeholder="e.g., 7">
-            </div>
-
-            <button type="button" class="btn btn-primary" onclick="initializeCanvas()">Enter Laboratory Canvas 🚀</button>
+            <h2>📋 Assessment Entry</h2>
+            <p style="color: #334155; margin-bottom: 1.5rem;">Application Packages · Grade XI</p>
+            <input type="text" id="student-name" placeholder="Full Name" required>
+            <input type="text" id="student-roll" placeholder="Roll Number" required>
+            <input type="text" id="student-room" placeholder="Room Number" required>
+            <div id="entryError" class="error-msg" style="display:none;">All fields required.</div>
+            <button class="btn-primary" id="enterBtn">Start Assessment</button>
+            <p style="font-size: 0.75rem; color: #64748b; margin-top: 1rem;">10 interactive tasks · timing tracked</p>
         </div>
     </div>
 
     <div id="main-canvas">
         <header>
             <div>
-                <h2 style="margin:0;">Application Packages Workbench</h2>
+                <h2 style="margin:0;">Assessment: Application Packages</h2>
                 <p id="user-display" style="color:var(--text-muted); font-size:0.9rem;"></p>
             </div>
             <div style="text-align: right;">
@@ -266,8 +255,8 @@
         </div>
 
         <div class="canvas-card" id="c1">
-            <span class="canvas-badge">Canvas 1</span>
-            <h3>Word Processing: Clipboard & History Controls</h3>
+            <span class="canvas-badge">Task 1</span>
+            <h3>Word Processing: Spell Check</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Locate the spelling errors in the document space below. Correct the typos <strong>"computere"</strong> to <strong>"computer"</strong>, and <strong>"storrage"</strong> to <strong>"storage"</strong> to complete this validation block.
             </div>
@@ -279,13 +268,13 @@
                 <div id="text-sim" class="text-editor-sim" contenteditable="true" oninput="checkCanvas1()">
 Today the computere has affected all aspects of people's lives. Future holographic video storrage devices will scale up to 1000 terabytes.
                 </div>
-                <div id="v1" class="verification-text unverified">Status: Awaiting Spellcheck Correction</div>
+                <div id="v1" class="verification-text unverified">❌ Correct the typos</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c2">
-            <span class="canvas-badge">Canvas 2</span>
-            <h3>Document Designing: Interactive Announcement Layout</h3>
+            <span class="canvas-badge">Task 2</span>
+            <h3>Document Designing: Header Setup</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Update the target Academic Institution name to match exactly <strong>"Einstein Academy"</strong> within the parameters input field below.
             </div>
@@ -298,13 +287,13 @@ Today the computere has affected all aspects of people's lives. Future holograph
                     <h2 id="c2-preview-title" style="text-align: center; color: #1e3a8a; text-decoration: underline;">Einstein College</h2>
                     <p style="text-align: center; font-style: italic; color: #334155;">Announces admission open for BBS Programs</p>
                 </div>
-                <div id="v2" class="verification-text unverified">Status: Title string must be exact</div>
+                <div id="v2" class="verification-text unverified">❌ Must be 'Einstein Academy'</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c3">
-            <span class="canvas-badge">Canvas 3</span>
-            <h3>Professional Resume Template Mapper</h3>
+            <span class="canvas-badge">Task 3</span>
+            <h3>Resume Layout Mapping</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Assign the appropriate Structural Component mapping locations to construct a standardized two-column layout.
             </div>
@@ -327,13 +316,13 @@ Today the computere has affected all aspects of people's lives. Future holograph
                         </select>
                     </div>
                 </div>
-                <div id="v3" class="verification-text unverified">Status: Elements unmapped</div>
+                <div id="v3" class="verification-text unverified">❌ Match left/right columns</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c4">
-            <span class="canvas-badge">Canvas 4</span>
-            <h3>Advanced Report Style Defs & Hierarchy</h3>
+            <span class="canvas-badge">Task 4</span>
+            <h3>Report Style & Hierarchy</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Match the corporate document style layout criteria according to nesting rules outlined in the design guide.
             </div>
@@ -356,13 +345,13 @@ Today the computere has affected all aspects of people's lives. Future holograph
                         <option value="3">3</option>
                     </select>
                 </div>
-                <div id="v4" class="verification-text unverified">Status: Alignment criteria unmet</div>
+                <div id="v4" class="verification-text unverified">❌ Check nesting rules</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c5">
-            <span class="canvas-badge">Canvas 5</span>
-            <h3>Spreadsheets: Dynamic Multiplier Engine</h3>
+            <span class="canvas-badge">Task 5</span>
+            <h3>Spreadsheet Formula</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Write the exact cell multiplication engine syntax parameter required for row line item 2 (Rate * Qty) using uppercase notation. (e.g. <code>=B2*C2</code>)
             </div>
@@ -371,13 +360,13 @@ Today the computere has affected all aspects of people's lives. Future holograph
                     <tr><th>Cell Row</th><th>A (Item)</th><th>B (Rate)</th><th>C (Qty)</th><th>D (Total)</th></tr>
                     <tr><td><strong>2</strong></td><td>Book</td><td>300</td><td>10</td><td><input type="text" id="c5-formula" class="formula-input" placeholder="Enter Formula" oninput="checkCanvas5()"></td></tr>
                 </table>
-                <div id="v5" class="verification-text unverified">Status: Operational syntax missing</div>
+                <div id="v5" class="verification-text unverified">❌ Enter =B2*C2</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c6">
-            <span class="canvas-badge">Canvas 6</span>
-            <h3>Spreadsheets: Commercial Bill Parameter Shifts</h3>
+            <span class="canvas-badge">Task 6</span>
+            <h3>Spreadsheet: VAT Calculation</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Change the active variable parameters tracking field to update the VAT rate from 13% to <strong>15%</strong> to verify dynamic evaluation changes.
             </div>
@@ -386,13 +375,13 @@ Today the computere has affected all aspects of people's lives. Future holograph
                     <label>Active Invoice VAT (%)</label>
                     <input type="number" id="c6-vat" value="13" oninput="checkCanvas6()">
                 </div>
-                <div id="v6" class="verification-text unverified">Status: Core recalculation required</div>
+                <div id="v6" class="verification-text unverified">❌ Set VAT to 15%</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c7">
-            <span class="canvas-badge">Canvas 7</span>
-            <h3>Spreadsheets: Advanced Logic Blocks (Student Grading)</h3>
+            <span class="canvas-badge">Task 7</span>
+            <h3>Spreadsheet: IF Logic</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Complete the conditional grading block criteria logic. Set the passing marks conditional criteria check threshold value (e.g., <code>&gt;32</code>).
             </div>
@@ -400,13 +389,13 @@ Today the computere has affected all aspects of people's lives. Future holograph
                 <div style="font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem; color: #1d4ed8;">
                     =IF(AND(English><input type="number" id="c7-marks" style="width:60px; padding:2px;" oninput="checkCanvas7()">, ...), "PASS", "FAILED")
                 </div>
-                <div id="v7" class="verification-text unverified">Status: Conditional parameters blank or incorrect</div>
+                <div id="v7" class="verification-text unverified">❌ Enter passing marks (32)</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c8">
-            <span class="canvas-badge">Canvas 8</span>
-            <h3>Spreadsheets: Data Visualization Engine</h3>
+            <span class="canvas-badge">Task 8</span>
+            <h3>Spreadsheet: Chart Values</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Enter data coordinate metrics matching category "Alpha" series metric count value to <strong>5</strong> to scale visualization rendering columns.
             </div>
@@ -419,13 +408,13 @@ Today the computere has affected all aspects of people's lives. Future holograph
                     <div id="c8-bar" class="chart-bar" style="height: 20%;" data-val="1"></div>
                 </div>
                 <div style="text-align:center; width:80%; margin:0 auto;"><p class="chart-label">Alpha Array</p></div>
-                <div id="v8" class="verification-text unverified">Status: Graph out of scaling specs</div>
+                <div id="v8" class="verification-text unverified">❌ Set Alpha to 5</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c9">
-            <span class="canvas-badge">Canvas 9</span>
-            <h3>Presentation Application: Framework Sequencer</h3>
+            <span class="canvas-badge">Task 9</span>
+            <h3>Presentation: Slide Layout</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Select the mandatory slide frame threshold capacity metrics window specified in the assignment manual parameters.
             </div>
@@ -437,13 +426,13 @@ Today the computere has affected all aspects of people's lives. Future holograph
                     <option value="correct">10 to 12 Slides Layout</option>
                     <option value="overflow">20+ Production Cards</option>
                 </select>
-                <div id="v9" class="verification-text unverified">Status: Framework metrics unverified</div>
+                <div id="v9" class="verification-text unverified">❌ Select 10-12 slides</div>
             </div>
         </div>
 
         <div class="canvas-card" id="c10">
-            <span class="canvas-badge">Canvas 10</span>
-            <h3>Database Management: Schema Primary Linker</h3>
+            <span class="canvas-badge">Task 10</span>
+            <h3>Database: Referential Integrity</h3>
             <div class="instructions">
                 <strong>Objective:</strong> Select the appropriate constraints condition rule mechanism modifier inside the relational database configurations framework window.
             </div>
@@ -454,47 +443,56 @@ Today the computere has affected all aspects of people's lives. Future holograph
                     <option value="cascade">Allow Cascade Volatile Schema Override</option>
                     <option value="integrity">Enforce Referential Integrity</option>
                 </select>
-                <div id="v10" class="verification-text unverified">Status: Schema integration integrity at risk</div>
+                <div id="v10" class="verification-text unverified">❌ Select referential integrity</div>
             </div>
         </div>
 
         <div style="margin: 3rem 0; text-align: center;">
-            <button type="button" id="submit-btn" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 2rem; width: auto;" onclick="dispatchPayload()">Lock Answers & Log Laboratory Records</button>
+            <button type="button" id="submit-btn" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 2rem; width: auto;" onclick="dispatchPayload()">Submit All & Finish</button>
         </div>
     </div>
 
-    <div class="celebration-overlay" id="final-screen" style="display: none;">
+        <div class="celebration-overlay" id="final-screen" style="display: none;">
         <div class="celebration-card">
-            <h2 style="color: var(--success);">🎉 Lab Record Logged Successfully!</h2>
+            <h2 style="color: var(--success);">🎉 Assessment Complete</h2>
             <p style="color: var(--text-muted); margin-bottom: 1.5rem;" id="lbl-title"></p>
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Your activity responses and completion status metrics have been captured and transmitted to the centralized evaluation store.</p>
             <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; text-align: left; border:1px solid var(--border);">
-                <p><strong>Student Name:</strong> <span id="lbl-name" style="color:var(--primary-light);"></span></p>
-                <p><strong>Roll Identifier:</strong> <span id="lbl-roll" style="color:var(--primary-light);"></span></p>
-                <p><strong>Room Number:</strong> <span id="lbl-room" style="color:var(--primary-light);"></span></p>
-                <p><strong>Final Validated Score:</strong> <span id="lbl-score" style="color:var(--accent); font-weight:bold;"></span></p>
-                <p><strong>Status Payload:</strong> <span id="lbl-status" style="color:var(--success);">Completed</span></p>
+                <p><strong>Student:</strong> <span id="lbl-name" style="color:var(--primary-light);"></span></p>
+                <p><strong>Roll:</strong> <span id="lbl-roll" style="color:var(--primary-light);"></span>  <strong>Room:</strong> <span id="lbl-room" style="color:var(--primary-light);"></span></p>
+                <p><strong>Score:</strong> <span id="lbl-score" style="color:var(--accent); font-weight:bold;"></span></p>
             </div>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:15px;" id="lbl-timing"></p>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-top:20px;">✅ Your lab session is complete. You may now close this tab.</p>
+            <p style="font-size:0.85rem; color:#64748b; margin-top:15px;" id="lbl-timing"></p>
+            <p style="font-size:0.85rem; color:#64748b; margin-top:20px;">You may close this page.</p>
         </div>
     </div>
 
 </div>
 
 <script>
+    const SUBMISSION_CONFIG = {
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+        fields: {
+            topic: "entry.1920009954",
+            name: "entry.2015805623",
+            roll: "entry.419024899",
+            room: "entry.2086415032",
+            status: "entry.1234471729",
+            startTime: "entry.597147393",
+            endTime: "entry.1045529602",
+            elapsedTime: "entry.2019742758"
+        }
+    };
+
     let studentName = "";
     let studentRoll = "";
     let studentRoom = "";
     let sessionTiming = { startTime: null, endTime: null };
     let canvasScores = { c1:0, c2:0, c3:0, c4:0, c5:0, c6:0, c7:0, c8:0, c9:0, c10:0 };
 
-    // Formats a Date as time-only, e.g. "3:45:12 PM"
     function formatClockTime(date) {
         return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
     }
 
-    // Formats a millisecond duration as human readable, e.g. "4m 32s"
     function formatElapsed(ms) {
         const totalSeconds = Math.max(0, Math.round(ms / 1000));
         const minutes = Math.floor(totalSeconds / 60);
@@ -502,23 +500,23 @@ Today the computere has affected all aspects of people's lives. Future holograph
         return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
     }
 
-    function initializeCanvas() {
+    document.getElementById('enterBtn').addEventListener('click', function() {
         studentName = document.getElementById('student-name').value.trim();
         studentRoll = document.getElementById('student-roll').value.trim();
         studentRoom = document.getElementById('student-room').value.trim();
 
-        if(!studentName || !studentRoll || !studentRoom) {
-            alert("Error: All Identification validation fields require mandatory configuration input parameters.");
+        if (!studentName || !studentRoll || !studentRoom) {
+            document.getElementById('entryError').style.display = 'block';
             return;
         }
+        document.getElementById('entryError').style.display = 'none';
 
         sessionTiming.startTime = new Date();
-
         document.getElementById('auth-panel').style.display = 'none';
         document.getElementById('main-canvas').style.display = 'block';
-        document.getElementById('user-display').innerText = `Active Workspace Session: ${studentName} (${studentRoll})`;
+        document.getElementById('user-display').innerText = `${studentName} (${studentRoll})`;
         updateGlobalState();
-    }
+    });
 
     function calculateTotalScore() {
         return Object.values(canvasScores).reduce((a, b) => a + b, 0);
@@ -534,20 +532,19 @@ Today the computere has affected all aspects of people's lives. Future holograph
     function updateStatusElement(id, isValid, pendingText, verifiedText) {
         const element = document.getElementById(id);
         if(isValid) {
-            element.innerText = "✓ Status: " + verifiedText;
+            element.innerText = "✅ " + verifiedText;
             element.className = "verification-text verified";
         } else {
-            element.innerText = "Status: " + pendingText;
+            element.innerText = "❌ " + pendingText;
             element.className = "verification-text unverified";
         }
     }
 
-    // Canvas Verification Check Rules Algorithms
     function checkCanvas1() {
         const text = document.getElementById('text-sim').innerText;
         const valid = !text.includes('computere') && !text.includes('storrage') && text.includes('computer') && text.includes('storage');
         canvasScores.c1 = valid ? 1 : 0;
-        updateStatusElement('v1', valid, "Awaiting Spellcheck Correction", "Text Corrections Successfully Applied");
+        updateStatusElement('v1', valid, "Correct the typos", "Spelling corrected");
         updateGlobalState();
     }
 
@@ -556,7 +553,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
         document.getElementById('c2-preview-title').innerText = val;
         const valid = (val === "Einstein Academy");
         canvasScores.c2 = valid ? 1 : 0;
-        updateStatusElement('v2', valid, "Title string must be exact", "Header Structural Context Validated");
+        updateStatusElement('v2', valid, "Must be 'Einstein Academy'", "Correct!");
         updateGlobalState();
     }
 
@@ -565,7 +562,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
         const s2 = document.getElementById('c3-s2').value;
         const valid = (s1 === "profile" && s2 === "exp");
         canvasScores.c3 = valid ? 1 : 0;
-        updateStatusElement('v3', valid, "Elements unmapped or layout asymmetrical", "Layout Component Architecture Balanced");
+        updateStatusElement('v3', valid, "Match left/right columns", "Layout matched");
         updateGlobalState();
     }
 
@@ -574,7 +571,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
         const q2 = document.getElementById('c4-q2').value;
         const valid = (q1 === "2" && q2 === "3");
         canvasScores.c4 = valid ? 1 : 0;
-        updateStatusElement('v4', valid, "Alignment criteria unmet", "Nesting Rules Criteria Compliant");
+        updateStatusElement('v4', valid, "Check nesting rules", "Nesting correct");
         updateGlobalState();
     }
 
@@ -582,7 +579,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
         const val = document.getElementById('c5-formula').value.trim();
         const valid = (val === "=B2*C2");
         canvasScores.c5 = valid ? 1 : 0;
-        updateStatusElement('v5', valid, "Operational syntax missing", "Row Target Evaluation Engine Complete");
+        updateStatusElement('v5', valid, "Enter =B2*C2", "Formula correct");
         updateGlobalState();
     }
 
@@ -590,7 +587,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
         const val = document.getElementById('c6-vat').value;
         const valid = (parseInt(val) === 15);
         canvasScores.c6 = valid ? 1 : 0;
-        updateStatusElement('v6', valid, "Core recalculation required", "Relational Parameters Dynamically Shifted");
+        updateStatusElement('v6', valid, "Set VAT to 15%", "VAT updated");
         updateGlobalState();
     }
 
@@ -598,23 +595,23 @@ Today the computere has affected all aspects of people's lives. Future holograph
         const val = document.getElementById('c7-marks').value;
         const valid = (parseInt(val) === 32);
         canvasScores.c7 = valid ? 1 : 0;
-        updateStatusElement('v7', valid, "Conditional parameters blank or incorrect", "Logic Condition Validation Confirmed");
+        updateStatusElement('v7', valid, "Enter passing marks (32)", "Pass marks correct");
         updateGlobalState();
     }
 
     function checkCanvas8() {
         const val = document.getElementById('c8-val').value;
         const bar = document.getElementById('c8-bar');
-        
+
         let heightPercent = Math.min(Math.max(parseInt(val) * 20, 0), 100);
         if(isNaN(heightPercent)) heightPercent = 0;
-        
+
         bar.style.height = `${heightPercent}%`;
         bar.setAttribute('data-val', val);
 
         const valid = (parseInt(val) === 5);
         canvasScores.c8 = valid ? 1 : 0;
-        updateStatusElement('v8', valid, "Graph out of scaling specs", "Visual Metrics Render Matrix Aligned");
+        updateStatusElement('v8', valid, "Set Alpha to 5", "Chart value correct");
         updateGlobalState();
     }
 
@@ -622,7 +619,7 @@ Today the computere has affected all aspects of people's lives. Future holograph
         const val = document.getElementById('c9-select').value;
         const valid = (val === "correct");
         canvasScores.c9 = valid ? 1 : 0;
-        updateStatusElement('v9', valid, "Framework metrics unverified", "Deck Architecture Parameters Met");
+        updateStatusElement('v9', valid, "Select 10-12 slides", "Slide count correct");
         updateGlobalState();
     }
 
@@ -630,15 +627,14 @@ Today the computere has affected all aspects of people's lives. Future holograph
         const val = document.getElementById('c10-select').value;
         const valid = (val === "integrity");
         canvasScores.c10 = valid ? 1 : 0;
-        updateStatusElement('v10', valid, "Schema integration integrity at risk", "Referential Integrity Logic Locked");
+        updateStatusElement('v10', valid, "Select referential integrity", "Referential integrity set");
         updateGlobalState();
     }
 
-    // TRANSMISSION SUBMIT ACTION PIPELINE
     function dispatchPayload() {
         const finalScore = calculateTotalScore();
         const scoreString = `${finalScore}/10`;
-        const topicTitle = "Application Packages Interactive Assessment";
+        const topicTitle = "Application Packages";
 
         sessionTiming.endTime = new Date();
         const elapsedMs = sessionTiming.endTime - sessionTiming.startTime;
@@ -646,42 +642,27 @@ Today the computere has affected all aspects of people's lives. Future holograph
         const endTimeString = formatClockTime(sessionTiming.endTime);
         const elapsedString = formatElapsed(elapsedMs);
 
-        // Generate Target Encoded Submission Endpoint Url
-        const formBaseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse";
-        
-        const params = new URLSearchParams();
-        params.append("entry.1920009954", topicTitle);
-        params.append("entry.2015805623", studentName);
-        params.append("entry.419024899", studentRoll);
-        params.append("entry.2086415032", `XI - ${studentRoom}`);
-        params.append("entry.1234471729", scoreString);
-        params.append("entry.597147393", startTimeString);
-        params.append("entry.1045529602", endTimeString);
-        params.append("entry.2019742758", elapsedString);
-        
+        const formData = new FormData();
+        formData.append(SUBMISSION_CONFIG.fields.topic, topicTitle);
+        formData.append(SUBMISSION_CONFIG.fields.name, studentName);
+        formData.append(SUBMISSION_CONFIG.fields.roll, studentRoll);
+        formData.append(SUBMISSION_CONFIG.fields.room, `XI - ${studentRoom}`);
+        formData.append(SUBMISSION_CONFIG.fields.status, scoreString);
+        formData.append(SUBMISSION_CONFIG.fields.startTime, startTimeString);
+        formData.append(SUBMISSION_CONFIG.fields.endTime, endTimeString);
+        formData.append(SUBMISSION_CONFIG.fields.elapsedTime, elapsedString);
 
-        /* https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/viewform?usp=pp_url&entry.176645060=Application+Packages+Lab&entry.727804376=Krishna+Bahadur&entry.818860312=63&entry.1180693153=4&entry.598150453=10/10 */
+        fetch(SUBMISSION_CONFIG.url, { method: 'POST', mode: 'no-cors', body: formData }).catch(() => {});
 
-        const targetSubmissionUrl = `${formBaseUrl}?${params.toString()}`;
+        document.getElementById('lbl-title').innerText = topicTitle;
+        document.getElementById('lbl-name').innerText = studentName;
+        document.getElementById('lbl-roll').innerText = studentRoll;
+        document.getElementById('lbl-room').innerText = studentRoom;
+        document.getElementById('lbl-score').innerText = scoreString;
+        document.getElementById('lbl-timing').innerText = `⏱ Started: ${startTimeString} · Finished: ${endTimeString} · Time Taken: ${elapsedString}`;
 
-        // Create Hidden DOM Target Transmitters Frame Pipeline
-        const hiddenFrame = document.createElement('iframe');
-        hiddenFrame.style.display = 'none';
-        hiddenFrame.src = targetSubmissionUrl;
-        document.body.appendChild(hiddenFrame);
-
-        // Update View Display Interfaces Screen Layer
-        setTimeout(() => {
-            document.getElementById('lbl-title').innerText = topicTitle;
-            document.getElementById('lbl-name').innerText = studentName;
-            document.getElementById('lbl-roll').innerText = studentRoll;
-            document.getElementById('lbl-room').innerText = studentRoom;
-            document.getElementById('lbl-score').innerText = scoreString;
-            document.getElementById('lbl-timing').innerText = `⏱ Started: ${startTimeString} · Finished: ${endTimeString} · Time Taken: ${elapsedString}`;
-            
-            document.getElementById('main-canvas').style.display = 'none';
-            document.getElementById('final-screen').style.display = 'flex';
-        }, 600);
+        document.getElementById('main-canvas').style.display = 'none';
+        document.getElementById('final-screen').style.display = 'flex';
     }
 </script>
 </body>

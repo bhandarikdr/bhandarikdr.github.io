@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Technology-I Interactive Lab Canvas</title>
+    <title>Assessment: Web Technology I</title>
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
         .container {
@@ -116,35 +116,30 @@
             color: var(--secondary);
             margin-bottom: 20px;
         }
+
+        .verification-text {
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .verified { color: var(--success); }
+        .unverified { color: var(--accent); }
     </style>
 </head>
 <body>
 
 <div class="container">
 
-    <div id="auth-screen" class="celebration-overlay">
+    <div class="celebration-overlay" id="auth-screen">
         <div class="celebration-card">
-            <h2>📝 Web Technology-I Laboratory Canvas</h2>
-            <p style="color: #6b7280; margin-bottom: 30px;">Please authenticate with your student credentials to initialize the lab engine.</p>
-
-            <div class="auth-form">
-                <div class="form-group">
-                    <label for="student-name">Full Name</label>
-                    <input type="text" id="student-name" placeholder="e.g., Rishi Tiwari">
-                    <div id="name-error" class="error-msg">Name cannot be blank.</div>
-                </div>
-                <div class="form-group">
-                    <label for="student-roll">Roll Number</label>
-                    <input type="text" id="student-roll" placeholder="e.g., 57">
-                    <div id="roll-error" class="error-msg">Roll number cannot be blank.</div>
-                </div>
-                <div class="form-group">
-                    <label for="student-room">Room Number</label>
-                    <input type="text" id="student-room" placeholder="e.g., 4">
-                    <div id="room-error" class="error-msg">Room number cannot be blank.</div>
-                </div>
-                <button type="button" class="btn" onclick="startLab()">Initialize Lab Canvas 🚀</button>
-            </div>
+            <h2>📋 Assessment Entry</h2>
+            <p style="color: #334155; margin-bottom: 1.5rem;">Web Technology I · Grade XI</p>
+            <input type="text" id="student-name" placeholder="Full Name" required>
+            <input type="text" id="student-roll" placeholder="Roll Number" required>
+            <input type="text" id="student-room" placeholder="Room Number" required>
+            <div id="entryError" class="error-msg" style="display:none;">All fields required.</div>
+            <button class="btn-primary" id="enterBtn">Start Assessment</button>
+            <p style="font-size: 0.75rem; color: #64748b; margin-top: 1rem;">10 interactive tasks · timing tracked</p>
         </div>
     </div>
 
@@ -169,56 +164,63 @@
     </div>
 
     <div id="completion-screen" class="hidden celebration-overlay">
-        <div class="celebration-card completion-screen">
-            <div class="success-icon">🎉</div>
-            <h2>Lab Performance Transmission Complete</h2>
-            <p style="color: #4b5563; margin-bottom: 20px;">Your responses have been successfully compiled and posted to your evaluator's system.</p>
-
-            <div style="background: var(--light); padding: 20px; border-radius: 8px; margin: 0 auto 20px auto; text-align: left;">
-                <p><strong>Student Name:</strong> <span id="report-name"></span></p>
-                <p><strong>Roll Identifier:</strong> <span id="report-roll"></span></p>
-                <p><strong>Room Number:</strong> <span id="report-room"></span></p>
-                <p><strong>Calculated Metric Score:</strong> <span id="report-score"></span></p>
-                <p><strong>Manifest Transmission Status:</strong> <span style="color: var(--secondary); font-weight: bold;">Synchronized / Completed</span></p>
+        <div class="celebration-card">
+            <h2 style="color: var(--success);">🎉 Assessment Complete</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;" id="report-title"></p>
+            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: left; border:1px solid var(--border);">
+                <p><strong>Student:</strong> <span id="report-name" style="color:var(--primary-light);"></span></p>
+                <p><strong>Roll:</strong> <span id="report-roll" style="color:var(--primary-light);"></span>  <strong>Room:</strong> <span id="report-room" style="color:var(--primary-light);"></span></p>
+                <p><strong>Score:</strong> <span id="report-score" style="color:var(--accent); font-weight:bold;"></span></p>
             </div>
-            <p style="font-size:0.85rem; color:#6b7280; margin-bottom: 10px;" id="report-timing"></p>
-            <p style="font-size: 13px; color: #9ca3af; margin-bottom: 10px;">Data Endpoint: Google Forms Processing Unit</p>
-            <p style="font-size:0.85rem; color:#6b7280;">✅ Your lab session is complete. You may now close this tab.</p>
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom: 10px;" id="report-timing"></p>
+            <p style="font-size:0.85rem; color:#64748b; margin-top: 20px;">You may close this page.</p>
         </div>
     </div>
 
 </div>
 
-<iframe name="hidden_iframe" id="hidden_iframe" class="hidden"></iframe>
 
 <script>
-    // Embedded structured dataset curated accurately matching the uploaded Lab Manual content tracking core Web metrics
+    const SUBMISSION_CONFIG = {
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+        fields: {
+            topic: "entry.1920009954",
+            name: "entry.2015805623",
+            roll: "entry.419024899",
+            room: "entry.2086415032",
+            status: "entry.1234471729",
+            startTime: "entry.597147393",
+            endTime: "entry.1045529602",
+            elapsedTime: "entry.2019742758"
+        }
+    };
+
     const labTasks = [
         {
             id: 1,
-            title: "HTML Basic Structure Demonstration",
-            instruction: "Identify the correct structural tag pairing sequence initialization required for any standardized basic HTML document framework configuration.",
+            title: "HTML Basic Structure",
+            instruction: "Which tag order is correct for a basic HTML document?",
             type: "quiz",
             options: [
-                "&lt;html&gt; followed structurally by &lt;body&gt;",
-                "&lt;body&gt; wrapping around &lt;html&gt;",
-                "&lt;head&gt; before opening &lt;html&gt;",
-                "Omitting structural declarations entirely"
+                "&lt;html&gt; then &lt;body&gt;",
+                "&lt;body&gt; wrapping &lt;html&gt;",
+                "&lt;head&gt; before &lt;html&gt;",
+                "No structural declarations"
             ],
             correctIndex: 0
         },
         {
             id: 2,
-            title: "Hyperlinks & Image Embedding Mechanics",
-            instruction: "You need to reference an image from an absolute external uniform resource locator (URL) while defining precise dimensions (height and width). Write the target attributes required within an standard img element syntax.",
+            title: "Images with Dimensions",
+            instruction: "Write an &lt;img&gt; tag that references an external image and sets height &amp; width.",
             type: "code",
-            placeholder: '\n<img ',
+            placeholder: '<img ',
             validationKeyword: "src="
         },
         {
             id: 3,
-            title: "Formatting Elements, Line Breaks & Rules",
-            instruction: "Which combination of elements correctly provides a line break, a thematic breakdown line rule, and emphasis styling elements according to structural standards?",
+            title: "Formatting Elements",
+            instruction: "Which combination correctly provides a line break, a horizontal rule, and emphasis?",
             type: "quiz",
             options: [
                 "&lt;lb&gt;, &lt;line&gt;, &lt;bold&gt;",
@@ -230,76 +232,76 @@
         },
         {
             id: 4,
-            title: "Advanced Tabular Formulations",
-            instruction: "To configure an advanced tabular dataset structural framework layout matching strict requirement criteria where columns stretch across multiple structural rows, which structural parameter attributes are utilized?",
+            title: "Table Spanning",
+            instruction: "Which attributes let table cells span multiple rows or columns?",
             type: "quiz",
             options: [
-                "rowspan and colspan attributes on standard td/th cells",
-                "colextend and rowextend properties",
-                "Spanning configurations using inline CSS grid variables exclusively",
-                "Advanced layout structural &lt;table&gt; span parameters"
+                "rowspan and colspan",
+                "colextend and rowextend",
+                "CSS grid spanning",
+                "&lt;table&gt; span parameters"
             ],
             correctIndex: 0
         },
         {
             id: 5,
-            title: "Form Structures & Login Page Design",
-            instruction: "Draft standard structural attributes required within an interactive interactive login user authentication &lt;form&gt; interface declaration to process field queries safely.",
+            title: "Login Form",
+            instruction: "Write a &lt;form&gt; with username input. Use POST method and action='/login'.",
             type: "code",
             placeholder: '<form action="/login" method="POST">\n  <label>Username:</label>\n  <input type="text" name="user">\n</form>',
             validationKeyword: "form"
         },
         {
             id: 6,
-            title: "HTML5 Multimedia Assets Deployment",
-            instruction: "What standard native HTML5 element architecture definitions allow structural rendering of audio tracking resources directly inside a supporting contemporary web browser without exterior dependencies?",
+            title: "HTML5 Audio",
+            instruction: "Which element architecture plays audio natively in modern browsers?",
             type: "quiz",
             options: [
                 "&lt;embed src='sound.mp3'&gt;",
                 "&lt;object data='sound.mp3'&gt;",
-                "&lt;audio controls&gt; with internal nested &lt;source&gt; nodes",
+                "&lt;audio controls&gt; with &lt;source&gt;",
                 "&lt;media type='audio'&gt;"
             ],
             correctIndex: 2
         },
         {
             id: 7,
-            title: "HTML5 Graphical Architecture Canvas & SVG",
-            instruction: "Complete the following script line structure to successfully plot a primitive circle mapping path within an active vector space SVG configuration framework element blueprint.",
+            title: "SVG Circle",
+            instruction: "Write an SVG with a circle (cx=50, cy=50, r=40, fill='indigo').",
             type: "code",
             placeholder: '<svg width="100" height="100">\n  <circle cx="50" cy="50" r="40" fill="indigo" />\n</svg>',
             validationKeyword: "circle"
         },
         {
             id: 8,
-            title: "Cascading Layout Priorities & Classifications",
-            instruction: "According to the fundamental standard calculation matrices rules governing Cascading Style Order overrides execution contexts, which styling implementation pipeline context possesses maximum default priority precedence?",
+            title: "CSS Priority",
+            instruction: "Which style declaration has the highest priority?",
             type: "quiz",
             options: [
-                "External linked global CSS style dynamic assets sheet declarations",
-                "Internal localized embedded document &lt;style&gt; blocks",
-                "Inline structural design style declarations attached natively to element nodes",
-                "Browser system default configuration baseline parameters"
+                "External stylesheet",
+                "Internal &lt;style&gt; block",
+                "Inline style attribute",
+                "Browser defaults"
             ],
             correctIndex: 2
         },
         {
             id: 9,
-            title: "The Core CSS Box Model Infrastructure",
-            instruction: "What structural components accurately construct the spatial distribution structural rendering hierarchy layers of the formal CSS Box Model calculation design framework standard?",
+            title: "CSS Box Model",
+            instruction: "What are the four layers of the CSS Box Model?",
             type: "quiz",
             options: [
-                "Margin, Border, Padding, and Core Content Spatial Dimensions",
-                "Top, Bottom, Left, Right absolute coordination alignment grids",
-                "Width, Height, Background Color parameters mapping frames",
-                "Flexbox layout calculations parsing constraints dynamically"
+                "Margin, Border, Padding, Content",
+                "Top, Bottom, Left, Right",
+                "Width, Height, Background, Color",
+                "Flexbox grid coordinates"
             ],
             correctIndex: 0
         },
         {
             id: 10,
-            title: "External Styling Linkage Assembly",
-            instruction: "Demonstrate accurate syntax execution context structure to establish a secure linking layout channel pointing dynamically to an external application design asset called styles.css.",
+            title: "External CSS Link",
+            instruction: "Write a &lt;link&gt; tag to load an external stylesheet 'styles.css'.",
             type: "code",
             placeholder: '<link rel="stylesheet" href="styles.css">',
             validationKeyword: "href="
@@ -309,14 +311,13 @@
     let currentTaskIndex = 0;
     let studentData = { name: "", roll: "", room: "" };
     let sessionTiming = { startTime: null, endTime: null };
-    let responses = {}; // Stores user inputs/selections per task index
+    let responses = {};
+    let verified = {};
 
-    // Formats a Date as time-only, e.g. "3:45:12 PM"
     function formatClockTime(date) {
         return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
     }
 
-    // Formats a millisecond duration as human readable, e.g. "4m 32s"
     function formatElapsed(ms) {
         const totalSeconds = Math.max(0, Math.round(ms / 1000));
         const minutes = Math.floor(totalSeconds / 60);
@@ -324,115 +325,97 @@
         return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
     }
 
-    function startLab() {
-        const nameInput = document.getElementById("student-name").value.trim();
-        const rollInput = document.getElementById("student-roll").value.trim();
-        const roomInput = document.getElementById("student-room").value.trim();
-        
-        let valid = true;
-        
-        if (!nameInput) {
-            document.getElementById("name-error").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("name-error").style.display = "none";
-        }
-        
-        if (!rollInput) {
-            document.getElementById("roll-error").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("roll-error").style.display = "none";
-        }
+    document.getElementById('enterBtn').addEventListener('click', function() {
+        const name = document.getElementById('student-name').value.trim();
+        const roll = document.getElementById('student-roll').value.trim();
+        const room = document.getElementById('student-room').value.trim();
 
-        if (!roomInput) {
-            document.getElementById("room-error").style.display = "block";
-            valid = false;
-        } else {
-            document.getElementById("room-error").style.display = "none";
+        if (!name || !roll || !room) {
+            document.getElementById('entryError').style.display = 'block';
+            return;
         }
+        document.getElementById('entryError').style.display = 'none';
 
-        if (!valid) return;
-
-        studentData.name = nameInput;
-        studentData.roll = rollInput;
-        studentData.room = roomInput;
+        studentData.name = name;
+        studentData.roll = roll;
+        studentData.room = room;
         sessionTiming.startTime = new Date();
 
-        document.getElementById("display-student-name").innerText = studentData.name;
-        document.getElementById("display-student-roll").innerText = studentData.roll;
-        document.getElementById("display-student-room").innerText = studentData.room;
-        
-        document.getElementById("auth-screen").classList.add("hidden");
-        document.getElementById("lab-workspace").classList.remove("hidden");
-        
-        document.getElementById("total-tasks-num").innerText = labTasks.length;
-        
+        document.getElementById('display-student-name').innerText = studentData.name;
+        document.getElementById('display-student-roll').innerText = studentData.roll;
+        document.getElementById('display-student-room').innerText = studentData.room;
+
+        document.getElementById('auth-screen').style.display = 'none';
+        document.getElementById('lab-workspace').classList.remove('hidden');
+        document.getElementById('total-tasks-num').innerText = labTasks.length;
         renderTask();
-    }
+    });
 
     function renderTask() {
         const task = labTasks[currentTaskIndex];
-        const container = document.getElementById("task-container");
-        container.innerHTML = "";
+        const container = document.getElementById('task-container');
+        container.innerHTML = '';
 
-        // Update Nav Indicators
-        document.getElementById("current-task-num").innerText = currentTaskIndex + 1;
+        document.getElementById('current-task-num').innerText = currentTaskIndex + 1;
         const progressPercent = ((currentTaskIndex) / labTasks.length) * 100;
-        document.getElementById("lab-progress").style.width = `${progressPercent}%`;
+        document.getElementById('lab-progress').style.width = `${progressPercent}%`;
 
-        // Update Nav button visibility
-        if (currentTaskIndex === 0) {
-            document.getElementById("prev-btn").classList.add("hidden");
-        } else {
-            document.getElementById("prev-btn").classList.remove("hidden");
-        }
+        document.getElementById('prev-btn').classList.toggle('hidden', currentTaskIndex === 0);
 
         if (currentTaskIndex === labTasks.length - 1) {
-            document.getElementById("next-btn").innerText = "Transmit Diagnostics";
-            document.getElementById("next-btn").style.backgroundColor = "var(--secondary)";
+            document.getElementById('next-btn').innerText = 'Submit All & Finish';
+            document.getElementById('next-btn').style.backgroundColor = 'var(--secondary)';
         } else {
-            document.getElementById("next-btn").innerText = "Next Task";
-            document.getElementById("next-btn").style.backgroundColor = "var(--primary)";
+            document.getElementById('next-btn').innerText = 'Next Task';
+            document.getElementById('next-btn').style.backgroundColor = 'var(--primary)';
         }
 
-        // Render Card Layout
-        const card = document.createElement("div");
-        card.className = "task-card";
-        
-        const header = document.createElement("div");
-        header.className = "task-header";
-        header.innerText = `Lab Objective #${task.id}: ${task.title}`;
+        const card = document.createElement('div');
+        card.className = 'task-card';
+
+        const header = document.createElement('div');
+        header.className = 'task-header';
+        header.innerText = `Task ${task.id}: ${task.title}`;
         card.appendChild(header);
 
-        const instruction = document.createElement("p");
-        instruction.style.marginBottom = "15px";
+        const instruction = document.createElement('p');
+        instruction.style.marginBottom = '15px';
         instruction.innerText = task.instruction;
         card.appendChild(instruction);
 
-        if (task.type === "quiz") {
+        const statusEl = document.createElement('div');
+        statusEl.id = `status-${currentTaskIndex}`;
+        statusEl.className = 'verification-text unverified';
+        if (verified[currentTaskIndex] === true) {
+            statusEl.innerText = '✅ Correct';
+            statusEl.className = 'verification-text verified';
+        } else if (verified[currentTaskIndex] === false) {
+            statusEl.innerText = '❌ Incorrect';
+            statusEl.className = 'verification-text unverified';
+        } else {
+            statusEl.innerText = '❌ Not attempted';
+        }
+        card.appendChild(statusEl);
+
+        if (task.type === 'quiz') {
             task.options.forEach((opt, idx) => {
-                const optEl = document.createElement("div");
-                optEl.className = "quiz-option";
-                if (responses[currentTaskIndex] === idx) {
-                    optEl.className += " selected";
-                }
+                const optEl = document.createElement('div');
+                optEl.className = 'quiz-option' + (responses[currentTaskIndex] === idx ? ' selected' : '');
                 optEl.innerHTML = opt;
                 optEl.onclick = () => selectQuizOption(idx);
                 card.appendChild(optEl);
             });
-        } else if (task.type === "code") {
-            const codeContainer = document.createElement("div");
-            codeContainer.className = "code-container";
-            
-            const textarea = document.createElement("textarea");
-            textarea.className = "code-editor";
-            textarea.placeholder = "Enter standard HTML structure here...";
+        } else if (task.type === 'code') {
+            const codeContainer = document.createElement('div');
+            codeContainer.className = 'code-container';
+            const textarea = document.createElement('textarea');
+            textarea.className = 'code-editor';
+            textarea.placeholder = 'Write your HTML here...';
             textarea.value = responses[currentTaskIndex] !== undefined ? responses[currentTaskIndex] : task.placeholder;
             textarea.oninput = (e) => {
                 responses[currentTaskIndex] = e.target.value;
+                checkCodeTask(currentTaskIndex);
             };
-            
             codeContainer.appendChild(textarea);
             card.appendChild(codeContainer);
         }
@@ -442,16 +425,43 @@
 
     function selectQuizOption(idx) {
         responses[currentTaskIndex] = idx;
-        const options = document.querySelectorAll(".quiz-option");
+        const task = labTasks[currentTaskIndex];
+        const isCorrect = (idx === task.correctIndex);
+        verified[currentTaskIndex] = isCorrect;
+
+        const statusEl = document.getElementById(`status-${currentTaskIndex}`);
+        if (isCorrect) {
+            statusEl.innerText = '✅ Correct';
+            statusEl.className = 'verification-text verified';
+        } else {
+            statusEl.innerText = '❌ Incorrect';
+            statusEl.className = 'verification-text unverified';
+        }
+
+        const options = document.querySelectorAll('.quiz-option');
         options.forEach((el, i) => {
-            if (i === idx) el.classList.add("selected");
-            else el.classList.remove("selected");
+            el.classList.toggle('selected', i === idx);
         });
     }
 
+    function checkCodeTask(index) {
+        const task = labTasks[index];
+        const answer = responses[index] || '';
+        const isCorrect = answer.toLowerCase().includes(task.validationKeyword.toLowerCase());
+        verified[index] = isCorrect;
+
+        const statusEl = document.getElementById(`status-${index}`);
+        if (isCorrect) {
+            statusEl.innerText = '✅ Correct';
+            statusEl.className = 'verification-text verified';
+        } else {
+            statusEl.innerText = '❌ Incorrect';
+            statusEl.className = 'verification-text unverified';
+        }
+    }
+
     function navigateTask(direction) {
-        // Evaluate input check before moving forward if it's code step
-        if (responses[currentTaskIndex] === undefined && labTasks[currentTaskIndex].type === "code") {
+        if (responses[currentTaskIndex] === undefined && labTasks[currentTaskIndex].type === 'code') {
             responses[currentTaskIndex] = labTasks[currentTaskIndex].placeholder;
         }
 
@@ -460,26 +470,18 @@
         if (currentTaskIndex >= 0 && currentTaskIndex < labTasks.length) {
             renderTask();
         } else if (currentTaskIndex >= labTasks.length) {
-            processSubmissionPipeline();
+            processSubmission();
         }
     }
 
-    function processSubmissionPipeline() {
-        // Calculate Total Performance Score Dynamic Metrics Matrix
+    function processSubmission() {
         let earnedScore = 0;
         labTasks.forEach((task, idx) => {
-            const ans = responses[idx];
-            if (task.type === "quiz") {
-                if (ans === task.correctIndex) earnedScore++;
-            } else if (task.type === "code") {
-                if (ans && ans.toLowerCase().includes(task.validationKeyword.toLowerCase())) {
-                    earnedScore++;
-                }
-            }
+            if (verified[idx] === true) earnedScore++;
         });
 
-        const functionalScoreString = `${earnedScore}/${labTasks.length}`;
-        const topicTitle = "Web Technology-I Interactive Lab Assessment";
+        const scoreString = `${earnedScore}/${labTasks.length}`;
+        const topicTitle = 'Web Technology I';
 
         sessionTiming.endTime = new Date();
         const elapsedMs = sessionTiming.endTime - sessionTiming.startTime;
@@ -487,63 +489,27 @@
         const endTimeString = formatClockTime(sessionTiming.endTime);
         const elapsedString = formatElapsed(elapsedMs);
 
-        // Construct Dynamic Submission Action Pipeline Target Structure targeting Specified Form Parameters
-        const baseFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse";
-        
-        // Form field injection elements mappings mapping specifications parameters strictly
-        // (matches the same Google Form / entry IDs used by application_packages_lab_assessment)
-        const formParameters = new URLSearchParams();
-        formParameters.append("entry.1920009954", topicTitle);
-        formParameters.append("entry.2015805623", studentData.name);
-        formParameters.append("entry.419024899", studentData.roll);
-        formParameters.append("entry.2086415032", `XI - ${studentData.room}`);
-        formParameters.append("entry.1234471729", functionalScoreString);
-        formParameters.append("entry.597147393", startTimeString);
-        formParameters.append("entry.1045529602", endTimeString);
-        formParameters.append("entry.2019742758", elapsedString);
+        const formData = new FormData();
+        formData.append(SUBMISSION_CONFIG.fields.topic, topicTitle);
+        formData.append(SUBMISSION_CONFIG.fields.name, studentData.name);
+        formData.append(SUBMISSION_CONFIG.fields.roll, studentData.roll);
+        formData.append(SUBMISSION_CONFIG.fields.room, `XI - ${studentData.room}`);
+        formData.append(SUBMISSION_CONFIG.fields.status, scoreString);
+        formData.append(SUBMISSION_CONFIG.fields.startTime, startTimeString);
+        formData.append(SUBMISSION_CONFIG.fields.endTime, endTimeString);
+        formData.append(SUBMISSION_CONFIG.fields.elapsedTime, elapsedString);
 
-        const targetSubmissionUrl = `${baseFormUrl}?${formParameters.toString()}`;
+        fetch(SUBMISSION_CONFIG.url, { method: 'POST', mode: 'no-cors', body: formData }).catch(() => {});
 
-        // Deploy dynamic non-blocking Form execution module sequence via system runtime context DOM injection interface element container
-        const formElement = document.createElement("form");
-        formElement.method = "POST";
-        formElement.action = baseFormUrl;
-        formElement.target = "hidden_iframe"; // Silently process and dump background payload context stream data smoothly
-
-        const mappings = {
-            "entry.1920009954": topicTitle,
-            "entry.2015805623": studentData.name,
-            "entry.419024899": studentData.roll,
-            "entry.2086415032": `XI - ${studentData.room}`,
-            "entry.1234471729": functionalScoreString,
-            "entry.597147393": startTimeString,
-            "entry.1045529602": endTimeString,
-            "entry.2019742758": elapsedString
-        };
-
-        for (let key in mappings) {
-            const inputField = document.createElement("input");
-            inputField.type = "hidden";
-            inputField.name = key;
-            inputField.value = mappings[key];
-            formElement.appendChild(inputField);
-        }
-
-        document.body.appendChild(formElement);
-        formElement.submit(); // Dispatches the background request seamlessly
-        document.body.removeChild(formElement); // Cleanup DOM instantly
-
-        // Transition UI directly into finalized complete tracking display state metrics layout
-        document.getElementById("lab-progress").style.width = "100%";
-        document.getElementById("lab-workspace").classList.add("hidden");
-        
-        document.getElementById("report-name").innerText = studentData.name;
-        document.getElementById("report-roll").innerText = studentData.roll;
-        document.getElementById("report-room").innerText = studentData.room;
-        document.getElementById("report-score").innerText = functionalScoreString;
-        document.getElementById("report-timing").innerText = `⏱ Started: ${startTimeString} · Finished: ${endTimeString} · Time Taken: ${elapsedString}`;
-        
-        document.getElementById("completion-screen").classList.remove("hidden");
+        document.getElementById('lab-progress').style.width = '100%';
+        document.getElementById('lab-workspace').classList.add('hidden');
+        document.getElementById('report-title').innerText = topicTitle;
+        document.getElementById('report-name').innerText = studentData.name;
+        document.getElementById('report-roll').innerText = studentData.roll;
+        document.getElementById('report-room').innerText = studentData.room;
+        document.getElementById('report-score').innerText = scoreString;
+        document.getElementById('report-timing').innerText = `⏱ Started: ${startTimeString} · Finished: ${endTimeString} · Time Taken: ${elapsedString}`;
+        document.getElementById('completion-screen').classList.remove('hidden');
     }
 </script>
 
