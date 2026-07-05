@@ -2,17 +2,25 @@
 
 ## Analysis of Current Activity Files
 
-### Identified Inconsistencies
+### Core Rules
 
-#### 1. **Structure Variations**
+#### 1. **Filename tells the type — heading must match**
+The filename determines whether this is a theory worksheet or a lab activity, and the `<title>` and `<h1>` must be consistent:
+- `_Activity.html` (no "lab") → **Theory worksheet** → heading: `Activity: <Topic>`, subtitle: a plain description (never "Comprehensive Laboratory Work Guide").
+- `_lab_guide.html` or `_Lab_Activity.html` → **Lab/hands-on activity** → heading: `Lab Activity: <Topic>`, subtitle: `Comprehensive Laboratory Work Guide`.
+- This applies to both the `<title>` tag and the visible `<h1>` heading.
+
+#### 2. **Global light theme — no custom dark overrides**
+All pages use the shared light theme from `activity.css`. The inline `<style>` block must:
+- Only add rules for things NOT already in `activity.css` (e.g. `.data-table`, `.question-block`, `.inline-answer`).
+- Never override `activity.css` classes with custom colors, gradients, dark backgrounds, or layout values.
+- Use CSS custom properties (`var(--primary-color)`, `var(--text-muted)`, `var(--border-color)`) instead of hardcoded hex codes wherever possible.
+- Keep the style block minimal — aim for under 20 rules.
+
+#### 3. **Structure Variations**
 - **Application Packages Guide**: Uses numbered questions (Q. No. 1, 2, 3...) within parts
-- **SQL Commands Guide**: Uses step-based approach (Step 1.1, 1.2, 2.1...) without question numbers
+- **SQL Commands Guide**: Uses step-based approach (Step 1.1, 2.1...) without question numbers
 - **Inconsistent section naming**: Some use "Part 1", others use "Setup", "Part 1", "Part 2"
-
-#### 2. **Header Information**
-- **Application Packages**: Grade XI, Computer Science
-- **SQL Commands**: Grade XII, Computer Science
-- **Inconsistent subtitle formats**: "Comprehensive Laboratory Work Guide" vs "Comprehensive Laboratory Work Guide" vs "Lab Activity: Mastering SQL Commands"
 
 #### 3. **Content Depth**
 - **Application Packages**: Very detailed with specific formatting requirements, formulas, and sub-tasks
@@ -41,6 +49,18 @@
 ### Required Sections (In Order)
 
 #### 1. **Header Section**
+Use the heading format that matches the filename (see Core Rule 1 above):
+
+**For a theory worksheet** (`_Activity.html` — no "lab" in name):
+```html
+<header>
+    <h1>Activity: [Topic Name]</h1>
+    <p class="subtitle">[Short description of the topic, e.g. "Understanding database keys and ER diagrams"]</p>
+    <p class="grade-badge">Grade [XI/XII] &bull; Computer Science</p>
+</header>
+```
+
+**For a lab/hands-on activity** (`_lab_guide.html` or `_Lab_Activity.html`):
 ```html
 <header>
     <h1>Lab Activity: [Topic Name]</h1>
@@ -151,8 +171,9 @@ You are an expert educational content creator for Computer Science lab activitie
 
 ### 1. HTML Document Structure
 - Use HTML5 doctype
-- Link to ../css/activity.css (includes standard classes like .highlight, .formula, etc.)
-- Include any topic-specific styles in <style> tags only when necessary
+- Link to `../css/activity.css` (includes standard classes like `.highlight`, `.formula`, etc.)
+- **Inline `<style>` discipline**: Only add CSS rules for things NOT already in `activity.css`. Never override the shared stylesheet's classes with custom colors, gradients, or dark backgrounds. Use CSS custom properties (`var(--primary-color)`, `var(--text-muted)`, `var(--border-color)`) instead of hardcoded hex codes.
+- Keep the `<style>` block under 20 rules. If you need more, the rule should probably be in the shared stylesheet instead.
 - Use semantic HTML elements
 - Ensure mobile responsiveness
 

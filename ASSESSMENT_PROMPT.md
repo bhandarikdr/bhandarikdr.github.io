@@ -22,12 +22,19 @@ Use this prompt (paste it as-is into a new conversation, then attach the resourc
 ### 1. Externalized Core CSS
 Core framework styles (modals, forms, buttons, progress bars) are provided in a shared file: `/css/assessment.css`.
 - The generated HTML file must link to it: `<link rel="stylesheet" href="../css/assessment.css">`.
-- Subject-specific layout or activity-unique styles should still be placed in an inline `<style>` block.
+- **Inline `<style>` discipline**: Only add CSS rules for things NOT already in `assessment.css`. Never override the shared stylesheet's classes with custom colors, gradients, or layout values. If you need a variant, use the existing CSS custom properties (`var(--primary)`, `var(--success)`, etc.) instead of hardcoded hex codes.
 
-### 2. Light mode only
+### 2. Light mode only (global theme)
+- All pages use the global light theme from `assessment.css`. Do NOT inject dark backgrounds, dark gradient headers, or custom color schemes that override it.
 - Use a light palette: white/light-gray card backgrounds (`#ffffff`, `#f8fafc`), dark slate text (`#1e293b` / `#1f2937`), light borders (`#e2e8f0` / `#e5e7eb`).
-- Never pair light text on light backgrounds or dark text on dark chrome — check every hardcoded color against the actual background it sits on, not just copy colors from a dark-theme reference.
+- Never pair light text on light backgrounds or dark text on dark chrome — check every hardcoded color against the actual background it sits on.
 - Accent/status colors (success green, error red, accent orange/indigo) stay consistent regardless of theme.
+
+### 2b. Filename must match heading content
+The file naming convention tells you the type, and the page heading must match:
+- `_Assessment.html` (no "lab" in filename) → heading must say `Assessment:` or `Assessment Entry`, never "Lab Assessment".
+- `_lab_assessment.html` → "Lab Assessment" is fine in headings, but the `<title>` should still be `Assessment: ...` for consistency.
+- The `<title>` tag should mirror the `<h1>`/`<h2>` heading, never say "Lab" if the filename omits it.
 
 ### 3. Entry screen — modal popup overlay
 - A fixed, full-viewport overlay (`position: fixed`, translucent dark backdrop `rgba(15,23,42,0.75-0.8)`, flex-centered) containing a centered white card (`celebration-overlay` / `celebration-card` pattern, rounded ~16px corners, pop-in scale animation).
