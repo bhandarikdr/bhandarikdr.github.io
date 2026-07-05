@@ -1,0 +1,300 @@
+/* ----- COMMON CSS — shared between Grade XI and Grade XII pages ----- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  background: #f2f5f9;
+  color: #1e293b;
+  padding: 2.5rem 1.5rem;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ----- header (shared) ----- */
+.page-header {
+  text-align: center;
+  margin-bottom: 0.25rem;
+}
+
+.page-header h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  background: linear-gradient(145deg, #0b2a4a, #1e4a6f);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.page-header .sub {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #475569;
+  margin-top: 0.2rem;
+  border-top: 2px solid #dce3ed;
+  padding-top: 0.6rem;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ----- card (main content) ----- */
+.card {
+  background: #ffffff;
+  border-radius: 2rem;
+  box-shadow: 0 20px 35px -8px rgba(0, 0, 0, 0.08), 0 8px 18px -6px rgba(0, 20, 40, 0.04);
+  padding: 2rem 2rem 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 45px -12px rgba(0, 32, 64, 0.12);
+}
+
+.card-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.9rem;
+  border-radius: 50px;
+  background: #e9edf4;
+  color: #1e3a5f;
+  margin-bottom: 0.75rem;
+}
+
+.card-title {
+  font-size: 1.9rem;
+  font-weight: 650;
+  line-height: 1.2;
+  margin-bottom: 0.2rem;
+  color: #0b2a4a;
+}
+
+.card-sub {
+  font-size: 0.95rem;
+  color: #4b5a72;
+  border-bottom: 2px solid #eef2f8;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.card-sub .meta {
+  background: #f1f5f9;
+  padding: 0.2rem 0.8rem;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #2c3f5c;
+}
+
+/* ----- reflective content blocks ----- */
+.reflective-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.part {
+  background: #f8fafd;
+  padding: 1rem 1.4rem;
+  border-radius: 1.4rem;
+  border-left: 5px solid #bacfe5;
+}
+
+.part.past {
+  border-left-color: #8aa3c0;
+}
+
+.part.future {
+  border-left-color: #4f7aa3;
+}
+
+.part h3 {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1f4468;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* question blocks (what / how / why) */
+.q-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.q {
+  background: white;
+  padding: 0.6rem 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+  border: 1px solid #e9eef6;
+}
+
+.q .q-label {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  color: #2b5a82;
+  background: #e2ebf6;
+  padding: 0.05rem 0.7rem;
+  border-radius: 30px;
+  margin-right: 0.5rem;
+}
+
+.q p {
+  font-size: 0.92rem;
+  color: #1f334a;
+  margin: 0.2rem 0 0 0;
+}
+
+/* pill tags */
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.7rem;
+  margin-top: 0.6rem;
+}
+
+.pill-list .pill {
+  background: #e1eaf3;
+  padding: 0.1rem 0.8rem;
+  border-radius: 30px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #1a3b5a;
+}
+
+/* roadmap (5-paragraph) */
+.roadmap {
+  margin-top: 0.5rem;
+  background: #f0f5fe;
+  border-radius: 1.4rem;
+  padding: 1rem 1.4rem;
+  border: 1px solid #dbe4f0;
+}
+
+.roadmap h4 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #1e4a71;
+  margin-bottom: 0.5rem;
+}
+
+.roadmap .steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+}
+
+.roadmap .steps span {
+  background: white;
+  padding: 0.15rem 0.9rem;
+  border-radius: 40px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #1d3f60;
+  border: 1px solid #d4e0ed;
+}
+
+.roadmap .steps strong {
+  font-weight: 600;
+  color: #0a2d4b;
+}
+
+.roadmap .note {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: #2c4b6e;
+  border-top: 1px dashed #ccd9ea;
+  padding-top: 0.5rem;
+}
+
+/* commitment box */
+.commit-box {
+  margin-top: 0.2rem;
+  background: #e9f0f8;
+  border-radius: 1.2rem;
+  padding: 0.9rem 1.3rem;
+  font-size: 0.92rem;
+  border: 1px solid #cfddee;
+  color: #132c44;
+  font-weight: 450;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.commit-box::before {
+  content: "⚡";
+  font-size: 1.2rem;
+}
+
+/* small extra for CS card */
+.card.cs .part {
+  border-left-color: #5f7f9f;
+}
+.card.cs .card-badge {
+  background: #d7e2f0;
+  color: #1d405d;
+}
+.card.cs .commit-box {
+  background: #e2ecf7;
+  border-color: #b8cee5;
+}
+
+/* global note (instruction) */
+.global-note {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #3b4f6a;
+  border-top: 1px solid #dce3ed;
+  padding-top: 1.2rem;
+  max-width: 650px;
+  margin: 0.5rem auto 0;
+}
+
+.global-note strong {
+  color: #1f3c5a;
+}
+
+/* responsive */
+@media (max-width: 700px) {
+  body { padding: 1.5rem 0.8rem; }
+  .card { padding: 1.5rem; }
+  .card-title { font-size: 1.6rem; }
+  .q p { font-size: 0.88rem; }
+}

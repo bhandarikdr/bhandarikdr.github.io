@@ -32,6 +32,20 @@
                 nav.classList.remove('visible');
             }
         });
+
+        // Accordion behavior for resource sections
+        const resourceSections = document.querySelectorAll('.resource-section');
+        resourceSections.forEach(section => {
+            section.addEventListener('toggle', (e) => {
+                if (section.open) {
+                    resourceSections.forEach(otherSection => {
+                        if (otherSection !== section && otherSection.open) {
+                            otherSection.open = false;
+                        }
+                    });
+                }
+            });
+        });
     </script>
 
     <div class="header-banner">
@@ -190,7 +204,7 @@
             <p>Download your official curriculum guides, sample templates, assignments and lab questions below:</p>
             
             <details class="resource-section" open>
-                <summary>📂 Resources & Lab Guides</summary>
+                <summary>📂 Resources</summary>
                 <div class="resource-grid">
 
                     <div class="resource-box">
@@ -212,18 +226,7 @@
                                 <span class="resource-meta">Official Format & Structural Template</span>
                             </div>
                         </div>
-                        <a href="Lab Report Sample - Grade XI.docx" download class="inline-download-btn">Download</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon">PDF</div>
-                            <div>
-                                <span class="resource-name">Windows Command Line (CMD) Questions</span>
-                                <span class="resource-meta">Lab Guide for Unit 3</span>
-                            </div>
-                        </div>
-                        <a href="Windows Command Line (CMD) Lab Questions.pdf" download class="inline-download-btn">Download</a>
+                        <a href="Lab Report Sample - Grade XI.docx" download class="inline-download-btn">View/Download</a>
                     </div>
 
                     <div class="resource-box">
@@ -237,28 +240,6 @@
                         <a href="https://1drv.ms/b/c/46155f2903841d6e/IQAxjW3IJ5WXSpjYTJ3clbOJAV4YEUHwlJMxCfkFTENNP6w?e=cijzTN" target="_blank" class="inline-download-btn">View/Download</a>
                     </div>
 
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon">PDF</div>
-                            <div>
-                                <span class="resource-name">C-Programming-I Lab Questions</span>
-                                <span class="resource-meta">Lab Guide for Unit 5</span>
-                            </div>
-                        </div>
-                        <a href="C-Programming-I Lab Questions.pdf" download class="inline-download-btn">Download</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon">PDF</div>
-                            <div>
-                                <span class="resource-name">Web Technology-I Lab Questions</span>
-                                <span class="resource-meta">Lab Guide for Unit 6</span>
-                            </div>
-                        </div>
-                        <a href="Web Technology-I Lab Questions.pdf" download class="inline-download-btn">Download</a>
-                    </div>
-
                 </div>
             </details>
 
@@ -267,13 +248,13 @@
                 <div class="resource-grid">
                     <div class="resource-box">
                         <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #f59e0b;">PDF</div>
+                            <div class="resource-icon" style="background-color: #f59e0b;">HTML</div>
                             <div>
                                 <span class="resource-name">Grade XI - Assignment 1</span>
                                 <span class="resource-meta">Orientation Reflective writing assignment</span>
                             </div>
                         </div>
-                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQAMiLJT6x-aQaxW6MB86HGWASDqpVuacVn097hBD9q6v30?e=Fw1uOw" target="_blank" class="inline-download-btn">View/Download</a>
+                        <a href="../assignments/GradeXI_Assignment1.html" target="_blank" class="inline-download-btn">View</a>
                     </div>
                 </div>
             </details>

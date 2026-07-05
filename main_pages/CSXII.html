@@ -32,6 +32,20 @@
                 nav.classList.remove('visible');
             }
         });
+
+        // Accordion behavior for resource sections
+        const resourceSections = document.querySelectorAll('.resource-section');
+        resourceSections.forEach(section => {
+            section.addEventListener('toggle', (e) => {
+                if (section.open) {
+                    resourceSections.forEach(otherSection => {
+                        if (otherSection !== section && otherSection.open) {
+                            otherSection.open = false;
+                        }
+                    });
+                }
+            });
+        });
     </script>
 
     <div class="header-banner">
@@ -197,7 +211,7 @@
             <p>Download your official curriculum guides, sample templates, and questions below:</p>
             
             <details class="resource-section" open>
-                <summary>📂 Resources & Lab Guides</summary>
+                <summary>📂 Resources</summary>
                 <div class="resource-grid">
                     <div class="resource-box">
                         <div class="resource-info">
@@ -218,7 +232,7 @@
                                 <span class="resource-meta">Verified structure for technical portfolio layouts</span>
                             </div>
                         </div>
-                        <a href="Lab Report Sample - Grade XII.docx" download class="inline-download-btn">Download Template</a>
+                        <a href="Lab Report Sample - Grade XII.docx" download class="inline-download-btn">View/Download</a>
                     </div>
 
                     <div class="resource-box">
@@ -231,29 +245,6 @@
                         </div>
                         <a href="https://1drv.ms/b/c/46155f2903841d6e/IQCTnM_Ri6evS7L6R-RmlNHiAfLN5Ws9qZ-pLozzQHgSBdQ?e=xL5wOf" target="_blank" class="inline-download-btn">View/Download</a>
                     </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon">PDF</div>
-                            <div>
-                                <span class="resource-name">Unit 2: Advanced Functional Programming Tasks (C Part II)</span>
-                                <span class="resource-meta">Compiles pointer arithmetic and stream tracking parameters</span>
-                            </div>
-                        </div>
-                        <a href="C-Programming-II Lab Questions.pdf" download class="inline-download-btn">Download Guide</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon">PDF</div>
-                            <div>
-                                <span class="resource-name">Unit 4: Programmatic Web Architectures II</span>
-                                <span class="resource-meta">Client-side document validation, script actions, and framework logic</span>
-                            </div>
-                        </div>
-                        <a href="Web Technology-II Lab Questions.pdf" download class="inline-download-btn">Download Guide</a>
-                    </div>
-                </div>
             </details>
 
             <details class="resource-section">
@@ -261,13 +252,13 @@
                 <div class="resource-grid">
                     <div class="resource-box">
                         <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #f59e0b;">PDF</div>
+                            <div class="resource-icon" style="background-color: #f59e0b;">HTML</div>
                             <div>
                                 <span class="resource-name">Grade XII - Assignment 1</span>
                                 <span class="resource-meta">Orientation Reflective writing assignment</span>
                             </div>
                         </div>
-                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQAimzKTGRpRSLE_zRy2MRRSAdqgZO8ozkSy5cEdj-a6vok?e=gx47cM" target="_blank" class="inline-download-btn">View/Download</a>
+                        <a href="../assignments/GradeXII_Assignment1.html" target="_blank" class="inline-download-btn">View</a>
                     </div>
                 </div>
             </details>
