@@ -290,13 +290,15 @@ details.resource-section .resource-grid {
 .marks-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed var(--border-color); }
 .marks-list li:last-child { border-bottom: none; }
 
-.syllabus-item { background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+.syllabus-item { background: var(--bg-color); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px 20px; display: flex; justify-content: space-between; align-items: flex-start; }
 .syllabus-info h4 { margin: 0 0 5px 0; color: var(--primary-color); }
 .syllabus-info p { margin: 0; font-size: 0.9rem; color: #64748b; }
 
 /* Syllabus Actions & Buttons */
 .syllabus-actions {
     display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 10px;
     margin-top: 12px;
 }
@@ -346,6 +348,37 @@ details.resource-section .resource-grid {
     background-color: #7851a9;
     color: white;
     border-color: #7851a9;
+}
+
+.action-btn.activity {
+    background-color: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
+}
+
+.action-btn.activity:hover {
+    background-color: #c2410c;
+    color: white;
+    border-color: #c2410c;
+}
+
+.action-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.action-separator {
+    color: #cbd5e1;
+    font-weight: 300;
+    font-size: 1.2rem;
+    user-select: none;
+}
+
+.syllabus-actions.wide {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 8px;
 }
 
 .status-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }

@@ -75,15 +75,14 @@ Uses a linear gradient from `--primary-color`.
 ## 📚 Syllabus Components
 
 ### Syllabus Item
-A flex container holding info and a status badge.
+A flex container holding info and a status badge (badge is top-aligned via `align-items: flex-start`).
 ```html
 <div class="syllabus-item">
     <div class="syllabus-info">
         <h4>Unit Title</h4>
         <p>Description text...</p>
         <div class="syllabus-actions">
-            <a href="#" class="action-btn handouts">📖 Handouts</a>
-            <a href="#" class="action-btn lab-guide">🧪 Lab Guide</a>
+            <!-- See Action Buttons patterns below -->
         </div>
     </div>
     <span class="status-badge status-theory">Badge Text</span>
@@ -91,8 +90,49 @@ A flex container holding info and a status badge.
 ```
 
 ### Action Buttons
-- **`.handouts`**: Blue themed (`#eff6ff` bg, `#2563eb` text).
-- **`.lab-guide`**: Green themed (`#f0fdf4` bg, `#16a34a` text).
+
+| Class | Theme | Foreground | Background | Border | Usage |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `.handouts` | Blue | `#2563eb` | `#eff6ff` | `#bfdbfe` | Reference materials, syllabus docs |
+| `.lab-guide` | Green | `#16a34a` | `#f0fdf4` | `#bbf7d0` | Hands-on lab activities, practical guides |
+| `.activity` | Amber | `#c2410c` | `#fff7ed` | `#fed7aa` | Theoretical/conceptual learning activities |
+| `.test-yourself` | Purple | `#7851a9` | `#eff6ff` | `#7851a9` | Assessments, quizzes, lab tests |
+
+All hover states fill solid with white text.
+
+### Organizing Multiple Buttons
+
+When a unit has several reference/activity/assessment links, group related items using `.action-group` and separate distinct groups with `.action-separator` (`|`).
+
+**Pattern -- Single reference:**
+```html
+<div class="syllabus-actions">
+    <a href="#" class="action-btn handouts">📖 Handouts</a>
+</div>
+```
+
+**Pattern -- Activity + Assessment pair (adjacent):**
+```html
+<div class="syllabus-actions">
+    <a href="#" class="action-btn handouts">📖 Handouts</a>
+    <span class="action-separator">|</span>
+    <div class="action-group">
+        <a href="#" class="action-btn activity">🧪 DBMS Concepts</a>
+        <a href="#" class="action-btn test-yourself">📝 Quiz</a>
+    </div>
+    <span class="action-separator">|</span>
+    <div class="action-group">
+        <a href="#" class="action-btn lab-guide">🧪 SQL Lab</a>
+        <a href="#" class="action-btn test-yourself">📝 Test</a>
+    </div>
+</div>
+```
+
+Key rules:
+- `.action-group` is `display: inline-flex; align-items: center; gap: 6px` -- activity and its assessment sit side by side.
+- `.action-separator` is a light gray `|` with `user-select: none`.
+- The outer `.syllabus-actions` uses `display: flex; flex-wrap: wrap;` so groups wrap gracefully on mobile.
+- For units with only a single link, no group/separator wrappers are needed.
 
 ### Status Badges
 - **`.status-theory`**: Neutral gray for concept-heavy units.

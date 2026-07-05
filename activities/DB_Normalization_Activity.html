@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Activity: Database Normalization - Grade XII</title>
+  <link rel="stylesheet" href="../css/activity.css">
+  <style>
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .data-table th {
+      background: #1e3a5f;
+      color: white;
+      padding: 0.6rem;
+      text-align: left;
+    }
+    .data-table td {
+      background: white;
+      padding: 0.6rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .badge.green { background: #16a34a; }
+    .badge.orange { background: #ea580c; }
+    .badge.purple { background: #7c3aed; }
+    .badge.small { font-size: 0.8rem; background: #2563eb; }
+    .info-note {
+      background: #eef2ff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 1rem;
+      margin: 1rem 0;
+    }
+    .split-result {
+      background: #eef2ff;
+      padding: 0.8rem 1.2rem;
+      border-radius: 1rem;
+    }
+    .conclusion-box {
+      background: #f1f5f9;
+      padding: 0.5rem 1rem;
+      border-radius: 40px;
+      display: inline-block;
+      margin: 0.3rem 0;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <h1>Lab Activity: Database Normalization</h1>
+    <p class="subtitle">Comprehensive Laboratory Work Guide</p>
+    <p class="grade-badge">Grade XII &bull; Computer Science</p>
+  </header>
+
+  <!-- PREREQUISITES -->
+  <div class="instruction-box">
+    <p class="quiz-question">Prerequisites</p>
+    <ul class="step-list">
+      <li>You should know what a table, row, column, and primary key are.</li>
+      <li>We will use a <span class="highlight">single example</span> throughout: a table that stores <strong>student projects</strong>.</li>
+    </ul>
+  </div>
+
+  <!-- LEARNING OBJECTIVES -->
+  <div class="section-title">
+    <span class="badge">Objectives</span> Learning Goals & Outcomes
+  </div>
+
+  <div class="instruction-box objective">
+    <p><strong>By the end of this lab activity, you will be able to:</strong></p>
+    <ul class="step-list">
+      <li>Identify why unorganized tables cause problems (anomalies).</li>
+      <li>Fix them step by step: 1NF to 2NF to 3NF.</li>
+      <li>Apply normalization to real-world examples (college projects).</li>
+    </ul>
+  </div>
+
+  <!-- CONCEPTUAL WALKTHROUGH -->
+  <div class="section-title">
+    <span class="badge purple">Concept Overview</span> What is Normalization?
+  </div>
+
+  <div class="instruction-box">
+    <p><strong>Normalization</strong> means organizing a table to avoid repeated data and problems. We use three simple steps:</p>
+    <ul class="step-list">
+      <li><strong>1NF</strong> -- No lists inside cells -- each cell has one value.</li>
+      <li><strong>2NF</strong> -- Everything depends on the whole key -- no partial dependency.</li>
+      <li><strong>3NF</strong> -- No chain dependencies -- no column depends on another non-key column.</li>
+    </ul>
+
+    <div class="info-note">
+      <strong>Example:</strong> A table with <em>Student_ID, Project_Name, Supervisor, Supervisor_Phone</em>. The phone depends on the supervisor, not on the student. We need to split it.
+    </div>
+  </div>
+
+  <!-- PART 1: ANOMALIES -->
+  <div class="section-title">
+    <span class="badge">Part 1</span> Spot the Problems
+  </div>
+
+  <div class="instruction-box">
+    <p class="quiz-question">The "Student Project" table (not normalized)</p>
+    <table class="data-table">
+      <thead><tr><th>Student_ID</th><th>Student_Name</th><th>Project_Title</th><th>Supervisor</th><th>Supervisor_Phone</th></tr></thead>
+      <tbody>
+        <tr><td>101</td><td>Ram Sharma</td><td>Weather App</td><td>Dr. Neupane</td><td>9841-234567</td></tr>
+        <tr><td>102</td><td>Sita Adhikari</td><td>E-Library</td><td>Dr. Neupane</td><td>9841-234567</td></tr>
+        <tr><td>103</td><td>Hari Thapa</td><td>Chat Bot</td><td>Prof. Karki</td><td>9855-678901</td></tr>
+      </tbody>
+    </table>
+
+    <p class="mt-4"><strong>Task 1.1</strong> -- What is wrong with this table? Look at the repeated data.</p>
+    <ol class="step-list">
+      <li><strong>Redundancy:</strong> Dr. Neupane's phone is repeated for every student.</li>
+      <li><strong>Update problem:</strong> If Dr. Neupane changes phone, you must update many rows.</li>
+      <li><strong>Delete problem:</strong> If Ram leaves, you lose Dr. Neupane's info entirely.</li>
+    </ol>
+    <p><span class="highlight">Conclusion:</span> The table has <strong>update anomalies</strong>. We will fix them.</p>
+  </div>
+
+  <!-- PART 2: 1NF & 2NF -->
+  <div class="section-title">
+    <span class="badge green">Part 2</span> Fix Step 1 & 2 (1NF and 2NF)
+  </div>
+
+  <div class="instruction-box">
+    <p class="quiz-question">Step 1: Already in 1NF</p>
+    <p>Each cell has a single value (no lists), so it is already in <strong>1NF</strong>. Now we go to 2NF.</p>
+
+    <p class="mt-4"><strong>Task 2.1</strong> -- The primary key is <span class="formula">Student_ID</span>. But <span class="highlight">Supervisor_Phone</span> depends on <span class="formula">Supervisor</span>, not on Student_ID. This is a <strong>partial dependency</strong>.</p>
+
+    <p class="mt-4"><strong>Task 2.2</strong> -- Split the table into two tables to remove the partial dependency.</p>
+    <div class="split-result">
+      <strong>Table 1: Student</strong> (Student_ID, Student_Name, Project_Title, Supervisor)<br>
+      <strong>Table 2: Supervisor</strong> (Supervisor, Supervisor_Phone)
+    </div>
+    <p class="mt-4">Now <em>Supervisor_Phone</em> depends only on <em>Supervisor</em> (the whole key). The tables are in <strong>2NF</strong>.</p>
+  </div>
+
+  <!-- PART 3: 3NF -->
+  <div class="section-title">
+    <span class="badge orange">Part 3</span> Fix Step 3 (3NF)
+  </div>
+
+  <div class="instruction-box">
+    <p class="quiz-question">Remove Transitive Dependency</p>
+    <p>Look at the Student table from Part 2: <span class="formula">Student_ID to Supervisor</span>. But what if we also store <span class="highlight">Supervisor_Department</span>?</p>
+
+    <table class="data-table">
+      <thead><tr><th>Student_ID</th><th>Student_Name</th><th>Project_Title</th><th>Supervisor</th><th>Supervisor_Dept</th></tr></thead>
+      <tbody><tr><td>101</td><td>Ram Sharma</td><td>Weather App</td><td>Dr. Neupane</td><td>Computer Science</td></tr></tbody>
+    </table>
+
+    <p class="mt-4"><strong>Problem:</strong> <span class="formula">Supervisor_Dept</span> depends on <span class="formula">Supervisor</span>, not on Student_ID. That is a <strong>transitive dependency</strong> (Student_ID to Supervisor to Dept).</p>
+
+    <p class="mt-4"><strong>Task 3.1</strong> -- Split again to reach 3NF.</p>
+    <div class="split-result">
+      <strong>Student</strong> (Student_ID, Student_Name, Project_Title, Supervisor)<br>
+      <strong>Supervisor</strong> (Supervisor, Supervisor_Dept)
+    </div>
+    <p class="mt-4">Now <em>Supervisor_Dept</em> depends on <em>Supervisor</em>, and <em>Supervisor</em> is a key in its own table. No transitive dependency. The tables are in <strong>3NF</strong>.</p>
+  </div>
+
+  <!-- CHALLENGE QUIZ -->
+  <div class="section-title">
+    <span class="badge purple">Challenge</span> Quiz: Test Your Understanding
+  </div>
+
+  <div class="quiz-container">
+
+    <div class="quiz-card">
+      <p class="quiz-question">1. What is the main goal of normalization?</p>
+      <ul class="quiz-options">
+        <li>To make tables larger</li>
+        <li>To reduce redundancy and avoid problems</li>
+        <li>To add more columns</li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">To reduce redundancy and avoid update/delete problems.</div></details>
+    </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">2. In the Student Project table, which dependency caused the 2NF violation?</p>
+      <ul class="quiz-options">
+        <li>Student_ID to Student_Name</li>
+        <li>Supervisor to Supervisor_Phone</li>
+        <li>Project_Title to Supervisor</li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">Supervisor to Supervisor_Phone (partial dependency on part of the key).</div></details>
+    </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">3. Which normal form removes transitive dependency?</p>
+      <ul class="quiz-options">
+        <li>1NF</li>
+        <li>2NF</li>
+        <li>3NF</li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">3NF.</div></details>
+    </div>
+  </div>
+
+  <!-- ASSESSMENT PREPARATION -->
+  <div class="section-title">
+    <span class="badge purple">Assessment Prep</span> Ready for the Interactive Assessment
+  </div>
+
+  <div class="instruction-box">
+    <p><strong>What to Expect in the Assessment:</strong></p>
+    <ul class="step-list mt-2">
+      <li>You will be given a table with some redundancy.</li>
+      <li>You need to split it into 2NF and then 3NF tables.</li>
+      <li>Remember: <span class="highlight">"The key, the whole key, and nothing but the key"</span>.</li>
+      <li>Practice with the Student-Supervisor example above.</li>
+    </ul>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="instruction-box">
+      <p><strong>Completion Checklist:</strong></p>
+      <ul class="step-list mt-2">
+        <li>Identified anomalies in the unnormalized Student Project table</li>
+        <li>Understood that the table is already in 1NF (atomic values)</li>
+        <li>Split the table to remove partial dependency (achieved 2NF)</li>
+        <li>Split again to remove transitive dependency (achieved 3NF)</li>
+        <li>Completed the challenge quiz</li>
+      </ul>
+    </div>
+
+    <p class="mt-4"><strong>Next Steps:</strong></p>
+    <ul class="step-list mt-2">
+      <li><a href="../assessments/DB_Normalization_Assessment.html">Proceed to the Normalization Lab Assessment</a> to test your knowledge</li>
+      <li>Practice normalizing other tables (library, hospital, school systems)</li>
+      <li>Learn about BCNF and higher normal forms</li>
+    </ul>
+
+    <p class="mt-4 text-center">&mdash; Thank you. See you in the next chapter &mdash;</p>
+    <p class="text-small text-center">Ensure all laboratory tasks are completed under workspace supervision guidelines.</p>
+  </div>
+
+</div>
+</body>
+</html>

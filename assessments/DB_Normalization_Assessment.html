@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assessment · Database Normalization · Grade XII</title>
+  <!-- core canvas.css (shared) -->
+  <link rel="stylesheet" href="../css/assessment.css" />
+  <!-- extra inline styles for light theme and task layout -->
+  <style>
+    /* light theme overrides + task cards */
+    body {
+      background: #f4f7fc;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #1e293b;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* header / status bar */
+    .top-bar {
+      background: white;
+      border-radius: 20px;
+      padding: 1rem 1.8rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 2rem;
+    }
+    .student-badge {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-weight: 500;
+    }
+    .student-badge span {
+      background: #f1f5f9;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+    }
+    .progress-text {
+      background: #dbeafe;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #1e4a7a;
+    }
+
+    /* progress bar */
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 20px;
+      margin: 0.8rem 0 1.8rem 0;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #2563eb;
+      border-radius: 20px;
+      transition: width 0.25s ease;
+    }
+
+    /* task cards */
+    .task-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+    .task-card {
+      background: white;
+      border-radius: 1.5rem;
+      padding: 1.5rem 1.8rem;
+      border: 1px solid #e9eef3;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      transition: border 0.2s;
+    }
+    .task-card.verified {
+      border-left: 8px solid #16a34a;
+    }
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .task-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .task-status {
+      font-size: 0.9rem;
+      background: #f1f5f9;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      color: #475569;
+    }
+    .task-status.verified {
+      background: #dcfce7;
+      color: #166534;
+    }
+    .task-desc {
+      margin: 0.2rem 0 0.8rem 0;
+      color: #334155;
+    }
+    .task-input {
+      margin-top: 0.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .task-input input[type="text"], 
+    .task-input select {
+      padding: 0.5rem 1rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      background: white;
+      min-width: 200px;
+    }
+    .task-input input:focus, .task-input select:focus {
+      outline: 2px solid #2563eb;
+      border-color: transparent;
+    }
+    .verify-btn {
+      background: #2563eb;
+      border: none;
+      color: white;
+      padding: 0.4rem 1.6rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .verify-btn:hover { background: #1d4ed8; }
+    .verify-btn:disabled {
+      opacity: 0.6;
+      cursor: default;
+    }
+    .feedback {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #475569;
+    }
+    .feedback.correct { color: #16a34a; font-weight: 500; }
+    .feedback.wrong { color: #dc2626; }
+
+    /* entry / exit overlay (canvas.css provides base, we enhance) */
+    .celebration-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(2px);
+    }
+    .celebration-card {
+      background: white;
+      max-width: 480px;
+      width: 90%;
+      padding: 2.2rem 2rem;
+      border-radius: 2rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+      animation: popIn 0.3s ease;
+    }
+    @keyframes popIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .celebration-card h2 {
+      margin-bottom: 1.2rem;
+      color: #0b2b4a;
+    }
+    .celebration-card label {
+      display: block;
+      margin: 0.8rem 0 0.2rem;
+      font-weight: 500;
+    }
+    .celebration-card input {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border: 1px solid #d1d9e6;
+      border-radius: 40px;
+      font-size: 1rem;
+    }
+    .celebration-card .error-msg {
+      color: #dc2626;
+      font-size: 0.85rem;
+      margin: 0.2rem 0 0.4rem;
+    }
+    .btn-primary {
+      background: #2563eb;
+      border: none;
+      color: white;
+      padding: 0.7rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 1rem;
+      width: 100%;
+      margin-top: 1.2rem;
+      cursor: pointer;
+    }
+    .btn-primary:hover { background: #1d4ed8; }
+    .exit-summary {
+      background: #f8fafc;
+      padding: 1rem;
+      border-radius: 1rem;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    .hidden { display: none !important; }
+
+    /* small */
+    @media (max-width: 600px) {
+      .top-bar { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- ENTRY MODAL -->
+  <div id="entryOverlay" class="celebration-overlay">
+    <div class="celebration-card">
+      <h2>Lab Assessment</h2>
+      <p style="color:#475569; margin-bottom:1rem;">Database Normalization · Grade XII</p>
+      <label>Full Name</label>
+      <input type="text" id="studentName" placeholder="e.g. Ram Sharma" />
+      <div id="nameError" class="error-msg"></div>
+
+      <label>Roll Number</label>
+      <input type="text" id="rollNumber" placeholder="e.g. 12" />
+      <div id="rollError" class="error-msg"></div>
+
+      <label>Room Number</label>
+      <input type="text" id="roomNumber" placeholder="e.g. 101" />
+      <div id="roomError" class="error-msg"></div>
+
+      <button class="btn-primary" id="startAssessmentBtn">Start Assessment</button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MAIN WORKSPACE -->
+  <div class="container" id="workspace" style="display:none;">
+
+    <!-- top bar -->
+    <div class="top-bar">
+      <div class="student-badge">
+        <span id="displayName"></span>
+        <span id="displayRoll"></span>
+        <span id="displayRoom"></span>
+      </div>
+      <div class="progress-text" id="progressLabel">Progress: 0 / 10</div>
+    </div>
+
+    <!-- progress bar -->
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+    <!-- task grid -->
+    <div class="task-grid" id="taskContainer">
+      <!-- tasks injected by JS -->
+    </div>
+
+    <!-- submit button -->
+    <div style="text-align:center; margin: 2.5rem 0 1rem;">
+      <button class="btn-primary" id="submitAssessmentBtn" style="width:auto; padding:0.8rem 3rem; font-size:1.1rem;">
+        Submit Assessment
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- EXIT MODAL (hidden initially) -->
+  <div id="exitOverlay" class="celebration-overlay hidden">
+    <div class="celebration-card">
+      <h2>Assessment Complete</h2>
+      <div class="exit-summary" id="exitSummary">
+        <!-- filled by JS -->
+      </div>
+      <p style="color:#475569; font-size:0.9rem;">Your responses have been recorded.</p>
+      <p style="color:#64748b; font-size:0.8rem; margin-top:0.5rem;">Timing data included.</p>
+      <!-- no restart button -->
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      "use strict";
+
+      // ========== CONFIG ==========
+      const SUBMISSION_CONFIG = {
+        url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+        fields: {
+          topic: "entry.1920009954",
+          name: "entry.2015805623",
+          roll: "entry.419024899",
+          room: "entry.2086415032",   // grade will be prepended
+          status: "entry.1234471729",
+          startTime: "entry.597147393",
+          endTime: "entry.1045529602",
+          elapsedTime: "entry.2019742758"
+        }
+      };
+
+      const TOPIC = "Database Normalization";
+      const GRADE = "XII";
+
+      // ========== STATE ==========
+      let studentName = '';
+      let rollNumber = '';
+      let roomNumber = '';
+      let startTime = null;
+      let endTime = null;
+      let elapsedMs = 0;
+      let tasks = [];
+      let taskStatus = []; // boolean per task
+
+      // DOM refs
+      const entryOverlay = document.getElementById('entryOverlay');
+      const workspace = document.getElementById('workspace');
+      const exitOverlay = document.getElementById('exitOverlay');
+      const exitSummary = document.getElementById('exitSummary');
+
+      const displayName = document.getElementById('displayName');
+      const displayRoll = document.getElementById('displayRoll');
+      const displayRoom = document.getElementById('displayRoom');
+      const progressLabel = document.getElementById('progressLabel');
+      const progressFill = document.getElementById('progressFill');
+      const taskContainer = document.getElementById('taskContainer');
+
+      // ========== TASK DEFINITIONS (10 tasks) ==========
+      function buildTasks() {
+        return [
+          { id: 0, q: '1. What is the main goal of normalization?', type: 'select', options: ['Reduce redundancy', 'Add more columns', 'Make tables larger'], correct: 'Reduce redundancy' },
+          { id: 1, q: '2. Which normal form requires atomic (single) values in each cell?', type: 'select', options: ['1NF', '2NF', '3NF'], correct: '1NF' },
+          { id: 2, q: '3. In 2NF, every non-key attribute must depend on:', type: 'select', options: ['Part of the key', 'The whole primary key', 'Another non-key'], correct: 'The whole primary key' },
+          { id: 3, q: '4. Transitive dependency is removed in which normal form?', type: 'select', options: ['1NF', '2NF', '3NF'], correct: '3NF' },
+          { id: 4, q: '5. In the Student Project table, Supervisor_Phone depends on Supervisor → this is a:', type: 'select', options: ['Partial dependency', 'Transitive dependency', 'Atomic value'], correct: 'Partial dependency' },
+          { id: 5, q: '6. If a table has no repeating groups, it is at least in:', type: 'select', options: ['1NF', '2NF', '3NF'], correct: '1NF' },
+          { id: 6, q: '7. Which anomaly occurs when changing a phone number in many rows?', type: 'select', options: ['Insertion', 'Deletion', 'Modification'], correct: 'Modification' },
+          { id: 7, q: '8. Splitting a table to remove partial dependency achieves:', type: 'select', options: ['1NF', '2NF', '3NF'], correct: '2NF' },
+          { id: 8, q: '9. In 3NF, a non-key column must not depend on:', type: 'select', options: ['The primary key', 'Another non-key column', 'A foreign key'], correct: 'Another non-key column' },
+          { id: 9, q: '10. The mantra for 2NF & 3NF is: “The key, the whole key, and _____”', type: 'text', correct: 'nothing but the key' }
+        ];
+      }
+
+      // ========== RENDER TASKS ==========
+      function renderTasks() {
+        tasks = buildTasks();
+        taskStatus = tasks.map(() => false);
+        let html = '';
+        tasks.forEach((t, idx) => {
+          const verified = taskStatus[idx];
+          html += `
+            <div class="task-card ${verified ? 'verified' : ''}" id="task-${idx}">
+              <div class="task-header">
+                <div class="task-title"><span class="badge" style="background:#2563eb;color:white;padding:0.1rem 0.8rem;border-radius:30px;font-size:0.8rem;">Q${idx+1}</span> ${t.q}</div>
+                <div class="task-status ${verified ? 'verified' : ''}" id="status-${idx}">${verified ? 'Verified' : 'Pending'}</div>
+              </div>
+              <div class="task-desc">${t.type === 'select' ? 'Choose the correct option:' : 'Type your answer:'}</div>
+              <div class="task-input">
+                ${t.type === 'select' 
+                  ? `<select id="input-${idx}">${t.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select>`
+                  : `<input type="text" id="input-${idx}" placeholder="type your answer..." />`
+                }
+                <button class="verify-btn" id="verify-${idx}" data-idx="${idx}">Verify</button>
+              </div>
+              <div class="feedback" id="feedback-${idx}"></div>
+            </div>
+          `;
+        });
+        taskContainer.innerHTML = html;
+        // attach verify listeners
+        tasks.forEach((t, idx) => {
+          const btn = document.getElementById(`verify-${idx}`);
+          btn.addEventListener('click', () => verifyTask(idx));
+          // also allow Enter on text inputs
+          const inp = document.getElementById(`input-${idx}`);
+          if (inp && inp.tagName === 'INPUT') {
+            inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') verifyTask(idx); });
+          }
+        });
+        updateProgress();
+      }
+
+      // ========== VERIFY LOGIC ==========
+      function verifyTask(idx) {
+        const task = tasks[idx];
+        const inputEl = document.getElementById(`input-${idx}`);
+        let userVal = '';
+        if (task.type === 'select') {
+          userVal = inputEl.value;
+        } else {
+          userVal = inputEl.value.trim();
+        }
+        const feedback = document.getElementById(`feedback-${idx}`);
+        const statusEl = document.getElementById(`status-${idx}`);
+        const card = document.getElementById(`task-${idx}`);
+
+        // simple case-insensitive for text, exact for select
+        let isCorrect = false;
+        if (task.type === 'select') {
+          isCorrect = (userVal === task.correct);
+        } else {
+          // text: normalize case and trim
+          isCorrect = (userVal.toLowerCase() === task.correct.toLowerCase());
+        }
+
+        if (isCorrect) {
+          feedback.className = 'feedback correct';
+          feedback.textContent = 'Correct!';
+          taskStatus[idx] = true;
+          statusEl.textContent = 'Verified';
+          statusEl.className = 'task-status verified';
+          card.classList.add('verified');
+          // disable verify button
+          document.getElementById(`verify-${idx}`).disabled = true;
+        } else {
+          feedback.className = 'feedback wrong';
+          feedback.textContent = 'Not quite. Try again.';
+          taskStatus[idx] = false;
+          statusEl.textContent = 'Pending';
+          statusEl.className = 'task-status';
+          card.classList.remove('verified');
+        }
+        updateProgress();
+      }
+
+      // ========== UPDATE PROGRESS ==========
+      function updateProgress() {
+        const done = taskStatus.filter(v => v).length;
+        const total = taskStatus.length;
+        progressLabel.textContent = `Progress: ${done} / ${total}`;
+        const pct = total ? (done / total) * 100 : 0;
+        progressFill.style.width = pct + '%';
+      }
+
+      // ========== ENTRY ==========
+      document.getElementById('startAssessmentBtn').addEventListener('click', function() {
+        const name = document.getElementById('studentName').value.trim();
+        const roll = document.getElementById('rollNumber').value.trim();
+        const room = document.getElementById('roomNumber').value.trim();
+
+        let valid = true;
+        if (!name) { document.getElementById('nameError').textContent = 'Name is required.'; valid = false; } else { document.getElementById('nameError').textContent = ''; }
+        if (!roll) { document.getElementById('rollError').textContent = 'Roll number required.'; valid = false; } else { document.getElementById('rollError').textContent = ''; }
+        if (!room) { document.getElementById('roomError').textContent = 'Room number required.'; valid = false; } else { document.getElementById('roomError').textContent = ''; }
+
+        if (!valid) return;
+
+        // save
+        studentName = name;
+        rollNumber = roll;
+        roomNumber = room;
+        startTime = new Date();
+
+        // display
+        displayName.textContent = studentName;
+        displayRoll.textContent = rollNumber;
+        displayRoom.textContent = roomNumber;
+
+        // hide entry, show workspace
+        entryOverlay.style.display = 'none';
+        workspace.style.display = 'block';
+
+        // render tasks
+        renderTasks();
+      });
+
+      // ========== SUBMISSION ==========
+      document.getElementById('submitAssessmentBtn').addEventListener('click', function() {
+        const done = taskStatus.filter(v => v).length;
+        const total = taskStatus.length;
+        if (done < total) {
+          if (!confirm(`You have completed ${done}/${total} tasks. Submit anyway?`)) return;
+        }
+
+        // capture end time
+        endTime = new Date();
+        elapsedMs = endTime - startTime;
+        const elapsedStr = elapsedMs < 60000 ? Math.floor(elapsedMs/1000) + 's' : Math.floor(elapsedMs/60000) + 'm ' + Math.floor((elapsedMs%60000)/1000) + 's';
+        const startStr = startTime ? startTime.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', second:'2-digit', hour12:true}) : '';
+        const endStr = endTime ? endTime.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', second:'2-digit', hour12:true}) : '';
+
+        // build form data
+        const formData = new FormData();
+        const f = SUBMISSION_CONFIG.fields;
+        formData.append(f.topic, TOPIC);
+        formData.append(f.name, studentName);
+        formData.append(f.roll, rollNumber);
+        formData.append(f.room, `${GRADE} - ${roomNumber}`);   // prepend grade
+        formData.append(f.status, `${done}/${total}`);
+        formData.append(f.startTime, startStr);
+        formData.append(f.endTime, endStr);
+        formData.append(f.elapsedTime, elapsedStr);
+
+        // submit via fetch no-cors
+        fetch(SUBMISSION_CONFIG.url, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData
+        }).catch(() => {}); // no-cors -> opaque, ignore
+
+        // show exit screen
+        exitSummary.innerHTML = `
+          <p><strong>${TOPIC}</strong> · Grade ${GRADE}</p>
+          <p>${studentName} · ${rollNumber} · ${roomNumber}</p>
+          <p>Completed: ${done}/${total} tasks</p>
+          <p>Start: ${startStr} · End: ${endStr} · Elapsed: ${elapsedStr}</p>
+        `;
+        exitOverlay.classList.remove('hidden');
+        // disable further interaction (overlay blocks)
+      });
+
+      // ========== KEYBOARD: allow Enter on entry ==========
+      document.querySelectorAll('#entryOverlay input').forEach(inp => {
+        inp.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') document.getElementById('startAssessmentBtn').click();
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Activity: DBMS Fundamentals - Grade XII</title>
+    <link rel="stylesheet" href="../css/activity.css">
+    <style>
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .data-table th {
+            background: #1e3a5f;
+            color: white;
+            padding: 0.7rem 0.8rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        .data-table td {
+            background: white;
+            padding: 0.7rem 0.8rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .badge.green { background: #16a34a; }
+        .badge.purple { background: #7c3aed; }
+        .badge.orange { background: #ea580c; }
+        .badge.key-blue { background: #2563eb; }
+        .badge.fk-purple { background: #7c3aed; }
+        .badge.er-orange { background: #ea580c; }
+        .key-list {
+            list-style: none;
+            padding-left: 0.2rem;
+            margin-top: 1rem;
+        }
+        .key-list li {
+            margin-bottom: 0.75rem;
+        }
+        .inline-answer {
+            background: #f1f5f9;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- HEADER -->
+    <header>
+        <h1>Lab Activity: Database Management System Fundamentals</h1>
+        <p class="subtitle">Comprehensive Laboratory Work Guide</p>
+        <p class="grade-badge">Grade XII &bull; Computer Science</p>
+    </header>
+
+    <!-- PREREQUISITES -->
+    <div class="instruction-box">
+        <p class="quiz-question">Prerequisites</p>
+        <ul class="step-list">
+            <li>Basic understanding of computers and data storage.</li>
+            <li>Familiarity with tables, rows, and columns (from earlier classes).</li>
+            <li>Familiarity with real-world examples like school records, hospital systems, and electricity billing.</li>
+        </ul>
+    </div>
+
+    <!-- LEARNING OBJECTIVES -->
+    <div class="section-title">
+        <span class="badge">Objectives</span> Learning Goals & Outcomes
+    </div>
+
+    <div class="instruction-box objective">
+        <p><strong>By the end of this lab activity, you will be able to:</strong></p>
+        <ul class="step-list">
+            <li>Differentiate between data, information, and databases.</li>
+            <li>Identify the main types of DBMS (hierarchical, network, relational, object-oriented).</li>
+            <li>Understand the role of keys (primary, foreign, candidate, super, composite).</li>
+            <li>Interpret ER diagrams and relationship types (1:1, 1:M, M:N).</li>
+            <li>Compare centralized vs. distributed databases and basic security concepts.</li>
+        </ul>
+        <p class="text-small mt-4"><strong>Real-World Application:</strong> DBMS concepts are used in every modern application -- from school record systems to banking, healthcare, and e-commerce platforms.</p>
+    </div>
+
+    <!-- CONCEPTUAL WALKTHROUGH -->
+    <div class="section-title">
+        <span class="badge purple">Concept Overview</span> Understanding DBMS Fundamentals
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>Data</strong> is raw, unorganized facts (e.g., "Ram", "9841-234567"). <strong>Information</strong> is data that has been processed and organized to make it meaningful (e.g., a student directory). A <strong>database</strong> is a structured collection of data stored electronically. A <strong>DBMS</strong> is software that manages the database.</p>
+
+        <p class="mt-4"><strong>Real-world example:</strong> An electricity authority uses a database to manage customer billing, outages, and payments. Similarly, schools use databases for student records.</p>
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>Key Concepts in DBMS:</strong></p>
+        <ul class="step-list">
+            <li><span class="badge key-blue">PK</span> <strong>Primary key</strong> -- uniquely identifies each record (e.g., <span class="formula">Student_ID</span>).</li>
+            <li><span class="badge fk-purple">FK</span> <strong>Foreign key</strong> -- links to primary key of another table (e.g., <span class="formula">Dept_ID</span> in Student table).</li>
+            <li><span class="badge er-orange">ER</span> <strong>Entity-Relationship (ER) model</strong> -- a diagram that shows entities (tables) and their relationships.</li>
+        </ul>
+
+        <p class="mt-4"><strong>Common Mistakes to Avoid:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Confusing data with information -- data is raw, information is processed.</li>
+            <li>Thinking a database is the same as a DBMS (DBMS is the software that manages the database).</li>
+            <li>Forgetting that foreign keys must reference a primary key in another table.</li>
+        </ul>
+
+        <p class="mt-4"><strong>Best Practices:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Always identify the primary key first when designing a table.</li>
+            <li>Use meaningful names for tables and columns.</li>
+            <li>Draw ER diagrams before implementing the database schema.</li>
+        </ul>
+    </div>
+
+    <!-- PART 1: DATA VS INFORMATION & DBMS TYPES -->
+    <div class="section-title">
+        <span class="badge">Part 1</span> Data, Information & DBMS Types
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 1.1 -- Data vs. Information</p>
+        <p class="text-small mb-4">For each item, identify whether it is <strong>data</strong> or <strong>information</strong>:</p>
+        <ol class="step-list">
+            <li>"9841-234567" <span class="inline-answer"><span class="formula">Data</span> (raw phone number)</span></li>
+            <li>"Ram Sharma, Roll 12, Class XII" <span class="inline-answer"><span class="formula">Information</span> (organized facts)</span></li>
+            <li>"25, 30, 45" <span class="inline-answer"><span class="formula">Data</span> (raw numbers)</span></li>
+            <li>"The average age of students is 17.5" <span class="inline-answer"><span class="formula">Information</span> (processed data)</span></li>
+        </ol>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 1.2 -- Types of DBMS</p>
+        <p>List the <span class="highlight">four main types</span> of DBMS:</p>
+        <div class="inline-answer">Hierarchical, Network, Relational, Object-Oriented</div>
+        <p class="mt-4"><strong>Which one is most widely used today?</strong> <span class="formula">Relational DBMS (RDBMS)</span> e.g., MySQL, Oracle, PostgreSQL.</p>
+    </div>
+
+    <!-- PART 2: KEYS -->
+    <div class="section-title">
+        <span class="badge green">Part 2</span> Keys in Relational Databases
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 2.1 -- Identify the Key Type</p>
+        <p class="text-small mb-4">Given the <strong>Student</strong> table with columns: <em>Student_ID, Roll_No, Name, Dept_ID, Phone</em></p>
+        <ol class="step-list">
+            <li><strong>Primary key</strong> -- <span class="formula">Student_ID</span> (unique, not null)</li>
+            <li><strong>Candidate key</strong> -- <span class="formula">Roll_No</span> (also unique)</li>
+            <li><strong>Foreign key</strong> -- <span class="formula">Dept_ID</span> (references Department table)</li>
+            <li><strong>Composite key</strong> -- <span class="formula">(Student_ID, Phone)</span> if used together to identify a record</li>
+            <li><strong>Super key</strong> -- any set that contains a candidate key, e.g., <span class="formula">(Student_ID, Name)</span></li>
+        </ol>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 2.2 -- Alternate Key</p>
+        <p>In the <strong>Employee</strong> table, <em>Emp_ID</em> is the primary key. What is the alternate key if <em>PAN_Number</em> is also unique?</p>
+        <div class="inline-answer"><span class="formula">PAN_Number</span> is an alternate key.</div>
+    </div>
+
+    <!-- PART 3: ER DIAGRAMS & RELATIONSHIPS -->
+    <div class="section-title">
+        <span class="badge orange">Part 3</span> ER Diagrams & Relationships
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 3.1 -- Relationship Types</p>
+        <p class="text-small mb-4">Identify the relationship type for each scenario:</p>
+        <ol class="step-list">
+            <li><strong>A college has many students, but a student studies in only one college.</strong> <span class="inline-answer"><span class="formula">Many-to-One (M:1)</span></span></li>
+            <li><strong>A person has one passport, and a passport belongs to one person.</strong> <span class="inline-answer"><span class="formula">One-to-One (1:1)</span></span></li>
+            <li><strong>A student can enroll in many courses, and a course can have many students.</strong> <span class="inline-answer"><span class="formula">Many-to-Many (M:N)</span></span></li>
+        </ol>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 3.2 -- ER Diagram Symbols</p>
+        <p>Match each shape to its meaning in an ER diagram:</p>
+        <ul class="step-list" style="list-style: disc;">
+            <li>Rectangle = <span class="formula">Entity</span></li>
+            <li>Ellipse = <span class="formula">Attribute</span></li>
+            <li>Diamond = <span class="formula">Relationship</span></li>
+            <li>Double ellipse = <span class="formula">Multivalued attribute</span> (e.g., phone numbers)</li>
+            <li>Dashed ellipse = <span class="formula">Derived attribute</span> (e.g., age from DOB)</li>
+        </ul>
+        <p class="mt-4"><span class="highlight">Example:</span> In a <strong>Student</strong> entity, <em>Student_ID</em> is a key attribute (underlined), <em>Address</em> is composite (Province, District, Municipality), and <em>Phone</em> is multivalued.</p>
+    </div>
+
+    <!-- PART 4: CENTRALIZED VS DISTRIBUTED & SECURITY -->
+    <div class="section-title">
+        <span class="badge purple">Part 4</span> Centralized vs. Distributed & Security
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 4.1 -- Compare Centralized & Distributed Databases</p>
+        <table class="data-table">
+            <thead><tr><th>Feature</th><th>Centralized</th><th>Distributed</th></tr></thead>
+            <tbody>
+                <tr><td>Location</td><td>Single site</td><td>Multiple sites</td></tr>
+                <tr><td>Cost</td><td>Cheaper</td><td>More expensive</td></tr>
+                <tr><td>Security</td><td>Less secure (single point of failure)</td><td>More secure (data spread out)</td></tr>
+                <tr><td>Scalability</td><td>Harder to scale</td><td>Easier to expand</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 4.2 -- Database Security Threats</p>
+        <p>List three common security threats:</p>
+        <ul class="step-list">
+            <li><span class="highlight">Insider threats</span> -- employees with too much access</li>
+            <li><span class="highlight">SQL injection</span> -- malicious code inserted into queries</li>
+            <li><span class="highlight">Denial of Service (DoS)</span> -- overwhelming the server with requests</li>
+        </ul>
+        <p class="mt-4"><strong>Best practice:</strong> Use <span class="formula">encryption</span>, <span class="formula">regular patching</span>, and <span class="formula">least privilege</span> access.</p>
+    </div>
+
+    <!-- CHALLENGE QUIZ -->
+    <div class="section-title">
+        <span class="badge">Challenge</span> Quiz: Test Your DBMS Knowledge
+    </div>
+
+    <div class="quiz-container">
+        <div class="quiz-card">
+            <p class="quiz-question">1. Which DBMS type uses a tree-like structure with parent-child relationships?</p>
+            <ul class="quiz-options">
+                <li>Relational</li>
+                <li>Hierarchical</li>
+                <li>Network</li>
+                <li>Object-Oriented</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Hierarchical (e.g., Windows Registry).</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">2. A foreign key in a table is used to:</p>
+            <ul class="quiz-options">
+                <li>Uniquely identify a record</li>
+                <li>Link to the primary key of another table</li>
+                <li>Store multiple values</li>
+                <li>Derive an attribute</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Link to the primary key of another table -- establishes relationships.</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">3. In an ER diagram, a dashed ellipse represents:</p>
+            <ul class="quiz-options">
+                <li>Key attribute</li>
+                <li>Multivalued attribute</li>
+                <li>Derived attribute</li>
+                <li>Composite attribute</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Derived attribute (e.g., age derived from date of birth).</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">4. Which of the following is an advantage of a distributed database?</p>
+            <ul class="quiz-options">
+                <li>Lower cost</li>
+                <li>Easier to scale</li>
+                <li>Single point of failure</li>
+                <li>Less complexity</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Easier to scale -- data can be added across multiple locations.</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">5. Which security threat involves inserting malicious SQL code into a query?</p>
+            <ul class="quiz-options">
+                <li>Insider threat</li>
+                <li>SQL injection</li>
+                <li>Denial of Service</li>
+                <li>Buffer overflow</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">SQL injection -- a common attack on web applications.</div></details>
+        </div>
+    </div>
+
+    <!-- ASSESSMENT PREPARATION -->
+    <div class="section-title">
+        <span class="badge purple">Assessment Prep</span> Ready for the Interactive Assessment
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>What to Expect in the Assessment:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Be ready to differentiate between data, information, and databases.</li>
+            <li>Know the four DBMS types and their characteristics.</li>
+            <li>Understand primary, foreign, candidate, super, and composite keys.</li>
+            <li>Interpret ER diagram symbols and relationship types.</li>
+            <li>Compare centralized vs. distributed databases and list basic security measures.</li>
+        </ul>
+
+        <p class="mt-4"><strong>Key Points to Remember:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Data is raw; information is processed data.</li>
+            <li>A primary key must be unique and not null.</li>
+            <li>A foreign key links two tables together.</li>
+            <li>ER diagrams use rectangles (entities), ellipses (attributes), diamonds (relationships).</li>
+            <li>Think of examples like school records, hospital systems, and electricity billing.</li>
+        </ul>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="instruction-box">
+            <p><strong>Completion Checklist:</strong></p>
+            <ul class="step-list mt-2">
+                <li>Differentiated between data and information with examples</li>
+                <li>Listed the four main DBMS types</li>
+                <li>Identified primary, foreign, candidate, super, and composite keys</li>
+                <li>Practiced ER diagram relationship types (1:1, 1:M, M:N)</li>
+                <li>Understood ER diagram symbols</li>
+                <li>Compared centralized vs. distributed databases</li>
+                <li>Identified common database security threats</li>
+                <li>Completed the challenge quiz</li>
+            </ul>
+        </div>
+
+        <p class="mt-4"><strong>Next Steps:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Proceed to the lab assessment to test your knowledge</li>
+            <li>Study SQL commands and practice database creation in MySQL</li>
+            <li>Explore database normalization (1NF, 2NF, 3NF) in the next activity</li>
+            <li>Design an ER diagram for a real-world system of your choice</li>
+        </ul>
+
+        <p class="mt-4 text-center">&mdash; Thank you. See you in the next chapter &mdash;</p>
+        <p class="text-small text-center">Ensure all laboratory tasks are completed under workspace supervision guidelines.</p>
+    </div>
+
+</div>
+</body>
+</html>
