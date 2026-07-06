@@ -187,6 +187,18 @@ Group related items with `.action-group` and separate groups with `|` (`.action-
 
 ---
 
+## 🔗 Activity ↔ Assessment Relationship
+
+Activity and Assessment are complementary pairs that build on each other:
+
+- **Activity** (theory worksheet or lab guide) builds knowledge through interactive, playful exercises covering every important topic in the unit.
+- **Assessment** (interactive canvas) tests the same content — the student who masters the activity will succeed in the assessment.
+- Students should be able to **repeat the activity** as many times as they need until they feel confident.
+- Activities should be **engaging and game-like**: MCQs, drag-and-sort, fill-in-blanks, matching, interactive challenges. Boring walls of text defeat the purpose.
+- An activity + its assessment must cover the **same set of topics**. Nothing should appear in the test that wasn't practiced in the activity.
+
+---
+
 ## 📄 Activity Page Standards
 
 Activity pages live in `activities/` and link to `../css/activity.css`. There are two types: **theory worksheets** and **lab guides**.
@@ -395,6 +407,10 @@ Resource type(s) to build (infer which from context, or build the full pair):
 - Keep emojis
 
 ### Activity / Lab Guide pages
+- Activity and assessment are complementary pairs — the activity builds knowledge, the assessment tests it. Both must cover the same topics.
+- Activities must be **interactive and playful**: MCQs, drag-and-sort, fill-in-blanks, matching, clickable challenges. No walls of text.
+- Cover **every important topic** from the unit. Nothing in the assessment should be unseen in the activity.
+- Students repeat activities until confident — make them engaging enough to want to.
 - Follow the "Activity Page Standards" section in STYLE_GUIDE.md
 - Link to `../css/activity.css`
 - Inline `<style>` only for rules not in activity.css; under 20 rules
