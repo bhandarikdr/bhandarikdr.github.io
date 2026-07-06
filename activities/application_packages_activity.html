@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activity: Application Packages — Practice Before You're Assessed</title>
+<link rel="stylesheet" href="../css/activity.css">
+<style>
+  /* Only rules NOT already expected in activity.css */
+  .tabs {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    margin: 1.5rem 0; border-bottom: 2px solid var(--border-color, #ddd);
+    padding-bottom: 0.75rem;
+  }
+  .tab-btn {
+    background: transparent; border: 1px solid var(--border-color, #ccc);
+    border-radius: 999px; padding: 0.45rem 1rem; font-size: 0.85rem;
+    cursor: pointer; color: var(--text-color, #333);
+  }
+  .tab-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .covers-note {
+    font-size: 0.78rem; color: var(--text-muted, #666);
+    background: var(--bg-secondary, #f7f7f9); border-radius: 6px;
+    padding: 0.4rem 0.7rem; display: inline-block; margin-bottom: 0.75rem;
+  }
+
+  /* Analyzer */
+  #analyzerInput {
+    width: 100%; min-height: 100px; box-sizing: border-box; padding: 0.75rem;
+    border: 1px solid var(--border-color, #ccc); border-radius: 6px;
+    font-size: 1rem; font-family: inherit;
+  }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+  .stat-box { text-align: center; border: 1px solid var(--border-color, #ddd); border-radius: 8px; padding: 0.75rem 0.5rem; }
+  .stat-box .num { font-size: 1.6rem; font-weight: 700; color: var(--primary-color); display: block; }
+  .stat-box .lbl { font-size: 0.8rem; color: var(--text-muted, #666); }
+
+  /* Order-the-units */
+  .order-pool { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+  .order-chip {
+    padding: 0.4rem 0.85rem; border-radius: 999px; border: 1px solid var(--border-color, #ccc);
+    cursor: pointer; font-size: 0.85rem; background: #fff;
+  }
+  .order-chip.used { opacity: 0.35; cursor: default; }
+  .order-sequence {
+    min-height: 46px; border: 2px dashed var(--border-color, #ccc); border-radius: 8px;
+    display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; padding: 0.5rem 0.75rem; margin-top: 0.75rem;
+  }
+  .order-sequence .order-chip { cursor: default; opacity: 1; background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+  .order-feedback { margin-top: 0.6rem; font-weight: 600; }
+
+  /* Flip cards (features) */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .flip-card { perspective: 1000px; height: 130px; cursor: pointer; }
+  .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+  .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+  .flip-face {
+    position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+    border: 1px solid var(--border-color, #ddd); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: 0.6rem; box-sizing: border-box; font-size: 0.88rem;
+  }
+  .flip-front { background: var(--bg-secondary, #f7f7f9); font-weight: 600; }
+  .flip-back { background: var(--primary-color); color: #fff; transform: rotateY(180deg); }
+
+  /* Word processor facts */
+  .fact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
+  .fact-card {
+    border: 1px solid var(--border-color, #ddd); border-radius: 8px; padding: 0.9rem 1rem;
+  }
+  .elim-options { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+  .elim-option {
+    border: 1px solid var(--border-color, #ccc); border-radius: 6px; padding: 0.45rem 0.7rem;
+    cursor: pointer; font-size: 0.88rem;
+  }
+  .elim-option.correct { background: #e6f7ec; border-color: #2e9e5b; }
+  .elim-option.incorrect { background: #fdeaea; border-color: #d9534f; opacity: 0.7; }
+
+  .timeline-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+  .timeline-btn {
+    padding: 0.4rem 0.9rem; border-radius: 999px; border: 1px solid var(--border-color, #ccc);
+    cursor: pointer; font-size: 0.82rem; background: #fff;
+  }
+  .timeline-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+  .timeline-detail {
+    margin-top: 0.75rem; border-left: 3px solid var(--primary-color); padding-left: 0.75rem;
+    font-size: 0.9rem; min-height: 40px;
+  }
+
+  .compare-toggle { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
+  .compare-btn {
+    flex: 1; padding: 0.55rem; border-radius: 6px; border: 1px solid var(--border-color, #ccc);
+    cursor: pointer; text-align: center; font-size: 0.85rem; background: #fff;
+  }
+  .compare-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+  .compare-detail { margin-top: 0.75rem; font-size: 0.88rem; min-height: 60px; }
+
+  /* Spreadsheet / cell reference */
+  .sheet-grid {
+    display: grid; grid-template-columns: 40px repeat(5, 1fr); gap: 4px; margin-top: 1rem; max-width: 560px;
+  }
+  .sheet-grid .head { text-align: center; font-weight: 600; font-size: 0.8rem; color: var(--text-muted, #666); }
+  .sheet-grid input {
+    width: 100%; box-sizing: border-box; text-align: center; padding: 0.35rem 0.2rem;
+    border: 1px solid var(--border-color, #ccc); border-radius: 4px;
+  }
+  .formula-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-top: 1.25rem; }
+  .formula-results .stat-box code { font-size: 0.75rem; color: var(--text-muted, #666); }
+
+  .click-grid {
+    display: inline-grid; grid-template-columns: 40px repeat(5, 60px); gap: 3px; margin-top: 1rem;
+  }
+  .click-grid .head { text-align: center; font-weight: 600; font-size: 0.78rem; color: var(--text-muted, #666); }
+  .click-cell {
+    border: 1px solid var(--border-color, #ccc); border-radius: 4px; text-align: center;
+    padding: 0.4rem 0; font-size: 0.8rem; cursor: pointer; background: #fff;
+  }
+  .click-cell.picked { background: var(--primary-color); color: #fff; }
+  .click-feedback { margin-top: 0.75rem; font-weight: 600; min-height: 24px; }
+
+  /* Presentation builder */
+  .slide-preview {
+    border: 2px dashed var(--border-color, #ccc); border-radius: 8px; aspect-ratio: 16/9; max-width: 480px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.4rem; padding: 1rem; margin-top: 1rem; text-align: center; background: var(--bg-secondary, #f7f7f9);
+  }
+  .toggle-row { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1rem; }
+  .toggle-chip {
+    padding: 0.4rem 0.9rem; border-radius: 999px; border: 1px solid var(--border-color, #ccc);
+    cursor: pointer; font-size: 0.85rem; background: #fff;
+  }
+  .toggle-chip.on { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+
+  /* Pros/cons sorter */
+  .sort-pool { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
+  .sort-item {
+    border: 1px solid var(--border-color, #ccc); border-radius: 6px; padding: 0.5rem 0.75rem;
+    font-size: 0.87rem; background: #fff;
+  }
+  .sort-buttons { display: flex; gap: 0.5rem; margin-top: 0.4rem; }
+  .sort-buttons button {
+    flex: 1; padding: 0.35rem; border-radius: 5px; border: 1px solid var(--border-color, #ccc);
+    cursor: pointer; font-size: 0.78rem; background: #fff;
+  }
+  .sort-item.done { opacity: 0.5; }
+  .sort-item.done.right { border-color: #2e9e5b; }
+  .sort-item.done.wrong { border-color: #d9534f; }
+
+  /* Matching game (DBMS / domain) */
+  .match-row { display: flex; gap: 0.75rem; align-items: center; margin: 0.5rem 0; flex-wrap: wrap; }
+  .match-term {
+    min-width: 140px; padding: 0.5rem 0.75rem; border-radius: 6px;
+    background: var(--bg-secondary, #f7f7f9); border: 1px solid var(--border-color, #ddd); font-weight: 600;
+  }
+  select.match-select { padding: 0.4rem 0.5rem; border-radius: 6px; border: 1px solid var(--border-color, #ccc); flex: 1; min-width: 200px; }
+  .match-feedback { font-size: 1.1rem; width: 24px; text-align: center; }
+  .check-btn, .reset-btn {
+    background: var(--primary-color); color: #fff; border: none; padding: 0.55rem 1.2rem;
+    border-radius: 6px; cursor: pointer; font-size: 0.95rem; margin-top: 1rem; margin-right: 0.5rem;
+  }
+  .reset-btn { background: var(--text-muted, #888); }
+  .score-line { margin-top: 0.75rem; font-weight: 600; }
+
+  .next-step-banner {
+    background: var(--bg-secondary, #f7f7f9); border: 1px solid var(--border-color, #ddd);
+    border-radius: 8px; padding: 1rem 1.25rem; margin-top: 2rem; text-align: center;
+  }
+  .next-step-banner a {
+    display: inline-block; margin-top: 0.5rem; background: var(--primary-color); color: #fff;
+    text-decoration: none; padding: 0.6rem 1.4rem; border-radius: 6px; font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<header class="lab-header">
+  <h1>Activity: Application Packages</h1>
+  <p class="subtitle">Practice Before You're Assessed</p>
+  <span class="grade-badge">Grade XI • Computer Science</span>
+</header>
+
+<section>
+  <div class="instruction-box objective">
+    <p>Every widget on this page rehearses something the <strong>Full Unit Assessment</strong> will ask you about. Nothing here is graded — tweak things, get it wrong, try again. When each tab feels comfortable, you're ready for the real thing.</p>
+    <p>Looking for the guided MS Word / Excel / PowerPoint / Access lab steps instead? See the <a href="application_packages_lab_guide.html">lab activity guide</a>.</p>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab-btn active" data-tab="wpfacts">Word Processor Facts</button>
+  <button class="tab-btn" data-tab="analyzer">Document Units</button>
+  <button class="tab-btn" data-tab="features">Feature Flip Cards</button>
+  <button class="tab-btn" data-tab="sheet">Formula & Cell Reference</button>
+  <button class="tab-btn" data-tab="slide">Build a Slide</button>
+  <button class="tab-btn" data-tab="proscons">PowerPoint Pros & Cons</button>
+  <button class="tab-btn" data-tab="dbms">DBMS Term Match</button>
+  <button class="tab-btn" data-tab="domain">Domain-Tool Sorter</button>
+</nav>
+
+<!-- 1. Word Processor Facts -->
+<section id="wpfacts" class="panel active">
+  <h2 class="section-title">Word Processor Facts</h2>
+  <div class="covers-note">Trains assessment tasks 1, 2, 3, and 7</div>
+
+  <div class="fact-grid">
+    <div class="fact-card">
+      <strong>What is word processing?</strong>
+      <p style="font-size:0.88rem; margin-top:0.4rem;">Click the option that best defines it.</p>
+      <div class="elim-options" id="defOptions"></div>
+    </div>
+
+    <div class="fact-card">
+      <strong>Spot the impostor</strong>
+      <p style="font-size:0.88rem; margin-top:0.4rem;">Which one is <em>not</em> a word-processing package?</p>
+      <div class="elim-options" id="notWpOptions"></div>
+    </div>
+  </div>
+
+  <div class="fact-card" style="margin-top:1rem;">
+    <strong>A short history — click an era</strong>
+    <div class="timeline-row" id="timelineRow"></div>
+    <div class="timeline-detail" id="timelineDetail">Pick a decade above to see what changed.</div>
+  </div>
+
+  <div class="fact-card" style="margin-top:1rem;">
+    <strong>Word processor vs. Desktop Publishing</strong>
+    <p style="font-size:0.88rem; margin-top:0.4rem;">Tap each side to compare.</p>
+    <div class="compare-toggle">
+      <div class="compare-btn" data-side="wp">Word Processor</div>
+      <div class="compare-btn" data-side="dtp">Desktop Publishing</div>
+    </div>
+    <div class="compare-detail" id="compareDetail">Choose a side to compare.</div>
+  </div>
+</section>
+
+<!-- 2. Document Units + Ordering -->
+<section id="analyzer" class="panel">
+  <h2 class="section-title">Document Units</h2>
+  <div class="covers-note">Trains assessment task 4</div>
+  <p>Type below to see how a document breaks into units — then arrange those units from smallest to largest.</p>
+  <textarea id="analyzerInput" placeholder="Start typing a paragraph here...">Word processing lets you type, edit, and format text easily.
+
+You can undo mistakes, check spelling, and print the final result.</textarea>
+  <div class="stat-grid">
+    <div class="stat-box"><span class="num" id="statChars">0</span><span class="lbl">Characters</span></div>
+    <div class="stat-box"><span class="num" id="statWords">0</span><span class="lbl">Words</span></div>
+    <div class="stat-box"><span class="num" id="statSentences">0</span><span class="lbl">Sentences</span></div>
+    <div class="stat-box"><span class="num" id="statParagraphs">0</span><span class="lbl">Paragraphs</span></div>
+  </div>
+
+  <div class="fact-card" style="margin-top:1.25rem;">
+    <strong>Now put the units in order — smallest to largest</strong>
+    <p style="font-size:0.85rem;">Click each unit in the correct order. Click "Reset" to try again.</p>
+    <div class="order-pool" id="orderPool"></div>
+    <div class="order-sequence" id="orderSequence"></div>
+    <div class="order-feedback" id="orderFeedback"></div>
+    <button class="reset-btn" onclick="resetOrder()">Reset</button>
+  </div>
+</section>
+
+<!-- 3. Feature Flip Cards -->
+<section id="features" class="panel">
+  <h2 class="section-title">Flip a Feature</h2>
+  <div class="covers-note">Trains assessment tasks 5 and 6</div>
+  <p>Click a card to reveal what that word-processor feature actually does.</p>
+  <div class="card-grid" id="cardGrid"></div>
+</section>
+
+<!-- 4. Spreadsheet / Cell Reference -->
+<section id="sheet" class="panel">
+  <h2 class="section-title">Formula & Cell Reference Playground</h2>
+  <div class="covers-note">Trains assessment tasks 8, 9, 10, and 11</div>
+
+  <p>Edit the numbers in row 2 below and watch SUM, AVERAGE, MAX, MIN, and COUNT recalculate instantly.</p>
+  <div class="sheet-grid" id="sheetGrid"></div>
+  <div class="formula-results" id="formulaResults"></div>
+
+  <div class="fact-card" style="margin-top:1.5rem;">
+    <strong>Name that cell</strong>
+    <p style="font-size:0.87rem;">A cell's address is its <em>column letter</em> + <em>row number</em>. Click a cell below and check the address that appears.</p>
+    <div class="click-grid" id="clickGrid"></div>
+    <div class="click-feedback" id="clickFeedback"></div>
+  </div>
+</section>
+
+<!-- 5. Build a Slide -->
+<section id="slide" class="panel">
+  <h2 class="section-title">Build a Slide</h2>
+  <div class="covers-note">Trains assessment task 12</div>
+  <p>Every presentation program is built from three core components. Toggle them and watch the preview change.</p>
+  <div class="toggle-row">
+    <div class="toggle-chip on" data-part="text">Text Editor</div>
+    <div class="toggle-chip on" data-part="graphics">Graphics / Media</div>
+    <div class="toggle-chip on" data-part="slideshow">Slideshow System</div>
+  </div>
+  <div class="slide-preview" id="slidePreview"></div>
+</section>
+
+<!-- 6. Pros & Cons Sorter -->
+<section id="proscons" class="panel">
+  <h2 class="section-title">PowerPoint: Advantage or Disadvantage?</h2>
+  <div class="covers-note">Trains assessment task 13</div>
+  <p>Sort each statement into the right bin.</p>
+  <div class="sort-pool" id="sortPool"></div>
+</section>
+
+<!-- 7. DBMS Term Match -->
+<section id="dbms" class="panel">
+  <h2 class="section-title">Match the Database Term</h2>
+  <div class="covers-note">Trains assessment task 14</div>
+  <p>Choose the correct definition for each term, then check your answers.</p>
+  <div id="dbmsRows"></div>
+  <button class="check-btn" onclick="checkMatch('dbms')">Check Answers</button>
+  <button class="reset-btn" onclick="buildDbms()">Reset</button>
+  <div class="score-line" id="dbmsScore"></div>
+</section>
+
+<!-- 8. Domain-Specific Tool Sorter -->
+<section id="domain" class="panel">
+  <h2 class="section-title">Sort the Domain-Specific Tool</h2>
+  <div class="covers-note">Trains assessment task 15</div>
+  <p>Match each specialised system to the job it's built for.</p>
+  <div id="domainRows"></div>
+  <button class="check-btn" onclick="checkMatch('domain')">Check Answers</button>
+  <button class="reset-btn" onclick="buildDomain()">Reset</button>
+  <div class="score-line" id="domainScore"></div>
+</section>
+
+<div class="next-step-banner">
+  <p>Comfortable with all eight tabs? You're ready.</p>
+  <a href="application_packages_assessment.html">Go to the Full Unit Assessment →</a>
+</div>
+
+<script>
+// ---------- Tabs ----------
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ---------- 1a. Definition elimination ----------
+const defOptions = [
+  ["Typing, editing, and manipulating a document into a desired form", true],
+  ["Only printing physical typewritten pages", false],
+  ["Performing numeric calculations on data", false]
+];
+renderElim('defOptions', defOptions);
+
+const notWpOptions = [
+  ["WordStar", false],
+  ["LibreOffice Writer", false],
+  ["MS Excel", true],
+  ["MS Word", false]
+];
+renderElim('notWpOptions', notWpOptions, "not a word processor");
+
+function renderElim(containerId, options, hint) {
+  const el = document.getElementById(containerId);
+  options.forEach(([label, isAnswer]) => {
+    const div = document.createElement('div');
+    div.className = 'elim-option';
+    div.textContent = label;
+    div.addEventListener('click', () => {
+      const container = document.getElementById(containerId);
+      [...container.children].forEach(c => c.classList.remove('correct', 'incorrect'));
+      div.classList.add(isAnswer ? 'correct' : 'incorrect');
+    });
+    el.appendChild(div);
+  });
+}
+
+// ---------- 1b. Timeline ----------
+const timelineData = [
+  ["1960s", "Standalone machines like electric typewriters appear — you could edit without retyping the whole document."],
+  ["1980s", "Word processing moves onto personal computers; WordPerfect becomes hugely popular."],
+  ["1990s", "WYSIWYG (What You See Is What You Get) word processors take over — Microsoft Word becomes dominant."],
+  ["2000s", "Cloud computing arrives — browser-based word processors enable remote storage and real-time collaboration."]
+];
+const timelineRow = document.getElementById('timelineRow');
+const timelineDetail = document.getElementById('timelineDetail');
+timelineData.forEach(([era, detail]) => {
+  const btn = document.createElement('div');
+  btn.className = 'timeline-btn';
+  btn.textContent = era;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.timeline-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    timelineDetail.textContent = detail;
+  });
+  timelineRow.appendChild(btn);
+});
+
+// ---------- 1c. WP vs DTP compare ----------
+const compareData = {
+  wp: "A word processor focuses on typing, editing, and formatting text — margins, fonts, spacing, spell-check, headers/footers.",
+  dtp: "Desktop publishing goes further: finer control over page layout, heavy graphics placement, and full-color print production."
+};
+document.querySelectorAll('.compare-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.compare-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('compareDetail').textContent = compareData[btn.dataset.side];
+  });
+});
+
+// ---------- 2a. Document Analyzer ----------
+const analyzerInput = document.getElementById('analyzerInput');
+function analyze() {
+  const text = analyzerInput.value;
+  const chars = text.length;
+  const words = (text.match(/[^\s]+/g) || []).length;
+  const sentences = (text.match(/[^.!?]+[.!?]+/g) || (text.trim() ? [text] : [])).length;
+  const paragraphs = text.split(/\n\s*\n/).filter(p => p.trim().length > 0).length;
+  document.getElementById('statChars').textContent = chars;
+  document.getElementById('statWords').textContent = words;
+  document.getElementById('statSentences').textContent = sentences;
+  document.getElementById('statParagraphs').textContent = paragraphs || (text.trim() ? 1 : 0);
+}
+analyzerInput.addEventListener('input', analyze);
+analyze();
+
+// ---------- 2b. Order the units ----------
+const correctOrder = ["Character", "Word", "Sentence", "Paragraph", "Page", "Chapter", "Document"];
+let orderPicked = [];
+function renderOrderPool() {
+  const pool = document.getElementById('orderPool');
+  pool.innerHTML = '';
+  const shuffled = [...correctOrder].sort(() => Math.random() - 0.5);
+  shuffled.forEach(unit => {
+    const chip = document.createElement('div');
+    chip.className = 'order-chip';
+    chip.textContent = unit;
+    chip.dataset.unit = unit;
+    chip.addEventListener('click', () => {
+      if (chip.classList.contains('used')) return;
+      chip.classList.add('used');
+      orderPicked.push(unit);
+      renderSequence();
+      if (orderPicked.length === correctOrder.length) checkOrder();
+    });
+    pool.appendChild(chip);
+  });
+}
+function renderSequence() {
+  const seq = document.getElementById('orderSequence');
+  seq.innerHTML = orderPicked.map(u => `<div class="order-chip">${u}</div>`).join('');
+}
+function checkOrder() {
+  const feedback = document.getElementById('orderFeedback');
+  const correct = orderPicked.every((u, i) => u === correctOrder[i]);
+  feedback.textContent = correct ? '✅ Perfect order!' : '❌ Not quite — hit Reset and try again.';
+}
+function resetOrder() {
+  orderPicked = [];
+  document.getElementById('orderFeedback').textContent = '';
+  renderOrderPool();
+  renderSequence();
+}
+resetOrder();
+
+// ---------- 3. Feature Flip Cards ----------
+const features = [
+  ["File Management", "Create, save, delete, move, and search for files from within the program."],
+  ["Undo & Redo", "Recover text removed by mistake, or re-apply a change you just undid."],
+  ["Search & Replace", "Find a word or phrase, and swap it for another everywhere it appears."],
+  ["Word-wrap", "Automatically starts a new line once text reaches the right margin."],
+  ["Headers & Footers", "Repeats custom text at the top/bottom of every page, with automatic page numbers."],
+  ["Spell & Grammar Check", "Flags misspelled words and sentences that break common grammar rules."],
+  ["Mail Merge", "Prints one letter many times, automatically swapping in a different name/address each time."],
+  ["Macros", "Records a sequence of keystrokes or commands so you can replay them with one click."],
+  ["Table of Contents", "Builds an automatic contents list and index from headings you've marked in the text."],
+  ["Collaboration", "Lets more than one person edit the same document and track each other's changes."]
+];
+const cardGrid = document.getElementById('cardGrid');
+features.forEach(([name, desc]) => {
+  const card = document.createElement('div');
+  card.className = 'flip-card';
+  card.innerHTML = `<div class="flip-inner">
+      <div class="flip-face flip-front">${name}</div>
+      <div class="flip-face flip-back">${desc}</div>
+    </div>`;
+  card.addEventListener('click', () => card.classList.toggle('flipped'));
+  cardGrid.appendChild(card);
+});
+
+// ---------- 4a. Spreadsheet Playground ----------
+const sheetGrid = document.getElementById('sheetGrid');
+const cols = ['A', 'B', 'C', 'D', 'E'];
+let sheetHtml = `<div class="head"></div>` + cols.map(c => `<div class="head">${c}</div>`).join('');
+sheetHtml += `<div class="head">1</div>` + cols.map(c => `<div class="head">Sub ${c}</div>`).join('');
+const defaults = [12, 18, 25, 30, 15];
+sheetHtml += `<div class="head">2</div>` + cols.map((c, i) => `<input type="number" id="cell${c}" value="${defaults[i]}">`).join('');
+sheetGrid.innerHTML = sheetHtml;
+
+const formulaResults = document.getElementById('formulaResults');
+const formulas = [
+  ['SUM', '=SUM(A2:E2)'],
+  ['AVERAGE', '=AVERAGE(A2:E2)'],
+  ['MAX', '=MAX(A2:E2)'],
+  ['MIN', '=MIN(A2:E2)'],
+  ['COUNT', '=COUNT(A2:E2)']
+];
+formulaResults.innerHTML = formulas.map(([label, f]) =>
+  `<div class="stat-box"><span class="num" id="res${label}">0</span><span class="lbl">${label}<br><code>${f}</code></span></div>`
+).join('');
+
+function recalc() {
+  const vals = cols.map(c => parseFloat(document.getElementById('cell' + c).value)).filter(v => !isNaN(v));
+  const sum = vals.reduce((a, b) => a + b, 0);
+  document.getElementById('resSUM').textContent = sum;
+  document.getElementById('resAVERAGE').textContent = vals.length ? (sum / vals.length).toFixed(2) : 0;
+  document.getElementById('resMAX').textContent = vals.length ? Math.max(...vals) : 0;
+  document.getElementById('resMIN').textContent = vals.length ? Math.min(...vals) : 0;
+  document.getElementById('resCOUNT').textContent = vals.length;
+}
+cols.forEach(c => document.getElementById('cell' + c).addEventListener('input', recalc));
+recalc();
+
+// ---------- 4b. Name-that-cell click grid ----------
+const clickGrid = document.getElementById('clickGrid');
+let clickHtml = `<div class="head"></div>` + cols.map(c => `<div class="head">${c}</div>`).join('');
+[1, 2, 3].forEach(row => {
+  clickHtml += `<div class="head">${row}</div>`;
+  cols.forEach(c => {
+    clickHtml += `<div class="click-cell" data-addr="${c}${row}"></div>`;
+  });
+});
+clickGrid.innerHTML = clickHtml;
+document.querySelectorAll('.click-cell').forEach(cell => {
+  cell.addEventListener('click', () => {
+    document.querySelectorAll('.click-cell').forEach(c => c.classList.remove('picked'));
+    cell.classList.add('picked');
+    document.getElementById('clickFeedback').textContent =
+      `You picked cell ${cell.dataset.addr} — column ${cell.dataset.addr[0]}, row ${cell.dataset.addr.slice(1)}.`;
+  });
+});
+
+// ---------- 5. Presentation Builder ----------
+const slidePreview = document.getElementById('slidePreview');
+const partState = { text: true, graphics: true, slideshow: true };
+document.querySelectorAll('.toggle-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const part = chip.dataset.part;
+    partState[part] = !partState[part];
+    chip.classList.toggle('on', partState[part]);
+    renderSlide();
+  });
+});
+function renderSlide() {
+  let parts = [];
+  if (partState.text) parts.push('<strong style="font-size:1.1rem;">My Favourite Hobby</strong>');
+  if (partState.graphics) parts.push('🖼️ <em>(an inserted image would appear here)</em>');
+  if (partState.slideshow) parts.push('<span style="font-size:0.8rem;color:var(--text-muted,#666);">▶ Ready to present as slide 1 of a show</span>');
+  slidePreview.innerHTML = parts.length ? parts.join('<br>') :
+    '<span style="color:var(--text-muted,#666);">Turn at least one component on to see a slide take shape.</span>';
+}
+renderSlide();
+
+// ---------- 6. Pros & Cons Sorter ----------
+const prosConsData = [
+  ["It's easy to use as long as you have basic computer skills.", "advantage"],
+  ["It makes presentations more engaging for an audience.", "advantage"],
+  ["It requires adequate training to use its many features properly.", "disadvantage"],
+  ["If not used correctly, it can affect the reputation of the presenter.", "disadvantage"],
+  ["Non-cloud versions don't always save files automatically.", "disadvantage"]
+];
+const sortPool = document.getElementById('sortPool');
+prosConsData.forEach(([text, correct]) => {
+  const item = document.createElement('div');
+  item.className = 'sort-item';
+  item.innerHTML = `<div>${text}</div>
+    <div class="sort-buttons">
+      <button data-choice="advantage">Advantage</button>
+      <button data-choice="disadvantage">Disadvantage</button>
+    </div>`;
+  item.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (item.classList.contains('done')) return;
+      const ok = btn.dataset.choice === correct;
+      item.classList.add('done', ok ? 'right' : 'wrong');
+      btn.textContent += ok ? ' ✅' : ' ❌ (correct: ' + correct + ')';
+    });
+  });
+  sortPool.appendChild(item);
+});
+
+// ---------- 7 & 8. Matching games ----------
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+const dbmsData = [
+  ["Table", "Data organized into fields and records, forming the backbone of a database."],
+  ["Field", "A single category of information, such as a Last_Name column."],
+  ["Record", "One complete row containing all field values for a single item."],
+  ["Query", "A request that pulls out only the specific data you need."],
+  ["Form", "A user-friendly screen for entering or viewing data."],
+  ["Report", "A formatted, printable summary produced from a query."]
+];
+
+const domainData = [
+  ["School Management System", "Tracks attendance, student records, timetables, and exam results."],
+  ["Inventory Management System", "Tracks stock, deliveries, purchases, and sales of goods."],
+  ["Payroll Management System", "Manages employee salaries, bonuses, leaves, and payslips."],
+  ["Hotel Management System", "Manages guest bookings, check-ins, check-outs, and room data."],
+  ["Weather Forecasting System", "Records temperature, humidity, and wind data to predict conditions."]
+];
+
+function buildMatcher(containerId, data) {
+  const container = document.getElementById(containerId);
+  const shuffledDefs = shuffle(data.map(d => d[1]));
+  container.innerHTML = '';
+  data.forEach(([term], i) => {
+    const row = document.createElement('div');
+    row.className = 'match-row';
+    row.innerHTML = `
+      <div class="match-term">${term}</div>
+      <select class="match-select" data-term="${term}">
+        <option value="">— choose a definition —</option>
+        ${shuffledDefs.map(def => `<option value="${def.replace(/"/g, '&quot;')}">${def}</option>`).join('')}
+      </select>
+      <span class="match-feedback"></span>
+    `;
+    container.appendChild(row);
+  });
+}
+function buildDbms() { buildMatcher('dbmsRows', dbmsData); document.getElementById('dbmsScore').textContent = ''; }
+function buildDomain() { buildMatcher('domainRows', domainData); document.getElementById('domainScore').textContent = ''; }
+
+function checkMatch(which) {
+  const data = which === 'dbms' ? dbmsData : domainData;
+  const container = document.getElementById(which === 'dbms' ? 'dbmsRows' : 'domainRows');
+  let score = 0;
+  data.forEach(([term, correctDef]) => {
+    const row = [...container.querySelectorAll('.match-row')].find(r => r.querySelector('select').dataset.term === term);
+    const select = row.querySelector('select');
+    const feedback = row.querySelector('.match-feedback');
+    if (select.value === correctDef) {
+      feedback.textContent = '✅';
+      score++;
+    } else {
+      feedback.textContent = '❌';
+    }
+  });
+  document.getElementById(which === 'dbms' ? 'dbmsScore' : 'domainScore').textContent =
+    `Score: ${score} / ${data.length}`;
+}
+
+buildDbms();
+buildDomain();
+</script>
+
+</body>
+</html>

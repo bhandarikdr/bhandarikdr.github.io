@@ -1,21 +1,24 @@
 # Resource Portal Style Guide
 
-This document outlines the design system, UI components, and coding patterns used for the Grade XI and XII Computer Science resource pages.
+This document is the single source of truth for the Grade XI and XII Computer Science resource pages. It covers design system, UI components, coding patterns, and content standards for all resource types.
 
 ---
 
 ## 📁 File Naming Convention
 
-This project follows a uniform file naming convention to maintain consistency:
-
 - **Resource files** (HTML, CSS, images): All lowercase with underscores
   - Examples: `computer_introduction_activity.html`, `application_packages_lab_guide.html`, `mystyle.css`
   - Directories: `activities/`, `assessments/`, `assignments/`, `css/`, `images/`, `main_pages/`
-
 - **Documentation files**: All uppercase with underscores
-  - Examples: `README.md`, `STYLE_GUIDE.md`, `ACTIVITY_PROMPT.md`, `ASSESSMENT_PROMPT.md`, `ASSIGNMENT_PROMPT.md`, `RESOURCE_LINKS.md`
-
-When adding new files, follow this convention to maintain consistency across the project.
+  - Examples: `README.md`, `STYLE_GUIDE.md`, `RESOURCE_LINKS.md`
+- **Filename tells the type**:
+  | Pattern | Type | Directory |
+  | :--- | :--- | :--- |
+  | `*_activity.html` (no "lab") | Theory worksheet | `activities/` |
+  | `*_lab_guide.html` or `*_lab_activity.html` | Lab/hands-on activity | `activities/` |
+  | `*_assessment.html` (no "lab") | Theory assessment (interactive) | `assessments/` |
+  | `*_lab_assessment.html` | Lab assessment (interactive) | `assessments/` |
+  | `Grade{xi,xii}_assignment{N}.html` | Reflective assignment | `assignments/` |
 
 ---
 
@@ -37,7 +40,7 @@ Defined in `:root` of `course-style.css`.
 
 ---
 
-## 📐 Layout & Structure
+## 📐 Layout & Structure (Main Pages)
 
 ### 0. Navigation (Glass Navbar)
 A floating, blurred navigation bar fixed to the top with auto-hide logic.
@@ -45,7 +48,6 @@ A floating, blurred navigation bar fixed to the top with auto-hide logic.
 - **Active Class**: Use `class="active"` on the `<a>` tag of the current page.
 
 ```html
-
 <div class="nav-trigger"></div>
 <nav class="glass-nav visible">
     <a href="index.html" class="nav-logo">
@@ -90,14 +92,13 @@ Uses a linear gradient from `--primary-color`.
 ## 📚 Syllabus Components
 
 ### Syllabus Item
-A flex container holding info and a status badge (badge is top-aligned via `align-items: flex-start`).
 ```html
 <div class="syllabus-item">
     <div class="syllabus-info">
         <h4>Unit Title</h4>
         <p>Description text...</p>
         <div class="syllabus-actions">
-            <!-- See Action Buttons patterns below -->
+            <!-- Action buttons -->
         </div>
     </div>
     <span class="status-badge status-theory">Badge Text</span>
@@ -117,36 +118,26 @@ All hover states fill solid with white text.
 
 ### Button Labeling Convention
 
-Choose the CSS class and label text based on the activity type:
-
 | Type | CSS Class | Color | Button Label Pattern | Example |
 | :--- | :--- | :--- | :--- | :--- |
-| **Theory / worksheet** | `.activity` | Amber | `🧪 <Name>` + `📝 Test` | `🧪 CS Intro  📝 Test` |
-| **Hands-on lab** | `.lab-guide` | Green | `🧪 <Name> Lab` + `📝 Lab Test` | `🧪 SQL Lab  📝 Lab Test` |
+| **Theory / worksheet** | `.activity` | Amber | `🧪 <Name>` + `📝 Test` | `🧪 App Packages  📝 Test` |
+| **Hands-on lab** | `.lab-guide` | Green | `🧪 <Name> Lab` + `📝 Test` | `🧪 SQL Lab  📝 Test` |
 
-- Lab activities involve practical/software work (coding, database queries, web design).
-- Theory activities are conceptual comprehension worksheets (no hands-on software execution).
-- The activity name should be short and meaningful (e.g., "CS Intro", "Sys & IO", "App Packages", "Web Tech I").
+- Activity name should be the **shortest possible identifier** for the topic (e.g., "CS Intro", "Sys & IO", "App Packages", "Web Tech I").
+- Append **" Lab"** only for hands-on lab work. Theory/worksheet activities never get the "Lab" suffix.
+- **All assessment btn_label is "Test"** — regardless of theory or lab. Never use "Assessment", "Quiz", "Lab Test", etc.
 
 ### Organizing Multiple Buttons
 
-When a unit has several reference/activity/assessment links, group related items using `.action-group` and separate distinct groups with `.action-separator` (`|`).
+Group related items with `.action-group` and separate groups with `|` (`.action-separator`).
 
-**Pattern -- Single reference:**
-```html
-<div class="syllabus-actions">
-    <a href="#" class="action-btn handouts">📖 Handouts</a>
-</div>
-```
-
-**Pattern -- Activity + Assessment pair (adjacent):**
 ```html
 <div class="syllabus-actions">
     <a href="#" class="action-btn handouts">📖 Handouts</a>
     <span class="action-separator">|</span>
     <div class="action-group">
-        <a href="#" class="action-btn activity">🧪 DBMS Concepts</a>
-        <a href="#" class="action-btn test-yourself">📝 Quiz</a>
+        <a href="#" class="action-btn activity">🧪 DBMS</a>
+        <a href="#" class="action-btn test-yourself">📝 Test</a>
     </div>
     <span class="action-separator">|</span>
     <div class="action-group">
@@ -155,12 +146,6 @@ When a unit has several reference/activity/assessment links, group related items
     </div>
 </div>
 ```
-
-Key rules:
-- `.action-group` is `display: inline-flex; align-items: center; gap: 6px` -- activity and its assessment sit side by side.
-- `.action-separator` is a light gray `|` with `user-select: none`.
-- The outer `.syllabus-actions` uses `display: flex; flex-wrap: wrap;` so groups wrap gracefully on mobile.
-- For units with only a single link, no group/separator wrappers are needed.
 
 ### Status Badges
 - **`.status-theory`**: Neutral gray for concept-heavy units.
@@ -171,7 +156,6 @@ Key rules:
 ## 📥 Download Center
 
 ### Expandable Sections
-Uses standard `<details>` and `<summary>` for a clean interface.
 ```html
 <details class="resource-section" open>
     <summary>Section Title</summary>
@@ -182,90 +166,263 @@ Uses standard `<details>` and `<summary>` for a clean interface.
 ```
 
 ### Resource Box
-A flexible box for file downloads.
-- **Icons**: Background colors are used to denote file types (Red for PDF, Blue for DOCX).
+- **Icons**: Background colors denote file types (Red for PDF, Blue for DOCX).
 - **`.inline-download-btn`**: The primary CTA for file access.
 
 ---
 
 ## ⚠️ Alerts & Messages
 
-### Welcome Text
-Used inside the first card for the instructor's message.
 - **`.welcome-text`**: Italicized, light gray background, blue left border.
-
-### Alert Boxes
 - **`.alert-box`**: Default (Amber/Warning) for important notes.
 - **`.alert-box.critical`**: Red background for mandatory requirements (like Lab Reports).
 
 ---
 
 ## 📱 Responsiveness
+
 - Main containers use relative padding (`20px`).
 - Grids (`.grid-2`) switch to single column at `768px`.
 - Syllabus items stack vertically at `600px`.
 
 ---
 
-## 🤖 Reusable Prompt: Auditing & Fixing Activity/Assessment Files
+## 📄 Activity Page Standards
 
-Copy the block below when asking opencode to audit and fix a batch of new activity/assessment files. It captures every convention discovered across the existing codebase.
+Activity pages live in `activities/` and link to `../css/activity.css`. There are two types: **theory worksheets** and **lab guides**.
 
-### How to trigger the prompt
+### Header Format — Determined by Filename
 
-Send the block below, prefixed with the file paths (or a glob) of the files to process. For example:
+**Theory worksheet** (`*_activity.html` — no "lab" in name):
+```html
+<header class="lab-header">
+    <h1>Activity: <Topic></h1>
+    <p class="subtitle">Short description of the topic</p>
+    <span class="grade-badge">Grade XI • Computer Science</span>
+</header>
+```
 
-> Apply the standards below to `activities/Foo_Activity.html` and `assessments/Foo_Assessment.html`.
+**Lab/hands-on activity** (`*_lab_guide.html` or `*_lab_activity.html`):
+```html
+<header class="lab-header">
+    <h1>Lab Activity: <Topic></h1>
+    <p class="subtitle">Comprehensive Laboratory Work Guide</p>
+    <span class="grade-badge">Grade XI • Computer Science</span>
+</header>
+```
 
-The prompt will be scoped to the specific files mentioned in your message. opencode will read them, compare against the rules, and apply fixes.
+### Inline `<style>` Discipline
+- Only add rules for things NOT already in `activity.css`. Never override the shared stylesheet's classes.
+- Use CSS custom properties (`var(--primary-color)`, `var(--text-muted)`, `var(--border-color)`) instead of hardcoded hex codes.
+- Keep the `<style>` block minimal (under 20 rules).
+
+### Content Structure (Theory Worksheets)
+- Interactive exercises (MCQs, fill-in-blanks, matching, sorting, drag-and-drop style interactions).
+- Hidden self-check answers use `<details>`/`<summary>` — never leave answers visible inline.
+- Ordered steps use `<ol class="step-list">`; unordered items use plain `<ul>`.
+- No CSS overrides that conflict with activity.css.
+
+### Content Structure (Lab Guides)
+- Setup/prerequisites section (if technical topic).
+- Learning objectives (`.instruction-box.objective`).
+- Conceptual walkthrough for technical topics.
+- Activity sections with clear part/module divisions (`.section-title` with badge).
+- Each part has numbered tasks with step-by-step instructions, expected outputs, and common pitfalls.
+- Challenge/quiz section with collapsible solutions.
+
+### General Rules (Both Types)
+- Light theme only — no dark backgrounds, no custom dark overrides.
+- Keep `<title>` short and descriptive, matching the `<h1>`.
+- No HTML comments (`<!-- -->`).
+- No code comments (`//`, `/* */`).
+- Mobile responsive.
+- Use semantic HTML.
+
+---
+
+## 🧪 Assessment Canvas Standards
+
+Assessment pages live in `assessments/` and link to `../css/assessment.css`. Each assessment is an interactive, self-contained HTML canvas with scoring and Google Form submission.
+
+### Inline `<style>` Discipline
+- Only add rules for things NOT already in `assessment.css`. Never override the shared stylesheet's classes.
+- Use CSS custom properties (`var(--primary)`, `var(--success)`, etc.) instead of hardcoded hex codes.
+
+### Header Format — Determined by Filename
+- `*_assessment.html` (no "lab") → `<h1>Assessment: <Topic></h1>`, subtitle describes the scope.
+- `*_lab_assessment.html` → `<h1>Assessment: <Topic> Lab</h1>`.
+
+### Entry Screen (Modal Overlay)
+- Uses `celebration-overlay` / `celebration-card` classes.
+- Three plain `<input>` fields: Full Name, Roll Number, Room Number.
+- A single `.error-msg` div (`#entryError`) for validation feedback.
+- A `.btn-primary` button (`#enterBtn`).
+- Button uses `addEventListener`, not `onclick`.
+- Validation shows/hides `#entryError`; no `alert()` calls.
+
+### Workspace
+- Status bar showing student name, roll, room, and live progress.
+- **10–15 discrete assessment tasks**, each independently verifiable.
+- Each task shows verified/unverified status (`.verification-text.verified` / `.verification-text.unverified` — never `feedback valid/invalid`).
+- Overall progress bar tied to verified task count.
+
+#### Task Language — No Buzzwords
+- Use plain task descriptions: "Task 5: Spreadsheet Formula" not "Dynamic Multiplier Engine".
+- Status text: "❌ Correct the typos" / "✅ Spelling corrected".
+
+### Submission — Google Form
+
+**Mandatory `SUBMISSION_CONFIG`:**
+```javascript
+const SUBMISSION_CONFIG = {
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+    fields: {
+        topic: "entry.1920009954",
+        name: "entry.2015805623",
+        roll: "entry.419024899",
+        room: "entry.2086415032",  // Prepend grade: e.g., `XI - ${room}`
+        status: "entry.1234471729",
+        startTime: "entry.597147393",
+        endTime: "entry.1045529602",
+        elapsedTime: "entry.2019742758"
+    }
+};
+```
+- Use `fetch(url, { method: 'POST', mode: 'no-cors', body: formData })` — no hidden iframe or form element.
+
+### Anti-Fraud Session Timing (Mandatory)
+- **Start Time**: captured on entry modal submit, stored as a `Date`.
+- **End Time**: captured on final submission trigger.
+- **Elapsed Time**: `endTime - startTime` in ms.
+- Formats:
+  - Start/End: time-only, e.g. `"3:45:12 PM"` via `date.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', second:'2-digit', hour12:true})`.
+  - Elapsed: `"4m 32s"` (or `"38s"` if under a minute).
+- All three submitted to the form AND displayed on exit screen.
+
+### Exit Screen
+- Same `celebration-overlay` / `celebration-card` treatment.
+- Heading: "🎉 Assessment Complete".
+- Shows: Title/Topic, Student Name, Roll, Room, Score/Completion status, timing summary.
+- "You may close this page."
+- **No** "restart" or "try again" button — the session ends here.
+
+---
+
+## 📝 Assignment Standards
+
+Assignment pages live in `assignments/` and link to `../css/assignment.css`.
+
+### Basic Structure
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade {XI/XII} - {Assignment Type}</title>
+    <link rel="stylesheet" href="../css/assignment.css">
+</head>
+<body>
+    <main class="card">
+        <!-- content -->
+    </main>
+</body>
+</html>
+```
+
+### Header
+- Page title: `Grade {XI/XII} · {Assignment Type} ({Subject if applicable})`
+- Header emoji: Academic emojis (📘, 📗, 📝, 🔍, 🚀, 💡) or subject-specific.
+
+### Content Sections
+1. **Card badge**: short descriptor like `reflective essay · 5‑paragraph roadmap`
+2. **Card title**: brief, descriptive title
+3. **Card subtitle**: `Past ➔ Present ➔ Future` with `what · how · why` meta
+4. **Three sections**: Past, Present, Future (all must be present)
+5. **Roadmap**: 5-paragraph structure with subject-specific labels
+6. **Commitment box**: Accountability pledge
+7. **Global note**: Simple instruction at bottom
+
+### Writing Style
+- Clear, simple language suitable for school students.
+- Avoid jargon unless subject-specific and necessary.
+- Encouraging, supportive tone.
+- Pill tags for key concepts.
+
+---
+
+## 🤖 Master Generation Prompt
+
+Paste this prompt to the agent alongside reference materials (PDFs, notes, images). The agent will infer what to build from the attached resources — no back-and-forth needed.
+
+### How to use
+
+```
+Read STYLE_GUIDE.md (attached) and the accompanying reference materials, then build
+everything needed. Infer the topic, grade, resource types, and content from the files
+provided. If unsure about something, make a reasonable default — do not ask me.
+```
 
 ### Prompt text
 
 ```
-## Scope
-- The files listed in my message above are new activity/assessment pages.
-- Compare each against the standards documented in ACTIVITY_PROMPT.md and ASSESSMENT_PROMPT.md.
-- Fix every violation found; do not stop after the first issue.
+You are building HTML resources for a Grade XI/XII Computer Science portal.
+All standards are documented in STYLE_GUIDE.md (attached).
 
-## File placement
-- Theory worksheets → `activities/` directory; link to `../css/activity.css`.
-- Interactive assessments → `assessments/` directory; link to `../css/assessment.css`.
-- If a file is in the wrong directory, move it.
-- **Filename tells the type**: The filename itself indicates lab vs theory:
-  - `_Activity.html` (no "lab") → theory worksheet → use `.activity` (amber) + `🧪 <Name>` / `📝 Test`
-  - `_lab_guide.html` or `_Lab_Activity.html` → lab activity → use `.lab-guide` (green) + `🧪 <Name> Lab` / `📝 Lab Test`
-  - `_Assessment.html` (no "lab") → theory/normal assessment
-  - `_lab_assessment.html` → lab assessment
+## Your task
 
-## Activity pages (theory worksheets)
-- Uses `<link href="../css/activity.css">`.
-- When order matters (numbered steps, sequences), use `<ol class="step-list">`.
-- When order does not matter (bullets, non-sequential items), use `<ul>` (no class needed unless it is a step-list).
-- Hidden answers (for self-check) MUST use `<details>`/`<summary>`; never leave answers visible inline.
-- No CSS overrides that conflict with activity.css (e.g. do not force `list-style: disc` on an `<ol>`).
-- Only `<title>` in the `<head>`; no `<h1>`. The page title appears as the first visible heading inside the content.
+Build the requested resource(s). Infer the topic, grade, and content from the
+attached reference materials. If you are genuinely unsure (e.g. cannot determine
+the grade, resource type, or topic from the files), ask me — otherwise proceed.
 
-## Assessment pages (interactive lab tests)
-- Uses `<link href="../css/assessment.css">`.
-- Entry modal uses `celebration-overlay`/`celebration-card` classes, with three plain `<input>` fields (Full Name, Roll Number, Room Number), a single `.error-msg` div (`#entryError`), and a `.btn-primary` button (`#enterBtn`).
-- The enter button must use `addEventListener`, not `onclick`.
-- Validation: show/hide `#entryError`; no `alert()` calls.
-- Submission uses a `SUBMISSION_CONFIG` object with a `url` and `fields` map, then `fetch(url, { method: 'POST', mode: 'no-cors', body: formData })`. No hidden iframe or form element submission.
-- Verification status uses `verification-text verified/unverified` CSS classes, not `feedback valid/invalid`.
-- Simplify all language: no buzzwords ("engine", "pipeline", "matrix", "metrics", "namespace", "synchronize", "telemetry", "manifest", "payload", "ledger", "canvas" as a generic term). Use plain task descriptions like "Task 5: Spreadsheet Formula" not "Dynamic Multiplier Engine". Status text shows short phrases like "❌ Correct the typos" / "✅ Spelling corrected".
-- Completion screen uses `celebration-overlay`/`celebration-card`, heading "🎉 Assessment Complete", student/score summary, timing line, and "You may close this page."
-- Avoid HTML comments.
+Resource type(s) to build (infer which from context, or build the full pair):
+- _Activity_ (theory worksheet) → `activities/`, link `../css/activity.css`
+- _Lab Guide_ (hands-on lab) → `activities/`, link `../css/activity.css`
+- _Assessment_ (interactive canvas, theory) → `assessments/`, link `../css/assessment.css`
+- _Lab Assessment_ (interactive canvas, lab) → `assessments/`, link `../css/assessment.css`
+- _Assignment_ (reflective) → `assignments/`, link `../css/assignment.css`
 
-## Both activity AND assessment pages
-- Keep emojis (user preference).
-- Do NOT add code comments (no `//`, `/* */`, or `<!-- -->`).
-- Keep `<title>` short and descriptive.
-- File naming: All lowercase with underscores and no spaces (e.g. `computer_introduction_activity.html`).
-- `<html lang="en">` at the top, `<!DOCTYPE html>` first line.
-- Each file must have exactly one `</html>`, `</body>`, `</script>`.
+## Rules to follow
+
+### All pages
+- File naming: all lowercase with underscores (e.g., `my_topic_activity.html`)
+- `<!DOCTYPE html>` first line, `<html lang="en">`
+- No HTML comments (`<!-- -->`), no code comments (`//`, `/* */`)
+- Keep `<title>` short and matching the visible heading
+- Light theme only — no dark backgrounds
+- Mobile responsive
+- One `</html>`, `</body>`, `</script>` each
+- Keep emojis
+
+### Activity / Lab Guide pages
+- Follow the "Activity Page Standards" section in STYLE_GUIDE.md
+- Link to `../css/activity.css`
+- Inline `<style>` only for rules not in activity.css; under 20 rules
+- Hidden self-check answers use `<details>`/`<summary>`
+- Ordered steps use `<ol class="step-list">`
+- No CSS overrides that conflict with shared stylesheets
+- Use CSS custom properties instead of hardcoded hex colors
+
+### Assessment pages
+- Follow the "Assessment Canvas Standards" section in STYLE_GUIDE.md
+- Link to `../css/assessment.css`
+- Inline `<style>` only for rules not in assessment.css
+- Entry modal: `celebration-overlay`/`celebration-card`, three inputs, `#entryError`, `#enterBtn`
+- `addEventListener`, not `onclick`
+- `SUBMISSION_CONFIG` object with url and fields (use the entry IDs from STYLE_GUIDE.md)
+- `fetch(url, { method: 'POST', mode: 'no-cors', body: formData })`
+- Session timing (start, end, elapsed) mandatory
+- Plain task descriptions — no buzzwords
+- `verification-text verified/unverified` status classes
+- Exit screen: "🎉 Assessment Complete", summary, no restart button
+
+### Assignment pages
+- Follow the "Assignment Standards" section in STYLE_GUIDE.md
+- Link to `../css/assignment.css`
+- Three sections: Past, Present, Future
+- Simple language for school students
+
+## After building
+
+Return the complete HTML file(s) ready to save into the appropriate directory.
 ```
-
-### Notes
-- This prompt works best when you provide the file paths explicitly in your message. opencode will read them, apply each rule, and make edits until all violations are resolved.
-- If the files are in a subdirectory not yet covered by these rules, mention it so opencode can adapt the relative CSS path.
-- The `SUBMISSION_CONFIG` fields (Google Form entry IDs) should match the existing pattern if the same form is reused, or be adapted for new forms.
