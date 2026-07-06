@@ -181,9 +181,24 @@ Group related items with `.action-group` and separate groups with `|` (`.action-
 
 ## 📱 Responsiveness
 
-- Main containers use relative padding (`20px`).
+All resources (main pages, activities, assessments, assignments) must work well on any device. This is **not optional** — students access these on phones, tablets, and laptops.
+
+- Use relative units (`rem`, `%`, `vw`) for sizing and spacing — avoid fixed pixel widths.
+- Add `viewport` meta tag in every HTML file.
+- Test layouts at 360px, 768px, and 1024px+ widths.
+- Touch targets must be at least 44×44px for mobile taps.
+- No horizontal scrolling on narrow screens.
+- Font sizes should remain readable without zooming.
+
+### Main pages
 - Grids (`.grid-2`) switch to single column at `768px`.
 - Syllabus items stack vertically at `600px`.
+- Cards use relative padding (`20px`).
+
+### Activities & Assessments
+- Task cards, options, and buttons must reflow for small screens.
+- Interactive elements (drag, sort, click) must work with touch.
+- Avoid hover-only interactions — always provide tap alternatives.
 
 ---
 
@@ -196,6 +211,7 @@ Activity and Assessment are complementary pairs that build on each other:
 - Students should be able to **repeat the activity** as many times as they need until they feel confident.
 - Activities should be **engaging and game-like**: MCQs, drag-and-sort, fill-in-blanks, matching, interactive challenges. Boring walls of text defeat the purpose.
 - An activity + its assessment must cover the **same set of topics**. Nothing should appear in the test that wasn't practiced in the activity.
+- **Time cap**: Both activities and assessments must be completable within **20–30 minutes**. If a topic requires more depth, split it into multiple activity/assessment pairs rather than making one oversized resource.
 
 ---
 
@@ -211,6 +227,7 @@ Activity pages live in `activities/` and link to `../css/activity.css`. There ar
     <h1>Activity: <Topic></h1>
     <p class="subtitle">Short description of the topic</p>
     <span class="grade-badge">Grade XI • Computer Science</span>
+    <span class="grade-badge" style="background: var(--warning-color); color: #fff; margin-left: 0.5rem;">⏱️ ~25 min</span>
 </header>
 ```
 
@@ -220,6 +237,7 @@ Activity pages live in `activities/` and link to `../css/activity.css`. There ar
     <h1>Lab Activity: <Topic></h1>
     <p class="subtitle">Comprehensive Laboratory Work Guide</p>
     <span class="grade-badge">Grade XI • Computer Science</span>
+    <span class="grade-badge" style="background: var(--warning-color); color: #fff; margin-left: 0.5rem;">⏱️ ~25 min</span>
 </header>
 ```
 
@@ -274,9 +292,10 @@ Assessment pages live in `assessments/` and link to `../css/assessment.css`. Eac
 
 ### Workspace
 - Status bar showing student name, roll, room, and live progress.
-- **10–15 discrete assessment tasks**, each independently verifiable.
+- **10–15 discrete assessment tasks**, each independently verifiable. Keep the count on the lower end (10) for narrow topics and upper end (15) for broader ones.
 - Each task shows verified/unverified status (`.verification-text.verified` / `.verification-text.unverified` — never `feedback valid/invalid`).
 - Overall progress bar tied to verified task count.
+- **Whole assessment must be completable within 20–30 minutes.** Do not add padding tasks — every task should test a distinct, important concept.
 
 #### Task Language — No Buzzwords
 - Use plain task descriptions: "Task 5: Spreadsheet Formula" not "Dynamic Multiplier Engine".
@@ -402,7 +421,7 @@ Resource type(s) to build (infer which from context, or build the full pair):
 - No HTML comments (`<!-- -->`), no code comments (`//`, `/* */`)
 - Keep `<title>` short and matching the visible heading
 - Light theme only — no dark backgrounds
-- Mobile responsive
+- Responsive on all devices (360px phones to 1024px+ desktops) — use relative units, touch-friendly targets, no horizontal scroll
 - One `</html>`, `</body>`, `</script>` each
 - Keep emojis
 
@@ -411,6 +430,7 @@ Resource type(s) to build (infer which from context, or build the full pair):
 - Activities must be **interactive and playful**: MCQs, drag-and-sort, fill-in-blanks, matching, clickable challenges. No walls of text.
 - Cover **every important topic** from the unit. Nothing in the assessment should be unseen in the activity.
 - Students repeat activities until confident — make them engaging enough to want to.
+- **Time cap**: Must be completable within **20–30 minutes**. Scale the number of exercises accordingly.
 - Follow the "Activity Page Standards" section in STYLE_GUIDE.md
 - Link to `../css/activity.css`
 - Inline `<style>` only for rules not in activity.css; under 20 rules
@@ -431,6 +451,7 @@ Resource type(s) to build (infer which from context, or build the full pair):
 - Plain task descriptions — no buzzwords
 - `verification-text verified/unverified` status classes
 - Exit screen: "🎉 Assessment Complete", summary, no restart button
+- **Time cap**: Must be completable within **20–30 minutes**. 10-15 tasks max.
 
 ### Assignment pages
 - Follow the "Assignment Standards" section in STYLE_GUIDE.md

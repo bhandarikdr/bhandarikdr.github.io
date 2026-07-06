@@ -5,241 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Assessment · Intro to Computer · Grade XI</title>
   <link rel="stylesheet" href="../css/assessment.css">
-  <style>
-    /* Light theme – advanced interactive assessment */
-    * { box-sizing: border-box; }
-    body {
-      background: #f1f5f9;
-      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-      margin: 0;
-      padding: 1.5rem;
-    }
-    .canvas-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 2rem;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.05);
-      padding: 2rem 2rem 1.5rem;
-    }
-    .status-bar {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      background: #f8fafc;
-      padding: 0.8rem 1.5rem;
-      border-radius: 3rem;
-      margin-bottom: 2rem;
-      border: 1px solid #e2e8f0;
-      font-size: 0.95rem;
-    }
-    .status-bar .student-info span {
-      background: #e2e8f0;
-      padding: 0.2rem 0.8rem;
-      border-radius: 30px;
-      margin-right: 0.6rem;
-      font-weight: 500;
-    }
-    .progress-indicator {
-      background: #eef2ff;
-      padding: 0.2rem 1.2rem;
-      border-radius: 40px;
-      font-weight: 600;
-      color: #1e3a5f;
-    }
-    .task-grid { display: flex; flex-direction: column; gap: 1.5rem; }
-    .task-card {
-      background: white;
-      border: 1px solid #e9edf4;
-      border-radius: 1.5rem;
-      padding: 1.5rem 1.8rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      transition: border 0.2s, background 0.2s;
-    }
-    .task-card.verified {
-      border-left: 6px solid #2b7e3b;
-      background: #fafffa;
-    }
-    .task-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.8rem;
-    }
-    .task-header .task-num {
-      font-weight: 700;
-      color: #1e4a6b;
-      background: #e6edf6;
-      padding: 0.1rem 0.8rem;
-      border-radius: 40px;
-    }
-    .task-header .status-badge {
-      font-size: 0.8rem;
-      background: #e9eef3;
-      padding: 0.2rem 0.8rem;
-      border-radius: 40px;
-      color: #2d3f57;
-    }
-    .task-header .status-badge.verified {
-      background: #d4edda;
-      color: #155724;
-    }
-    .task-question {
-      font-weight: 500;
-      margin-bottom: 0.6rem;
-      color: #0b2b4f;
-    }
-    .task-input-area {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.8rem;
-      margin: 0.5rem 0 0.2rem;
-    }
-    .task-input-area input, .task-input-area select {
-      padding: 0.5rem 1rem;
-      border: 1px solid #d1d9e6;
-      border-radius: 40px;
-      background: white;
-      font-size: 0.9rem;
-      min-width: 200px;
-    }
-    .task-input-area input:focus {
-      outline: 2px solid #8aa9d1;
-      border-color: transparent;
-    }
-    .check-btn {
-      background: #1e4a6b;
-      border: none;
-      color: white;
-      padding: 0.5rem 1.4rem;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .check-btn:hover { background: #123a54; }
-    .check-btn.success { background: #2b7e3b; }
-    .feedback {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: #1e293b;
-      min-height: 1.4rem;
-    }
-    .feedback.valid { color: #1e7e34; }
-    .feedback.invalid { color: #b22234; }
-    .formula-badge {
-      background: #eef2ff;
-      padding: 0.1rem 0.6rem;
-      border-radius: 30px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-    }
-    .flex { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; }
-    hr { border: none; border-top: 1px solid #e2e8f0; margin: 1.2rem 0; }
-    /* drag-drop */
-    .drag-group {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      margin: 0.5rem 0;
-    }
-    .drag-item {
-      background: #eef2ff;
-      padding: 0.4rem 1rem;
-      border-radius: 40px;
-      border: 1px solid #b8c9f0;
-      cursor: grab;
-      user-select: none;
-      font-weight: 500;
-      transition: 0.15s;
-    }
-    .drag-item:active { cursor: grabbing; }
-    .drop-zone {
-      display: inline-block;
-      background: #f1f5f9;
-      border: 2px dashed #b8c9f0;
-      border-radius: 40px;
-      padding: 0.4rem 1.2rem;
-      min-width: 100px;
-      text-align: center;
-      color: #64748b;
-      font-weight: 400;
-      transition: 0.2s;
-    }
-    .drop-zone.dragover { background: #dbeafe; border-color: #1e4a6b; }
-    .drop-zone.filled { background: #d4edda; border-color: #2b7e3b; color: #155724; }
-    /* crossword mini */
-    .crossword-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 44px);
-      gap: 4px;
-      margin: 0.5rem 0;
-    }
-    .crossword-grid input {
-      width: 44px;
-      height: 44px;
-      text-align: center;
-      font-size: 1.2rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      background: white;
-      outline: none;
-    }
-    .crossword-grid input:focus { border-color: #1e4a6b; box-shadow: 0 0 0 2px #b8c9f0; }
-    .crossword-grid input.correct { background: #d4edda; border-color: #2b7e3b; }
-    .crossword-clues { font-size: 0.9rem; margin: 0.3rem 0; color: #334155; }
-    .crossword-clues strong { color: #0b2b4f; }
-    .celebration-overlay {
-      background: rgba(15,23,42,0.75);
-      position: fixed;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .celebration-card {
-      background: white;
-      border-radius: 2rem;
-      padding: 2rem;
-      max-width: 440px;
-      width: 90%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      animation: popIn 0.3s ease;
-    }
-    @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .celebration-card h2 { color: #0b2b4f; margin-top: 0; }
-    .celebration-card input {
-      border: 1px solid #d1d9e6;
-      border-radius: 40px;
-      padding: 0.6rem 1.2rem;
-      width: 100%;
-      margin-bottom: 0.8rem;
-    }
-    .celebration-card .btn-primary {
-      background: #1e4a6b;
-      border: none;
-      color: white;
-      padding: 0.6rem 1.5rem;
-      border-radius: 40px;
-      font-weight: 600;
-      width: 100%;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-    .celebration-card .btn-primary:hover { background: #123a54; }
-    .error-msg { color: #b22234; font-size: 0.8rem; margin-top: -0.4rem; margin-bottom: 0.5rem; }
-    .mt-1 { margin-top: 0.5rem; }
-    .mb-1 { margin-bottom: 0.5rem; }
-    .hidden { display: none !important; }
-    .inline-flex { display: inline-flex; align-items: center; gap: 0.4rem; }
-  </style>
 </head>
 <body>
+<header class="assessment-header">
+  <h1>Assessment: Introduction to Computers</h1>
+  <p class="subtitle">Test your knowledge of computer fundamentals</p>
+  <span class="grade-badge">Grade XI • Computer Science</span>
+</header>
 <div class="canvas-container" id="canvasContainer">
   <!-- status bar -->
   <div class="status-bar">
@@ -440,7 +212,31 @@
   <!-- submit -->
   <hr>
   <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
-    <button id="submitAllBtn" class="check-btn" style="background: #2b7e3b; padding: 0.8rem 2.5rem; font-size: 1.1rem;">📤 Submit All & Finish</button>
+    <button id="submitAllBtn" class="check-btn" style="background: var(--success-color); padding: 0.8rem 2.5rem; font-size: 1.1rem;">📤 Submit All & Finish</button>
+  </div>
+
+  <!-- Navigation -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+    <a href="../main_pages/csxi.html" style="color: var(--secondary-color); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
+      ← Back to Grade XI
+    </a>
+    <a href="../activities/computer_introduction_activity.html" style="color: var(--secondary-color); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
+      Review Activity →
+    </a>
+  </div>
+
+  <!-- Footer Info -->
+  <div style="background: var(--bg-color); border-radius: 2rem; padding: 1.5rem 2rem; margin-top: 2rem; border: 1px solid var(--border-color);">
+    <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem; color: var(--primary-color);">📝 Assessment Summary</span>
+      <span style="background: var(--secondary-color); color: white; padding: 0.1rem 1rem; border-radius: 30px; font-size: 0.85rem;">10 Tasks</span>
+    </div>
+    <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-color); line-height: 1.8;">
+      <li><strong>Topics covered:</strong> Computer definition, generations, CPU components, storage units, classification, mobile computing, input/output devices</li>
+      <li><strong>Interactive format:</strong> Drag-and-drop, crossword puzzles, multiple choice, and text input</li>
+      <li><strong>Review suggestion:</strong> If you scored below 8/10, review the activity for topics you missed</li>
+    </ul>
+    <p style="margin: 1rem 0 0 0; font-style: italic; color: var(--text-color);">🎯 Good preparation for your Computer Science examination!</p>
   </div>
 </div>
 
@@ -448,13 +244,13 @@
 <div class="celebration-overlay" id="entryOverlay">
   <div class="celebration-card">
     <h2>📋 Assessment Entry</h2>
-    <p style="color: #334155; margin-bottom: 1.5rem;">Introduction to Computer · Grade XI</p>
+    <p style="color: var(--text-color); margin-bottom: 1.5rem;">Introduction to Computer · Grade XI</p>
     <input type="text" id="inputName" placeholder="Full Name" required>
     <input type="text" id="inputRoll" placeholder="Roll Number" required>
     <input type="text" id="inputRoom" placeholder="Room Number" required>
     <div id="entryError" class="error-msg" style="display:none;">All fields required.</div>
     <button class="btn-primary" id="enterBtn">Start Assessment</button>
-    <p style="font-size: 0.75rem; color: #64748b; margin-top: 1rem;">10 interactive tasks · timing tracked</p>
+    <p style="font-size: 0.75rem; color: var(--text-color); margin-top: 1rem;">10 interactive tasks · timing tracked</p>
   </div>
 </div>
 
@@ -462,15 +258,15 @@
 <div class="celebration-overlay" id="exitOverlay" style="display:none;">
   <div class="celebration-card">
     <h2>🎉 Assessment Complete</h2>
-    <div id="exitSummary" style="margin: 1.2rem 0; line-height: 1.6;">
+    <div id="exitSummary" style="margin: 1.2rem 0; line-height: 1.6; color: var(--text-color);">
       <p><strong>Student:</strong> <span id="exitName"></span></p>
       <p><strong>Roll:</strong> <span id="exitRoll"></span>  <strong>Room:</strong> <span id="exitRoom"></span></p>
       <p><strong>Score:</strong> <span id="exitScore">0</span>/10 verified</p>
       <p><strong>⏱️ Start:</strong> <span id="exitStart"></span>  <strong>End:</strong> <span id="exitEnd"></span></p>
       <p><strong>Elapsed:</strong> <span id="exitElapsed"></span></p>
     </div>
-    <p style="color: #334155; border-top: 1px solid #e2e8f0; padding-top: 1rem;">You may close this page.</p>
-    <button class="btn-primary" style="background: #1e4a6b; width: auto; padding: 0.5rem 1.8rem;" onclick="window.close()">Close</button>
+    <p style="color: var(--text-color); border-top: 1px solid var(--border-color); padding-top: 1rem;">You may close this page.</p>
+    <button class="btn-primary" style="background: var(--primary-color); width: auto; padding: 0.5rem 1.8rem;" onclick="window.close()">Close</button>
   </div>
 </div>
 

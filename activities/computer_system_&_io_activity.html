@@ -11,33 +11,26 @@
         .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
         details { margin: 0.8rem 0; }
         summary { color: var(--secondary-color); font-weight: 600; cursor: pointer; background: #eef4fa; padding: 0.3rem 0.8rem; border-radius: 40px; display: inline-block; }
-        .answer-key { background: #eaf6e6; padding: 0.6rem 1.2rem; border-radius: 1rem; margin-top: 0.5rem; border-left: 4px solid #2e7d32; }
-        .instruction-box.setup { border-left-color: #27ae60; background: #f0faf5; }
-        .footer-checklist { background: #edf2f9; border-radius: 2rem; padding: 1.5rem 2rem; margin: 2.5rem 0 1rem; }
-        .footer-checklist ul { columns: 2; list-style: none; padding: 0; }
-        .footer-checklist li::before { content: "✓ "; color: #1e7e34; font-weight: 700; }
-        @media (max-width: 600px) { header h1 { font-size: 1.8rem; } .section-title { font-size: 1.4rem; } }
+        .answer-key { background: #eaf6e6; padding: 0.6rem 1.2rem; border-radius: 1rem; margin-top: 0.5rem; border-left: 4px solid var(--success-color); }
+        .interactive-select { padding: 0.3rem 0.7rem; border-radius: 30px; border: 1px solid var(--border-color); font-size: 0.9rem; }
+        .sort-options { display: flex; flex-direction: column; gap: 0.4rem; margin: 0.5rem 0; }
+        .sort-option { display: flex; align-items: center; gap: 0.5rem; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { margin: 0.3rem 0; }
+        .match-pair { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.4rem 0; align-items: center; }
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.4rem; }
+        }
     </style>
 </head>
 <body>
 <div class="container">
-    <header>
+    <header class="lab-header">
         <h1>Activity: Computer Organization & I/O</h1>
         <p class="subtitle">Understanding system architecture &amp; input/output devices</p>
         <span class="grade-badge">Grade XI • Computer Science</span>
     </header>
-
-    <section>
-        <div class="section-title"><span class="badge">⚙️ Setup</span> Before you begin</div>
-        <div class="instruction-box setup">
-            <p><strong>📋 What you need:</strong> A computer with a web browser, a text editor, and your class notes. No special software required.</p>
-            <ul style="margin: 0.5rem 0 0 1rem;">
-                <li>✔️ Access to the internet (for reference videos)</li>
-                <li>✔️ Notebook to record key concepts (Architecture vs Organization, memory types, etc.)</li>
-                <li>✔️ Curiosity about how computers work at the hardware level!</li>
-            </ul>
-        </div>
-    </section>
 
     <section>
         <div class="section-title"><span class="badge">🎯 Objectives</span> What you will learn</div>
@@ -63,50 +56,133 @@
                 <li><strong>Registers</strong> – high-speed temporary storage inside the CPU</li>
             </ul>
             <p>The <span class="highlight">Instruction Cycle</span> follows: <strong>Fetch → Decode → Execute</strong>.</p>
-            <p>⚡ <strong>System Bus</strong> is a set of parallel wires connecting major components. It includes <span class="formula">Data Bus</span> (carries data), <span class="formula">Address Bus</span> (carries memory addresses), and <span class="formula">Control Bus</span> (carries control signals).</p>
+            <p><strong>System Bus</strong> is a set of parallel wires connecting major components. It includes <span class="formula">Data Bus</span> (carries data), <span class="formula">Address Bus</span> (carries memory addresses), and <span class="formula">Control Bus</span> (carries control signals).</p>
         </div>
     </section>
 
     <section>
         <div class="section-title"><span class="badge">📌 Part 1</span> CPU architecture &amp; organization</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 1</strong> Differentiate between Computer Architecture and Computer Organization. Give two points for each.</div>
-            <div class="question-block"><strong>Q. No. 2</strong> List the three main components of the CPU. Write one function of each.</div>
-            <div class="question-block"><strong>Q. No. 3</strong> What is the role of the Control Unit? How does it interact with the ALU and memory?</div>
-            <div class="question-block"><strong>Q. No. 4</strong> Name four CPU registers and state their functions.</div>
-            <div class="question-block"><strong>Q. No. 5</strong> Explain the instruction cycle with a diagram. What happens during the fetch phase?</div>
+            <div class="question-block">
+                <strong>1.</strong> Computer Architecture defines <select class="interactive-select" aria-label="Architecture"><option value="">—</option><option value="what">WHAT the computer does</option><option value="how">HOW the computer does it</option></select> while Computer Organization defines <select class="interactive-select" aria-label="Organization"><option value="">—</option><option value="what">WHAT the computer does</option><option value="how">HOW the computer does it</option></select>.
+                <details><summary>Check answer</summary><div class="answer-key">Architecture = WHAT, Organization = HOW.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>2.</strong> Which of the following is NOT a main component of the CPU?<br>
+                <select class="interactive-select" aria-label="CPU component"><option value="">—</option><option value="alu">ALU</option><option value="cu">Control Unit</option><option value="ram">RAM</option><option value="registers">Registers</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">RAM is not a CPU component. CPU = ALU + Control Unit + Registers.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>3.</strong> The Control Unit coordinates and controls the <input type="text" class="interactive-select" placeholder="execution of instructions" style="width:180px;" aria-label="CU function">.
+                <details><summary>Check answer</summary><div class="answer-key">The Control Unit coordinates and controls the execution of instructions.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>4.</strong> Which register holds the address of the next instruction to be executed?<br>
+                <select class="interactive-select" aria-label="Register"><option value="">—</option><option value="accumulator">Accumulator (AC)</option><option value="pc">Program Counter (PC)</option><option value="mar">Memory Address Register (MAR)</option><option value="ir">Instruction Register (IR)</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">Program Counter (PC) holds the address of the next instruction.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>5.</strong> Arrange the instruction cycle steps in order:<br>
+                <ol class="step-list">
+                    <li><select class="interactive-select" aria-label="Step 1"><option value="">—</option><option value="fetch">Fetch</option><option value="decode">Decode</option><option value="execute">Execute</option></select></li>
+                    <li><select class="interactive-select" aria-label="Step 2"><option value="">—</option><option value="fetch">Fetch</option><option value="decode">Decode</option><option value="execute">Execute</option></select></li>
+                    <li><select class="interactive-select" aria-label="Step 3"><option value="">—</option><option value="fetch">Fetch</option><option value="decode">Decode</option><option value="execute">Execute</option></select></li>
+                </ol>
+                <details><summary>Check answer</summary><div class="answer-key">Fetch → Decode → Execute.</div></details>
+            </div>
         </div>
     </section>
 
     <section>
         <div class="section-title"><span class="badge">📌 Part 2</span> Memory &amp; storage</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 6</strong> Differentiate between Primary Memory and Secondary Memory with examples.</div>
-            <div class="question-block"><strong>Q. No. 7</strong> What is RAM? Differentiate between SRAM and DRAM.</div>
-            <div class="question-block"><strong>Q. No. 8</strong> What is ROM? List four types of ROM and describe each.</div>
-            <div class="question-block"><strong>Q. No. 9</strong> What is Cache Memory? Explain its levels (L1, L2, L3) with respect to speed and size.</div>
-            <div class="question-block"><strong>Q. No. 10</strong> Arrange the following in ascending order of access speed: <span class="formula">Cache</span>, <span class="formula">RAM</span>, <span class="formula">Hard Disk</span>, <span class="formula">Registers</span>, <span class="formula">SSD</span>.</div>
+            <div class="question-block">
+                <strong>6.</strong> Which is an example of Primary Memory?<br>
+                <select class="interactive-select" aria-label="Primary memory"><option value="">—</option><option value="hdd">Hard Disk</option><option value="ram">RAM</option><option value="ssd">SSD</option><option value="cd">CD-ROM</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">RAM is primary memory (volatile, directly accessed by CPU).</div></details>
+            </div>
+            <div class="question-block">
+                <strong>7.</strong> Which type of RAM is faster and does <em>not</em> require periodic refreshing?<br>
+                <select class="interactive-select" aria-label="RAM type"><option value="">—</option><option value="sram">SRAM</option><option value="dram">DRAM</option><option value="both">Both</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">SRAM (Static RAM) is faster and needs no refreshing. DRAM needs periodic refresh.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>8.</strong> Match each ROM type with its feature:<br>
+                <div class="match-pair">PROM → <select class="interactive-select" aria-label="PROM"><option value="">—</option><option value="one-time">Programmed once (one-time)</option><option value="uv">Erased by UV light</option><option value="electrical">Erased electrically</option></select></div>
+                <div class="match-pair">EPROM → <select class="interactive-select" aria-label="EPROM"><option value="">—</option><option value="one-time">Programmed once (one-time)</option><option value="uv">Erased by UV light</option><option value="electrical">Erased electrically</option></select></div>
+                <div class="match-pair">EEPROM → <select class="interactive-select" aria-label="EEPROM"><option value="">—</option><option value="one-time">Programmed once (one-time)</option><option value="uv">Erased by UV light</option><option value="electrical">Erased electrically</option></select></div>
+                <details><summary>Check answer</summary><div class="answer-key">PROM = one-time programmable, EPROM = erased by UV light, EEPROM = erased electrically.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>9.</strong> Which cache level is smallest and fastest (inside the CPU core)?<br>
+                <select class="interactive-select" aria-label="Cache level"><option value="">—</option><option value="l1">L1</option><option value="l2">L2</option><option value="l3">L3</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">L1 cache is smallest and fastest, located inside the CPU core.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>10.</strong> Arrange these in descending order of speed (fastest → slowest):<br>
+                <ol class="step-list">
+                    <li><select class="interactive-select" aria-label="Fastest"><option value="">—</option><option value="registers">Registers</option><option value="cache">Cache</option><option value="ram">RAM</option><option value="hdd">Hard Disk</option></select></li>
+                    <li><select class="interactive-select" aria-label="Second"><option value="">—</option><option value="registers">Registers</option><option value="cache">Cache</option><option value="ram">RAM</option><option value="hdd">Hard Disk</option></select></li>
+                    <li><select class="interactive-select" aria-label="Third"><option value="">—</option><option value="registers">Registers</option><option value="cache">Cache</option><option value="ram">RAM</option><option value="hdd">Hard Disk</option></select></li>
+                    <li><select class="interactive-select" aria-label="Slowest"><option value="">—</option><option value="registers">Registers</option><option value="cache">Cache</option><option value="ram">RAM</option><option value="hdd">Hard Disk</option></select></li>
+                </ol>
+                <details><summary>Check answer</summary><div class="answer-key">Registers → Cache → RAM → Hard Disk (fastest to slowest).</div></details>
+            </div>
         </div>
     </section>
 
     <section>
         <div class="section-title"><span class="badge">📌 Part 3</span> Input &amp; output devices</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 11</strong> List any eight input devices. Write the function of each.</div>
-            <div class="question-block"><strong>Q. No. 12</strong> List any eight output devices. Write the function of each.</div>
-            <div class="question-block"><strong>Q. No. 13</strong> Differentiate between a Monitor and a Printer. Give two examples of each.</div>
-            <div class="question-block"><strong>Q. No. 14</strong> What is a touchscreen? Is it an input or output device? Justify your answer.</div>
-            <div class="question-block"><strong>Q. No. 15</strong> Explain the types of printers: Impact (Dot Matrix) vs Non-Impact (Laser, Inkjet).</div>
+            <div class="question-block">
+                <strong>11.</strong> Classify each device as Input or Output:<br>
+                <div class="match-pair">Keyboard → <select class="interactive-select" aria-label="Keyboard"><option value="">—</option><option value="input">Input</option><option value="output">Output</option></select></div>
+                <div class="match-pair">Monitor → <select class="interactive-select" aria-label="Monitor"><option value="">—</option><option value="input">Input</option><option value="output">Output</option></select></div>
+                <div class="match-pair">Scanner → <select class="interactive-select" aria-label="Scanner"><option value="">—</option><option value="input">Input</option><option value="output">Output</option></select></div>
+                <div class="match-pair">Printer → <select class="interactive-select" aria-label="Printer"><option value="">—</option><option value="input">Input</option><option value="output">Output</option></select></div>
+                <details><summary>Check answer</summary><div class="answer-key">Keyboard = Input, Monitor = Output, Scanner = Input, Printer = Output.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>12.</strong> Which device produces a physical (hard copy) output?<br>
+                <select class="interactive-select" aria-label="Output device"><option value="">—</option><option value="monitor">Monitor</option><option value="printer">Printer</option><option value="speaker">Speaker</option><option value="projector">Projector</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">Printer produces a hard copy (physical) output. Monitor gives a soft copy.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>13.</strong> A touchscreen is best classified as:<br>
+                <select class="interactive-select" aria-label="Touchscreen"><option value="">—</option><option value="input">Input device only</option><option value="output">Output device only</option><option value="both">Both input and output</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">Touchscreen is both input and output — it displays (output) and senses touch (input).</div></details>
+            </div>
+            <div class="question-block">
+                <strong>14.</strong> Which printer type uses a laser beam to produce output?<br>
+                <select class="interactive-select" aria-label="Printer type"><option value="">—</option><option value="dotmatrix">Dot Matrix</option><option value="laser">Laser Printer</option><option value="inkjet">Inkjet Printer</option><option value="daisywheel">Daisy Wheel</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">Laser Printer uses a laser beam — it is a non-impact printer.</div></details>
+            </div>
         </div>
     </section>
 
     <section>
         <div class="section-title"><span class="badge">📌 Part 4</span> I/O buses &amp; interfaces</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 16</strong> What is a system bus? Explain the three types of buses in the system bus architecture.</div>
-            <div class="question-block"><strong>Q. No. 17</strong> Differentiate between serial and parallel data transmission.</div>
-            <div class="question-block"><strong>Q. No. 18</strong> What is USB? List three advantages of USB over older port types.</div>
-            <div class="question-block"><strong>Q. No. 19</strong> What is HDMI? Where is it commonly used?</div>
+            <div class="question-block">
+                <strong>15.</strong> Which bus carries memory addresses from the CPU to memory?<br>
+                <select class="interactive-select" aria-label="Bus type"><option value="">—</option><option value="data">Data Bus</option><option value="address">Address Bus</option><option value="control">Control Bus</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">Address Bus carries memory addresses (uni-directional, CPU → memory).</div></details>
+            </div>
+            <div class="question-block">
+                <strong>16.</strong> Which transmission method sends one bit at a time over a single wire?<br>
+                <select class="interactive-select" aria-label="Transmission"><option value="">—</option><option value="serial">Serial</option><option value="parallel">Parallel</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">Serial transmission sends one bit at a time (e.g., USB). Parallel sends multiple bits simultaneously.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>17.</strong> USB stands for:<br>
+                <input type="text" class="interactive-select" placeholder="Universal Serial Bus" style="width:200px;" aria-label="USB full form">
+                <details><summary>Check answer</summary><div class="answer-key">Universal Serial Bus.</div></details>
+            </div>
+            <div class="question-block">
+                <strong>18.</strong> Which interface is commonly used to transmit high-definition audio and video?<br>
+                <select class="interactive-select" aria-label="Interface"><option value="">—</option><option value="usb">USB</option><option value="hdmi">HDMI</option><option value="vga">VGA</option><option value="ethernet">Ethernet</option></select>
+                <details><summary>Check answer</summary><div class="answer-key">HDMI (High-Definition Multimedia Interface) transmits both audio and video.</div></details>
+            </div>
         </div>
     </section>
 
@@ -121,7 +197,7 @@
                     <li>c) Register</li>
                     <li>d) Cache</li>
                 </ul>
-                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ b) ALU (Arithmetic Logic Unit).</div></details>
+                <details><summary>Show answer</summary><div class="answer-key">b) ALU (Arithmetic Logic Unit).</div></details>
             </div>
             <div class="quiz-card">
                 <div class="quiz-question">2. Which memory type loses its data when the power is turned off?</div>
@@ -131,7 +207,7 @@
                     <li>c) RAM</li>
                     <li>d) Hard Disk</li>
                 </ul>
-                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ c) RAM (Random Access Memory).</div></details>
+                <details><summary>Show answer</summary><div class="answer-key">c) RAM (Random Access Memory) — volatile memory.</div></details>
             </div>
             <div class="quiz-card">
                 <div class="quiz-question">3. Which bus carries memory addresses from the CPU to memory?</div>
@@ -141,7 +217,7 @@
                     <li>c) Control Bus</li>
                     <li>d) Power Bus</li>
                 </ul>
-                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ b) Address Bus.</div></details>
+                <details><summary>Show answer</summary><div class="answer-key">b) Address Bus.</div></details>
             </div>
             <div class="quiz-card">
                 <div class="quiz-question">4. Which of the following is an output device?</div>
@@ -151,22 +227,8 @@
                     <li>c) Monitor</li>
                     <li>d) Microphone</li>
                 </ul>
-                <details><summary>🔍 Show answer</summary><div class="answer-key">✅ c) Monitor.</div></details>
+                <details><summary>Show answer</summary><div class="answer-key">c) Monitor.</div></details>
             </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="section-title"><span class="badge">📝 Assessment prep</span> Key points to remember</div>
-        <div class="instruction-box objective">
-            <ul style="margin: 0; list-style: none; padding-left: 0;">
-                <li>🔹 <strong>Architecture</strong> = what the computer does; <strong>Organization</strong> = how it does it.</li>
-                <li>🔹 <strong>CPU</strong> = ALU + Control Unit + Registers.</li>
-                <li>🔹 <strong>Instruction cycle</strong>: Fetch → Decode → Execute.</li>
-                <li>🔹 <strong>Memory hierarchy</strong>: Registers > Cache > RAM > SSD > HDD (speed descending).</li>
-                <li>🔹 <strong>I/O devices</strong>: Input (keyboard, mouse, scanner) vs Output (monitor, printer, speaker).</li>
-                <li>🔹 <strong>Buses</strong>: Data (bi-directional), Address (uni-directional), Control (signals).</li>
-            </ul>
         </div>
     </section>
 
@@ -176,18 +238,13 @@
             <span style="background: var(--secondary-color); color: white; padding: 0.1rem 1rem; border-radius: 30px;">⏱️ ~ 2 hours</span>
         </div>
         <ul>
-            <li>Answered all 19 questions in the activity parts</li>
-            <li>Completed the quiz / challenge</li>
+            <li>Completed all interactive exercises in Parts 1–4</li>
+            <li>Reviewed the quiz / challenge</li>
             <li>Understood CPU, memory, I/O, and bus architecture</li>
-            <li>Reviewed the memory hierarchy concepts</li>
-            <li>Prepared for the interactive assessment</li>
+            <li>Practiced until confident with each topic</li>
+            <li>Ready for the interactive assessment</li>
         </ul>
-        <p style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem; font-style: italic;">📚 Next: practice with the interactive assessment. Good luck!</p>
-    </div>
-
-    <div style="background: var(--bg-light); border-radius: 2rem; padding: 1rem 1.5rem; margin: 1.5rem 0;">
-        <p style="margin: 0;"><span class="formula">🔗 Reference</span> “Computer Organization”, “Memory Systems”, “Input/Output Devices”, “System Buses” — all topics covered.</p>
-        <p style="margin: 0.2rem 0 0; font-size: 0.9rem;">🎥 Suggested video: <a href="https://www.youtube.com/watch?v=H5yACoTpIiU" target="_blank" style="color: var(--accent-color);">Computer Organization & Architecture</a> (optional)</p>
+        <p style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem; font-style: italic;">Next: take the interactive assessment to test your knowledge!</p>
     </div>
 </div>
 </body>

@@ -5,27 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity: Introduction to Computers · Grade XI</title>
     <link rel="stylesheet" href="../css/activity.css">
-    <style>
-        .question-block { margin: 1.2rem 0 0.8rem 0; }
-        .question-block strong { font-size: 1.05rem; }
-        .table-wrap { overflow-x: auto; margin: 1.2rem 0; }
-        details { margin: 0.8rem 0; }
-        summary { color: var(--secondary-color); font-weight: 600; cursor: pointer; background: #eef4fa; padding: 0.3rem 0.8rem; border-radius: 40px; display: inline-block; }
-        .answer-key { background: #eaf6e6; padding: 0.6rem 1.2rem; border-radius: 1rem; margin-top: 0.5rem; border-left: 4px solid #2e7d32; }
-        .instruction-box.setup { border-left-color: #27ae60; background: #f0faf5; }
-        .footer-checklist { background: #edf2f9; border-radius: 2rem; padding: 1.5rem 2rem; margin: 2.5rem 0 1rem; }
-        .footer-checklist ul { columns: 2; list-style: none; padding: 0; }
-        .footer-checklist li::before { content: "✓ "; color: #1e7e34; font-weight: 700; }
-        table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: #fff; }
-        th, td { border: 1px solid var(--border-color); padding: 0.5rem 0.75rem; text-align: left; }
-        th { background: var(--primary-color); color: white; font-weight: 600; }
-        @media (max-width: 600px) { header h1 { font-size: 1.8rem; } .section-title { font-size: 1.4rem; } }
-    </style>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>Activity: Introduction to Computer</h1>
+        <h1>Activity: Introduction to Computers</h1>
         <p class="subtitle">Understanding computer fundamentals &amp; evolution</p>
         <span class="grade-badge">Grade XI • Computer Science</span>
     </header>
@@ -33,7 +17,7 @@
     <section>
         <div class="section-title"><span class="badge">⚙️ Setup</span> Before you begin</div>
         <div class="instruction-box setup">
-            <p><strong>📋 What you need:</strong> A computer (desktop/laptop) with a web browser, a text editor (Notepad++ / VS Code) and basic familiarity with file management. No additional software required.</p>
+            <p><strong>📋 What you need:</strong> A computer (desktop/laptop) with a web browser and basic familiarity with file management. No additional software required.</p>
             <ul style="margin: 0.5rem 0 0 1rem;">
                 <li>✔️ Access to the internet (for research / videos)</li>
                 <li>✔️ Notebook to record key definitions and generations</li>
@@ -61,12 +45,14 @@
             <p><strong>Computer</strong> – an electronic device that processes data and instructions. It follows the <span class="highlight">IPO cycle</span>: <strong>Input → Process → Output</strong>.</p>
             <p><span class="formula">Data</span> = raw facts (e.g., student marks). <span class="formula">Information</span> = processed, organized data (e.g., sorted list with totals).</p>
             <div style="background: #eef2f9; padding: 0.8rem 1.2rem; border-radius: 1rem; margin: 0.8rem 0;">
-                <p><strong>⚡ CPU (Central Processing Unit)</strong> – brain of computer. Contains:</p>
-                <ul>
-                    <li><strong>ALU</strong> – arithmetic &amp; logic operations</li>
-                    <li><strong>Control Unit</strong> – coordinates components</li>
-                    <li><strong>Registers</strong> – ultra-fast storage</li>
+                <p><strong>⚡ CPU (Central Processing Unit)</strong> – brain of computer. Fill in the blanks:</p>
+                <ul style="line-height: 2;">
+                    <li><strong>ALU</strong> – performs <input type="text" class="fill-blank" placeholder="???" style="width: 120px;"> &amp; logic operations</li>
+                    <li><strong>Control Unit</strong> – <input type="text" class="fill-blank" placeholder="???" style="width: 120px;"> all computer components</li>
+                    <li><strong>Registers</strong> – provide <input type="text" class="fill-blank" placeholder="???" style="width: 120px;"> storage</li>
                 </ul>
+                <button class="check-btn" onclick="checkCPU()" style="margin-top: 0.5rem;">✔ Check Answers</button>
+                <div class="interactive-feedback" id="cpuFeedback"></div>
             </div>
             <p><strong>🔹 Input devices</strong>: keyboard, mouse, scanner, microphone … <strong>🔸 Output devices</strong>: monitor, printer, speaker, projector.</p>
             <p><span class="highlight">Software</span> = programs + data. <strong>System software</strong> (OS) vs. <strong>Application software</strong> (Word, Excel).</p>
@@ -86,20 +72,24 @@
     <section>
         <div class="section-title"><span class="badge">📌 Part 2</span> Evolution &amp; generations</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 4</strong> Complete the table: Fill in the missing technology, speed, and programming language for each generation.</div>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Generation</th><th>Technology</th><th>Speed</th><th>Language</th></tr></thead>
-                    <tbody>
-                        <tr><td>1st</td><td>Vacuum tube</td><td>Milli seconds</td><td>Machine</td></tr>
-                        <tr><td>2nd</td><td>Transistor</td><td>Micro seconds</td><td>Assembly</td></tr>
-                        <tr><td>3rd</td><td>IC (Integrated Circuit)</td><td>Nano seconds</td><td>HLL (COBOL, C…)</td></tr>
-                        <tr><td>4th</td><td>VLSI (Microprocessor)</td><td>Pico seconds</td><td>4GL</td></tr>
-                        <tr><td>5th</td><td>Bio chip (under dev.)</td><td>Femto seconds</td><td>Natural language</td></tr>
-                    </tbody>
-                </table>
+            <div class="question-block"><strong>🎮 Interactive Challenge:</strong> Drag the correct technology to match each generation.</div>
+            <div class="drag-group" id="techDragGroup">
+                <span class="drag-item" draggable="true" data-value="vacuum">Vacuum Tube</span>
+                <span class="drag-item" draggable="true" data-value="transistor">Transistor</span>
+                <span class="drag-item" draggable="true" data-value="ic">Integrated Circuit</span>
+                <span class="drag-item" draggable="true" data-value="vlsi">VLSI Microprocessor</span>
+                <span class="drag-item" draggable="true" data-value="bio">Bio Chip</span>
             </div>
-            <div class="question-block"><strong>Q. No. 5</strong> Who is known as the "father of computer"? What were his two famous machines? (Charles Babbage – Difference Engine &amp; Analytical Engine).</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.8rem; margin-top: 1rem;">
+                <div><strong>1st Generation:</strong> <span class="drop-zone" data-expected="vacuum">drop here</span></div>
+                <div><strong>2nd Generation:</strong> <span class="drop-zone" data-expected="transistor">drop here</span></div>
+                <div><strong>3rd Generation:</strong> <span class="drop-zone" data-expected="ic">drop here</span></div>
+                <div><strong>4th Generation:</strong> <span class="drop-zone" data-expected="vlsi">drop here</span></div>
+                <div><strong>5th Generation:</strong> <span class="drop-zone" data-expected="bio">drop here</span></div>
+            </div>
+            <div class="interactive-feedback" id="genFeedback"></div>
+
+            <div class="question-block" style="margin-top: 1.5rem;"><strong>Q. No. 5</strong> Who is known as the "father of computer"? What were his two famous machines? (Charles Babbage – Difference Engine &amp; Analytical Engine).</div>
             <div class="question-block"><strong>Q. No. 6</strong> Why was the transistor a breakthrough over the vacuum tube? (size, power, reliability).</div>
         </div>
     </section>
@@ -107,7 +97,18 @@
     <section>
         <div class="section-title"><span class="badge">📌 Part 3</span> Measurement units &amp; classification</div>
         <div class="instruction-box">
-            <div class="question-block"><strong>Q. No. 7</strong> Storage units: Arrange in ascending order: KB, MB, GB, TB, PB, EB, ZB, YB. Write the equivalent of 1 GB in bytes.</div>
+            <div class="question-block"><strong>🎮 Interactive Challenge:</strong> Drag these storage units to arrange them in <strong>ascending order</strong> (smallest to largest):</div>
+            <ul class="ordering-list" id="storageOrderList">
+                <li class="ordering-item" draggable="true" data-size="1"><span class="drag-handle">⋮⋮</span> KB (Kilobyte)</li>
+                <li class="ordering-item" draggable="true" data-size="2"><span class="drag-handle">⋮⋮</span> TB (Terabyte)</li>
+                <li class="ordering-item" draggable="true" data-size="3"><span class="drag-handle">⋮⋮</span> MB (Megabyte)</li>
+                <li class="ordering-item" draggable="true" data-size="4"><span class="drag-handle">⋮⋮</span> GB (Gigabyte)</li>
+                <li class="ordering-item" draggable="true" data-size="5"><span class="drag-handle">⋮⋮</span> PB (Petabyte)</li>
+            </ul>
+            <button class="check-btn" onclick="checkStorageOrder()" style="margin-top: 0.5rem;">✔ Check Order</button>
+            <div class="interactive-feedback" id="storageFeedback"></div>
+
+            <div class="question-block" style="margin-top: 1.5rem;"><strong>Q. No. 7b</strong> Write the equivalent of 1 GB in bytes: <input type="text" class="fill-blank" placeholder="1024..." style="width: 150px;"> bytes</div>
             <div class="question-block"><strong>Q. No. 8</strong> Speed: Convert 2.5 GHz to cycles per second.</div>
             <div class="question-block"><strong>Q. No. 9</strong> Classify these computers by type: <span class="formula">Desktop PC</span> (micro), <span class="formula">IBM 1401</span> (mainframe), <span class="formula">Cray</span> (supercomputer), <span class="formula">PDP-11</span> (mini).</div>
             <div class="question-block"><strong>Q. No. 10</strong> What is the difference between a <span class="highlight">laptop</span> and a <span class="highlight">tablet</span>? Give one advantage of each.</div>
@@ -190,10 +191,12 @@
             <span style="background: var(--secondary-color); color: white; padding: 0.1rem 1rem; border-radius: 30px;">⏱️ ~ 2 hours</span>
         </div>
         <ul>
-            <li>Answered all 14 questions in the activity parts</li>
-            <li>Completed the quiz / challenge</li>
-            <li>Reviewed generation table</li>
-            <li>Understood mobile computing components</li>
+            <li>Completed interactive generation matching game</li>
+            <li>Solved CPU fill-in-the-blanks challenge</li>
+            <li>Ordered storage units correctly</li>
+            <li>Answered all theory questions (Q.5-14)</li>
+            <li>Completed the quiz challenge</li>
+            <li>Reviewed mobile computing components</li>
             <li>Prepared for the interactive assessment</li>
         </ul>
         <p style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem; font-style: italic;">📚 Next: practice with the interactive assessment. Good luck!</p>
@@ -204,5 +207,130 @@
         <p style="margin: 0.2rem 0 0; font-size: 0.9rem;">🎥 Suggested video: <a href="https://www.youtube.com/watch?v=eKPEVNlmaUg" target="_blank" style="color: var(--accent-color);">Computer history</a> (optional)</p>
     </div>
 </div>
+
+<script>
+    // Drag and drop for generations
+    const dragItems = document.querySelectorAll('#techDragGroup .drag-item');
+    const dropZones = document.querySelectorAll('.drop-zone');
+    let draggedItem = null;
+
+    dragItems.forEach(item => {
+        item.addEventListener('dragstart', () => {
+            draggedItem = item;
+            setTimeout(() => item.style.opacity = '0.5', 0);
+        });
+        item.addEventListener('dragend', () => {
+            draggedItem = null;
+            item.style.opacity = '1';
+        });
+    });
+
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            zone.classList.add('dragover');
+        });
+        zone.addEventListener('dragleave', () => {
+            zone.classList.remove('dragover');
+        });
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.classList.remove('dragover');
+            if (draggedItem && !zone.classList.contains('filled')) {
+                zone.textContent = draggedItem.textContent;
+                zone.dataset.value = draggedItem.dataset.value;
+                zone.classList.add('filled');
+                draggedItem.style.display = 'none';
+                checkGenerations();
+            }
+        });
+    });
+
+    function checkGenerations() {
+        const allFilled = Array.from(dropZones).every(zone => zone.classList.contains('filled'));
+        if (allFilled) {
+            let correct = 0;
+            dropZones.forEach(zone => {
+                if (zone.dataset.value === zone.dataset.expected) correct++;
+            });
+            const feedback = document.getElementById('genFeedback');
+            if (correct === 5) {
+                feedback.textContent = '🎉 Perfect! All generations matched correctly.';
+                feedback.className = 'interactive-feedback correct';
+            } else {
+                feedback.textContent = `❌ ${correct}/5 correct. Try again!`;
+                feedback.className = 'interactive-feedback incorrect';
+            }
+        }
+    }
+
+    // Storage ordering
+    const storageList = document.getElementById('storageOrderList');
+    const storageItems = storageList.querySelectorAll('.ordering-item');
+
+    storageItems.forEach(item => {
+        item.addEventListener('dragstart', () => {
+            draggedItem = item;
+            setTimeout(() => item.style.opacity = '0.5', 0);
+        });
+        item.addEventListener('dragend', () => {
+            draggedItem = null;
+            item.style.opacity = '1';
+        });
+        item.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            if (draggedItem && draggedItem !== item) {
+                const rect = item.getBoundingClientRect();
+                const next = (e.clientY - rect.top) > (rect.height / 2);
+                storageList.insertBefore(draggedItem, next && item.nextSibling || item);
+            }
+        });
+    });
+
+    function checkStorageOrder() {
+        const items = Array.from(storageList.querySelectorAll('.ordering-item'));
+        const correctOrder = ['1', '3', '4', '2', '5']; // KB, MB, GB, TB, PB
+        let correct = 0;
+        items.forEach((item, index) => {
+            if (item.dataset.size === correctOrder[index]) correct++;
+        });
+        const feedback = document.getElementById('storageFeedback');
+        if (correct === 5) {
+            feedback.textContent = '🎉 Perfect! Storage units in correct ascending order.';
+            feedback.className = 'interactive-feedback correct';
+        } else {
+            feedback.textContent = `❌ ${correct}/5 in correct position. Hint: KB < MB < GB < TB < PB`;
+            feedback.className = 'interactive-feedback incorrect';
+        }
+    }
+
+    // CPU fill-in-blanks
+    function checkCPU() {
+        const inputs = document.querySelectorAll('.fill-blank');
+        const answers = ['arithmetic', 'coordinates', 'ultra-fast'];
+        let correct = 0;
+        inputs.forEach((input, index) => {
+            if (input.value.toLowerCase().includes(answers[index]) ||
+                (index === 0 && input.value.toLowerCase().includes('math')) ||
+                (index === 1 && input.value.toLowerCase().includes('control')) ||
+                (index === 2 && input.value.toLowerCase().includes('fast'))) {
+                correct++;
+                input.style.borderBottomColor = '#2b7e3b';
+                input.style.background = '#d4edda';
+            } else {
+                input.style.borderBottomColor = '#ef4444';
+                input.style.background = '#fee2e2';
+            }
+        });
+        const feedback = document.getElementById('cpuFeedback');
+        if (correct === 3) {
+            feedback.textContent = '🎉 Correct! The CPU has ALU (arithmetic), Control Unit (coordinates), and Registers (ultra-fast storage).';
+            feedback.className = 'interactive-feedback correct';
+        } else {
+            feedback.textContent = `❌ ${correct}/3 correct. Hint: ALU does math, Control Unit manages, Registers are fast memory.`;
+            feedback.className = 'interactive-feedback incorrect';
+        }
+    }
+</script>
 </body>
 </html>

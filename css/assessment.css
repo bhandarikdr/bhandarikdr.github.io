@@ -4,17 +4,25 @@
  */
 
 :root {
-    --bg-primary: #f8fafc;
-    --panel-bg: #ffffff;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --accent-color: #4f46e5;
-    --accent-hover: #4338ca;
-    --success: #10b981;
-    --error: #ef4444;
+    /* Colors - Updated to match STYLE_GUIDE.md */
+    --primary-color: #1e293b;
+    --secondary-color: #3b82f6;
+    --accent-color: #ef4444;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --text-color: #334155;
     --border-color: #e2e8f0;
-    --primary-light: #3b82f6;
-    --secondary: #0f766e;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+
+    /* Legacy Aliases for compatibility */
+    --bg-primary: var(--bg-color);
+    --panel-bg: var(--card-bg);
+    --text-main: var(--text-color);
+    --text-muted: #64748b;
+    --success: var(--success-color);
+    --error: var(--accent-color);
+    --primary-light: var(--secondary-color);
 }
 
 * {
@@ -59,8 +67,28 @@ body {
     100% { transform: scale(1); opacity: 1; }
 }
 
-.celebration-card h2 { color: var(--accent-color); margin-bottom: 12px; }
+.celebration-card h2 { color: var(--primary-color); margin-bottom: 12px; margin-top: 0; }
 .celebration-card p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; }
+.celebration-card input {
+    border: 1px solid var(--border-color);
+    border-radius: 40px;
+    padding: 0.6rem 1.2rem;
+    width: 100%;
+    margin-bottom: 0.8rem;
+}
+.celebration-card .btn-primary {
+    background: var(--primary-color);
+    border: none;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 40px;
+    font-weight: 600;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.celebration-card .btn-primary:hover { background: #0f172a; }
+.error-msg { color: var(--accent-color); font-size: 0.8rem; margin-top: -0.4rem; margin-bottom: 0.5rem; }
 
 /* Forms & Inputs */
 .form-group {
@@ -157,3 +185,527 @@ input:focus, select:focus, textarea:focus {
 .text-center { text-align: center; }
 .mt-4 { margin-top: 1rem; }
 .mb-4 { margin-bottom: 1rem; }
+.mt-1 { margin-top: 0.5rem; }
+.mb-1 { margin-bottom: 0.5rem; }
+
+/* ============================================
+   RESPONSIVE DESIGN - STYLE GUIDE COMPLIANT
+   ============================================ */
+
+/* Mobile First - Extra Small Devices (360px and up) */
+@media (max-width: 360px) {
+    body {
+        padding: 1rem 0.5rem;
+    }
+
+    .celebration-card {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .celebration-card h2 {
+        font-size: 1.3rem;
+    }
+
+    .form-group label {
+        font-size: 0.8rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+        font-size: 0.9rem;
+        padding: 0.6rem;
+    }
+
+    .btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    /* Ensure touch targets are at least 44x44px */
+    button, .btn, input, select {
+        min-height: 44px;
+        min-width: 44px;
+    }
+}
+
+/* Small Devices (600px and up) */
+@media (max-width: 600px) {
+    .celebration-card {
+        padding: 2rem;
+        max-width: 90%;
+    }
+
+    .celebration-card h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Forms stack vertically */
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    /* Status bar wraps nicely */
+    .status-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .status-bar .student-info {
+        flex-wrap: wrap;
+    }
+
+    .status-bar .student-info span {
+        margin-right: 0.4rem;
+        margin-bottom: 0.3rem;
+    }
+}
+
+/* Medium Devices (768px and up) */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .celebration-card {
+        max-height: 85vh;
+        overflow-y: auto;
+    }
+
+    /* Task cards - full width on mobile */
+    .task-card {
+        padding: 1rem 1.2rem;
+    }
+
+    .task-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .task-input-area {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .task-input-area input,
+    .task-input-area select {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .check-btn {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    /* Drag and drop adjustments */
+    .drag-group {
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+
+    .drag-item {
+        width: 100%;
+        text-align: center;
+        padding: 0.6rem 1rem;
+    }
+
+    .drop-zone {
+        min-width: 100%;
+        padding: 0.6rem 1rem;
+    }
+
+    /* Crossword grid - smaller cells on mobile */
+    .crossword-grid {
+        grid-template-columns: repeat(5, 40px);
+        gap: 3px;
+    }
+
+    .crossword-grid input {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+}
+
+/* Large Devices (1024px and up) */
+@media (min-width: 1024px) {
+    body {
+        padding: 1.5rem;
+    }
+
+    .celebration-card {
+        max-width: 500px;
+    }
+
+    /* Task cards can use more horizontal space */
+    .task-input-area {
+        flex-wrap: nowrap;
+    }
+}
+
+/* Prevent horizontal scrolling on all devices */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Ensure images and media are responsive */
+img, video, iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Touch-friendly interactive elements */
+button, .btn, a, input, select, textarea {
+    touch-action: manipulation;
+}
+
+/* Improve readability on mobile */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .celebration-card h2,
+    .task-question {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+/* Assessment header responsive */
+.assessment-header {
+    padding: 1.5rem 1rem;
+}
+
+@media (max-width: 600px) {
+    .assessment-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .assessment-header .subtitle {
+        font-size: 0.95rem;
+    }
+
+    .assessment-header .grade-badge {
+        font-size: 0.8rem;
+    }
+}
+
+/* Canvas container responsive */
+.canvas-container {
+    padding: 1.5rem 1rem;
+}
+
+@media (max-width: 768px) {
+    .canvas-container {
+        padding: 1rem;
+        border-radius: 8px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .canvas-container {
+        padding: 2rem 2rem 1.5rem;
+        border-radius: 2rem;
+    }
+}
+
+/* Assessment-specific component styles */
+.assessment-header {
+    background: linear-gradient(135deg, var(--primary-color), #2c3e50);
+    color: white;
+    padding: 2rem 2rem 1.5rem;
+    text-align: center;
+    border-radius: 0 0 2rem 2rem;
+    margin-bottom: 2rem;
+}
+
+.assessment-header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+}
+
+.assessment-header .subtitle {
+    margin: 0 0 1rem 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+.assessment-header .grade-badge {
+    background: var(--secondary-color);
+    padding: 0.3rem 1rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.canvas-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border-radius: 2rem;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.05);
+    padding: 2rem 2rem 1.5rem;
+}
+
+.status-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-color);
+    padding: 0.8rem 1.5rem;
+    border-radius: 3rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+
+.status-bar .student-info span {
+    background: var(--border-color);
+    padding: 0.2rem 0.8rem;
+    border-radius: 30px;
+    margin-right: 0.6rem;
+    font-weight: 500;
+}
+
+.progress-indicator {
+    background: #eef2ff;
+    padding: 0.2rem 1.2rem;
+    border-radius: 40px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.task-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.task-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 1.5rem;
+    padding: 1.5rem 1.8rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    transition: border 0.2s, background 0.2s;
+}
+
+.task-card.verified {
+    border-left: 6px solid var(--success-color);
+    background: #fafffa;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.task-header .task-num {
+    font-weight: 700;
+    color: var(--primary-color);
+    background: #e6edf6;
+    padding: 0.1rem 0.8rem;
+    border-radius: 40px;
+}
+
+.task-header .status-badge {
+    font-size: 0.8rem;
+    background: #e9eef3;
+    padding: 0.2rem 0.8rem;
+    border-radius: 40px;
+    color: var(--text-color);
+}
+
+.task-header .status-badge.verified {
+    background: #d4edda;
+    color: #155724;
+}
+
+.task-question {
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    color: var(--primary-color);
+}
+
+.task-input-area {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 0.5rem 0 0.2rem;
+}
+
+.task-input-area input,
+.task-input-area select {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 40px;
+    background: var(--card-bg);
+    font-size: 0.9rem;
+    min-width: 200px;
+}
+
+.task-input-area input:focus {
+    outline: 2px solid var(--secondary-color);
+    border-color: transparent;
+}
+
+.check-btn {
+    background: var(--primary-color);
+    border: none;
+    color: white;
+    padding: 0.5rem 1.4rem;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.check-btn:hover {
+    background: #0f172a;
+}
+
+.check-btn.success {
+    background: var(--success-color);
+}
+
+.feedback {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    min-height: 1.4rem;
+}
+
+.feedback.valid {
+    color: var(--success-color);
+}
+
+.feedback.invalid {
+    color: var(--accent-color);
+}
+
+.formula-badge {
+    background: #eef2ff;
+    padding: 0.1rem 0.6rem;
+    border-radius: 30px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+}
+
+.flex {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 1.2rem 0;
+}
+
+/* Drag and drop styles */
+.drag-group {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin: 0.5rem 0;
+}
+
+.drag-item {
+    background: #eef2ff;
+    padding: 0.4rem 1rem;
+    border-radius: 40px;
+    border: 1px solid #b8c9f0;
+    cursor: grab;
+    user-select: none;
+    font-weight: 500;
+    transition: 0.15s;
+}
+
+.drag-item:active {
+    cursor: grabbing;
+}
+
+.drop-zone {
+    display: inline-block;
+    background: var(--bg-color);
+    border: 2px dashed #b8c9f0;
+    border-radius: 40px;
+    padding: 0.4rem 1.2rem;
+    min-width: 100px;
+    text-align: center;
+    color: var(--text-color);
+    font-weight: 400;
+    transition: 0.2s;
+}
+
+.drop-zone.dragover {
+    background: #dbeafe;
+    border-color: var(--primary-color);
+}
+
+.drop-zone.filled {
+    background: #d4edda;
+    border-color: var(--success-color);
+    color: #155724;
+}
+
+/* Crossword styles */
+.crossword-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 44px);
+    gap: 4px;
+    margin: 0.5rem 0;
+}
+
+.crossword-grid input {
+    width: 44px;
+    height: 44px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--card-bg);
+    outline: none;
+}
+
+.crossword-grid input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px #b8c9f0;
+}
+
+.crossword-grid input.correct {
+    background: #d4edda;
+    border-color: var(--success-color);
+}
+
+.crossword-clues {
+    font-size: 0.9rem;
+    margin: 0.3rem 0;
+    color: var(--text-color);
+}
+
+.crossword-clues strong {
+    color: var(--primary-color);
+}
+
+.inline-flex {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
