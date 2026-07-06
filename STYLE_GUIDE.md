@@ -4,6 +4,21 @@ This document outlines the design system, UI components, and coding patterns use
 
 ---
 
+## 📁 File Naming Convention
+
+This project follows a uniform file naming convention to maintain consistency:
+
+- **Resource files** (HTML, CSS, images): All lowercase with underscores
+  - Examples: `computer_introduction_activity.html`, `application_packages_lab_guide.html`, `mystyle.css`
+  - Directories: `activities/`, `assessments/`, `assignments/`, `css/`, `images/`, `main_pages/`
+
+- **Documentation files**: All uppercase with underscores
+  - Examples: `README.md`, `STYLE_GUIDE.md`, `ACTIVITY_PROMPT.md`, `ASSESSMENT_PROMPT.md`, `ASSIGNMENT_PROMPT.md`, `RESOURCE_LINKS.md`
+
+When adding new files, follow this convention to maintain consistency across the project.
+
+---
+
 ## 🎨 Color Palette (CSS Variables)
 
 Defined in `:root` of `course-style.css`.
@@ -245,7 +260,7 @@ The prompt will be scoped to the specific files mentioned in your message. openc
 - Keep emojis (user preference).
 - Do NOT add code comments (no `//`, `/* */`, or `<!-- -->`).
 - Keep `<title>` short and descriptive.
-- File naming: PascalCase with underscores and no spaces (e.g. `Computer_Introduction_Activity.html`).
+- File naming: All lowercase with underscores and no spaces (e.g. `computer_introduction_activity.html`).
 - `<html lang="en">` at the top, `<!DOCTYPE html>` first line.
 - Each file must have exactly one `</html>`, `</body>`, `</script>`.
 ```

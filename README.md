@@ -61,9 +61,22 @@ The project uses separate CSS files for different sections:
 
 ## 📝 Maintenance & Future Reference
 
-*   **Adding Resources**: To add new lab questions or guides, upload the file to the root directory and add a new `.resource-box` entry in the corresponding `CSXI.html` or `CSXII.html` file.
+*   **Adding Resources**: To add new lab questions or guides, upload the file to the root directory and add a new `.resource-box` entry in the corresponding `csxi.html` or `csxii.html` file.
 *   **Updating Syllabus**: The syllabus sections are built using the `.syllabus-grid` and `.syllabus-item` classes in the HTML files.
 *   **Theming**: Global theme changes for the course pages should be made in `course-style.css`.
+
+## 📁 File Naming Convention
+
+This project follows a uniform file naming convention to maintain consistency:
+
+- **Resource files** (HTML, CSS, images): All lowercase with underscores
+  - Examples: `computer_introduction_activity.html`, `application_packages_lab_guide.html`, `mystyle.css`
+  - Directories: `activities/`, `assessments/`, `assignments/`, `css/`, `images/`, `main_pages/`
+
+- **Documentation files**: All uppercase with underscores
+  - Examples: `README.md`, `STYLE_GUIDE.md`, `ACTIVITY_PROMPT.md`, `ASSESSMENT_PROMPT.md`, `ASSIGNMENT_PROMPT.md`, `RESOURCE_LINKS.md`
+
+When adding new files, follow this convention to maintain consistency across the project.
 
 ---
 *Created and maintained by Kedar Pd. Bhandari.*
