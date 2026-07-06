@@ -59,4 +59,4 @@ This file serves as the central repository for all external cloud links and loca
 ## 📝 How to Update
 1. Update the link in this file first.
 2. Ask me to "Sync pages with the Resource Link Registry".
-3. I will then automatically update all occurrences in `CSXI.html` and `CSXII.html`.
+3. I will then automatically update all occurrences in `csxi.html` and `csxii.html`.

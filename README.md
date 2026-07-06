@@ -20,14 +20,14 @@ The landing page of the site. It features a modern, responsive CV layout includi
 *   Educational Background
 *   Contact Information and Social Links
 
-### 2. Grade XI Computer Science (`CSXI.html`)
+### 2. Grade XI Computer Science (`csxi.html`)
 A dedicated page for Grade 11 students covering:
 *   Course Orientation and Welcome Message.
 *   Grading & Assessment breakdown (50 Theory / 50 Practical).
 *   Detailed Syllabus Outline (8 Units) with practical involvement status.
 *   Download Center for curriculum guides and lab question sets.
 
-### 3. Grade XII Computer Science (`CSXII.html`)
+### 3. Grade XII Computer Science (`csxii.html`)
 A dedicated page for Grade 12 students covering:
 *   Advanced Course Orientation.
 *   Detailed Practical Marks Breakdown (Portfolio, External Exam, Live Demo, Viva).
