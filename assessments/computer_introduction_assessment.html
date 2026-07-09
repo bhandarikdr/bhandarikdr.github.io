@@ -5,15 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Assessment · Intro to Computer · Grade XI</title>
   <link rel="stylesheet" href="../css/assessment.css">
+  <style>
+    .verification-text { margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-color); min-height: 1.4rem; }
+    .verification-text.verified { color: var(--success-color); }
+    .verification-text.unverified { color: var(--accent-color); }
+  </style>
 </head>
 <body>
 <header class="assessment-header">
   <h1>Assessment: Introduction to Computers</h1>
-  <p class="subtitle">Test your knowledge of computer fundamentals</p>
+  <p class="subtitle">Test your knowledge of computer fundamentals · 10 tasks</p>
   <span class="grade-badge">Grade XI • Computer Science</span>
 </header>
 <div class="canvas-container" id="canvasContainer">
-  <!-- status bar -->
   <div class="status-bar">
     <div class="student-info">
       <span id="displayName">Student</span>
@@ -25,9 +29,7 @@
     </div>
   </div>
 
-  <!-- TASK GRID – 10 advanced interactive tasks -->
   <div class="task-grid" id="taskGrid">
-    <!-- Task 1: definition (text) -->
     <div class="task-card" data-task="1">
       <div class="task-header">
         <span class="task-num">Task 1</span>
@@ -38,10 +40,9 @@
         <input type="text" id="ans1" placeholder="e.g. electronic device that processes..." style="flex:1;">
         <button class="check-btn" data-task="1">✔ Verify</button>
       </div>
-      <div class="feedback" id="fb1"></div>
+      <div class="verification-text" id="fb1"></div>
     </div>
 
-    <!-- Task 2: drag-drop – generations technology -->
     <div class="task-card" data-task="2">
       <div class="task-header">
         <span class="task-num">Task 2</span>
@@ -58,10 +59,9 @@
         <span>2nd Gen:</span>
         <span class="drop-zone" id="drop2" data-expected="transistor">drop here</span>
       </div>
-      <div class="feedback" id="fb2"></div>
+      <div class="verification-text" id="fb2"></div>
     </div>
 
-    <!-- Task 3: crossword – 5 letters: "BINARY" (but we use 5 cells for "BYTES") -->
     <div class="task-card" data-task="3">
       <div class="task-header">
         <span class="task-num">Task 3</span>
@@ -79,10 +79,9 @@
       <div style="margin-top:0.3rem;">
         <button class="check-btn" id="cwCheck">✔ Verify Crossword</button>
       </div>
-      <div class="feedback" id="fb3"></div>
+      <div class="verification-text" id="fb3"></div>
     </div>
 
-    <!-- Task 4: CPU parts – select -->
     <div class="task-card" data-task="4">
       <div class="task-header">
         <span class="task-num">Task 4</span>
@@ -90,18 +89,12 @@
       </div>
       <div class="task-question">CPU consists of ALU, Control Unit, and ______.</div>
       <div class="task-input-area">
-        <select id="ans4">
-          <option value="">-- select --</option>
-          <option value="registers">Registers</option>
-          <option value="cache">Cache</option>
-          <option value="ram">RAM</option>
-        </select>
+        <input type="text" id="ans4" placeholder="type the missing component" style="width:200px;">
         <button class="check-btn" data-task="4">✔ Verify</button>
       </div>
-      <div class="feedback" id="fb4"></div>
+      <div class="verification-text" id="fb4"></div>
     </div>
 
-    <!-- Task 5: storage conversion -->
     <div class="task-card" data-task="5">
       <div class="task-header">
         <span class="task-num">Task 5</span>
@@ -112,10 +105,9 @@
         <input type="number" id="ans5" placeholder="1024" style="width:120px;">
         <button class="check-btn" data-task="5">✔ Verify</button>
       </div>
-      <div class="feedback" id="fb5"></div>
+      <div class="verification-text" id="fb5"></div>
     </div>
 
-    <!-- Task 6: classification – select -->
     <div class="task-card" data-task="6">
       <div class="task-header">
         <span class="task-num">Task 6</span>
@@ -123,19 +115,12 @@
       </div>
       <div class="task-question">A desktop PC is a ______ computer.</div>
       <div class="task-input-area">
-        <select id="ans6">
-          <option value="">-- select --</option>
-          <option value="micro">Micro</option>
-          <option value="mini">Mini</option>
-          <option value="mainframe">Mainframe</option>
-          <option value="super">Super</option>
-        </select>
+        <input type="text" id="ans6" placeholder="type the classification" style="width:200px;">
         <button class="check-btn" data-task="6">✔ Verify</button>
       </div>
-      <div class="feedback" id="fb6"></div>
+      <div class="verification-text" id="fb6"></div>
     </div>
 
-    <!-- Task 7: mobile computing components – select -->
     <div class="task-card" data-task="7">
       <div class="task-header">
         <span class="task-num">Task 7</span>
@@ -143,38 +128,25 @@
       </div>
       <div class="task-question">Mobile computing has: Mobile Communication, Mobile Hardware, and ______.</div>
       <div class="task-input-area">
-        <select id="ans7">
-          <option value="">-- select --</option>
-          <option value="mobile software">Mobile Software</option>
-          <option value="mobile network">Mobile Network</option>
-          <option value="mobile cloud">Mobile Cloud</option>
-        </select>
+        <input type="text" id="ans7" placeholder="type the third component" style="width:220px;">
         <button class="check-btn" data-task="7">✔ Verify</button>
       </div>
-      <div class="feedback" id="fb7"></div>
+      <div class="verification-text" id="fb7"></div>
     </div>
 
-    <!-- Task 8: input/output – multi-select style (pick one) -->
     <div class="task-card" data-task="8">
       <div class="task-header">
         <span class="task-num">Task 8</span>
         <span class="status-badge" id="status8">⚠️ pending</span>
       </div>
-      <div class="task-question">Which is NOT an input device?</div>
+      <div class="task-question">Which device is NOT an input device (e.g., scanner, mouse, monitor, microphone)?</div>
       <div class="task-input-area">
-        <select id="ans8">
-          <option value="">-- select --</option>
-          <option value="scanner">Scanner</option>
-          <option value="mouse">Mouse</option>
-          <option value="monitor">Monitor</option>
-          <option value="microphone">Microphone</option>
-        </select>
+        <input type="text" id="ans8" placeholder="type the device name" style="width:200px;">
         <button class="check-btn" data-task="8">✔ Verify</button>
       </div>
-      <div class="feedback" id="fb8"></div>
+      <div class="verification-text" id="fb8"></div>
     </div>
 
-    <!-- Task 9: advantage – text -->
     <div class="task-card" data-task="9">
       <div class="task-header">
         <span class="task-num">Task 9</span>
@@ -185,37 +157,28 @@
         <input type="text" id="ans9" placeholder="e.g. speed" style="width:150px;">
         <button class="check-btn" data-task="9">✔ Verify</button>
       </div>
-      <div class="feedback" id="fb9"></div>
+      <div class="verification-text" id="fb9"></div>
     </div>
 
-    <!-- Task 10: speed – select -->
     <div class="task-card" data-task="10">
       <div class="task-header">
         <span class="task-num">Task 10</span>
         <span class="status-badge" id="status10">⚠️ pending</span>
       </div>
-      <div class="task-question">Fourth generation computer speed is in ______.</div>
+      <div class="task-question">Fourth generation computer speed is measured in ______.</div>
       <div class="task-input-area">
-        <select id="ans10">
-          <option value="">-- select --</option>
-          <option value="milli seconds">Milli seconds</option>
-          <option value="micro seconds">Micro seconds</option>
-          <option value="nano seconds">Nano seconds</option>
-          <option value="pico seconds">Pico seconds</option>
-        </select>
+        <input type="text" id="ans10" placeholder="e.g. pico seconds" style="width:200px;">
         <button class="check-btn" data-task="10">✔ Verify</button>
       </div>
-      <div class="feedback" id="fb10"></div>
+      <div class="verification-text" id="fb10"></div>
     </div>
   </div>
 
-  <!-- submit -->
   <hr>
   <div style="display: flex; justify-content: flex-end; margin-top: 1.5rem;">
     <button id="submitAllBtn" class="check-btn" style="background: var(--success-color); padding: 0.8rem 2.5rem; font-size: 1.1rem;">📤 Submit All & Finish</button>
   </div>
 
-  <!-- Navigation -->
   <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
     <a href="../main_pages/csxi.html" style="color: var(--secondary-color); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
       ← Back to Grade XI
@@ -225,7 +188,6 @@
     </a>
   </div>
 
-  <!-- Footer Info -->
   <div style="background: var(--bg-color); border-radius: 2rem; padding: 1.5rem 2rem; margin-top: 2rem; border: 1px solid var(--border-color);">
     <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem;">
       <span style="font-weight: 600; font-size: 1.1rem; color: var(--primary-color);">📝 Assessment Summary</span>
@@ -233,14 +195,13 @@
     </div>
     <ul style="margin: 0; padding-left: 1.2rem; color: var(--text-color); line-height: 1.8;">
       <li><strong>Topics covered:</strong> Computer definition, generations, CPU components, storage units, classification, mobile computing, input/output devices</li>
-      <li><strong>Interactive format:</strong> Drag-and-drop, crossword puzzles, multiple choice, and text input</li>
+      <li><strong>Interactive format:</strong> Drag-and-drop, crossword puzzles, and text input</li>
       <li><strong>Review suggestion:</strong> If you scored below 8/10, review the activity for topics you missed</li>
     </ul>
     <p style="margin: 1rem 0 0 0; font-style: italic; color: var(--text-color);">🎯 Good preparation for your Computer Science examination!</p>
   </div>
 </div>
 
-<!-- ENTRY MODAL -->
 <div class="celebration-overlay" id="entryOverlay">
   <div class="celebration-card">
     <h2>📋 Assessment Entry</h2>
@@ -254,7 +215,6 @@
   </div>
 </div>
 
-<!-- EXIT MODAL -->
 <div class="celebration-overlay" id="exitOverlay" style="display:none;">
   <div class="celebration-card">
     <h2>🎉 Assessment Complete</h2>
@@ -266,13 +226,12 @@
       <p><strong>Elapsed:</strong> <span id="exitElapsed"></span></p>
     </div>
     <p style="color: var(--text-color); border-top: 1px solid var(--border-color); padding-top: 1rem;">You may close this page.</p>
-    <button class="btn-primary" style="background: var(--primary-color); width: auto; padding: 0.5rem 1.8rem;" onclick="window.close()">Close</button>
+    <button class="btn-primary" id="closeBtn" style="background: var(--primary-color); width: auto; padding: 0.5rem 1.8rem;">Close</button>
   </div>
 </div>
 
 <script>
   (function() {
-    // ---------- CONFIG ----------
     const SUBMISSION_CONFIG = {
       url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
       fields: {
@@ -287,25 +246,20 @@
       }
     };
 
-    // ---------- STATE ----------
     let student = { name: '', roll: '', room: '' };
     let verified = [false, false, false, false, false, false, false, false, false, false];
     let sessionTiming = { start: null, end: null };
-    // drag-drop state
     let drop2Filled = false;
 
-    // DOM refs
     const statusBadges = [1,2,3,4,5,6,7,8,9,10].map(i => document.getElementById('status'+i));
     const feedbacks = [1,2,3,4,5,6,7,8,9,10].map(i => document.getElementById('fb'+i));
     const progressSpan = document.getElementById('progressCount');
     const taskCards = document.querySelectorAll('.task-card');
 
-    // display
     const displayName = document.getElementById('displayName');
     const displayRoll = document.getElementById('displayRoll');
     const displayRoom = document.getElementById('displayRoom');
 
-    // entry modal
     const entryOverlay = document.getElementById('entryOverlay');
     const exitOverlay = document.getElementById('exitOverlay');
     const inputName = document.getElementById('inputName');
@@ -313,7 +267,6 @@
     const inputRoom = document.getElementById('inputRoom');
     const entryError = document.getElementById('entryError');
 
-    // ---------- helper: update progress UI ----------
     function updateProgress() {
       const count = verified.filter(v => v).length;
       progressSpan.textContent = count;
@@ -332,44 +285,31 @@
       }
     }
 
-    // ---------- VERIFICATION FUNCTIONS ----------
     const verifyFns = [
-      // task1: definition
       (val) => /electronic|device|computer/i.test(val) && val.length > 5,
-      // task2: drag-drop (checked separately)
       null,
-      // task3: crossword (checked separately)
       null,
-      // task4: select registers
-      (val) => val === 'registers',
-      // task5: 1024
+      (val) => /register/i.test(val) && val.length > 2,
       (val) => parseInt(val) === 1024,
-      // task6: micro
-      (val) => val === 'micro',
-      // task7: mobile software
-      (val) => val === 'mobile software',
-      // task8: monitor
-      (val) => val === 'monitor',
-      // task9: advantage
+      (val) => /micro/i.test(val) && val.length > 2,
+      (val) => /mobile software|mobile.*software/i.test(val),
+      (val) => /monitor/i.test(val),
       (val) => /speed|accuracy|storage|reliable|versatile/i.test(val),
-      // task10: pico seconds
-      (val) => val === 'pico seconds'
+      (val) => /pico/i.test(val)
     ];
 
-    // generic verify button handler
     document.querySelectorAll('.check-btn[data-task]').forEach(btn => {
       btn.addEventListener('click', function() {
         const taskIdx = parseInt(this.dataset.task) - 1;
         const input = document.getElementById('ans' + (taskIdx+1));
         let val = input ? input.value.trim() : '';
         const fb = feedbacks[taskIdx];
-        // special case for select
         if (input && input.tagName === 'SELECT') {
           val = input.value;
         }
         if (!val) {
-          fb.textContent = 'Please select/enter an answer.';
-          fb.className = 'feedback invalid';
+          fb.textContent = 'Please enter an answer.';
+          fb.className = 'verification-text unverified';
           return;
         }
         const fn = verifyFns[taskIdx];
@@ -378,17 +318,16 @@
         if (isValid) {
           verified[taskIdx] = true;
           fb.textContent = '✅ Correct!';
-          fb.className = 'feedback valid';
+          fb.className = 'verification-text verified';
         } else {
           verified[taskIdx] = false;
           fb.textContent = '❌ Try again. Check spelling or concept.';
-          fb.className = 'feedback invalid';
+          fb.className = 'verification-text unverified';
         }
         updateProgress();
       });
     });
 
-    // ---------- DRAG-DROP TASK 2 ----------
     const drop2 = document.getElementById('drop2');
     const dragItems = document.querySelectorAll('#dragGroup2 .drag-item');
 
@@ -414,7 +353,7 @@
         drop2Filled = true;
         verified[1] = true;
         feedbacks[1].textContent = '✅ Correct!';
-        feedbacks[1].className = 'feedback valid';
+        feedbacks[1].className = 'verification-text verified';
         updateProgress();
       } else {
         drop2.textContent = '❌ try again';
@@ -422,12 +361,11 @@
         drop2Filled = false;
         verified[1] = false;
         feedbacks[1].textContent = '❌ Wrong generation technology.';
-        feedbacks[1].className = 'feedback invalid';
+        feedbacks[1].className = 'verification-text unverified';
         updateProgress();
       }
     });
 
-    // ---------- CROSSWORD TASK 3 ----------
     document.getElementById('cwCheck').addEventListener('click', function() {
       const cells = document.querySelectorAll('.cw-cell');
       let word = '';
@@ -437,18 +375,17 @@
         cells.forEach(c => c.classList.add('correct'));
         verified[2] = true;
         fb.textContent = '✅ Correct! 8 bits = 1 byte.';
-        fb.className = 'feedback valid';
+        fb.className = 'verification-text verified';
         updateProgress();
       } else {
         cells.forEach(c => c.classList.remove('correct'));
         verified[2] = false;
         fb.textContent = '❌ Try again. Hint: 8 bits = 1 ______ (5 letters).';
-        fb.className = 'feedback invalid';
+        fb.className = 'verification-text unverified';
         updateProgress();
       }
     });
 
-    // auto-advance crossword cells
     document.querySelectorAll('.cw-cell').forEach((cell, idx, arr) => {
       cell.addEventListener('input', () => {
         if (cell.value.length === 1 && idx < arr.length-1) {
@@ -462,7 +399,6 @@
       });
     });
 
-    // ---------- ENTRY MODAL ----------
     document.getElementById('enterBtn').addEventListener('click', function() {
       const name = inputName.value.trim();
       const roll = inputRoll.value.trim();
@@ -480,7 +416,6 @@
       entryOverlay.style.display = 'none';
     });
 
-    // ---------- SUBMIT ----------
     document.getElementById('submitAllBtn').addEventListener('click', function() {
       const completed = verified.filter(v => v).length;
       if (completed < 10) {
@@ -519,7 +454,10 @@
       exitOverlay.style.display = 'flex';
     });
 
-    // initial progress
+    document.getElementById('closeBtn').addEventListener('click', function() {
+      window.close();
+    });
+
     updateProgress();
   })();
 </script>
