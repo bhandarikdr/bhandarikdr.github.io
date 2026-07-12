@@ -146,16 +146,15 @@ input:focus, select:focus, textarea:focus {
     border: none;
     text-align: center;
     width: 100%;
+    color: white;
 }
 
 .btn-primary {
-    background-color: var(--accent-color);
-    color: white;
+    background-color: var(--primary-color);
 }
 
 .btn-primary:hover {
-    background-color: var(--accent-hover);
-    color: white;
+    background-color: #0f172a;
 }
 
 .btn-secondary {
@@ -165,6 +164,22 @@ input:focus, select:focus, textarea:focus {
 
 .btn-secondary:hover {
     background-color: #cbd5e1;
+}
+
+.btn-success {
+    background-color: var(--secondary-color);
+}
+
+.btn-success:hover {
+    background-color: #2563eb;
+}
+
+.btn-accent {
+    background-color: var(--accent-color);
+}
+
+.btn-accent:hover {
+    background-color: var(--accent-hover);
 }
 
 /* Progress Bar */
@@ -708,6 +723,7 @@ button, .btn, a, input, select, textarea {
 /* Button Row — Verify + Next inline */
 .btn-row {
     display: flex;
+    justify-content: center;
     gap: 0.75rem;
     align-items: center;
     margin-top: 1rem;
