@@ -402,10 +402,23 @@ function renderTask() {
         <div class="task-question">${task.question}</div>
         ${interactionHtml}
         <div class="feedback-msg error" id="taskError"></div>
+        <button class="btn" id="nextBtn" disabled style="margin-top: 1rem; background: #e2e8f0; color: #64748b; cursor: not-allowed; padding: 0.6rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">Next →</button>
     `;
 
     container.appendChild(card);
     setupInteractions(card, task);
+
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentTaskIndex < tasks.length - 1) {
+                currentTaskIndex++;
+                renderTask();
+            } else {
+                showFinalSubmission();
+            }
+        });
+    }
 }
 
 function renderDBVisualizer() {
@@ -501,14 +514,13 @@ function handleSuccess() {
     updateProgress();
     updateStepper();
 
-    setTimeout(() => {
-        if (currentTaskIndex < tasks.length - 1) {
-            currentTaskIndex++;
-            renderTask();
-        } else {
-            showFinalSubmission();
-        }
-    }, 1000);
+    const nextBtn = document.getElementById('nextBtn');
+    if (nextBtn) {
+        nextBtn.disabled = false;
+        nextBtn.style.background = '#3b82f6';
+        nextBtn.style.color = '#ffffff';
+        nextBtn.style.cursor = 'pointer';
+    }
 }
 
 function updateProgress() {
