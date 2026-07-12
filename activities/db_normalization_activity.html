@@ -3,215 +3,385 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Activity: Database Normalization - Grade XII</title>
+  <title>Activity: Database Normalization</title>
   <link rel="stylesheet" href="../css/activity.css">
   <style>
     .data-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; border-radius: 14px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
     .data-table th { background: var(--primary-color); color: white; padding: 0.6rem; text-align: left; }
     .data-table td { background: white; padding: 0.6rem; border-bottom: 1px solid var(--border-color); }
     .data-table tr:last-child td { border-bottom: none; }
-    .badge.green { background: #16a34a; }
-    .badge.orange { background: #ea580c; }
-    .badge.purple { background: #7c3aed; }
-    .badge.small { font-size: 0.8rem; background: #2563eb; }
-    .info-note { background: #eef2ff; padding: 0.6rem 1.2rem; border-radius: 1rem; margin: 1rem 0; }
-    .split-result { background: #eef2ff; padding: 0.8rem 1.2rem; border-radius: 1rem; }
+    .badge.green { background: var(--success-color); }
+    .badge.orange { background: var(--warning-color); }
+    .badge.purple { background: var(--primary-color); }
+    .info-note { background: var(--bg-light); padding: 0.6rem 1.2rem; border-radius: 1rem; margin: 1rem 0; }
+    .split-result { background: var(--bg-light); padding: 0.8rem 1.2rem; border-radius: 1rem; }
+    .mnemonic-box { background: var(--bg-light); padding: 0.8rem 1.2rem; border-radius: 1rem; margin: 1rem 0; border-left: 4px solid var(--primary-color); }
+    .quiz-card label { display: block; padding: 0.5rem 0.8rem; border-radius: 0.5rem; margin: 0.3rem 0; background: var(--card-bg); border: 1px solid var(--border-color); cursor: pointer; }
+    .quiz-card label:hover { background: var(--bg-light); }
+    .match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin: 0.8rem 0; }
+    .match-item { padding: 0.6rem 1rem; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 0.5rem; text-align: center; }
+    .drag-zone { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.8rem 0; padding: 0.8rem; background: var(--card-bg); border: 2px dashed var(--border-color); border-radius: 0.5rem; min-height: 3rem; }
+    .drag-item { padding: 0.4rem 1rem; background: var(--primary-color); color: white; border-radius: 0.5rem; cursor: grab; font-size: 0.9rem; }
   </style>
 </head>
 <body>
 <div class="container">
 
-  <!-- HEADER -->
-  <header>
+  <header class="lab-header">
     <h1>Activity: Database Normalization</h1>
-    <p class="subtitle">Understanding 1NF, 2NF, and 3NF through examples</p>
-    <p class="grade-badge">Grade XII &bull; Computer Science</p>
+    <p class="subtitle">Understanding 1NF, 2NF, and 3NF through real-world examples</p>
+    <span class="grade-badge">Grade XII • Computer Science</span>
+    <span class="grade-badge" style="background: var(--warning-color); color: #fff; margin-left: 0.5rem;">⏱️ ~25 min</span>
   </header>
 
-  <!-- PREREQUISITES -->
   <div class="instruction-box">
     <p class="quiz-question">Prerequisites</p>
     <ul class="step-list">
       <li>You should know what a table, row, column, and primary key are.</li>
-      <li>We will use a <span class="highlight">single example</span> throughout: a table that stores <strong>student projects</strong>.</li>
+      <li>You should understand the concept of functional dependency.</li>
     </ul>
   </div>
 
-  <!-- LEARNING OBJECTIVES -->
   <div class="section-title">
-    <span class="badge">Objectives</span> Learning Goals & Outcomes
+    <span class="badge purple">Objectives</span> Learning Goals &amp; Outcomes
   </div>
 
   <div class="instruction-box objective">
-    <p><strong>By the end of this lab activity, you will be able to:</strong></p>
+    <p><strong>By the end of this activity, you will be able to:</strong></p>
     <ul class="step-list">
-      <li>Identify why unorganized tables cause problems (anomalies).</li>
-      <li>Fix them step by step: 1NF to 2NF to 3NF.</li>
-      <li>Apply normalization to real-world examples (college projects).</li>
+      <li>Identify multi-valued attributes and fix them to reach 1NF.</li>
+      <li>Detect partial dependency using composite keys and normalize to 2NF.</li>
+      <li>Detect transitive dependency and normalize to 3NF.</li>
+      <li>Distinguish between partial and transitive dependency.</li>
     </ul>
   </div>
 
-  <!-- CONCEPTUAL WALKTHROUGH -->
   <div class="section-title">
     <span class="badge purple">Concept Overview</span> What is Normalization?
   </div>
 
   <div class="instruction-box">
-    <p><strong>Normalization</strong> means organizing a table to avoid repeated data and problems. We use three simple steps:</p>
+    <p><strong>Normalization</strong> is the process of organizing a database table to reduce redundancy and avoid anomalies (insertion, update, and deletion problems). It happens in stages:</p>
     <ol class="step-list">
-      <li><strong>1NF</strong> -- No lists inside cells -- each cell has one value.</li>
-      <li><strong>2NF</strong> -- Everything depends on the whole key -- no partial dependency.</li>
-      <li><strong>3NF</strong> -- No chain dependencies -- no column depends on another non-key column.</li>
+      <li><strong>1NF</strong> — No multi-valued attributes. Every cell holds exactly one value.</li>
+      <li><strong>2NF</strong> — No partial dependency. Every non-key attribute depends on the whole composite primary key.</li>
+      <li><strong>3NF</strong> — No transitive dependency. No non-key attribute depends on another non-key attribute.</li>
     </ol>
-
+    <div class="mnemonic-box">
+      <strong>Mnemonic:</strong> 2NF = "the whole key", 3NF = "nothing but the key".
+    </div>
     <div class="info-note">
-      <strong>Example:</strong> A table with <em>Student_ID, Project_Name, Supervisor, Supervisor_Phone</em>. The phone depends on the supervisor, not on the student. We need to split it.
+      <strong>Key Distinction:</strong> Partial dependency is only possible when the primary key is composite (made of two or more columns). Transitive dependency can occur with any primary key type.
     </div>
   </div>
 
-  <!-- PART 1: ANOMALIES -->
   <div class="section-title">
-    <span class="badge">Part 1</span> Spot the Problems
+    <span class="badge">Part 1</span> First Normal Form (1NF) — Multi-Valued Attributes
   </div>
 
   <div class="instruction-box">
-    <p class="quiz-question">The "Student Project" table (not normalized)</p>
+    <p class="quiz-question">Example: EMPLOYEE table (not in 1NF)</p>
+    <p>Notice that <span class="highlight">EMP_PHONE</span> contains multiple values for some employees.</p>
     <table class="data-table">
-      <thead><tr><th>Student_ID</th><th>Student_Name</th><th>Project_Title</th><th>Supervisor</th><th>Supervisor_Phone</th></tr></thead>
+      <thead><tr><th>EMP_ID</th><th>EMP_NAME</th><th>EMP_PHONE</th><th>EMP_PROVINCE</th></tr></thead>
       <tbody>
-        <tr><td>101</td><td>Ram Sharma</td><td>Weather App</td><td>Dr. Neupane</td><td>9841-234567</td></tr>
-        <tr><td>102</td><td>Sita Adhikari</td><td>E-Library</td><td>Dr. Neupane</td><td>9841-234567</td></tr>
-        <tr><td>103</td><td>Hari Thapa</td><td>Chat Bot</td><td>Prof. Karki</td><td>9855-678901</td></tr>
+        <tr><td>14</td><td>Ram</td><td>7272826385, 9064738238</td><td>Bagmati</td></tr>
+        <tr><td>20</td><td>Sita</td><td>8574783832</td><td>Koshi</td></tr>
+        <tr><td>12</td><td>Hari</td><td>7390372389, 8589830302</td><td>Gandaki</td></tr>
       </tbody>
     </table>
 
-    <p class="mt-4"><strong>Task 1.1</strong> -- What is wrong with this table? Look at the repeated data.</p>
-    <ol class="step-list">
-      <li><strong>Redundancy:</strong> Dr. Neupane's phone is repeated for every student.</li>
-      <li><strong>Update problem:</strong> If Dr. Neupane changes phone, you must update many rows.</li>
-      <li><strong>Delete problem:</strong> If Ram leaves, you lose Dr. Neupane's info entirely.</li>
-    </ol>
-    <p><span class="highlight">Conclusion:</span> The table has <strong>update anomalies</strong>. We will fix them.</p>
-  </div>
+    <p><strong>Problem:</strong> EMP_PHONE has multiple values in a single cell. This violates <strong>1NF</strong>, which requires every cell to hold a single atomic value.</p>
 
-  <!-- PART 2: 1NF & 2NF -->
-  <div class="section-title">
-    <span class="badge green">Part 2</span> Fix Step 1 & 2 (1NF and 2NF)
-  </div>
+    <p><strong>Fix:</strong> Split multi-valued cells into separate rows.</p>
 
-  <div class="instruction-box">
-    <p class="quiz-question">Step 1: Already in 1NF</p>
-    <p>Each cell has a single value (no lists), so it is already in <strong>1NF</strong>. Now we go to 2NF.</p>
-
-    <p class="mt-4"><strong>Task 2.1</strong> -- The primary key is <span class="formula">Student_ID</span>. But <span class="highlight">Supervisor_Phone</span> depends on <span class="formula">Supervisor</span>, not on Student_ID. This is a <strong>partial dependency</strong>.</p>
-
-    <p class="mt-4"><strong>Task 2.2</strong> -- Split the table into two tables to remove the partial dependency.</p>
     <div class="split-result">
-      <strong>Table 1: Student</strong> (Student_ID, Student_Name, Project_Title, Supervisor)<br>
-      <strong>Table 2: Supervisor</strong> (Supervisor, Supervisor_Phone)
+      <strong>EMPLOYEE (in 1NF):</strong>
     </div>
-    <p class="mt-4">Now <em>Supervisor_Phone</em> depends only on <em>Supervisor</em> (the whole key). The tables are in <strong>2NF</strong>.</p>
-  </div>
-
-  <!-- PART 3: 3NF -->
-  <div class="section-title">
-    <span class="badge orange">Part 3</span> Fix Step 3 (3NF)
-  </div>
-
-  <div class="instruction-box">
-    <p class="quiz-question">Remove Transitive Dependency</p>
-    <p>Look at the Student table from Part 2: <span class="formula">Student_ID to Supervisor</span>. But what if we also store <span class="highlight">Supervisor_Department</span>?</p>
-
     <table class="data-table">
-      <thead><tr><th>Student_ID</th><th>Student_Name</th><th>Project_Title</th><th>Supervisor</th><th>Supervisor_Dept</th></tr></thead>
-      <tbody><tr><td>101</td><td>Ram Sharma</td><td>Weather App</td><td>Dr. Neupane</td><td>Computer Science</td></tr></tbody>
+      <thead><tr><th>EMP_ID</th><th>EMP_NAME</th><th>EMP_PHONE</th><th>EMP_PROVINCE</th></tr></thead>
+      <tbody>
+        <tr><td>14</td><td>Ram</td><td>7272826385</td><td>Bagmati</td></tr>
+        <tr><td>14</td><td>Ram</td><td>9064738238</td><td>Bagmati</td></tr>
+        <tr><td>20</td><td>Sita</td><td>8574783832</td><td>Koshi</td></tr>
+        <tr><td>12</td><td>Hari</td><td>7390372389</td><td>Gandaki</td></tr>
+        <tr><td>12</td><td>Hari</td><td>8589830302</td><td>Gandaki</td></tr>
+      </tbody>
     </table>
 
-    <p class="mt-4"><strong>Problem:</strong> <span class="formula">Supervisor_Dept</span> depends on <span class="formula">Supervisor</span>, not on Student_ID. That is a <strong>transitive dependency</strong> (Student_ID to Supervisor to Dept).</p>
+    <p class="mt-4"><strong>Exercise 1.1</strong> — Which normal form removes multi-valued attributes?</p>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q1_1" value="a"> 1NF</label></li>
+      <li><label><input type="radio" name="q1_1" value="b"> 2NF</label></li>
+      <li><label><input type="radio" name="q1_1" value="c"> 3NF</label></li>
+    </ul>
+    <details><summary>Show answer</summary><div class="answer-key">1NF — it ensures every cell contains only one atomic value.</div></details>
 
-    <p class="mt-4"><strong>Task 3.1</strong> -- Split again to reach 3NF.</p>
-    <div class="split-result">
-      <strong>Student</strong> (Student_ID, Student_Name, Project_Title, Supervisor)<br>
-      <strong>Supervisor</strong> (Supervisor, Supervisor_Dept)
-    </div>
-    <p class="mt-4">Now <em>Supervisor_Dept</em> depends on <em>Supervisor</em>, and <em>Supervisor</em> is a key in its own table. No transitive dependency. The tables are in <strong>3NF</strong>.</p>
+    <p class="mt-4"><strong>Exercise 1.2</strong> — What is the primary key of the 1NF EMPLOYEE table above?</p>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q1_2" value="a"> EMP_ID alone</label></li>
+      <li><label><input type="radio" name="q1_2" value="b"> (EMP_ID, EMP_PHONE)</label></li>
+      <li><label><input type="radio" name="q1_2" value="c"> EMP_PHONE alone</label></li>
+    </ul>
+    <details><summary>Show answer</summary><div class="answer-key">(EMP_ID, EMP_PHONE) — since the same EMP_ID can appear with different phone numbers, both columns are needed to uniquely identify each row.</div></details>
   </div>
 
-  <!-- CHALLENGE QUIZ -->
   <div class="section-title">
-    <span class="badge purple">Challenge</span> Quiz: Test Your Understanding
+    <span class="badge green">Part 2</span> Second Normal Form (2NF) — Partial Dependency
+  </div>
+
+  <div class="instruction-box">
+    <p class="quiz-question">Example: TEACHER table (not in 2NF)</p>
+    <p>The primary key is <span class="formula">(TEACHER_ID, SUBJECT)</span> — a composite key.</p>
+    <table class="data-table">
+      <thead><tr><th>TEACHER_ID</th><th>SUBJECT</th><th>TEACHER_AGE</th></tr></thead>
+      <tbody>
+        <tr><td>25</td><td>Chemistry</td><td>30</td></tr>
+        <tr><td>25</td><td>Biology</td><td>30</td></tr>
+        <tr><td>47</td><td>English</td><td>35</td></tr>
+        <tr><td>83</td><td>Math</td><td>38</td></tr>
+        <tr><td>83</td><td>Computer</td><td>38</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Problem:</strong> TEACHER_AGE depends only on TEACHER_ID, not on SUBJECT. Since the primary key is composite, this is a <strong>partial dependency</strong>.</p>
+
+    <div class="mnemonic-box">
+      <strong>Partial dependency</strong> means a non-key attribute depends on only PART of a composite primary key. It is only possible when the PK has two or more columns.
+    </div>
+
+    <p><strong>Fix:</strong> Split into two tables.</p>
+
+    <div class="split-result">
+      <strong>TEACHER_DETAIL:</strong> (TEACHER_ID, TEACHER_AGE)<br>
+      <strong>TEACHER_SUBJECT:</strong> (TEACHER_ID, SUBJECT)
+    </div>
+
+    <p class="mt-4">Now TEACHER_AGE depends on the entire key of its own table (just TEACHER_ID). No partial dependency remains.</p>
+
+    <p class="mt-4"><strong>Exercise 2.1</strong> — Partial dependency is only possible when the primary key is:</p>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q2_1" value="a"> A single column</label></li>
+      <li><label><input type="radio" name="q2_1" value="b"> Composite (two or more columns)</label></li>
+      <li><label><input type="radio" name="q2_1" value="c"> A foreign key</label></li>
+    </ul>
+    <details><summary>Show answer</summary><div class="answer-key">Composite — partial dependency means depending on only part of the key, which requires a key made of multiple columns.</div></details>
+
+    <p class="mt-4"><strong>Exercise 2.2</strong> — In the TEACHER table, TEACHER_AGE depends on:</p>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q2_2" value="a"> SUBJECT only</label></li>
+      <li><label><input type="radio" name="q2_2" value="b"> TEACHER_ID only</label></li>
+      <li><label><input type="radio" name="q2_2" value="c"> Both TEACHER_ID and SUBJECT</label></li>
+    </ul>
+    <details><summary>Show answer</summary><div class="answer-key">TEACHER_ID only — the age does not change with the subject, so it depends only on part of the composite key.</div></details>
+  </div>
+
+  <div class="section-title">
+    <span class="badge orange">Part 3</span> Third Normal Form (3NF) — Transitive Dependency
+  </div>
+
+  <div class="instruction-box">
+    <p class="quiz-question">Example: EMPLOYEE_DETAIL table (not in 3NF)</p>
+    <p>The primary key is <span class="formula">EMP_ID</span> (a single column).</p>
+    <table class="data-table">
+      <thead><tr><th>EMP_ID</th><th>EMP_NAME</th><th>EMP_ZIP</th><th>EMP_PROVINCE</th><th>EMP_CITY</th></tr></thead>
+      <tbody>
+        <tr><td>222</td><td>Hari</td><td>44600</td><td>Bagmati</td><td>Kathmandu</td></tr>
+        <tr><td>333</td><td>Sita</td><td>44200</td><td>Bagmati</td><td>Bharatpur</td></tr>
+        <tr><td>444</td><td>Lakhan</td><td>56700</td><td>Koshi</td><td>Dharan</td></tr>
+        <tr><td>555</td><td>Krishna</td><td>33700</td><td>Gandaki</td><td>Pokhara</td></tr>
+        <tr><td>666</td><td>Jivan</td><td>22400</td><td>Lumbini</td><td>Ghorahi</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>Problem:</strong> EMP_PROVINCE and EMP_CITY depend on EMP_ZIP, not directly on EMP_ID. Since EMP_ZIP is a non-key column, this is a <strong>transitive dependency</strong>: EMP_ID → EMP_ZIP → EMP_PROVINCE.</p>
+
+    <div class="mnemonic-box">
+      <strong>Transitive dependency</strong> means a non-key attribute depends on another non-key attribute. This can happen with any primary key type — single or composite.
+    </div>
+
+    <p><strong>Fix:</strong> Split into two tables.</p>
+
+    <div class="split-result">
+      <strong>EMPLOYEE:</strong> (EMP_ID, EMP_NAME, EMP_ZIP)<br>
+      <strong>EMPLOYEE_ZIP:</strong> (EMP_ZIP, EMP_PROVINCE, EMP_CITY)
+    </div>
+
+    <p class="mt-4">Now EMP_PROVINCE and EMP_CITY depend on EMP_ZIP, which is the primary key of its own table. No transitive dependency remains.</p>
+
+    <p class="mt-4"><strong>Exercise 3.1</strong> — EMP_PROVINCE depends on EMP_ZIP. This is an example of:</p>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q3_1" value="a"> Partial dependency</label></li>
+      <li><label><input type="radio" name="q3_1" value="b"> Transitive dependency</label></li>
+      <li><label><input type="radio" name="q3_1" value="c"> Multi-valued attribute</label></li>
+    </ul>
+    <details><summary>Show answer</summary><div class="answer-key">Transitive dependency — EMP_PROVINCE depends on EMP_ZIP, which is a non-key attribute, creating a chain: EMP_ID → EMP_ZIP → EMP_PROVINCE.</div></details>
+
+    <p class="mt-4"><strong>Exercise 3.2</strong> — 3NF removes _____ dependency.</p>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q3_2" value="a"> Partial</label></li>
+      <li><label><input type="radio" name="q3_2" value="b"> Multi-valued</label></li>
+      <li><label><input type="radio" name="q3_2" value="c"> Transitive</label></li>
+    </ul>
+    <details><summary>Show answer</summary><div class="answer-key">Transitive — 3NF specifically targets transitive dependencies (non-key → non-key).</div></details>
+  </div>
+
+  <div class="section-title">
+    <span class="badge">Part 4</span> Normalization Anomalies — Matching Exercise
+  </div>
+
+  <div class="instruction-box">
+    <p class="quiz-question">Match each anomaly to its description</p>
+    <div class="match-grid">
+      <div class="match-item"><strong>Update Anomaly</strong></div>
+      <div class="match-item">Changing one fact requires updating multiple rows</div>
+      <div class="match-item"><strong>Insertion Anomaly</strong></div>
+      <div class="match-item">Cannot add data without unrelated data</div>
+      <div class="match-item"><strong>Deletion Anomaly</strong></div>
+      <div class="match-item">Deleting a row unintentionally loses unrelated data</div>
+    </div>
+    <details><summary>Show answer</summary><div class="answer-key">Update Anomaly = changing one fact requires updating multiple rows. Insertion Anomaly = cannot add data without unrelated data. Deletion Anomaly = deleting a row unintentionally loses unrelated data.</div></details>
+
+    <p class="mt-4"><strong>Exercise 4.1</strong> — In the EMPLOYEE table (1NF), if Ram changes his phone number, how many rows must be updated?</p>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q4_1" value="a"> 1</label></li>
+      <li><label><input type="radio" name="q4_1" value="b"> 2</label></li>
+      <li><label><input type="radio" name="q4_1" value="c"> 3</label></li>
+    </ul>
+    <details><summary>Show answer</summary><div class="answer-key">2 — Ram has two rows in the 1NF table (one for each phone number), so both must be updated.</div></details>
+  </div>
+
+  <div class="section-title">
+    <span class="badge purple">Challenge Quiz</span> Test Your Understanding
   </div>
 
   <div class="quiz-container">
 
     <div class="quiz-card">
-      <p class="quiz-question">1. What is the main goal of normalization?</p>
-      <ul class="quiz-options">
-        <li>To make tables larger</li>
-        <li>To reduce redundancy and avoid problems</li>
-        <li>To add more columns</li>
-      </ul>
-      <details><summary>Show answer</summary><div class="answer-key">To reduce redundancy and avoid update/delete problems.</div></details>
+      <p class="quiz-question">1. Arrange the normal forms in the correct order:</p>
+      <div class="drag-zone">
+        <span class="drag-item">3NF</span>
+        <span class="drag-item">1NF</span>
+        <span class="drag-item">2NF</span>
+      </div>
+      <details><summary>Show answer</summary><div class="answer-key">1NF → 2NF → 3NF (first fix multi-valued attributes, then partial dependencies, then transitive dependencies).</div></details>
     </div>
 
     <div class="quiz-card">
-      <p class="quiz-question">2. In the Student Project table, which dependency caused the 2NF violation?</p>
+      <p class="quiz-question">2. A relation is in 2NF if it is in 1NF and all non-key attributes are fully functionally dependent on the _____.</p>
       <ul class="quiz-options">
-        <li>Student_ID to Student_Name</li>
-        <li>Supervisor to Supervisor_Phone</li>
-        <li>Project_Title to Supervisor</li>
+        <li><label><input type="radio" name="q5_2" value="a"> Foreign key</label></li>
+        <li><label><input type="radio" name="q5_2" value="b"> Primary key</label></li>
+        <li><label><input type="radio" name="q5_2" value="c"> Any column</label></li>
       </ul>
-      <details><summary>Show answer</summary><div class="answer-key">Supervisor to Supervisor_Phone (partial dependency on part of the key).</div></details>
+      <details><summary>Show answer</summary><div class="answer-key">Primary key — 2NF requires full functional dependency on the entire primary key.</div></details>
     </div>
 
     <div class="quiz-card">
-      <p class="quiz-question">3. Which normal form removes transitive dependency?</p>
-      <ul class="quiz-options">
-        <li>1NF</li>
-        <li>2NF</li>
-        <li>3NF</li>
-      </ul>
-      <details><summary>Show answer</summary><div class="answer-key">3NF.</div></details>
+      <p class="quiz-question">3. Arrange the dependency chain in the EMPLOYEE_DETAIL example:</p>
+      <div class="drag-zone">
+        <span class="drag-item">EMP_PROVINCE</span>
+        <span class="drag-item">EMP_ID</span>
+        <span class="drag-item">EMP_ZIP</span>
+      </div>
+      <details><summary>Show answer</summary><div class="answer-key">EMP_ID → EMP_ZIP → EMP_PROVINCE (the transitive chain).</div></details>
     </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">4. Which normal form requires that every non-key attribute depends on "the whole key and nothing but the key"?</p>
+      <ul class="quiz-options">
+        <li><label><input type="radio" name="q5_4" value="a"> 1NF</label></li>
+        <li><label><input type="radio" name="q5_4" value="b"> 2NF</label></li>
+        <li><label><input type="radio" name="q5_4" value="c"> 3NF</label></li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">3NF — "the key" = primary key (2NF part), "nothing but the key" = no transitive dependency (3NF part). Together they describe 3NF.</div></details>
+    </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">5. Match each normal form to what it removes:</p>
+      <div class="match-grid">
+        <div class="match-item"><strong>1NF</strong></div>
+        <div class="match-item">Transitive dependency</div>
+        <div class="match-item"><strong>2NF</strong></div>
+        <div class="match-item">Multi-valued attributes</div>
+        <div class="match-item"><strong>3NF</strong></div>
+        <div class="match-item">Partial dependency</div>
+      </div>
+      <details><summary>Show answer</summary><div class="answer-key">1NF removes multi-valued attributes. 2NF removes partial dependency. 3NF removes transitive dependency.</div></details>
+    </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">6. Why is the EMPLOYEE table in Part 1 not in 1NF?</p>
+      <ul class="quiz-options">
+        <li><label><input type="radio" name="q5_6" value="a"> It has no primary key</label></li>
+        <li><label><input type="radio" name="q5_6" value="b"> EMP_PHONE has multiple values in one cell</label></li>
+        <li><label><input type="radio" name="q5_6" value="c"> It has too many rows</label></li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">EMP_PHONE has multiple values in one cell (e.g., "7272826385, 9064738238"), which violates 1NF.</div></details>
+    </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">7. In the TEACHER table, what type of dependency does TEACHER_AGE on TEACHER_ID represent?</p>
+      <ul class="quiz-options">
+        <li><label><input type="radio" name="q5_7" value="a"> Transitive dependency</label></li>
+        <li><label><input type="radio" name="q5_7" value="b"> Partial dependency</label></li>
+        <li><label><input type="radio" name="q5_7" value="c"> Full functional dependency</label></li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">Partial dependency — TEACHER_AGE depends on only part of the composite key (TEACHER_ID), not on the whole key.</div></details>
+    </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">8. After normalizing the EMPLOYEE table from 1NF to remove redundancy, what should be the primary key of the TEACHER_SUBJECT table?</p>
+      <ul class="quiz-options">
+        <li><label><input type="radio" name="q5_8" value="a"> TEACHER_ID</label></li>
+        <li><label><input type="radio" name="q5_8" value="b"> SUBJECT</label></li>
+        <li><label><input type="radio" name="q5_8" value="c"> (TEACHER_ID, SUBJECT)</label></li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">(TEACHER_ID, SUBJECT) — both columns together are needed to uniquely identify each row in the TEACHER_SUBJECT table.</div></details>
+    </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">9. Which of the following is TRUE about transitive dependency?</p>
+      <ul class="quiz-options">
+        <li><label><input type="radio" name="q5_9" value="a"> It only occurs with composite primary keys</label></li>
+        <li><label><input type="radio" name="q5_9" value="b"> It can occur with any type of primary key</label></li>
+        <li><label><input type="radio" name="q5_9" value="c"> It is the same as partial dependency</label></li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">It can occur with any type of primary key — transitive dependency is a chain between non-key attributes regardless of PK type.</div></details>
+    </div>
+
+    <div class="quiz-card">
+      <p class="quiz-question">10. In the EMPLOYEE_DETAIL table, which columns form the transitive chain?</p>
+      <ul class="quiz-options">
+        <li><label><input type="radio" name="q5_10" value="a"> EMP_ID → EMP_NAME → EMP_ZIP</label></li>
+        <li><label><input type="radio" name="q5_10" value="b"> EMP_ID → EMP_ZIP → EMP_PROVINCE</label></li>
+        <li><label><input type="radio" name="q5_10" value="c"> EMP_ZIP → EMP_ID → EMP_CITY</label></li>
+      </ul>
+      <details><summary>Show answer</summary><div class="answer-key">EMP_ID → EMP_ZIP → EMP_PROVINCE — EMP_ZIP is a non-key attribute that determines EMP_PROVINCE, creating the transitive chain.</div></details>
+    </div>
+
   </div>
 
-  <!-- ASSESSMENT PREPARATION -->
-  <div class="section-title">
-    <span class="badge purple">Assessment Prep</span> Ready for the Interactive Assessment
-  </div>
-
-  <div class="instruction-box">
-    <p><strong>What to Expect in the Assessment:</strong></p>
-    <ul class="step-list mt-2">
-      <li>You will be given a table with some redundancy.</li>
-      <li>You need to split it into 2NF and then 3NF tables.</li>
-      <li>Remember: <span class="highlight">"The key, the whole key, and nothing but the key"</span>.</li>
-      <li>Practice with the Student-Supervisor example above.</li>
-    </ul>
-  </div>
-
-  <!-- FOOTER -->
   <div class="footer">
     <div class="instruction-box">
       <p><strong>Completion Checklist:</strong></p>
       <ul class="step-list mt-2">
-        <li>Identified anomalies in the unnormalized Student Project table</li>
-        <li>Understood that the table is already in 1NF (atomic values)</li>
-        <li>Split the table to remove partial dependency (achieved 2NF)</li>
-        <li>Split again to remove transitive dependency (achieved 3NF)</li>
+        <li>Understood multi-valued attributes and how 1NF fixes them</li>
+        <li>Understood partial dependency and how 2NF fixes it</li>
+        <li>Understood transitive dependency and how 3NF fixes it</li>
+        <li>Can distinguish between partial and transitive dependency</li>
         <li>Completed the challenge quiz</li>
       </ul>
     </div>
 
     <p class="mt-4"><strong>Next Steps:</strong></p>
     <ul class="step-list mt-2">
-      <li><a href="../assessments/db_normalization_assessment.html">Proceed to the Normalization Lab Assessment</a> to test your knowledge</li>
+      <li><a href="../assessments/db_normalization_assessment.html">Proceed to the Normalization Assessment</a></li>
       <li>Practice normalizing other tables (library, hospital, school systems)</li>
       <li>Learn about BCNF and higher normal forms</li>
     </ul>
 
-    <p class="mt-4 text-center">&mdash; Thank you. See you in the next chapter &mdash;</p>
-    <p class="text-small text-center">Ensure all laboratory tasks are completed under workspace supervision guidelines.</p>
+    <p class="mt-4 text-center">&mdash; End of Activity &mdash;</p>
   </div>
 
 </div>
