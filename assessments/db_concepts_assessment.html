@@ -29,20 +29,6 @@
             gap: 0.5rem;
             margin: 1rem 0;
         }
-        .drag-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            cursor: grab;
-            transition: all 0.2s;
-            font-weight: 600;
-        }
-        .drag-item:active { cursor: grabbing; }
-        .drag-item.dragging { opacity: 0.4; border-style: dashed; }
         .drag-handle {
             color: #94a3b8;
             font-size: 1.2rem;
@@ -120,7 +106,6 @@
         <div class="stepper-container" id="stepper"></div>
 
         <div id="taskWorkspace">
-            <!-- Active task card will be rendered here -->
         </div>
     </div>
 </div>
@@ -376,7 +361,7 @@ function renderTask() {
         ${interactionHtml}
         <div class="feedback-msg error" id="taskError"></div>
         <div class="btn-row">
-            <button class="btn btn-primary" id="checkBtn">Verify</button>
+            <button class="btn btn-primary" id="verifyBtn">Verify Answer</button>
             <button class="btn btn-secondary" id="nextBtn" disabled>Next →</button>
         </div>
     `;
@@ -398,7 +383,7 @@ function renderTask() {
 }
 
 function setupInteractions(card, task) {
-    const verifyBtn = card.querySelector('#checkBtn');
+    const verifyBtn = card.querySelector('#verifyBtn');
 
     if (task.type === 'mcq') {
         let selectedIdx = null;

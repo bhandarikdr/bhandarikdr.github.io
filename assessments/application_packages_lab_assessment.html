@@ -115,7 +115,6 @@
         <div class="stepper-container" id="stepper"></div>
 
         <div id="taskWorkspace">
-            <!-- Active task card will be rendered here -->
         </div>
     </div>
 </div>
@@ -342,7 +341,7 @@ function renderTask() {
 }
 
 function setupInteractions(card, task) {
-    const verifyBtn = card.querySelector('#checkBtn');
+    const verifyBtn = card.querySelector('#verifyBtn');
 
     if (task.type === 'spellcheck') {
         verifyBtn.addEventListener('click', () => {
