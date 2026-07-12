@@ -23,6 +23,31 @@
         .task-card-active { animation: slideIn 0.4s ease-out; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .interactive-option {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .interactive-option.selected {
+            border-color: var(--secondary-color);
+            background: #eff6ff;
+        }
+        .interactive-option:hover:not(.selected) {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+        }
+
         .code-textarea { width: 100%; height: 120px; font-family: 'Consolas', monospace; padding: 1rem; background: var(--editor-bg); color: #f8fafc; border-radius: 8px; resize: none; margin-top: 1rem; }
 
         .verification-text { font-weight: 600; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; }
