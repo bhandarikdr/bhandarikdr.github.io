@@ -266,8 +266,8 @@ function renderTask() {
         ${interactionHtml}
         <div class="feedback-msg error" id="taskError"></div>
         <div class="btn-row">
-            <button class="btn btn-primary" id="checkBtn">Verify</button>
-            <button class="btn" id="nextBtn" disabled>Next →</button>
+            <button class="btn btn-primary" id="checkBtn">Verify Answer</button>
+            <button class="btn btn-secondary" id="nextBtn" disabled>Next →</button>
         </div>
     `;
 
@@ -399,9 +399,8 @@ function handleSuccess() {
     const nextBtn = document.getElementById('nextBtn');
     if (nextBtn) {
         nextBtn.disabled = false;
-        nextBtn.style.background = '#3b82f6';
-        nextBtn.style.color = '#ffffff';
-        nextBtn.style.cursor = 'pointer';
+        nextBtn.classList.remove('btn-secondary');
+        nextBtn.classList.add('btn-success');
     }
 }
 

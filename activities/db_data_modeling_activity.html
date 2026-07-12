@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity: Data Modeling & Database Security - Grade XII</title>
+    <link rel="stylesheet" href="../css/activity.css">
+    <style>
+        .data-table { width: 100%; border-collapse: collapse; margin: 1.2rem 0; font-size: 0.95rem; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .data-table th { background: var(--primary-color); color: white; padding: 0.7rem 0.8rem; text-align: left; font-weight: 600; }
+        .data-table td { background: white; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--border-color); }
+        .data-table tr:last-child td { border-bottom: none; }
+        .badge.green { background: #16a34a; }
+        .badge.purple { background: #7c3aed; }
+        .badge.orange { background: #ea580c; }
+        .badge.key-blue { background: #2563eb; }
+        .badge.fk-purple { background: #7c3aed; }
+        .badge.er-orange { background: #ea580c; }
+        .inline-answer { background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 40px; display: inline-block; margin: 0.5rem 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <header class="lab-header">
+        <h1>Activity: Data Modeling & Database Security</h1>
+        <p class="subtitle">ER diagrams, database models, and security fundamentals</p>
+        <span class="grade-badge">Grade XII &bull; Computer Science</span>
+        <span class="grade-badge" style="background: var(--warning-color); color: #fff; margin-left: 0.5rem;">⏱️ ~25 min</span>
+    </header>
+
+    <!-- PREREQUISITES -->
+    <div class="instruction-box">
+        <p class="quiz-question">Prerequisites</p>
+        <ul class="step-list">
+            <li>Familiarity with basic database concepts (data, information, DBMS, tables).</li>
+            <li>Understanding of primary keys and foreign keys.</li>
+            <li>Basic knowledge of ER diagram symbols (from the DBMS Concepts activity).</li>
+        </ul>
+    </div>
+
+    <!-- LEARNING OBJECTIVES -->
+    <div class="section-title">
+        <span class="badge">Objectives</span> Learning Goals &amp; Outcomes
+    </div>
+
+    <div class="instruction-box objective">
+        <p><strong>By the end of this activity, you will be able to:</strong></p>
+        <ul class="step-list">
+            <li>Describe entities, attributes, and their sub-types in ER diagrams.</li>
+            <li>Differentiate between relationship types (1:1, 1:M, M:1, M:N) with real-world examples.</li>
+            <li>Read and interpret ER diagram notation symbols.</li>
+            <li>Explain the hierarchical and network database models and their trade-offs.</li>
+            <li>Compare centralized vs. distributed databases with advantages and disadvantages.</li>
+            <li>Identify major database security threats and describe layered security solutions.</li>
+        </ul>
+        <p class="text-small mt-4"><strong>Real-World Application:</strong> ER modeling is the first step in building any real-world system — from hospital management to e-commerce. Database security is critical for protecting sensitive data like financial records, health information, and personal identities.</p>
+    </div>
+
+    <!-- CONCEPTUAL WALKTHROUGH -->
+    <div class="section-title">
+        <span class="badge purple">Concept Overview</span> ER Model at a Glance
+    </div>
+
+    <div class="instruction-box">
+        <p>Peter Chen introduced the <strong>Entity-Relationship (ER) Model</strong> in 1976. An ER diagram is a blueprint of a database that shows <em>entities</em> (things we store data about), their <em>attributes</em> (properties), and the <em>relationships</em> between them.</p>
+
+        <p class="mt-4"><strong>ER Diagram Notation Reference:</strong></p>
+        <table class="data-table">
+            <thead><tr><th>Symbol</th><th>Represents</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td><span class="formula">Rectangle</span></td><td>Entity set</td><td>Student, College</td></tr>
+                <tr><td><span class="formula">Ellipse / Oval</span></td><td>Attribute</td><td>Name, Age</td></tr>
+                <tr><td><span class="formula">Diamond</span></td><td>Relationship set</td><td>Studies_In</td></tr>
+                <tr><td><span class="formula">Double Ellipse</span></td><td>Multivalued attribute</td><td>Phone numbers</td></tr>
+                <tr><td><span class="formula">Dashed Ellipse</span></td><td>Derived attribute</td><td>Age (from DOB)</td></tr>
+                <tr><td><span class="formula">Double Rectangle</span></td><td>Weak entity set</td><td>Bank Account</td></tr>
+                <tr><td><span class="formula">Double Line</span></td><td>Total participation</td><td>Every College must have a Student</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PART 1: ER MODEL DEEP DIVE -->
+    <div class="section-title">
+        <span class="badge">Part 1</span> ER Model Deep Dive
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">1.1 &mdash; Entities</p>
+        <p>An <strong>entity</strong> is an object or concept about which data is stored. It is represented as a <span class="highlight">rectangle</span> in an ER diagram.</p>
+        <ul class="step-list mt-2">
+            <li><strong>Regular entity:</strong> Has its own attributes and can be uniquely identified. Example: <span class="formula">Student</span> (with Stu_Id, Stu_Name, Stu_Addr).</li>
+            <li><strong>Weak entity:</strong> Cannot be uniquely identified by its own attributes alone — it depends on a relationship with another entity. Represented by a <span class="highlight">double rectangle</span>. Example: A <span class="formula">Bank Account</span> cannot be uniquely identified without knowing which bank it belongs to.</li>
+        </ul>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">1.2 &mdash; Total Participation</p>
+        <p><strong>Total participation</strong> means every entity in an entity set <em>must</em> have at least one relationship in a relationship set. It is shown with a <span class="highlight">double line</span> in the ER diagram.</p>
+        <p class="mt-2"><strong>Example:</strong> In a Student&ndash;College relationship, if every College must have at least one Student, then College has total participation.</p>
+        <p class="mt-2"><strong>Activity:</strong> If every employee must belong to exactly one department, which entity has total participation? <span class="inline-answer"><span class="formula">Employee</span> (total participation in the Belongs_To relationship)</span></p>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">1.3 &mdash; Attribute Types</p>
+        <p class="text-small mb-4">Identify the attribute type for each example:</p>
+        <ol class="step-list">
+            <li><strong>Key attribute</strong> &mdash; uniquely identifies an entity; represented by an <em>underlined</em> oval. Example: <span class="formula">Stu_Id</span> uniquely identifies a student.</li>
+            <li><strong>Composite attribute</strong> &mdash; an attribute composed of sub-attributes. Example: <span class="formula">Address</span> is made up of Pin Code, State, and Country.</li>
+            <li><strong>Multivalued attribute</strong> &mdash; can hold more than one value; represented by a <em>double oval</em>. Example: A person can have multiple <span class="formula">Phone Numbers</span>.</li>
+            <li><strong>Derived attribute</strong> &mdash; value is calculated from another attribute; represented by a <em>dashed oval</em>. Example: <span class="formula">Age</span> is derived from Date of Birth.</li>
+        </ol>
+
+        <p class="mt-4"><strong>Match the Symbols:</strong></p>
+        <ul class="step-list">
+            <li>Underlined oval = <span class="formula">Key attribute</span></li>
+            <li>Oval with sub-ovals = <span class="formula">Composite attribute</span></li>
+            <li>Double oval = <span class="formula">Multivalued attribute</span></li>
+            <li>Dashed oval = <span class="formula">Derived attribute</span></li>
+        </ul>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">1.4 &mdash; Relationship Types</p>
+        <p class="text-small mb-4">Identify the relationship type for each scenario:</p>
+        <ol class="step-list">
+            <li><strong>One-to-One (1:1):</strong> A Person has one Passport, and a Passport belongs to one Person.
+                <span class="inline-answer"><span class="formula">1:1</span></span>
+            </li>
+            <li><strong>One-to-Many (1:M):</strong> A Customer can place many Orders, but an Order belongs to one Customer.
+                <span class="inline-answer"><span class="formula">1:M</span></span>
+            </li>
+            <li><strong>Many-to-One (M:1):</strong> Many Students study in one College, but a Student cannot study in multiple Colleges.
+                <span class="inline-answer"><span class="formula">M:1</span></span>
+            </li>
+            <li><strong>Many-to-Many (M:N):</strong> Students can work on many Projects, and a Project can have many Students.
+                <span class="inline-answer"><span class="formula">M:N</span></span>
+            </li>
+        </ol>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">1.5 &mdash; ER Diagram Practice</p>
+        <p>In the ER diagram for <strong>Student</strong> and <strong>College</strong>:</p>
+        <ul class="step-list">
+            <li><strong>Entities:</strong> Student (rectangle), College (rectangle)</li>
+            <li><strong>Relationship:</strong> Studies_In (diamond) &mdash; M:1 (many students in one college)</li>
+            <li><strong>Student attributes:</strong> Stu_Id (key, underlined), Stu_Name, Stu_Addr</li>
+            <li><strong>College attributes:</strong> Col_ID (key, underlined), Col_Name</li>
+            <li><strong>Line types:</strong> Single lines connect attributes to entities; a line connects each entity to the diamond</li>
+        </ul>
+        <p class="mt-2"><strong>Question:</strong> What would change if we wanted to show that every student <em>must</em> study in a college? <span class="inline-answer">Add a <span class="formula">double line</span> from Student to Studies_In (total participation)</span></p>
+    </div>
+
+    <!-- PART 2: HIERARCHICAL MODEL -->
+    <div class="section-title">
+        <span class="badge green">Part 2</span> Hierarchical Database Model
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">2.1 &mdash; Tree Structure</p>
+        <p>The <strong>hierarchical model</strong> was one of the earliest database models. It stores data in a <span class="highlight">tree-like structure</span> where:</p>
+        <ul class="step-list mt-2">
+            <li>A <strong>parent</strong> node can have multiple <strong>children</strong>.</li>
+            <li>A <strong>child</strong> node has exactly <strong>one parent</strong>.</li>
+            <li>Records are the nodes; fields are the branches.</li>
+        </ul>
+        <p class="mt-4"><strong>Real-World Example (from notes):</strong> Windows Registry is a hierarchical database. Directory &amp; file systems also follow this model.</p>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">2.2 &mdash; Employee-Computer Example</p>
+        <table class="data-table">
+            <thead><tr><th colspan="3">Employee Table (Parent)</th></tr><tr><th>Emp_Number</th><th>Emp_Name</th><th>Emp_Salary</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Ram</td><td>60000</td></tr>
+                <tr><td>2</td><td>Shyam</td><td>15000</td></tr>
+                <tr><td>3</td><td>Geeta</td><td>70000</td></tr>
+            </tbody>
+        </table>
+        <table class="data-table">
+            <thead><tr><th colspan="3">Computer Table (Child)</th></tr><tr><th>Serial_Number</th><th>Type</th><th>Emp_Number (FK)</th></tr></thead>
+            <tbody>
+                <tr><td>A100001</td><td>PC</td><td>1</td></tr>
+                <tr><td>B930002</td><td>PC</td><td>2</td></tr>
+                <tr><td>C101703</td><td>PC</td><td>3</td></tr>
+            </tbody>
+        </table>
+        <p class="mt-2">The Employee table is the <strong>parent</strong>; the Computer table is the <strong>child</strong>. Each computer points to exactly one employee via the foreign key.</p>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">2.3 &mdash; Disadvantages of Hierarchical Model</p>
+        <ul class="step-list">
+            <li><strong>Rigid structure:</strong> If a new node or relationship needs to be added, it may disrupt the entire existing structure.</li>
+            <li><strong>Cannot show Many-to-Many relationships</strong> easily (a child has only one parent).</li>
+            <li><strong>Limited flexibility:</strong> Adding new relationships requires restructuring the tree.</li>
+        </ul>
+    </div>
+
+    <!-- PART 3: NETWORK MODEL -->
+    <div class="section-title">
+        <span class="badge orange">Part 3</span> Network Database Model
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">3.1 &mdash; Improvement Over Hierarchical</p>
+        <p>The <strong>network model</strong> was created to address the shortcomings of the hierarchical model. The key improvement: a <span class="highlight">child can have multiple parents</span>.</p>
+        <ul class="step-list mt-2">
+            <li>Parent nodes are called <strong>owners</strong>.</li>
+            <li>Child nodes are called <strong>members</strong>.</li>
+            <li>Example: D2 has two owners (C1 and C2); C3 has two owners (B1 and B2).</li>
+        </ul>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">3.2 &mdash; Advantages</p>
+        <ul class="step-list">
+            <li><span class="highlight">Supports Many-to-Many (M:N) relationships</span> &mdash; unlike the hierarchical model.</li>
+            <li>More flexible data representation than the hierarchical model.</li>
+            <li>Can model complex real-world relationships more naturally.</li>
+        </ul>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">3.3 &mdash; Disadvantages</p>
+        <ul class="step-list">
+            <li><strong>Complex:</strong> Much more complicated than the hierarchical model; difficult to handle and maintain.</li>
+            <li><strong>Flexibility problems:</strong> Not all relationships can be cleanly represented as owner-member pairs.</li>
+            <li><strong>Programmer burden:</strong> The developer must understand the structure well to implement or modify it.</li>
+        </ul>
+    </div>
+
+    <!-- PART 4: CENTRALIZED VS DISTRIBUTED DATABASE -->
+    <div class="section-title">
+        <span class="badge purple">Part 4</span> Centralized vs. Distributed Database
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">4.1 &mdash; Centralized Database</p>
+        <p>A <strong>centralized database</strong> is stored, maintained, and managed at a <span class="highlight">single location</span>. Users from different locations access it via a network (LAN, WAN, Internet).</p>
+        <table class="data-table">
+            <thead><tr><th>Advantages</th><th>Disadvantages</th></tr></thead>
+            <tbody>
+                <tr><td>Easier to access and coordinate data (single location)</td><td>Data traffic is higher (all requests go to one place)</td></tr>
+                <tr><td>Minimal data redundancy</td><td>Single point of failure &mdash; system failure can destroy all data</td></tr>
+                <tr><td>Cheaper to set up and maintain</td><td>Harder to scale as the organization grows</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">4.2 &mdash; Distributed Database</p>
+        <p>A <strong>distributed database</strong> consists of multiple databases spread across <span class="highlight">different physical locations</span>, connected by a computer network. Each location manages its data independently.</p>
+        <table class="data-table">
+            <thead><tr><th>Advantages</th><th>Disadvantages</th></tr></thead>
+            <tbody>
+                <tr><td>Easy to expand (data already spread across locations)</td><td>Costly to set up and maintain</td></tr>
+                <tr><td>Accessible from different networks</td><td>Complex to manage and administer</td></tr>
+                <tr><td>More secure (no single point of failure)</td><td>Difficult to provide a uniform view to all users</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">4.3 &mdash; Quick Comparison</p>
+        <table class="data-table">
+            <thead><tr><th>Feature</th><th>Centralized</th><th>Distributed</th></tr></thead>
+            <tbody>
+                <tr><td>Location</td><td>Single site</td><td>Multiple sites</td></tr>
+                <tr><td>Cost</td><td>Cheaper</td><td>More expensive</td></tr>
+                <tr><td>Security</td><td>Single point of failure</td><td>Data spread out, more resilient</td></tr>
+                <tr><td>Scalability</td><td>Harder to scale</td><td>Easier to expand</td></tr>
+                <tr><td>Data Redundancy</td><td>Minimal</td><td>Can exist (but managed)</td></tr>
+                <tr><td>Complexity</td><td>Simple</td><td>Complex</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PART 5: DATABASE SECURITY -->
+    <div class="section-title">
+        <span class="badge">Part 5</span> Database Security
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">5.1 &mdash; Why Data Security Matters</p>
+        <p>Database security refers to the tools, controls, and measures designed to establish and preserve database <strong>confidentiality</strong>, <strong>integrity</strong>, and <strong>availability</strong>. A data breach can cause:</p>
+        <ul class="step-list mt-2">
+            <li><strong>Compromised intellectual property:</strong> Trade secrets and proprietary information may be stolen, destroying competitive advantage.</li>
+            <li><strong>Damage to brand reputation:</strong> Customers lose trust if their data is not protected.</li>
+            <li><strong>Business continuity disruption:</strong> Some businesses cannot operate until the breach is resolved.</li>
+            <li><strong>Fines and penalties:</strong> Non-compliance with data privacy regulations can result in millions of dollars in fines.</li>
+            <li><strong>Breach repair costs:</strong> Forensic investigation, crisis management, system repair, and customer notification are all expensive.</li>
+        </ul>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">5.2 &mdash; Common Security Threats</p>
+        <table class="data-table">
+            <thead><tr><th>Threat</th><th>Description</th></tr></thead>
+            <tbody>
+                <tr><td><span class="highlight">Insider threats</span></td><td>Malicious insiders (intentional harm), negligent insiders (errors), or infiltrators (outsiders who obtain credentials via phishing).</td></tr>
+                <tr><td><span class="highlight">Human error</span></td><td>Accidents, weak passwords, password sharing. Causes nearly <strong>49%</strong> of all reported data breaches.</td></tr>
+                <tr><td><span class="highlight">Software vulnerabilities</span></td><td>Hackers exploit unpatched flaws in DBMS software. Vendors release security patches regularly.</td></tr>
+                <tr><td><span class="highlight">SQL/NoSQL injection</span></td><td>Malicious SQL or NoSQL code inserted into queries served by web applications.</td></tr>
+                <tr><td><span class="highlight">Buffer overflow</span></td><td>Writing more data to a memory block than it can hold; excess data in adjacent memory is used to launch attacks.</td></tr>
+                <tr><td><span class="highlight">DoS / DDoS attacks</span></td><td>Overwhelming the database server with requests so legitimate users cannot access it. DDoS comes from multiple servers.</td></tr>
+                <tr><td><span class="highlight">Malware</span></td><td>Software written to exploit vulnerabilities or cause damage to the database.</td></tr>
+                <tr><td><span class="highlight">Attacks on backups</span></td><td>Backup data that is not protected with the same controls as the live database.</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">5.3 &mdash; Security Solutions (Layered Approach)</p>
+        <p>Database security extends far beyond the database itself. Consider each layer:</p>
+        <ul class="step-list mt-2">
+            <li><span class="badge key-blue">Physical</span> <strong>Physical security:</strong> Secure, climate-controlled environment for servers (or rely on cloud provider).</li>
+            <li><span class="badge key-blue">Network</span> <strong>Administrative &amp; network access controls:</strong> Minimum necessary access for users and network permissions.</li>
+            <li><span class="badge key-blue">User</span> <strong>End user account &amp; device security:</strong> Monitor who accesses the database; secure all connecting devices.</li>
+            <li><span class="badge key-blue">Encrypt</span> <strong>Encryption:</strong> Protect all data at rest and in transit using strong encryption.</li>
+            <li><span class="badge key-blue">Patch</span> <strong>Database software security:</strong> Use the latest version and apply all patches immediately.</li>
+            <li><span class="badge key-blue">App</span> <strong>Application / web server security:</strong> Ongoing security testing for any application that interacts with the database.</li>
+            <li><span class="badge key-blue">Backup</span> <strong>Backup security:</strong> Apply the same (or stronger) security controls to backups as to the live database.</li>
+            <li><span class="badge key-blue">Audit</span> <strong>Auditing:</strong> Record all logins, log operations on sensitive data, and perform regular security audits.</li>
+        </ul>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">5.4 &mdash; Types of Controls</p>
+        <table class="data-table">
+            <thead><tr><th>Control Type</th><th>Purpose</th><th>Examples</th></tr></thead>
+            <tbody>
+                <tr><td><span class="highlight">Administrative</span></td><td>Govern installation, change, and configuration management</td><td>Policies, procedures, role assignments</td></tr>
+                <tr><td><span class="highlight">Preventative</span></td><td>Stop unauthorized access before it happens</td><td>Access controls, encryption, tokenization, masking</td></tr>
+                <tr><td><span class="highlight">Detective</span></td><td>Monitor and alert on suspicious activity</td><td>Activity monitoring, data loss prevention tools</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- CHALLENGE QUIZ -->
+    <div class="section-title">
+        <span class="badge">Challenge</span> Quiz: Test Your Knowledge
+    </div>
+
+    <div class="quiz-container">
+        <div class="quiz-card">
+            <p class="quiz-question">1. In an ER diagram, a double rectangle represents:</p>
+            <ul class="quiz-options">
+                <li>Regular entity</li>
+                <li>Weak entity</li>
+                <li>Multivalued attribute</li>
+                <li>Total participation</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Weak entity &mdash; an entity that cannot be uniquely identified by its own attributes and depends on another entity.</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">2. A Customer can place many Orders, but each Order belongs to one Customer. What type of relationship is this?</p>
+            <ul class="quiz-options">
+                <li>One-to-One (1:1)</li>
+                <li>One-to-Many (1:M)</li>
+                <li>Many-to-One (M:1)</li>
+                <li>Many-to-Many (M:N)</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">One-to-Many (1:M) &mdash; one Customer to many Orders.</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">3. Which database model allows a child to have multiple parents?</p>
+            <ul class="quiz-options">
+                <li>Hierarchical model</li>
+                <li>Network model</li>
+                <li>Flat file model</li>
+                <li>Relational model</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Network model &mdash; it was designed to overcome the hierarchical model's limitation of single-parent children.</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">4. Which is a disadvantage of a centralized database?</p>
+            <ul class="quiz-options">
+                <li>Harder to expand</li>
+                <li>Higher data redundancy</li>
+                <li>Less secure (single point of failure)</li>
+                <li>More costly than distributed</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Less secure (single point of failure) &mdash; a system failure at the central location can destroy all data.</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">5. Approximately what percentage of all reported data breaches are caused by human error?</p>
+            <ul class="quiz-options">
+                <li>10%</li>
+                <li>25%</li>
+                <li>49%</li>
+                <li>75%</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">49% &mdash; accidents, weak passwords, and password sharing are major contributors.</div></details>
+        </div>
+    </div>
+
+    <!-- ASSESSMENT PREPARATION -->
+    <div class="section-title">
+        <span class="badge purple">Assessment Prep</span> Ready for the Interactive Assessment
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>What to Expect in the Assessment:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Identify entity types (regular vs. weak) and attribute types (key, composite, multivalued, derived) in ER diagrams.</li>
+            <li>Classify relationship types (1:1, 1:M, M:1, M:N) using real-world scenarios.</li>
+            <li>Read and interpret ER diagram notation symbols correctly.</li>
+            <li>Explain the hierarchical and network models, including their advantages and disadvantages.</li>
+            <li>Compare centralized and distributed databases with clear reasoning.</li>
+            <li>List database security threats and describe layered security solutions.</li>
+        </ul>
+
+        <p class="mt-4"><strong>Key Points to Remember:</strong></p>
+        <ul class="step-list mt-2">
+            <li>A weak entity (double rectangle) depends on another entity for identification.</li>
+            <li>Derived attributes (dashed oval) change over time and are calculated from other attributes.</li>
+            <li>The hierarchical model is tree-based (one parent per child); the network model allows multiple parents.</li>
+            <li>Centralized = single location; Distributed = multiple locations, more resilient.</li>
+            <li>Security is layered: physical, network, user, encryption, patching, application, backup, and auditing.</li>
+            <li>Human error causes 49% of data breaches &mdash; strong passwords and training matter.</li>
+        </ul>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <div class="instruction-box">
+            <p><strong>Completion Checklist:</strong></p>
+            <ul class="step-list mt-2">
+                <li>Described entity types (regular and weak) and attribute types (key, composite, multivalued, derived)</li>
+                <li>Practiced relationship types (1:1, 1:M, M:1, M:N) with real-world examples</li>
+                <li>Interpreted ER diagram notation symbols</li>
+                <li>Explained the hierarchical model and its disadvantages</li>
+                <li>Explained the network model and its advantages/disadvantages</li>
+                <li>Compared centralized and distributed databases</li>
+                <li>Identified common database security threats</li>
+                <li>Described layered security solutions and control types</li>
+                <li>Completed the challenge quiz</li>
+            </ul>
+        </div>
+
+        <p class="mt-4"><strong>Next Steps:</strong></p>
+        <ul class="step-list mt-2">
+            <li>Take the Data Modeling &amp; Security assessment</li>
+            <li>Review the DBMS Concepts activity if needed</li>
+            <li>Design an ER diagram for a real-world system (e.g., library, hospital, or bank)</li>
+            <li>Explore database normalization (1NF, 2NF, 3NF) in the next activity</li>
+        </ul>
+
+        <p class="mt-4 text-center">&mdash; Thank you. See you in the next chapter &mdash;</p>
+        <p class="text-small text-center">Ensure all laboratory tasks are completed under workspace supervision guidelines.</p>
+    </div>
+
+</div>
+</body>
+</html>

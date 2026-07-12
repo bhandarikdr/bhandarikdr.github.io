@@ -22,11 +22,11 @@
 <body>
 <div class="container">
 
-    <!-- HEADER -->
-    <header>
-        <h1>Activity: Database Management System Fundamentals</h1>
-        <p class="subtitle">Understanding DBMS concepts, keys, and ER diagrams</p>
-        <p class="grade-badge">Grade XII &bull; Computer Science</p>
+    <header class="lab-header">
+        <h1>Activity: DBMS Fundamentals</h1>
+        <p class="subtitle">Comprehensive guide to DBMS concepts, types, relational model, and keys</p>
+        <span class="grade-badge">Grade XII &bull; Computer Science</span>
+        <span class="grade-badge" style="background: var(--warning-color); color: #fff; margin-left: 0.5rem;">&#9201; ~25 min</span>
     </header>
 
     <!-- PREREQUISITES -->
@@ -35,227 +35,475 @@
         <ul class="step-list">
             <li>Basic understanding of computers and data storage.</li>
             <li>Familiarity with tables, rows, and columns (from earlier classes).</li>
-            <li>Familiarity with real-world examples like school records, hospital systems, and electricity billing.</li>
+            <li>Exposure to real-world systems like school records, hospital systems, and billing.</li>
         </ul>
     </div>
 
     <!-- LEARNING OBJECTIVES -->
     <div class="section-title">
-        <span class="badge">Objectives</span> Learning Goals & Outcomes
+        <span class="badge">Objectives</span> Learning Goals &amp; Outcomes
     </div>
 
     <div class="instruction-box objective">
-        <p><strong>By the end of this lab activity, you will be able to:</strong></p>
+        <p><strong>By the end of this activity, you will be able to:</strong></p>
         <ul class="step-list">
             <li>Differentiate between data, information, and databases.</li>
-            <li>Identify the main types of DBMS (hierarchical, network, relational, object-oriented).</li>
-            <li>Understand the role of keys (primary, foreign, candidate, super, composite).</li>
-            <li>Interpret ER diagrams and relationship types (1:1, 1:M, M:N).</li>
-            <li>Compare centralized vs. distributed databases and basic security concepts.</li>
+            <li>Explain what a DBMS is, its history, and its four main types.</li>
+            <li>Identify and describe various types of databases.</li>
+            <li>List the five components of a database system and the advantages/disadvantages of DBMS.</li>
+            <li>Understand the relational model, its characteristics, and popular RDBMS.</li>
+            <li>Distinguish between candidate, primary, super, alternate, foreign, and composite keys.</li>
+            <li>Apply relational integrity constraints (key, domain, referential integrity).</li>
+            <li>Perform basic relational operations: insert, update, delete, select.</li>
+            <li>Evaluate the advantages and disadvantages of the relational model.</li>
         </ul>
-        <p class="text-small mt-4"><strong>Real-World Application:</strong> DBMS concepts are used in every modern application -- from school record systems to banking, healthcare, and e-commerce platforms.</p>
+        <p class="text-small mt-4"><strong>Real-World Application:</strong> DBMS concepts power every modern application &mdash; from school record systems to banking, healthcare, e-commerce, and social media platforms.</p>
     </div>
 
-    <!-- CONCEPTUAL WALKTHROUGH -->
+    <!-- ============================================================ -->
+    <!-- PART 1: DATA, INFORMATION & DBMS                            -->
+    <!-- ============================================================ -->
     <div class="section-title">
-        <span class="badge purple">Concept Overview</span> Understanding DBMS Fundamentals
+        <span class="badge">Part 1</span> Data, Information &amp; DBMS
     </div>
 
+    <!-- Data vs Information -->
     <div class="instruction-box">
-        <p><strong>Data</strong> is raw, unorganized facts (e.g., "Ram", "9841-234567"). <strong>Information</strong> is data that has been processed and organized to make it meaningful (e.g., a student directory). A <strong>database</strong> is a structured collection of data stored electronically. A <strong>DBMS</strong> is software that manages the database.</p>
-
-        <p class="mt-4"><strong>Real-world example:</strong> An electricity authority uses a database to manage customer billing, outages, and payments. Similarly, schools use databases for student records.</p>
-    </div>
-
-    <div class="instruction-box">
-        <p><strong>Key Concepts in DBMS:</strong></p>
-        <ul class="step-list">
-            <li><span class="badge key-blue">PK</span> <strong>Primary key</strong> -- uniquely identifies each record (e.g., <span class="formula">Student_ID</span>).</li>
-            <li><span class="badge fk-purple">FK</span> <strong>Foreign key</strong> -- links to primary key of another table (e.g., <span class="formula">Dept_ID</span> in Student table).</li>
-            <li><span class="badge er-orange">ER</span> <strong>Entity-Relationship (ER) model</strong> -- a diagram that shows entities (tables) and their relationships.</li>
-        </ul>
-
-        <p class="mt-4"><strong>Common Mistakes to Avoid:</strong></p>
-        <ul class="step-list mt-2">
-            <li>Confusing data with information -- data is raw, information is processed.</li>
-            <li>Thinking a database is the same as a DBMS (DBMS is the software that manages the database).</li>
-            <li>Forgetting that foreign keys must reference a primary key in another table.</li>
-        </ul>
-
-        <p class="mt-4"><strong>Best Practices:</strong></p>
-        <ul class="step-list mt-2">
-            <li>Always identify the primary key first when designing a table.</li>
-            <li>Use meaningful names for tables and columns.</li>
-            <li>Draw ER diagrams before implementing the database schema.</li>
-        </ul>
-    </div>
-
-    <!-- PART 1: DATA VS INFORMATION & DBMS TYPES -->
-    <div class="section-title">
-        <span class="badge">Part 1</span> Data, Information & DBMS Types
-    </div>
-
-    <div class="instruction-box">
-        <p class="quiz-question">Activity 1.1 -- Data vs. Information</p>
-        <p class="text-small mb-4">For each item, identify whether it is <strong>data</strong> or <strong>information</strong>:</p>
-        <ol class="step-list">
-            <li>"9841-234567" <span class="inline-answer"><span class="formula">Data</span> (raw phone number)</span></li>
-            <li>"Ram Sharma, Roll 12, Class XII" <span class="inline-answer"><span class="formula">Information</span> (organized facts)</span></li>
-            <li>"25, 30, 45" <span class="inline-answer"><span class="formula">Data</span> (raw numbers)</span></li>
-            <li>"The average age of students is 17.5" <span class="inline-answer"><span class="formula">Information</span> (processed data)</span></li>
-        </ol>
-    </div>
-
-    <div class="instruction-box">
-        <p class="quiz-question">Activity 1.2 -- Types of DBMS</p>
-        <p>List the <span class="highlight">four main types</span> of DBMS:</p>
-        <details><summary>Show answer</summary><div class="answer-key">Hierarchical, Network, Relational, Object-Oriented</div></details>
-        <p class="mt-4"><strong>Which one is most widely used today?</strong> <span class="formula">Relational DBMS (RDBMS)</span> e.g., MySQL, Oracle, PostgreSQL.</p>
-    </div>
-
-    <!-- PART 2: KEYS -->
-    <div class="section-title">
-        <span class="badge green">Part 2</span> Keys in Relational Databases
-    </div>
-
-    <div class="instruction-box">
-        <p class="quiz-question">Activity 2.1 -- Identify the Key Type</p>
-        <p class="text-small mb-4">Given the <strong>Student</strong> table with columns: <em>Student_ID, Roll_No, Name, Dept_ID, Phone</em></p>
-        <ol class="step-list">
-            <li><strong>Primary key</strong> -- <span class="formula">Student_ID</span> (unique, not null)</li>
-            <li><strong>Candidate key</strong> -- <span class="formula">Roll_No</span> (also unique)</li>
-            <li><strong>Foreign key</strong> -- <span class="formula">Dept_ID</span> (references Department table)</li>
-            <li><strong>Composite key</strong> -- <span class="formula">(Student_ID, Phone)</span> if used together to identify a record</li>
-            <li><strong>Super key</strong> -- any set that contains a candidate key, e.g., <span class="formula">(Student_ID, Name)</span></li>
-        </ol>
-    </div>
-
-    <div class="instruction-box">
-        <p class="quiz-question">Activity 2.2 -- Alternate Key</p>
-        <p>In the <strong>Employee</strong> table, <em>Emp_ID</em> is the primary key. What is the alternate key if <em>PAN_Number</em> is also unique?</p>
-        <div class="inline-answer"><span class="formula">PAN_Number</span> is an alternate key.</div>
-    </div>
-
-    <!-- PART 3: ER DIAGRAMS & RELATIONSHIPS -->
-    <div class="section-title">
-        <span class="badge orange">Part 3</span> ER Diagrams & Relationships
-    </div>
-
-    <div class="instruction-box">
-        <p class="quiz-question">Activity 3.1 -- Relationship Types</p>
-        <p class="text-small mb-4">Identify the relationship type for each scenario:</p>
-        <ol class="step-list">
-            <li><strong>A college has many students, but a student studies in only one college.</strong> <span class="inline-answer"><span class="formula">Many-to-One (M:1)</span></span></li>
-            <li><strong>A person has one passport, and a passport belongs to one person.</strong> <span class="inline-answer"><span class="formula">One-to-One (1:1)</span></span></li>
-            <li><strong>A student can enroll in many courses, and a course can have many students.</strong> <span class="inline-answer"><span class="formula">Many-to-Many (M:N)</span></span></li>
-        </ol>
-    </div>
-
-    <div class="instruction-box">
-        <p class="quiz-question">Activity 3.2 -- ER Diagram Symbols</p>
-        <p>Match each shape to its meaning in an ER diagram:</p>
-        <ul class="step-list">
-          <li>Rectangle = <span class="formula">Entity</span></li>
-          <li>Ellipse = <span class="formula">Attribute</span></li>
-          <li>Diamond = <span class="formula">Relationship</span></li>
-          <li>Double ellipse = <span class="formula">Multivalued attribute</span> (e.g., phone numbers)</li>
-          <li>Dashed ellipse = <span class="formula">Derived attribute</span> (e.g., age from DOB)</li>
-        </ul>
-        <p class="mt-4"><span class="highlight">Example:</span> In a <strong>Student</strong> entity, <em>Student_ID</em> is a key attribute (underlined), <em>Address</em> is composite (Province, District, Municipality), and <em>Phone</em> is multivalued.</p>
-    </div>
-
-    <!-- PART 4: CENTRALIZED VS DISTRIBUTED & SECURITY -->
-    <div class="section-title">
-        <span class="badge purple">Part 4</span> Centralized vs. Distributed & Security
-    </div>
-
-    <div class="instruction-box">
-        <p class="quiz-question">Activity 4.1 -- Compare Centralized & Distributed Databases</p>
+        <p class="quiz-question">Data vs. Information</p>
         <table class="data-table">
-            <thead><tr><th>Feature</th><th>Centralized</th><th>Distributed</th></tr></thead>
+            <thead><tr><th>Aspect</th><th>Data</th><th>Information</th></tr></thead>
             <tbody>
-                <tr><td>Location</td><td>Single site</td><td>Multiple sites</td></tr>
-                <tr><td>Cost</td><td>Cheaper</td><td>More expensive</td></tr>
-                <tr><td>Security</td><td>Less secure (single point of failure)</td><td>More secure (data spread out)</td></tr>
-                <tr><td>Scalability</td><td>Harder to scale</td><td>Easier to expand</td></tr>
+                <tr><td><strong>Definition</strong></td><td>Raw, unorganized facts that need processing</td><td>Data that has been processed and organized to be meaningful</td></tr>
+                <tr><td><strong>Context</strong></td><td>In computer science: raw input (numbers, characters, symbols). In statistics: numerical facts. In business: facts used for decision-making.</td><td>In computer science: processed output. In statistics: data organized into tables/charts. In business: analyzed data for decisions.</td></tr>
+                <tr><td><strong>Example</strong></td><td>&ldquo;9841-234567&rdquo;, &ldquo;25, 30, 45&rdquo;</td><td>&ldquo;Ram Sharma, Roll 12, Class XII&rdquo;, &ldquo;Average age is 17.5&rdquo;</td></tr>
+                <tr><td><strong>Nature</strong></td><td>Unprocessed, isolated facts</td><td>Processed, contextualized, useful</td></tr>
+            </tbody>
+        </table>
+
+        <p class="quiz-question mt-4">Activity 1.1 &mdash; Data or Information?</p>
+        <ol class="step-list">
+            <li>&ldquo;23, 45, 67&rdquo; <span class="inline-answer"><span class="formula">Data</span> (raw numbers)</span></li>
+            <li>&ldquo;The average score is 45&rdquo; <span class="inline-answer"><span class="formula">Information</span> (processed result)</span></li>
+            <li>&ldquo;Delhi, Mumbai, Kolkata&rdquo; <span class="inline-answer"><span class="formula">Data</span> (raw city names)</span></li>
+            <li>&ldquo;5 students are from Delhi&rdquo; <span class="inline-answer"><span class="formula">Information</span> (aggregated data)</span></li>
+        </ol>
+    </div>
+
+    <!-- What is a Database -->
+    <div class="instruction-box">
+        <p class="quiz-question">What is a Database?</p>
+        <p>A <strong>database</strong> is a structured collection of data stored electronically. It allows organized storage, retrieval, and management of data.</p>
+        <p class="mt-2"><strong>Examples:</strong> School student records, hospital patient databases, electricity billing systems, library catalogs, phone contacts.</p>
+    </div>
+
+    <!-- What is a DBMS -->
+    <div class="instruction-box">
+        <p class="quiz-question">What is a DBMS?</p>
+        <p>A <strong>Database Management System (DBMS)</strong> is software that allows users to create, define, manipulate, and manage databases. It acts as an interface between the user and the database.</p>
+
+        <p class="mt-4"><strong>History of DBMS:</strong></p>
+        <table class="data-table">
+            <thead><tr><th>Year</th><th>Milestone</th></tr></thead>
+            <tbody>
+                <tr><td>1960</td><td>Charles Bachman designed the first DBMS system</td></tr>
+                <tr><td>1970</td><td>Codd introduced IBM&rsquo;s Information Management System (IMS)</td></tr>
+                <tr><td>1976</td><td>Peter Chen coined the Entity-Relationship (ER) model</td></tr>
+                <tr><td>1980</td><td>Relational model becomes a widely accepted database component</td></tr>
+                <tr><td>1985</td><td>Object-oriented DBMS develops</td></tr>
+                <tr><td>1991</td><td>Microsoft ships MS Access, a personal DBMS</td></tr>
+                <tr><td>1995</td><td>First Internet database applications</td></tr>
+                <tr><td>1997</td><td>XML applied to database processing</td></tr>
+            </tbody>
+        </table>
+
+        <p class="mt-4"><strong>Four Main Types of DBMS:</strong></p>
+        <table class="data-table">
+            <thead><tr><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Hierarchical</strong></td><td>Tree-like structure with parent-child relationships. A parent can have multiple children, but a child has only one parent.</td><td>Windows Registry, IBM&rsquo;s IMS</td></tr>
+                <tr><td><strong>Network</strong></td><td>Extends the hierarchical model. A child can have multiple parents, enabling many-to-many relationships.</td><td>RDM Server</td></tr>
+                <tr><td><strong>Relational</strong></td><td>Data is organized in tables (relations) with rows and columns. Keys establish relationships between tables. Most widely used today.</td><td>MySQL, Oracle, PostgreSQL, SQL Server</td></tr>
+                <tr><td><strong>Object-Oriented</strong></td><td>Data is stored as objects with attributes and methods. Supports all data types including multimedia.</td><td>PostgreSQL, db4o</td></tr>
+            </tbody>
+        </table>
+
+        <p class="mt-4"><strong>Which is most widely used?</strong> <span class="formula">Relational DBMS (RDBMS)</span></p>
+    </div>
+
+    <!-- What is a Data Warehouse -->
+    <div class="instruction-box">
+        <p class="quiz-question">What is a Data Warehouse?</p>
+        <p>A <strong>data warehouse</strong> is an information system that contains historical and cumulative data from one or multiple sources. It facilitates a single version of truth for a company for <strong>decision making and forecasting</strong>. It simplifies the reporting and analysis process of the organization.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 2: TYPES OF DATABASES                                   -->
+    <!-- ============================================================ -->
+    <div class="section-title">
+        <span class="badge green">Part 2</span> Types of Databases
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Flat File vs. Relational Databases</p>
+        <table class="data-table">
+            <thead><tr><th>Feature</th><th>Flat File</th><th>Relational</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Structure</strong></td><td>Single table with rows of information</td><td>Multiple tables with rows and columns; relationships between tables</td></tr>
+                <tr><td><strong>Data Volume</strong></td><td>Small amount of data</td><td>Can handle large volumes of data</td></tr>
+                <tr><td><strong>Relationships</strong></td><td>No relationships between data</td><td>Keys used for linking related data across tables</td></tr>
+                <tr><td><strong>Security</strong></td><td>Less secure</td><td>Increased security</td></tr>
+                <tr><td><strong>Multi-user</strong></td><td>Limited access</td><td>Many users can work simultaneously from different locations</td></tr>
+                <tr><td><strong>Example</strong></td><td>Phone contacts list</td><td>MySQL, Oracle, SQL Server</td></tr>
             </tbody>
         </table>
     </div>
 
     <div class="instruction-box">
-        <p class="quiz-question">Activity 4.2 -- Database Security Threats</p>
-        <p>List three common security threats:</p>
-        <ul class="step-list">
-            <li><span class="highlight">Insider threats</span> -- employees with too much access</li>
-            <li><span class="highlight">SQL injection</span> -- malicious code inserted into queries</li>
-            <li><span class="highlight">Denial of Service (DoS)</span> -- overwhelming the server with requests</li>
-        </ul>
-        <p class="mt-4"><strong>Best practice:</strong> Use <span class="formula">encryption</span>, <span class="formula">regular patching</span>, and <span class="formula">least privilege</span> access.</p>
+        <p class="quiz-question">Centralized vs. Distributed Databases (Overview)</p>
+        <table class="data-table">
+            <thead><tr><th>Feature</th><th>Centralized</th><th>Distributed</th></tr></thead>
+            <tbody>
+                <tr><td>Location</td><td>Single site/location</td><td>Multiple sites across a network</td></tr>
+                <tr><td>Cost</td><td>Cheaper</td><td>More expensive</td></tr>
+                <tr><td>Security</td><td>Single point of failure</td><td>Data spread across locations &mdash; more resilient</td></tr>
+                <tr><td>Scalability</td><td>Harder to scale</td><td>Easier to expand</td></tr>
+                <tr><td>Complexity</td><td>Simpler to manage</td><td>More complex to maintain</td></tr>
+            </tbody>
+        </table>
     </div>
 
-    <!-- CHALLENGE QUIZ -->
+    <div class="instruction-box">
+        <p class="quiz-question">Compact Reference: All Database Types</p>
+        <table class="data-table">
+            <thead><tr><th>Type</th><th>Description</th><th>Key Example</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Personal</strong></td><td>Small databases on personal computers, used by a small group within one department</td><td>MS Access</td></tr>
+                <tr><td><strong>Object-oriented</strong></td><td>Stores data as objects with attributes and methods; supports all data types</td><td>PostgreSQL</td></tr>
+                <tr><td><strong>Open-source</strong></td><td>Free-to-use databases for operations like marketing, HR, customer service</td><td>MySQL, MariaDB</td></tr>
+                <tr><td><strong>Cloud</strong></td><td>Optimized for virtualized environments; scalable on-demand, high availability</td><td>Amazon RDS, Google Cloud SQL</td></tr>
+                <tr><td><strong>NoSQL</strong></td><td>Handles large sets of distributed data; efficient for unstructured data</td><td>MongoDB, Cassandra</td></tr>
+                <tr><td><strong>Graph</strong></td><td>Uses graph theory to store, map, and query relationships</td><td>Neo4j</td></tr>
+                <tr><td><strong>OLTP</strong></td><td>Fast query processing; maintains data integrity in multi-access environments</td><td>MySQL (transactional)</td></tr>
+                <tr><td><strong>Document/JSON</strong></td><td>Stores data in document collections (XML, JSON, BSON); flexible schema</td><td>MongoDB, CouchDB</td></tr>
+                <tr><td><strong>Hierarchical</strong></td><td>Parent-child tree structure; one parent, many children</td><td>Windows Registry</td></tr>
+                <tr><td><strong>Network</strong></td><td>Many-to-many parent-child links; more flexible than hierarchical</td><td>RDM Server</td></tr>
+                <tr><td><strong>Multimodal</strong></td><td>Supports multiple data models in a single database</td><td>Azure Cosmos DB</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 3: DATABASE COMPONENTS                                   -->
+    <!-- ============================================================ -->
+    <div class="section-title">
+        <span class="badge orange">Part 3</span> Database Components
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Five Components of a Database System</p>
+        <ol class="step-list">
+            <li><strong>Hardware</strong> &mdash; Physical electronic devices: computers, I/O devices, storage devices. Provides the interface between computers and real-world systems.</li>
+            <li><strong>Software</strong> &mdash; Programs to manage and control the database: DBMS software, operating system, network software, and application programs.</li>
+            <li><strong>Data</strong> &mdash; Raw and unorganized facts (numbers, characters, symbols, images) that need processing to become meaningful.</li>
+            <li><strong>Procedure</strong> &mdash; Instructions and rules for using the DBMS: documented methods for designing, running, and managing the database.</li>
+            <li><strong>Database Access Language</strong> &mdash; Language used to access, enter, update, and retrieve data (e.g., SQL). Users write commands and submit them to the database.</li>
+        </ol>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Advantages of DBMS</p>
+        <ol class="step-list">
+            <li>Offers a variety of techniques to store and retrieve data.</li>
+            <li>Efficient handler to balance the needs of multiple applications using the same data.</li>
+            <li>Uniform administration procedures for data.</li>
+            <li>Application programmers are never exposed to details of data representation and storage.</li>
+            <li>Uses powerful functions to store and retrieve data efficiently.</li>
+            <li>Offers Data Integrity and Security.</li>
+            <li>Imposes integrity constraints for high-level protection against unauthorized access.</li>
+            <li>Schedules concurrent access so that only one user accesses the same data at a time.</li>
+            <li>Reduced Application Development Time.</li>
+        </ol>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Disadvantages of DBMS</p>
+        <ol class="step-list">
+            <li><strong>High cost</strong> &mdash; Hardware and software costs are quite high, increasing the organization&rsquo;s budget.</li>
+            <li><strong>Complexity</strong> &mdash; Most DBMS are complex; training is required for users.</li>
+            <li><strong>Single point of failure</strong> &mdash; In some setups, all data in a single database can be lost due to power failure or corruption.</li>
+            <li><strong>Data loss risk</strong> &mdash; Multiple concurrent users can sometimes lead to data loss.</li>
+            <li><strong>Limited computation</strong> &mdash; DBMS cannot perform sophisticated calculations.</li>
+        </ol>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 4: THE RELATIONAL MODEL                                 -->
+    <!-- ============================================================ -->
+    <div class="section-title">
+        <span class="badge purple">Part 4</span> The Relational Model
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Tables, Attributes, Tuples &amp; Fields</p>
+        <p>The relational model expresses data and relationships in the form of <strong>tables</strong> (also called <em>relations</em>).</p>
+        <ul class="step-list mt-2">
+            <li><strong>Table (Relation):</strong> A collection of related data organized in rows and columns (e.g., a <em>Student</em> table).</li>
+            <li><strong>Attribute (Column/Field name):</strong> A property or characteristic of the relation (e.g., <em>Roll_No</em>, <em>Name</em>, <em>Department</em>).</li>
+            <li><strong>Tuple (Row):</strong> A single real-world entity or record in a relation (e.g., one student&rsquo;s record).</li>
+            <li><strong>Field (Data value):</strong> The actual data value in a specific row and column (e.g., &ldquo;Ram&rdquo; in the Name column).</li>
+        </ul>
+
+        <p class="mt-4"><strong>Example &mdash; Student Relation:</strong></p>
+        <table class="data-table">
+            <thead><tr><th>Roll_No</th><th>Name</th><th>Department</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Ram</td><td>Science</td></tr>
+                <tr><td>2</td><td>Sita</td><td>Arts</td></tr>
+                <tr><td>3</td><td>Hari</td><td>Commerce</td></tr>
+                <tr><td>4</td><td>Gita</td><td>Science</td></tr>
+                <tr><td>5</td><td>Shyam</td><td>Arts</td></tr>
+            </tbody>
+        </table>
+        <p class="text-small"><em>Roll_No</em>, <em>Name</em>, and <em>Department</em> are <strong>attributes</strong>. Each row is a <strong>tuple</strong>. Each cell value is a <strong>field</strong>.</p>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Characteristics of the Relational Model</p>
+        <ol class="step-list">
+            <li>Each relation in a database must have a <strong>distinct (unique) name</strong> to separate it from others.</li>
+            <li>A relation must not have two attributes with the <strong>same name</strong>; each attribute must be distinct.</li>
+            <li><strong>Duplicate tuples</strong> must not be present in a relation.</li>
+            <li>Each tuple must have exactly <strong>one data value</strong> for each attribute (atomic values).</li>
+            <li>Tuples in a relation do <strong>not need to follow a significant order</strong> &mdash; relations are not order-sensitive.</li>
+            <li>Attributes of a relation also <strong>do not need to follow a specific order</strong>.</li>
+        </ol>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Popular RDBMS</p>
+        <table class="data-table">
+            <thead><tr><th>Vendor</th><th>RDBMS Products</th></tr></thead>
+            <tbody>
+                <tr><td>IBM</td><td>DB2, Informix Dynamic Server</td></tr>
+                <tr><td>Oracle</td><td>Oracle, RDB</td></tr>
+                <tr><td>Microsoft</td><td>SQL Server, Access</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 5: KEYS IN RELATIONAL DATABASES                         -->
+    <!-- ============================================================ -->
+    <div class="section-title">
+        <span class="badge green">Part 5</span> Keys in Relational Databases
+    </div>
+
+    <div class="instruction-box">
+        <p><strong>Keys</strong> are fundamental to the relational model. A key is a value (or set of values) used to identify a record in a table uniquely. Keys can also establish relationships among columns and tables.</p>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 5.1 &mdash; Types of Keys (Definitions &amp; Examples)</p>
+        <p class="text-small mb-4">Given the <strong>Student</strong> table: <em>Student_ID, Roll_No, Name, Dept_ID, Phone</em></p>
+
+        <table class="data-table">
+            <thead><tr><th>Key Type</th><th>Definition</th><th>Example from Student Table</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge key-blue">Candidate Key</span></td>
+                    <td>Minimal set of attributes that can uniquely identify a tuple. Every table must have at least one. Value is unique and may be null.</td>
+                    <td><span class="formula">Student_ID</span> and <span class="formula">Roll_No</span> (both are individually unique)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge key-blue">Primary Key</span></td>
+                    <td>A single column (or chosen candidate key) that uniquely identifies each record. Cannot be NULL. Must be unique. Should rarely change.</td>
+                    <td><span class="formula">Student_ID</span> (selected as the primary key)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge key-blue">Super Key</span></td>
+                    <td>Any set of attributes that can uniquely identify a tuple. Created by adding zero or more attributes to a candidate key. Supports NULL values.</td>
+                    <td><span class="formula">(Student_ID)</span>, <span class="formula">(Student_ID, Name)</span>, <span class="formula">(Roll_No, Phone)</span></td>
+                </tr>
+                <tr>
+                    <td><span class="badge key-blue">Alternate Key</span></td>
+                    <td>A candidate key that is <em>not</em> chosen as the primary key. All non-primary candidate keys are alternate keys.</td>
+                    <td><span class="formula">Roll_No</span> (candidate key but not the primary key)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge fk-purple">Foreign Key</span></td>
+                    <td>A column (or set) that references the primary key of another table. Links tables together. Does not need to be unique. Can be NULL.</td>
+                    <td><span class="formula">Dept_ID</span> (references Primary Key of Department table)</td>
+                </tr>
+                <tr>
+                    <td><span class="badge key-blue">Composite Key</span></td>
+                    <td>A combination of two or more columns used to uniquely identify rows. Can serve as a primary key when no single column is unique enough.</td>
+                    <td><span class="formula">(Student_ID, Phone)</span> used together as a composite key</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Activity 5.2 &mdash; Key Identification Practice</p>
+        <p class="text-small mb-4">In the <strong>Employee</strong> table: <em>Emp_ID, Emp_Name, PAN_Number, Dept_ID, Salary</em>. <em>Emp_ID</em> is the primary key and <em>PAN_Number</em> is also unique.</p>
+        <ol class="step-list">
+            <li><strong>Primary Key:</strong> <span class="inline-answer"><span class="formula">Emp_ID</span></span></li>
+            <li><strong>Candidate Keys:</strong> <span class="inline-answer"><span class="formula">Emp_ID</span> and <span class="formula">PAN_Number</span></span></li>
+            <li><strong>Alternate Key:</strong> <span class="inline-answer"><span class="formula">PAN_Number</span> (candidate key not chosen as primary)</span></li>
+            <li><strong>Foreign Key:</strong> <span class="inline-answer"><span class="formula">Dept_ID</span> (references Department table)</span></li>
+            <li><strong>Super Key:</strong> <span class="inline-answer"><span class="formula">(Emp_ID, Emp_Name)</span> &mdash; any superset of a candidate key</span></li>
+        </ol>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 6: RELATIONAL INTEGRITY CONSTRAINTS                     -->
+    <!-- ============================================================ -->
+    <div class="section-title">
+        <span class="badge orange">Part 6</span> Relational Integrity Constraints
+    </div>
+
+    <div class="instruction-box">
+        <p>Integrity constraints are conditions that must hold for a relation to be valid. They are derived from real-world rules the database represents.</p>
+
+        <p class="quiz-question mt-4">Three Main Categories</p>
+        <table class="data-table">
+            <thead><tr><th>Constraint</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td><strong>Key Constraints</strong></td>
+                    <td>There must be at least one set of attributes (a key) that can uniquely identify each tuple. No two tuples can have identical values for all key attributes.</td>
+                    <td>In Student table, <em>Student_ID</em> must be unique for every student record.</td>
+                </tr>
+                <tr>
+                    <td><strong>Domain Constraints</strong></td>
+                    <td>Each attribute must only take values from its defined domain (data type, range, format).</td>
+                    <td>Salary cannot be negative; Age must be a positive integer; Phone must be 10 digits.</td>
+                </tr>
+                <tr>
+                    <td><strong>Referential Integrity Constraints</strong></td>
+                    <td>A foreign key value must either match an existing primary key value in the referenced table or be NULL. Ensures valid references between tables.</td>
+                    <td><em>Dept_ID</em> in the Student table must match a valid <em>Dept_ID</em> in the Department table.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 7: OPERATIONS IN RELATIONAL MODEL                       -->
+    <!-- ============================================================ -->
+    <div class="section-title">
+        <span class="badge">Part 7</span> Operations in Relational Model
+    </div>
+
+    <div class="instruction-box">
+        <p>Four basic update operations performed on relational databases:</p>
+        <table class="data-table">
+            <thead><tr><th>Operation</th><th>Purpose</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Insert</strong></td><td>Adds new data (tuples) into a relation</td><td>Adding a new student record to the Student table</td></tr>
+                <tr><td><strong>Update</strong></td><td>Modifies existing values in tuples</td><td>Changing a student&rsquo;s department or phone number</td></tr>
+                <tr><td><strong>Delete</strong></td><td>Removes tuples from the table</td><td>Removing a student record after graduation</td></tr>
+                <tr><td><strong>Select</strong></td><td>Retrieves a specific range of data that matches given conditions</td><td>Selecting all students from the Science department</td></tr>
+            </tbody>
+        </table>
+        <p class="mt-4 text-small"><strong>Important:</strong> Whenever any of these operations are applied, all integrity constraints specified on the database schema must never be violated.</p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PART 8: ADVANTAGES & DISADVANTAGES OF RELATIONAL MODEL       -->
+    <!-- ============================================================ -->
+    <div class="section-title">
+        <span class="badge green">Part 8</span> Advantages &amp; Disadvantages of the Relational Model
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Advantages of the Relational Model</p>
+        <ol class="step-list">
+            <li><strong>Simplicity:</strong> Simpler than the hierarchical and network models.</li>
+            <li><strong>Structural Independence:</strong> Only concerned with data, not with internal structure &mdash; improves performance.</li>
+            <li><strong>Easy to Use:</strong> Tables with rows and columns are natural and simple to understand.</li>
+            <li><strong>Query Capability:</strong> High-level query languages (like SQL) avoid complex database navigation.</li>
+            <li><strong>Data Independence:</strong> Database structure can be changed without modifying applications.</li>
+            <li><strong>Scalable:</strong> Can be enlarged by adding more records (rows) and fields (columns) to enhance usability.</li>
+        </ol>
+    </div>
+
+    <div class="instruction-box">
+        <p class="quiz-question">Disadvantages of the Relational Model</p>
+        <ol class="step-list">
+            <li><strong>Field length limits:</strong> Some relational databases have limits on field lengths that cannot be exceeded.</li>
+            <li><strong>Complexity with growth:</strong> As data grows and relationships become more complicated, the database can become complex.</li>
+            <li><strong>Isolated databases:</strong> Complex systems may lead to isolated databases where information cannot be shared across systems.</li>
+        </ol>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHALLENGE QUIZ                                                -->
+    <!-- ============================================================ -->
     <div class="section-title">
         <span class="badge">Challenge</span> Quiz: Test Your DBMS Knowledge
     </div>
 
     <div class="quiz-container">
         <div class="quiz-card">
-            <p class="quiz-question">1. Which DBMS type uses a tree-like structure with parent-child relationships?</p>
+            <p class="quiz-question">1. Which of the following is raw, unorganized facts that need processing?</p>
+            <ul class="quiz-options">
+                <li>Information</li>
+                <li>Data</li>
+                <li>Database</li>
+                <li>Data Warehouse</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Data &mdash; data is raw and unorganized; information is data that has been processed.</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">2. Which DBMS type uses a tree-like structure with parent-child relationships where a child has only one parent?</p>
             <ul class="quiz-options">
                 <li>Relational</li>
-                <li>Hierarchical</li>
                 <li>Network</li>
+                <li>Hierarchical</li>
                 <li>Object-Oriented</li>
             </ul>
-            <details><summary>Show answer</summary><div class="answer-key">Hierarchical (e.g., Windows Registry).</div></details>
+            <details><summary>Show answer</summary><div class="answer-key">Hierarchical &mdash; e.g., Windows Registry.</div></details>
         </div>
 
         <div class="quiz-card">
-            <p class="quiz-question">2. A foreign key in a table is used to:</p>
+            <p class="quiz-question">3. In the Student table, <em>Student_ID</em> is the primary key. <em>Roll_No</em> is also unique but not chosen as primary key. What type of key is <em>Roll_No</em>?</p>
             <ul class="quiz-options">
-                <li>Uniquely identify a record</li>
+                <li>Foreign Key</li>
+                <li>Super Key</li>
+                <li>Composite Key</li>
+                <li>Alternate Key</li>
+            </ul>
+            <details><summary>Show answer</summary><div class="answer-key">Alternate Key &mdash; a candidate key not chosen as the primary key.</div></details>
+        </div>
+
+        <div class="quiz-card">
+            <p class="quiz-question">4. A foreign key in a table is used to:</p>
+            <ul class="quiz-options">
+                <li>Uniquely identify each record in its own table</li>
                 <li>Link to the primary key of another table</li>
-                <li>Store multiple values</li>
-                <li>Derive an attribute</li>
+                <li>Prevent duplicate values in its own table</li>
+                <li>Store derived values</li>
             </ul>
-            <details><summary>Show answer</summary><div class="answer-key">Link to the primary key of another table -- establishes relationships.</div></details>
+            <details><summary>Show answer</summary><div class="answer-key">Link to the primary key of another table &mdash; it establishes relationships between tables.</div></details>
         </div>
 
         <div class="quiz-card">
-            <p class="quiz-question">3. In an ER diagram, a dashed ellipse represents:</p>
+            <p class="quiz-question">5. Which integrity constraint ensures that a <em>Dept_ID</em> in the Student table matches a valid <em>Dept_ID</em> in the Department table?</p>
             <ul class="quiz-options">
-                <li>Key attribute</li>
-                <li>Multivalued attribute</li>
-                <li>Derived attribute</li>
-                <li>Composite attribute</li>
+                <li>Key Constraint</li>
+                <li>Domain Constraint</li>
+                <li>Referential Integrity Constraint</li>
+                <li>Entity Constraint</li>
             </ul>
-            <details><summary>Show answer</summary><div class="answer-key">Derived attribute (e.g., age derived from date of birth).</div></details>
-        </div>
-
-        <div class="quiz-card">
-            <p class="quiz-question">4. Which of the following is an advantage of a distributed database?</p>
-            <ul class="quiz-options">
-                <li>Lower cost</li>
-                <li>Easier to scale</li>
-                <li>Single point of failure</li>
-                <li>Less complexity</li>
-            </ul>
-            <details><summary>Show answer</summary><div class="answer-key">Easier to scale -- data can be added across multiple locations.</div></details>
-        </div>
-
-        <div class="quiz-card">
-            <p class="quiz-question">5. Which security threat involves inserting malicious SQL code into a query?</p>
-            <ul class="quiz-options">
-                <li>Insider threat</li>
-                <li>SQL injection</li>
-                <li>Denial of Service</li>
-                <li>Buffer overflow</li>
-            </ul>
-            <details><summary>Show answer</summary><div class="answer-key">SQL injection -- a common attack on web applications.</div></details>
+            <details><summary>Show answer</summary><div class="answer-key">Referential Integrity Constraint &mdash; foreign key values must reference valid primary key values in the referenced table.</div></details>
         </div>
     </div>
 
-    <!-- ASSESSMENT PREPARATION -->
+    <!-- ============================================================ -->
+    <!-- ASSESSMENT PREPARATION                                        -->
+    <!-- ============================================================ -->
     <div class="section-title">
         <span class="badge purple">Assessment Prep</span> Ready for the Interactive Assessment
     </div>
@@ -263,45 +511,57 @@
     <div class="instruction-box">
         <p><strong>What to Expect in the Assessment:</strong></p>
         <ul class="step-list mt-2">
-            <li>Be ready to differentiate between data, information, and databases.</li>
-            <li>Know the four DBMS types and their characteristics.</li>
-            <li>Understand primary, foreign, candidate, super, and composite keys.</li>
-            <li>Interpret ER diagram symbols and relationship types.</li>
-            <li>Compare centralized vs. distributed databases and list basic security measures.</li>
+            <li>Differentiate between data, information, and databases with real examples.</li>
+            <li>Explain DBMS, its history, and the four main types (Hierarchical, Network, Relational, Object-Oriented).</li>
+            <li>Identify and describe all database types (Flat File, Personal, Cloud, NoSQL, Graph, OLTP, etc.).</li>
+            <li>List the five components of a database system.</li>
+            <li>List the advantages and disadvantages of DBMS.</li>
+            <li>Understand the relational model: tables, attributes, tuples, fields, and its 6 characteristics.</li>
+            <li>Distinguish between candidate, primary, super, alternate, foreign, and composite keys.</li>
+            <li>Apply integrity constraints: key, domain, and referential integrity.</li>
+            <li>Perform relational operations: insert, update, delete, select.</li>
+            <li>Evaluate advantages and disadvantages of the relational model.</li>
         </ul>
 
         <p class="mt-4"><strong>Key Points to Remember:</strong></p>
         <ul class="step-list mt-2">
-            <li>Data is raw; information is processed data.</li>
-            <li>A primary key must be unique and not null.</li>
-            <li>A foreign key links two tables together.</li>
-            <li>ER diagrams use rectangles (entities), ellipses (attributes), diamonds (relationships).</li>
-            <li>Think of examples like school records, hospital systems, and electricity billing.</li>
+            <li>Data is raw; information is processed data; a database is a structured collection of data.</li>
+            <li>DBMS is the software; the database is the data itself &mdash; they are not the same thing.</li>
+            <li>A primary key must be unique and NOT NULL; a foreign key references a primary key in another table.</li>
+            <li>A super key contains candidate keys; an alternate key is a candidate key not chosen as primary.</li>
+            <li>Integrity constraints enforce data validity: key (uniqueness), domain (valid values), referential (valid references).</li>
+            <li>The relational model is the most widely used because of its simplicity and powerful query capabilities.</li>
+            <li>A data warehouse is for historical/analytical data, not for day-to-day transactional data.</li>
         </ul>
     </div>
 
-    <!-- FOOTER -->
+    <!-- ============================================================ -->
+    <!-- FOOTER                                                        -->
+    <!-- ============================================================ -->
     <div class="footer">
         <div class="instruction-box">
             <p><strong>Completion Checklist:</strong></p>
             <ul class="step-list mt-2">
                 <li>Differentiated between data and information with examples</li>
-                <li>Listed the four main DBMS types</li>
-                <li>Identified primary, foreign, candidate, super, and composite keys</li>
-                <li>Practiced ER diagram relationship types (1:1, 1:M, M:N)</li>
-                <li>Understood ER diagram symbols</li>
-                <li>Compared centralized vs. distributed databases</li>
-                <li>Identified common database security threats</li>
+                <li>Explained DBMS, its history, and the four main types</li>
+                <li>Described a data warehouse and its purpose</li>
+                <li>Identified and compared all types of databases</li>
+                <li>Listed the five components of a database system</li>
+                <li>Listed the advantages and disadvantages of DBMS</li>
+                <li>Understood tables, attributes, tuples, and fields in the relational model</li>
+                <li>Recalled the six characteristics of the relational model</li>
+                <li>Identified all key types: candidate, primary, super, alternate, foreign, composite</li>
+                <li>Applied integrity constraints: key, domain, and referential integrity</li>
+                <li>Performed relational operations: insert, update, delete, select</li>
+                <li>Evaluated advantages and disadvantages of the relational model</li>
                 <li>Completed the challenge quiz</li>
             </ul>
         </div>
 
         <p class="mt-4"><strong>Next Steps:</strong></p>
         <ul class="step-list mt-2">
-            <li>Proceed to the lab assessment to test your knowledge</li>
-            <li>Study SQL commands and practice database creation in MySQL</li>
-            <li>Explore database normalization (1NF, 2NF, 3NF) in the next activity</li>
-            <li>Design an ER diagram for a real-world system of your choice</li>
+            <li>Proceed to the Data Modeling &amp; Security activity</li>
+            <li>Take the DBMS Concepts assessment</li>
         </ul>
 
         <p class="mt-4 text-center">&mdash; Thank you. See you in the next chapter &mdash;</p>

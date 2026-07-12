@@ -250,7 +250,6 @@ function shuffleArray(array) {
     }
 }
 
-// Initialize UI
 function initStepper() {
     const stepper = document.getElementById('stepper');
     stepper.innerHTML = tasks.map((_, i) => `<div class="step-dot" id="dot-${i}"></div>`).join('');
@@ -260,6 +259,7 @@ function initStepper() {
 function updateStepper() {
     tasks.forEach((_, i) => {
         const dot = document.getElementById(`dot-${i}`);
+        if (!dot) return;
         dot.className = 'step-dot';
         if (i === currentTaskIndex) dot.classList.add('active');
         if (sessionState[i].verified) dot.classList.add('verified');
@@ -276,7 +276,7 @@ function renderTask() {
 
     let interactionHtml = '';
 
-    } else if (task.type === 'mcq') {
+    if (task.type === 'mcq') {
         const shuffledOptions = task.options.map((opt, i) => ({ text: opt, originalIdx: i }));
         shuffleArray(shuffledOptions);
         interactionHtml = `
@@ -310,9 +310,7 @@ function renderTask() {
                 gridCells += `<div class="grid-cell" data-ref="${ref}">${ref}</div>`;
             }
         }
-        interactionHtml = `
-            <div class="grid-selection">${gridCells}</div>
-        `;
+        interactionHtml = `<div class="grid-selection">${gridCells}</div>`;
     } else if (task.type === 'matching') {
         const terms = task.pairs.map(p => p.term);
         const descs = [...task.pairs].map(p => p.desc);
@@ -334,7 +332,6 @@ function renderTask() {
         interactionHtml = `
             <div class="form-group mt-4">
                 <input type="text" id="taskInput" placeholder="Type your answer here..." autocomplete="off">
-                <div class="feedback-msg" id="taskFeedback"></div>
             </div>
         `;
     }
@@ -350,8 +347,8 @@ function renderTask() {
         ${interactionHtml}
         <div class="feedback-msg error" id="taskError"></div>
         <div class="btn-row">
-            <button class="btn btn-primary" id="checkBtn">Verify</button>
-            <button class="btn" id="nextBtn" disabled>Next →</button>
+            <button class="btn btn-primary" id="checkBtn">Verify Answer</button>
+            <button class="btn btn-secondary" id="nextBtn" disabled>Next →</button>
         </div>
     `;
 
@@ -390,11 +387,8 @@ function setupInteractions(card, task) {
                 showError("Please select an option first.");
                 return;
             }
-            if (selectedIdx === task.answer) {
-                handleSuccess();
-            } else {
-                showError(task.hint || "That's not correct. Try again!");
-            }
+            if (selectedIdx === task.answer) handleSuccess();
+            else showError(task.hint || "That's not correct. Try again!");
         });
     } else if (task.type === 'order') {
         const list = card.querySelector('#sortableList');
@@ -404,28 +398,18 @@ function setupInteractions(card, task) {
             draggedItem = e.target;
             setTimeout(() => e.target.style.opacity = '0.5', 0);
         });
-
-        list.addEventListener('dragend', (e) => {
-            e.target.style.opacity = '1';
-        });
-
+        list.addEventListener('dragend', (e) => { e.target.style.opacity = '1'; });
         list.addEventListener('dragover', (e) => {
             e.preventDefault();
             const afterElement = getDragAfterElement(list, e.clientY);
-            if (afterElement == null) {
-                list.appendChild(draggedItem);
-            } else {
-                list.insertBefore(draggedItem, afterElement);
-            }
+            if (afterElement == null) list.appendChild(draggedItem);
+            else list.insertBefore(draggedItem, afterElement);
         });
 
         verifyBtn.addEventListener('click', () => {
             const currentOrder = [...list.querySelectorAll('.drag-item')].map(el => el.dataset.val);
-            if (JSON.stringify(currentOrder) === JSON.stringify(task.correctOrder)) {
-                handleSuccess();
-            } else {
-                showError("The sequence is incorrect. Smallest to largest!");
-            }
+            if (JSON.stringify(currentOrder) === JSON.stringify(task.correctOrder)) handleSuccess();
+            else showError("The sequence is incorrect. Smallest to largest!");
         });
     } else if (task.type === 'grid') {
         let selectedRef = null;
@@ -442,11 +426,8 @@ function setupInteractions(card, task) {
                 showError("Please select a cell first.");
                 return;
             }
-            if (selectedRef === task.target) {
-                handleSuccess();
-            } else {
-                showError("Wrong cell reference. Remember: Letter then Number.");
-            }
+            if (selectedRef === task.target) handleSuccess();
+            else showError("Wrong cell reference. Remember: Letter then Number.");
         });
     } else if (task.type === 'matching') {
         verifyBtn.addEventListener('click', () => {
@@ -459,27 +440,18 @@ function setupInteractions(card, task) {
                 if (val !== correctDesc) allCorrect = false;
             });
 
-            if (allCorrect) {
-                handleSuccess();
-            } else {
-                showError("One or more matches are incorrect.");
-            }
+            if (allCorrect) handleSuccess();
+            else showError("One or more matches are incorrect.");
         });
     } else {
         const input = card.querySelector('#taskInput');
-
         const verify = () => {
             const val = input.value.trim().toLowerCase();
             const correct = task.answer.toLowerCase();
             const alts = task.altAnswers ? task.altAnswers.map(a => a.toLowerCase()) : [];
-
-            if (val === correct || alts.includes(val)) {
-                handleSuccess();
-            } else {
-                showError(task.hint || "Try again!");
-            }
+            if (val === correct || alts.includes(val)) handleSuccess();
+            else showError(task.hint || "Try again!");
         };
-
         verifyBtn.addEventListener('click', verify);
         input.addEventListener('keypress', (e) => { if (e.key === 'Enter') verify(); });
     }
@@ -520,9 +492,8 @@ function handleSuccess() {
     const nextBtn = document.getElementById('nextBtn');
     if (nextBtn) {
         nextBtn.disabled = false;
-        nextBtn.style.background = '#3b82f6';
-        nextBtn.style.color = '#ffffff';
-        nextBtn.style.cursor = 'pointer';
+        nextBtn.classList.remove('btn-secondary');
+        nextBtn.classList.add('btn-success');
     }
 }
 
@@ -532,7 +503,6 @@ function updateProgress() {
     document.getElementById('progressBar').style.width = `${(completed / tasks.length) * 100}%`;
 }
 
-// Entry Modal Logic
 document.getElementById('enterBtn').addEventListener('click', () => {
     const name = document.getElementById('inName').value.trim();
     const roll = document.getElementById('inRoll').value.trim();
@@ -582,7 +552,6 @@ function showFinalSubmission() {
     document.getElementById('summaryContent').innerHTML = summary;
     document.getElementById('exitOverlay').classList.remove('hidden');
 
-    // Submit to Google Form
     const formData = new FormData();
     formData.append(SUBMISSION_CONFIG.fields.topic, "Application Packages Assessment");
     formData.append(SUBMISSION_CONFIG.fields.name, studentData.name);

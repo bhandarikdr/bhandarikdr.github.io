@@ -3,69 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessment: DBMS Fundamentals</title>
+    <title>Assessment: Data Modeling & Database Security</title>
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
         .matching-row span { min-width: 140px; font-weight: 600; }
         .matching-row select { flex: 1; padding: 0.5rem; border-radius: 8px; border: 1px solid #e2e8f0; }
 
-        .db-table-mini {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
-            margin: 1rem 0;
-            background: white;
-        }
-        .db-table-mini th, .db-table-mini td {
-            border: 1px solid #cbd5e1;
-            padding: 0.4rem;
-            text-align: left;
-        }
-        .db-table-mini th { background: #f1f5f9; }
-
-        .drag-order-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
+        .drag-order-container { display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; }
         .drag-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1rem;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            cursor: grab;
-            transition: all 0.2s;
-            font-weight: 600;
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.75rem 1rem; background: #fff; border: 2px solid #e2e8f0;
+            border-radius: 10px; cursor: grab; user-select: none; transition: all 0.2s;
         }
         .drag-item:active { cursor: grabbing; }
-        .drag-item.dragging { opacity: 0.4; border-style: dashed; }
-        .drag-handle {
-            color: #94a3b8;
-            font-size: 1.2rem;
-            user-select: none;
-        }
-        .drag-hint-text {
-            font-size: 0.8rem;
-            color: #64748b;
-            text-align: center;
-            margin-top: 0.5rem;
-        }
-        .text-answer-input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 1rem;
-            margin: 1rem 0;
+        .drag-item.dragging { opacity: 0.4; border-color: #3b82f6; }
+        .drag-item.drag-over { border-color: #3b82f6; background: #eff6ff; }
+        .drag-item .grip { color: #94a3b8; font-size: 1.1rem; flex-shrink: 0; }
+
+        .text-input-field {
+            width: 100%; padding: 0.75rem 1rem; border: 2px solid #e2e8f0;
+            border-radius: 10px; font-size: 0.95rem; margin: 0.75rem 0;
             transition: border-color 0.2s;
         }
-        .text-answer-input:focus {
-            outline: none;
-            border-color: #6366f1;
+        .text-input-field:focus { outline: none; border-color: #3b82f6; }
+
+        .scenario-box {
+            background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 1rem 1.25rem;
+            border-radius: 0 10px 10px 0; margin: 0.75rem 0; font-size: 0.9rem;
+            line-height: 1.6;
         }
     </style>
 </head>
@@ -73,8 +38,8 @@
 
 <div class="celebration-overlay" id="entryOverlay">
     <div class="celebration-card">
-        <h2>Assessment: DBMS Fundamentals</h2>
-        <p>Mastering Database Concepts, ER Modeling, and Relational Principles.</p>
+        <h2>Assessment: Data Modeling & Database Security</h2>
+        <p>ER Diagrams, Database Models, Security</p>
 
         <div class="form-group">
             <label>Full Name</label>
@@ -96,8 +61,8 @@
 
 <div id="workspace" class="hidden">
     <header class="assessment-header">
-        <h1>Assessment: DBMS Fundamentals</h1>
-        <p class="subtitle">Unit Mastery Canvas</p>
+        <h1>Assessment: Data Modeling & Database Security</h1>
+        <p class="subtitle">ER Diagrams, Database Models, Security</p>
         <span class="grade-badge">Grade XII • Computer Science</span>
     </header>
 
@@ -109,7 +74,7 @@
                 <span id="statRoom">Room</span>
             </div>
             <div class="progress-indicator">
-                Score: <span id="progressCount">0</span>/15
+                Score: <span id="progressCount">0</span>/12
             </div>
         </div>
 
@@ -128,7 +93,7 @@
 <div class="celebration-overlay hidden" id="exitOverlay">
     <div class="celebration-card">
         <h2>🎉 Assessment Complete</h2>
-        <p>Database mastery verified. Results submitted.</p>
+        <p>Data Modeling & Database Security mastery verified. Results submitted.</p>
         <div id="summaryContent" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.9rem;"></div>
         <p style="font-size: 0.8rem; color: #64748b;">You may now close this page.</p>
     </div>
@@ -150,129 +115,156 @@ const SUBMISSION_CONFIG = {
 };
 
 const tasks = [
+    // --- Q1: ER Model — Entity types (regular vs weak) ---
     {
         id: 1, type: 'mcq',
-        question: "A list of numbers [25, 30, 15] is shown. When processed to show 'Average Score = 23.3', it becomes:",
-        options: ["Metadata", "Raw Data", "Information", "A Database Record"],
-        answer: 2,
-        hint: "Information is processed data that has meaning/context."
+        question: "A <b>Bank Account</b> entity cannot be uniquely identified without knowing which bank it belongs to. What type of entity is this?",
+        options: ["Regular Entity", "Weak Entity", "Composite Entity", "Derived Entity"],
+        answer: 1,
+        hint: "A weak entity depends on a relationship with another entity for identification."
     },
+
+    // --- Q2: ER Model — Attribute types (scenario) ---
     {
         id: 2, type: 'mcq',
-        question: "In a <b>Hierarchical Database Model</b>, the relationship between data elements is structured as:",
-        options: ["A complex mesh (many-to-many)", "A collection of flat tables", "A parent-child tree structure", "Circular linked lists"],
-        answer: 2
-    },
-    {
-        id: 3, type: 'mcq',
-        question: "A <b>Foreign Key</b> in Table B that refers to a Primary Key in Table A is primarily used to:",
+        question: "A <b>Person</b> entity has attributes: Name, Date_of_Birth, Age, and Phone_Numbers. <b>Age</b> is derived from Date_of_Birth, and <b>Phone_Numbers</b> can hold multiple values. Which set correctly classifies these attributes?",
         options: [
-            "Speed up data entry in Table B",
-            "Establish a relationship between the two tables",
-            "Ensure Table B has no duplicate records",
-            "Encrypt the data in Table A"
+            "Age = Key, Phone_Numbers = Multivalued",
+            "Age = Derived, Phone_Numbers = Multivalued",
+            "Age = Composite, Phone_Numbers = Derived",
+            "Age = Derived, Phone_Numbers = Composite"
         ],
-        answer: 1
+        answer: 1,
+        hint: "Age changes over time and is calculated from another attribute. Phone_Numbers can hold more than one value."
     },
+
+    // --- Q3: ER Model — ER Diagram symbols (Matching) ---
     {
-        id: 4, type: 'matching',
-        question: "Match the ER Diagram symbols with their standard meanings.",
+        id: 3, type: 'matching',
+        question: "Match each ER Diagram symbol with its correct meaning.",
         pairs: [
             { term: "Rectangle", desc: "Entity Sets" },
-            { term: "Ellipse", desc: "Attributes" },
             { term: "Diamond", desc: "Relationship Sets" },
-            { term: "Dashed Ellipse", desc: "Derived Attributes" }
+            { term: "Double Ellipse", desc: "Multivalued Attributes" },
+            { term: "Double Rectangle", desc: "Weak Entity Sets" },
+            { term: "Double Line", desc: "Total Participation" }
         ]
     },
+
+    // --- Q4: ER Model — Relationship cardinality (scenario) ---
+    {
+        id: 4, type: 'mcq',
+        question: "In a university system, a single <b>Professor</b> teaches many <b>Courses</b>, but each Course is taught by only one Professor. How would you represent this relationship in an ER diagram?",
+        options: ["One-to-One (1:1)", "One-to-Many (1:N)", "Many-to-One (M:1)", "Many-to-Many (M:N)"],
+        answer: 1,
+        hint: "From the Professor side, one instance maps to many Courses. From the Course side, one instance maps to one Professor."
+    },
+
+    // --- Q5: ER Model — Total Participation ---
     {
         id: 5, type: 'mcq',
-        question: "Which relationship cardinality is represented by: 'A Department has many Employees, but each Employee belongs to only one Department'?",
-        options: ["One-to-One (1:1)", "One-to-Many (1:N)", "Many-to-Many (M:N)", "Recursive"],
+        question: "In an ER diagram, every <b>College</b> entity must have at least one associated <b>Student</b>. This mandatory requirement is represented by:",
+        options: [
+            "A dashed line between College and Student",
+            "A double line between College and Student",
+            "An arrow from College to Student",
+            "A double diamond between College and Student"
+        ],
         answer: 1,
-        hint: "Think about the direction: One Dept -> Many Employees."
+        hint: "Double lines in ER diagrams indicate that every entity in the set must participate in the relationship."
     },
+
+    // --- Q6: Hierarchical Model ---
     {
         id: 6, type: 'mcq',
-        question: "A website is vulnerable to an attack where a user enters <code>' OR 1=1 --</code> into a login form. This is known as:",
-        options: ["Phishing", "Denial of Service (DoS)", "SQL Injection", "Brute Force"],
-        answer: 2
+        question: "A hierarchical database model organizes data as a tree. What is its primary limitation compared to the network model?",
+        options: [
+            "It cannot store numeric data",
+            "It cannot handle many-to-many relationships easily",
+            "It requires more memory than the network model",
+            "It does not support any relationships between entities"
+        ],
+        answer: 1,
+        hint: "In the tree structure, each child has exactly one parent, which makes M:N relationships difficult to represent."
     },
+
+    // --- Q7: Network Model ---
     {
-        id: 7, type: 'mcq',
-        question: "If multiple columns are combined to uniquely identify a record in a table, the resulting key is called a:",
-        options: ["Super Key", "Candidate Key", "Composite Key", "Alternate Key"],
-        answer: 2,
-        hint: "It's 'composed' of more than one attribute."
+        id: 7, type: 'text-input',
+        question: "In a Network Database Model, parent nodes are called <b>______</b> and child nodes are called <b>______</b>. Enter the two terms separated by a comma (e.g., <i>term1, term2</i>).",
+        answer: "owners, members",
+        acceptAlt: ["owners,members", "owner, member", "owner,member", "Owners, Members", "Owners,Members"],
+        hint: "The network model uses specific terminology: parents = ______, children = ______."
     },
+
+    // --- Q8: Centralized vs Distributed (Matching) ---
     {
         id: 8, type: 'matching',
-        question: "Match the Database components with their roles.",
+        question: "Match each characteristic to the correct database type: <b>Centralized</b> or <b>Distributed</b>.",
         pairs: [
-            { term: "DBA", desc: "Manages and controls the database" },
-            { term: "End User", desc: "Accesses data for daily operations" },
-            { term: "Data", desc: "The actual raw facts stored" },
-            { term: "Schema", desc: "The logical structure/design" }
+            { term: "Single location storage", desc: "Centralized" },
+            { term: "Higher data traffic risk", desc: "Centralized" },
+            { term: "Spread across physical locations", desc: "Distributed" },
+            { term: "Easier to expand as data grows", desc: "Distributed" }
         ]
     },
+
+    // --- Q9: Database Security — Threat types ---
     {
         id: 9, type: 'mcq',
-        question: "In the Relational Model, a 'Tuple' is another name for a:",
-        options: ["Table", "Attribute", "Column", "Row"],
-        answer: 3
+        question: "A user enters <code>' OR 1=1 --</code> into a login form to bypass authentication. Which type of security threat is this?",
+        options: ["Insider Threat", "SQL Injection Attack", "Denial of Service (DoS)", "Malware Attack"],
+        answer: 1,
+        hint: "This attack inserts arbitrary SQL strings into database queries served by web applications."
     },
+
+    // --- Q10: Database Security — Solutions (Drag-Order) ---
     {
-        id: 10, type: 'mcq',
-        question: "Which of these is NOT a component of a Database System?",
-        options: ["Hardware", "Procedures", "Source Code Compiler", "Users"],
-        answer: 2,
-        hint: "A compiler is for programming languages, not a core DB component."
+        id: 10, type: 'drag-order',
+        question: "Drag and arrange these database security solutions from <b>most fundamental</b> (top) to <b>most advanced</b> (bottom):",
+        items: [
+            "Encrypting all data at rest and in transit",
+            "Applying software patches promptly",
+            "Granting users minimum necessary permissions",
+            "Monitoring and auditing database activity"
+        ],
+        correctOrder: [
+            "Granting users minimum necessary permissions",
+            "Applying software patches promptly",
+            "Encrypting all data at rest and in transit",
+            "Monitoring and auditing database activity"
+        ],
+        hint: "Start with the simplest human-level control, then software maintenance, then protection, then ongoing monitoring."
     },
+
+    // --- Q11: Database Security — Controls (Text-Input) ---
     {
-        id: 11, type: 'mcq',
-        question: "A school manages student records using a DBMS instead of storing data in plain text files. Which of the following is a key <b>advantage</b> of using a DBMS?",
+        id: 11, type: 'text-input',
+        question: "Database security uses three types of controls. Match each description to its control type:<br><br>" +
+            "<b>A)</b> Governs installation, change, and configuration management<br>" +
+            "<b>B)</b> Governs access, encryption, tokenization, and masking<br>" +
+            "<b>C)</b> Monitors database activity and alerts on suspicious behavior<br><br>" +
+            "Enter the three types in order A, B, C separated by commas (e.g., <i>Administrative, Preventative, Detective</i>).",
+        answer: "Administrative, Preventative, Detective",
+        acceptAlt: ["administrative, preventative, detective", "Administrative, Preventative, Detective", "Administrative, Preventative, Detective"],
+        hint: "A = rules for setup, B = stops threats before they happen, C = catches threats while they happen."
+    },
+
+    // --- Q12: Database Security — Why data security matters (Scenario) ---
+    {
+        id: 12, type: 'mcq',
+        question: `<div class="scenario-box">
+            <b>Scenario:</b> A retail company suffers a major data breach. Customer credit card numbers and personal information are stolen. The company faces: loss of trade secrets to competitors, customers refusing to buy products due to distrust, temporary business shutdown, regulatory fines exceeding millions, and expensive forensic investigations plus customer notification costs.
+        </div>
+        Which of the following is NOT listed as a consequence of a data breach?`,
         options: [
-            "Uniform administration procedures for data",
-            "Lower hardware and software costs",
-            "Simpler to set up initially",
-            "No user training required"
+            "Compromised intellectual property",
+            "Faster product development cycles",
+            "Damage to brand reputation",
+            "Fines for non-compliance"
         ],
-        answer: 0,
-        hint: "DBMS solves problems like data redundancy and inconsistency, but introduces some costs."
-    },
-    {
-        id: 12, type: 'matching',
-        question: "Match each Database Model with its defining characteristic.",
-        pairs: [
-            { term: "Hierarchical Model", desc: "Parent-child tree structure (one-to-many)" },
-            { term: "Network Model", desc: "Supports many-to-many via owner-member links" },
-            { term: "Relational Model", desc: "Data organized in tables with rows and columns" },
-            { term: "Object-Oriented Model", desc: "Stores data as objects with attributes and methods" }
-        ],
-        hint: "Think about the structure each model uses to organize data."
-    },
-    {
-        id: 13, type: 'drag-order',
-        question: "Arrange these key types from the <b>broadest</b> (most general) to the <b>narrowest</b> (most specific).",
-        items: ["Super Key", "Candidate Key", "Primary Key"],
-        hint: "A Super Key contains Candidate Keys, which in turn contain the Primary Key."
-    },
-    {
-        id: 14, type: 'text-input',
-        question: "A city library uses a relational database. The 'Books' table has: <code>Book_ID</code> (Primary Key), <code>Title</code>, <code>Author_ID</code>. The 'Authors' table has: <code>Author_ID</code> (Primary Key), <code>Author_Name</code>. If someone tries to insert a book with <code>Author_ID = 999</code> but no author with ID 999 exists in the Authors table, which integrity constraint would prevent this? Enter two words.",
-        acceptedAnswers: ["referential integrity", "referential", "referential integrity constraint"],
-        hint: "This constraint ensures that references between tables remain valid."
-    },
-    {
-        id: 15, type: 'mcq',
-        question: "A school database has a Students table. The principal wants to: <b>(1)</b> add a new student, <b>(2)</b> change a student's address, <b>(3)</b> remove a graduated student, and <b>(4)</b> find all students with GPA above 3.5. Which option correctly maps these to relational operations?",
-        options: [
-            "Insert, Update, Delete, Select",
-            "Add, Modify, Remove, Find",
-            "Create, Alter, Drop, Query",
-            "Insert, Delete, Update, Select"
-        ],
-        answer: 0,
-        hint: "The four basic relational operations are: Insert, Update, Delete, and Select."
+        answer: 1,
+        hint: "A data breach causes harm, not business improvements. Think about which option sounds positive."
     }
 ];
 
@@ -344,24 +336,21 @@ function renderTask() {
             </div>
         `;
     } else if (task.type === 'drag-order') {
-        const shuffledItems = task.items.map((item, i) => ({ text: item, originalIdx: i }));
+        const shuffledItems = [...task.items];
         shuffleArray(shuffledItems);
         interactionHtml = `
-            <div class="drag-order-list" id="dragList">
-                ${shuffledItems.map((item) => `
-                    <div class="drag-item" draggable="true" data-idx="${item.originalIdx}">
-                        <span class="drag-handle">⠿</span>
-                        <span class="drag-text">${item.text}</span>
+            <div class="drag-order-container" id="dragContainer">
+                ${shuffledItems.map((item, i) => `
+                    <div class="drag-item" draggable="true" data-value="${item}">
+                        <span class="grip">⠿</span>
+                        <span>${item}</span>
                     </div>
                 `).join('')}
             </div>
-            <p class="drag-hint-text">Drag items to reorder from broadest to narrowest.</p>
         `;
     } else if (task.type === 'text-input') {
         interactionHtml = `
-            <div class="text-input-area">
-                <input type="text" id="textAnswer" class="text-answer-input" placeholder="Type your answer here..." autocomplete="off">
-            </div>
+            <input type="text" class="text-input-field" id="textInput" placeholder="Type your answer here..." autocomplete="off">
         `;
     }
 
@@ -417,7 +406,7 @@ function setupInteractions(card, task) {
                 return;
             }
             if (selectedIdx === task.answer) handleSuccess();
-            else showError(task.hint || "Incorrect. Think about database principles.");
+            else showError(task.hint || "Incorrect. Think about the concept carefully.");
         });
     } else if (task.type === 'matching') {
         verifyBtn.addEventListener('click', () => {
@@ -430,62 +419,74 @@ function setupInteractions(card, task) {
                 if (val !== correctDesc) allCorrect = false;
             });
             if (allCorrect) handleSuccess();
-            else showError("One or more matches are incorrect.");
+            else showError("One or more matches are incorrect. Try again.");
         });
     } else if (task.type === 'drag-order') {
-        const dragList = card.querySelector('#dragList');
-        let draggedEl = null;
+        const container = card.querySelector('#dragContainer');
+        let dragSrcEl = null;
 
-        dragList.addEventListener('dragstart', (e) => {
-            draggedEl = e.target.closest('.drag-item');
-            if (draggedEl) {
-                draggedEl.classList.add('dragging');
+        container.addEventListener('dragstart', (e) => {
+            dragSrcEl = e.target.closest('.drag-item');
+            if (dragSrcEl) {
+                dragSrcEl.classList.add('dragging');
                 e.dataTransfer.effectAllowed = 'move';
             }
         });
 
-        dragList.addEventListener('dragover', (e) => {
+        container.addEventListener('dragend', (e) => {
+            const item = e.target.closest('.drag-item');
+            if (item) item.classList.remove('dragging');
+            container.querySelectorAll('.drag-item').forEach(el => el.classList.remove('drag-over'));
+        });
+
+        container.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            const target = e.target.closest('.drag-item');
+            if (target && target !== dragSrcEl) {
+                container.querySelectorAll('.drag-item').forEach(el => el.classList.remove('drag-over'));
+                target.classList.add('drag-over');
+            }
+        });
+
+        container.addEventListener('drop', (e) => {
             e.preventDefault();
             const target = e.target.closest('.drag-item');
-            if (target && target !== draggedEl) {
-                const rect = target.getBoundingClientRect();
-                const midY = rect.top + rect.height / 2;
-                if (e.clientY < midY) {
-                    dragList.insertBefore(draggedEl, target);
+            if (target && target !== dragSrcEl && dragSrcEl) {
+                const items = [...container.querySelectorAll('.drag-item')];
+                const srcIdx = items.indexOf(dragSrcEl);
+                const tgtIdx = items.indexOf(target);
+                if (srcIdx < tgtIdx) {
+                    container.insertBefore(dragSrcEl, target.nextSibling);
                 } else {
-                    dragList.insertBefore(draggedEl, target.nextSibling);
+                    container.insertBefore(dragSrcEl, target);
                 }
             }
-        });
-
-        dragList.addEventListener('dragend', () => {
-            if (draggedEl) draggedEl.classList.remove('dragging');
-            draggedEl = null;
+            container.querySelectorAll('.drag-item').forEach(el => el.classList.remove('drag-over'));
         });
 
         verifyBtn.addEventListener('click', () => {
-            const items = dragList.querySelectorAll('.drag-item');
-            const currentOrder = Array.from(items).map(el => parseInt(el.dataset.idx));
-            const correctOrder = task.items.map((_, i) => i);
-            if (JSON.stringify(currentOrder) === JSON.stringify(correctOrder)) {
-                handleSuccess();
-            } else {
-                showError(task.hint || "The order is incorrect. Try again.");
-            }
+            const items = [...container.querySelectorAll('.drag-item')];
+            const currentOrder = items.map(el => el.dataset.value);
+            const isCorrect = JSON.stringify(currentOrder) === JSON.stringify(task.correctOrder);
+            if (isCorrect) handleSuccess();
+            else showError(task.hint || "The order is not quite right. Try rearranging.");
         });
     } else if (task.type === 'text-input') {
-        const input = card.querySelector('#textAnswer');
+        const input = card.querySelector('#textInput');
         verifyBtn.addEventListener('click', () => {
-            const val = input.value.trim().toLowerCase();
+            const val = input.value.trim();
             if (!val) {
                 showError("Please enter an answer.");
                 return;
             }
-            const accepted = task.acceptedAnswers.map(a => a.toLowerCase());
-            if (accepted.includes(val)) {
+            const normalised = val.toLowerCase().replace(/\s+/g, ' ');
+            const correctNorm = task.answer.toLowerCase().replace(/\s+/g, ' ');
+            const alts = (task.acceptAlt || []).map(a => a.toLowerCase().replace(/\s+/g, ' '));
+            if (normalised === correctNorm || alts.includes(normalised)) {
                 handleSuccess();
             } else {
-                showError(task.hint || "Incorrect. Try again.");
+                showError(task.hint || "Incorrect. Check your spelling and format.");
             }
         });
     }
@@ -563,7 +564,7 @@ function showFinalSubmission() {
     const completed = sessionState.filter(s => s.verified).length;
 
     const summary = `
-        <strong>Topic:</strong> DBMS Fundamentals<br>
+        <strong>Topic:</strong> Data Modeling & Database Security<br>
         <strong>Student:</strong> ${studentData.name}<br>
         <strong>Roll:</strong> ${studentData.roll} | <strong>Room:</strong> ${studentData.room}<br>
         <strong>Time Taken:</strong> ${elapsedStr}<br>
@@ -574,7 +575,7 @@ function showFinalSubmission() {
     document.getElementById('exitOverlay').classList.remove('hidden');
 
     const formData = new FormData();
-    formData.append(SUBMISSION_CONFIG.fields.topic, "DBMS Fundamentals Assessment");
+    formData.append(SUBMISSION_CONFIG.fields.topic, "Data Modeling & Database Security Assessment");
     formData.append(SUBMISSION_CONFIG.fields.name, studentData.name);
     formData.append(SUBMISSION_CONFIG.fields.roll, studentData.roll);
     formData.append(SUBMISSION_CONFIG.fields.room, `XII - ${studentData.room}`);
