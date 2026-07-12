@@ -6,57 +6,6 @@
     <title>Assessment: Web Language Core</title>
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
-        :root {
-            --primary-color: #1e293b;
-            --secondary-color: #3b82f6;
-            --success-color: #10b981;
-            --accent-color: #ef4444;
-        }
-
-        .stepper-container {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .step-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #e2e8f0;
-            transition: all 0.3s;
-        }
-        .step-dot.active { background: var(--secondary-color); transform: scale(1.2); }
-        .step-dot.verified { background: var(--success-color); }
-
-        #taskWorkspace { position: relative; min-height: 400px; }
-        .task-card-active { animation: slideIn 0.4s ease-out; }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .option-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin-top: 1rem; }
-        .interactive-option {
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .interactive-option.selected { border-color: var(--secondary-color); background: #eff6ff; }
-
-        .verification-text { font-weight: 600; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-        .verification-text.unverified { color: #64748b; }
-        .verification-text.verified { color: var(--success-color); }
-
-        .feedback-msg { font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2rem; }
-        .feedback-msg.error { color: var(--accent-color); }
-
         .snippet-block {
             background: #f1f5f9;
             border: 1px solid #e2e8f0;
@@ -327,15 +276,11 @@ function renderTask() {
                     </div>
                 `).join('')}
             </div>
-            <div class="feedback-msg error" id="taskError"></div>
-            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
         `;
     } else if (task.type === 'code') {
         bodyHTML = `
             <div class="task-question">${task.question}</div>
-            <textarea class="code-input-area" id="codeInput" placeholder="Type your code here..."></textarea>
-            <div class="feedback-msg error" id="taskError"></div>
-            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
+            <textarea class="code-input-area" id="codeInput" placeholder="Type your code here...">            </textarea>
         `;
     } else if (task.type === 'drag') {
         const shuffledItems = task.items.map((item, i) => ({ text: item, originalIdx: i }));
@@ -357,8 +302,6 @@ function renderTask() {
                     </li>
                 `).join('')}
             </ul>
-            <div class="feedback-msg error" id="taskError"></div>
-            <button class="btn btn-primary mt-4" id="checkBtn">Verify Order</button>
         `;
     } else if (task.type === 'spot') {
         const shuffledOptions = task.options.map((opt, i) => ({ text: opt, originalIdx: i }));
@@ -376,8 +319,6 @@ function renderTask() {
                     </div>
                 `).join('')}
             </div>
-            <div class="feedback-msg error" id="taskError"></div>
-            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
         `;
     }
 
@@ -387,7 +328,11 @@ function renderTask() {
             <div class="verification-text unverified" id="verifyStatus">○ Unverified</div>
         </div>
         ${bodyHTML}
-        <button class="btn" id="nextBtn" disabled style="margin-top: 1rem; background: #e2e8f0; color: #64748b; cursor: not-allowed; padding: 0.6rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">Next →</button>
+        <div class="feedback-msg error" id="taskError"></div>
+        <div class="btn-row">
+            <button class="btn btn-primary" id="verifyBtn">Verify</button>
+            <button class="btn" id="nextBtn" disabled>Next →</button>
+        </div>
     `;
 
     container.appendChild(card);
@@ -403,7 +348,7 @@ function renderTask() {
                 selectedIdx = parseInt(el.dataset.idx);
             });
         });
-        card.querySelector('#checkBtn').addEventListener('click', () => {
+        card.querySelector('#verifyBtn').addEventListener('click', () => {
             if (selectedIdx === null) {
                 document.getElementById('taskError').textContent = "❌ Please select an option.";
                 return;
@@ -415,7 +360,7 @@ function renderTask() {
             }
         });
     } else if (task.type === 'code') {
-        card.querySelector('#checkBtn').addEventListener('click', () => {
+        card.querySelector('#verifyBtn').addEventListener('click', () => {
             const code = card.querySelector('#codeInput').value;
             if (!code.trim()) {
                 document.getElementById('taskError').textContent = "❌ Please enter your code.";
@@ -461,7 +406,7 @@ function renderTask() {
 
         refreshDragButtons();
 
-        card.querySelector('#checkBtn').addEventListener('click', () => {
+        card.querySelector('#verifyBtn').addEventListener('click', () => {
             const items = dragList.querySelectorAll('.drag-item');
             const currentOrder = Array.from(items).map(li => parseInt(li.dataset.original));
             if (JSON.stringify(currentOrder) === JSON.stringify(task.correctOrder)) {

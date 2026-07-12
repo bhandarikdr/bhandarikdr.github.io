@@ -24,6 +24,8 @@
     --success: var(--success-color);
     --error: var(--accent-color);
     --primary-light: var(--secondary-color);
+    --primary: var(--primary-color);
+    --secondary: var(--secondary-color);
 }
 
 * {
@@ -189,6 +191,127 @@ input:focus, select:focus, textarea:focus {
 .mb-4 { margin-bottom: 1rem; }
 .mt-1 { margin-top: 0.5rem; }
 .mb-1 { margin-bottom: 0.5rem; }
+
+/* ============================================
+   SHARED ASSESSMENT COMPONENTS
+   ============================================ */
+
+/* Stepper */
+.stepper-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+.step-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    transition: all 0.3s ease;
+}
+.step-dot.active {
+    background: var(--secondary);
+    transform: scale(1.2);
+}
+.step-dot.verified {
+    background: var(--success);
+}
+
+/* Task Workspace */
+#taskWorkspace {
+    position: relative;
+    min-height: 250px;
+}
+
+/* Task Card Transitions */
+.task-card-active {
+    animation: slideIn 0.4s ease-out;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); background-color: #f0fdf4; }
+    100% { transform: scale(1); }
+}
+.success-pulse {
+    animation: successPulse 0.4s ease-out;
+}
+
+/* Option Grid (MCQ) */
+.option-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+.interactive-option {
+    padding: 0.7rem 0.9rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+.interactive-option:hover {
+    border-color: var(--secondary);
+    background: #f8fafc;
+}
+.interactive-option.selected {
+    border-color: var(--secondary);
+    background: #eff6ff;
+}
+
+/* Drag & Drop */
+.drag-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+.drag-item {
+    padding: 0.55rem 0.85rem;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.drag-item:active { cursor: grabbing; }
+
+/* Matching */
+.matching-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Verification Status */
+.verification-text {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.verification-text.unverified { color: #64748b; }
+.verification-text.verified { color: var(--success); }
+
+/* Feedback */
+.feedback-msg {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    min-height: 1.2rem;
+}
+.feedback-msg.error { color: var(--error); }
 
 /* ============================================
    RESPONSIVE DESIGN - STYLE GUIDE COMPLIANT
@@ -496,7 +619,7 @@ button, .btn, a, input, select, textarea {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 1.5rem;
-    padding: 1.5rem 1.8rem;
+    padding: 1rem 1.2rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.02);
     transition: border 0.2s, background 0.2s;
 }
@@ -510,7 +633,7 @@ button, .btn, a, input, select, textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.5rem;
 }
 
 .task-header .task-num {
@@ -536,7 +659,7 @@ button, .btn, a, input, select, textarea {
 
 .task-question {
     font-weight: 500;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
     color: var(--primary-color);
 }
 
@@ -580,6 +703,28 @@ button, .btn, a, input, select, textarea {
 
 .check-btn.success {
     background: var(--success-color);
+}
+
+/* Button Row — Verify + Next inline */
+.btn-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+.btn-row .btn {
+    width: auto;
+    flex: 0 0 auto;
+}
+@media (max-width: 480px) {
+    .btn-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .btn-row .btn {
+        width: 100%;
+    }
 }
 
 .feedback {

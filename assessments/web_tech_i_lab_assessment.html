@@ -7,55 +7,15 @@
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
         :root {
-            --primary-color: #1e293b;
-            --secondary-color: #3b82f6;
-            --success-color: #10b981;
-            --accent-color: #ef4444;
             --editor-bg: #1e293b;
         }
 
-        .stepper-container { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-        .step-dot { width: 10px; height: 10px; border-radius: 50%; background: #e2e8f0; transition: all 0.3s; }
-        .step-dot.active { background: var(--secondary-color); transform: scale(1.2); }
-        .step-dot.verified { background: var(--success-color); }
-
-        #taskWorkspace { position: relative; min-height: 450px; }
-        .task-card-active { animation: slideIn 0.4s ease-out; }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
-
-        .option-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-        .interactive-option {
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .interactive-option.selected {
-            border-color: var(--secondary-color);
-            background: #eff6ff;
-        }
         .interactive-option:hover:not(.selected) {
             border-color: #cbd5e1;
             background: #f8fafc;
         }
 
         .code-textarea { width: 100%; height: 120px; font-family: 'Consolas', monospace; padding: 1rem; background: var(--editor-bg); color: #f8fafc; border-radius: 8px; resize: none; margin-top: 1rem; }
-
-        .verification-text { font-weight: 600; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-        .verification-text.unverified { color: #64748b; }
-        .verification-text.verified { color: var(--success-color); }
-
-        .feedback-msg { font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2rem; }
-        .feedback-msg.error { color: var(--accent-color); }
     </style>
 </head>
 <body>
@@ -256,8 +216,10 @@ function renderTask() {
         <div class="task-question">${task.question}</div>
         ${interactionHtml}
         <div class="feedback-msg error" id="taskError"></div>
-        <button class="btn btn-primary mt-4" id="checkBtn">Verify Lab Task</button>
-        <button class="btn" id="nextBtn" disabled style="margin-top: 1rem; background: #e2e8f0; color: #64748b; cursor: not-allowed; padding: 0.6rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">Next →</button>
+        <div class="btn-row">
+            <button class="btn btn-primary" id="verifyBtn">Verify</button>
+            <button class="btn" id="nextBtn" disabled>Next →</button>
+        </div>
     `;
 
     container.appendChild(card);
@@ -275,7 +237,7 @@ function renderTask() {
         });
     }
 
-    card.querySelector('#checkBtn').addEventListener('click', () => {
+    card.querySelector('#verifyBtn').addEventListener('click', () => {
         if (task.type === 'mcq') {
             if (selectedIdx === null) { showError("Select an option."); return; }
             if (selectedIdx === task.answer) handleSuccess();

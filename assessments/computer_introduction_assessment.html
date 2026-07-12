@@ -5,119 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assessment: Introduction to Computers</title>
     <link rel="stylesheet" href="../css/assessment.css">
-    <style>
-        :root {
-            --primary: #1e293b;
-            --secondary: #3b82f6;
-            --success: #10b981;
-            --error: #ef4444;
-        }
-
-        /* Stepper Styles */
-        .stepper-container {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .step-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #e2e8f0;
-            transition: all 0.3s ease;
-        }
-        .step-dot.active {
-            background: var(--secondary);
-            transform: scale(1.2);
-        }
-        .step-dot.verified {
-            background: var(--success);
-        }
-
-        /* Task Card Transitions */
-        #taskWorkspace {
-            position: relative;
-            min-height: 350px;
-        }
-        .task-card-active {
-            animation: slideIn 0.4s ease-out;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes successPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); background-color: #f0fdf4; }
-            100% { transform: scale(1); }
-        }
-        .success-pulse {
-            animation: successPulse 0.4s ease-out;
-        }
-
-        /* Interaction Specifics */
-        .option-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-        .interactive-option {
-            padding: 1rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        .interactive-option:hover {
-            border-color: var(--secondary);
-            background: #f8fafc;
-        }
-        .interactive-option.selected {
-            border-color: var(--secondary);
-            background: #eff6ff;
-        }
-
-        .drag-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-        .drag-item {
-            padding: 0.75rem 1rem;
-            background: white;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            cursor: grab;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .drag-item:active { cursor: grabbing; }
-
-        .verification-text {
-            font-weight: 600;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .verification-text.unverified { color: #64748b; }
-        .verification-text.verified { color: var(--success); }
-
-        .feedback-msg {
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            min-height: 1.2rem;
-        }
-        .feedback-msg.error { color: var(--error); }
-    </style>
 </head>
 <body>
 
@@ -330,7 +217,6 @@ function renderTask() {
                     </div>
                 `).join('')}
             </div>
-            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
         `;
     } else if (task.type === 'order') {
         const shuffled = [...task.items];
@@ -343,7 +229,6 @@ function renderTask() {
                     </div>
                 `).join('')}
             </div>
-            <button class="btn btn-primary mt-4" id="checkBtn">Verify Order</button>
         `;
     } else if (task.type === 'matching') {
         const terms = task.pairs.map(p => p.term);
@@ -360,7 +245,6 @@ function renderTask() {
                         </select>
                     </div>
                 `).join('')}
-                <button class="btn btn-primary" id="checkBtn">Verify Matching</button>
             </div>
         `;
     } else {
@@ -368,7 +252,6 @@ function renderTask() {
             <div class="form-group mt-4">
                 <input type="text" id="taskInput" placeholder="Type your answer here..." autocomplete="off">
             </div>
-            <button class="btn btn-primary" id="checkBtn">Verify Answer</button>
         `;
     }
 
@@ -382,7 +265,10 @@ function renderTask() {
         <div class="task-question">${task.question}</div>
         ${interactionHtml}
         <div class="feedback-msg error" id="taskError"></div>
-        <button class="btn" id="nextBtn" disabled style="margin-top: 1rem; background: #e2e8f0; color: #64748b; cursor: not-allowed; padding: 0.6rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; font-size: 0.9rem;">Next →</button>
+        <div class="btn-row">
+            <button class="btn btn-primary" id="checkBtn">Verify</button>
+            <button class="btn" id="nextBtn" disabled>Next →</button>
+        </div>
     `;
 
     container.appendChild(card);
@@ -402,6 +288,8 @@ function renderTask() {
 }
 
 function setupInteractions(card, task) {
+    const verifyBtn = card.querySelector('#checkBtn');
+
     if (task.type === 'mcq') {
         let selectedIdx = null;
         const options = card.querySelectorAll('.interactive-option');
@@ -413,7 +301,7 @@ function setupInteractions(card, task) {
             });
         });
 
-        card.querySelector('#checkBtn').addEventListener('click', () => {
+        verifyBtn.addEventListener('click', () => {
             if (selectedIdx === null) {
                 showError("Please select an option first.");
                 return;
@@ -444,13 +332,13 @@ function setupInteractions(card, task) {
             }
         });
 
-        card.querySelector('#checkBtn').addEventListener('click', () => {
+        verifyBtn.addEventListener('click', () => {
             const currentOrder = [...list.querySelectorAll('.drag-item')].map(el => el.dataset.val);
             if (JSON.stringify(currentOrder) === JSON.stringify(task.correctOrder)) handleSuccess();
             else showError("Incorrect sequence. Smallest unit to largest!");
         });
     } else if (task.type === 'matching') {
-        card.querySelector('#checkBtn').addEventListener('click', () => {
+        verifyBtn.addEventListener('click', () => {
             const selects = card.querySelectorAll('.match-select');
             let allCorrect = true;
             selects.forEach(sel => {
@@ -464,7 +352,6 @@ function setupInteractions(card, task) {
         });
     } else {
         const input = card.querySelector('#taskInput');
-        const checkBtn = card.querySelector('#checkBtn');
         const verify = () => {
             const val = input.value.trim().toLowerCase();
             const correct = task.answer.toLowerCase();
@@ -472,7 +359,7 @@ function setupInteractions(card, task) {
             if (val === correct || alts.includes(val)) handleSuccess();
             else showError(task.hint || "Try again.");
         };
-        checkBtn.addEventListener('click', verify);
+        verifyBtn.addEventListener('click', verify);
         input.addEventListener('keypress', (e) => { if (e.key === 'Enter') verify(); });
     }
 }
