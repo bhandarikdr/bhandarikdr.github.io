@@ -3,704 +3,572 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessment: Application Packages</title>
+    <title>Lab Assessment: Application Packages</title>
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
         :root {
-            --primary: #1e3a8a;
-            --primary-light: #3b82f6;
-            --secondary: #0f766e;
-            --success: #16a34a;
-            --bg-dark: #f8fafc;
-            --bg-card: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --accent: #d97706;
+            --primary: #1e293b;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
         }
 
-        body {
-            padding: 2rem 1rem;
-        }
-
-        .container {
-            max-width: 960px;
-            margin: 0 auto;
-        }
-
-        h1, h2, h3 {
-            color: var(--text-main);
-            margin-bottom: 1rem;
-        }
-
-        /* Main Task Layout */
-        #main-canvas {
-            display: none;
-        }
-
-        header {
+        /* Stepper Styles */
+        .stepper-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .canvas-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            position: relative;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .canvas-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--secondary);
-            color: white;
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        .instructions {
-            background: rgba(59, 130, 246, 0.1);
-            border-left: 4px solid var(--primary-light);
-            padding: 1rem;
-            border-radius: 0 6px 6px 0;
+            justify-content: center;
+            gap: 0.5rem;
             margin-bottom: 1.5rem;
-            font-size: 0.95rem;
+            flex-wrap: wrap;
+        }
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .step-dot.active {
+            background: var(--secondary);
+            transform: scale(1.2);
+        }
+        .step-dot.verified {
+            background: var(--success);
         }
 
-        /* Activity Specific Styles */
-        .workspace {
-            background: var(--bg-dark);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        /* Task Card Transitions */
+        #taskWorkspace {
+            position: relative;
+            min-height: 400px;
+        }
+        .task-card-active {
+            animation: slideIn 0.4s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); background-color: #f0fdf4; }
+            100% { transform: scale(1); }
+        }
+        .success-pulse {
+            animation: successPulse 0.4s ease-out;
+        }
+
+        /* Lab Specific UI */
+        .workspace-area {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
             padding: 1.5rem;
-            margin-top: 1rem;
+            margin: 1rem 0;
         }
 
         .text-editor-sim {
-            font-family: 'Times New Roman', Times, serif;
-            color: #000;
-            background: #fff;
-            padding: 1rem;
-            min-height: 150px;
-            border-radius: 4px;
-            margin-bottom: 1rem;
-            outline: none;
-        }
-
-        .btn-row {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1rem;
-        }
-
-        .btn-sm {
-            width: auto;
-            padding: 0.4rem 0.8rem;
-            font-size: 0.85rem;
-            background: var(--border);
-        }
-
-        .btn-sm:hover { background: #475569; }
-
-        .notice-preview {
+            font-family: 'Times New Roman', serif;
             background: white;
-            color: #333;
-            padding: 1.5rem;
+            padding: 1rem;
+            border: 1px solid #cbd5e1;
             border-radius: 4px;
-            font-family: Arial, sans-serif;
+            min-height: 100px;
+            outline: none;
+            line-height: 1.6;
         }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 1rem;
-        }
-
-        .spreadsheet-table {
+        .spreadsheet-mini {
             width: 100%;
             border-collapse: collapse;
-            color: #000;
             background: white;
+            font-size: 0.9rem;
         }
-
-        .spreadsheet-table th, .spreadsheet-table td {
+        .spreadsheet-mini th, .spreadsheet-mini td {
             border: 1px solid #cbd5e1;
-            padding: 0.4rem;
-            text-align: left;
-        }
-
-        .spreadsheet-table th { background: #f1f5f9; font-weight: 600; }
-
-        .formula-input {
-            width: 100%;
-            padding: 0.25rem;
-            border: 1px solid #94a3b8;
-            font-family: monospace;
-        }
-
-        .flex-center {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            padding: 0.5rem;
             text-align: center;
         }
+        .spreadsheet-mini th { background: #f1f5f9; }
 
-        .chart-container {
+        .chart-preview {
             display: flex;
             align-items: flex-end;
-            gap: 1.5rem;
-            height: 200px;
-            padding-top: 2rem;
-            border-bottom: 2px solid var(--border);
-            border-left: 2px solid var(--border);
-            width: 80%;
-            margin: 0 auto;
+            gap: 1rem;
+            height: 150px;
+            border-bottom: 2px solid #64748b;
+            padding: 0 1rem;
+            margin-top: 1rem;
         }
-
         .chart-bar {
-            width: 40px;
-            background: var(--primary-light);
+            flex: 1;
+            background: var(--secondary);
+            transition: height 0.3s ease;
             position: relative;
-            transition: height 0.5s ease;
         }
-
         .chart-bar::after {
-            content: attr(data-val);
+            content: attr(data-label);
             position: absolute;
-            top: -20px;
+            bottom: -25px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.8rem;
-            color: white;
-        }
-
-        .chart-label {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-        }
-
-        .drag-node {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 0.75rem;
-            border-radius: 6px;
-            margin-bottom: 0.5rem;
-            cursor: grab;
-        }
-
-        .drop-zone {
-            background: rgba(15, 23, 42, 0.03);
-            border: 2px dashed var(--border);
-            min-height: 80px;
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            white-space: nowrap;
         }
 
         .verification-text {
-            margin-top: 1rem;
             font-weight: 600;
-            font-size: 0.9rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        
-        .verified { color: var(--success); }
-        .unverified { color: var(--accent); }
+        .verification-text.unverified { color: #64748b; }
+        .verification-text.verified { color: var(--success); }
 
+        .feedback-msg {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+        }
+        .feedback-msg.error { color: var(--error); }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="celebration-overlay" id="entryOverlay">
+    <div class="celebration-card">
+        <h2>Lab Assessment: Application Packages</h2>
+        <p>Interactive lab tasks covering Word, Excel, and Presentation skills.</p>
 
-    <div class="celebration-overlay" id="auth-panel">
-        <div class="celebration-card">
-            <h2>📋 Assessment Entry</h2>
-            <p style="color: #334155; margin-bottom: 1.5rem;">Application Packages · Grade XI</p>
-            <input type="text" id="student-name" placeholder="Full Name" required>
-            <input type="text" id="student-roll" placeholder="Roll Number" required>
-            <input type="text" id="student-room" placeholder="Room Number" required>
-            <div id="entryError" class="error-msg" style="display:none;">All fields required.</div>
-            <button class="btn-primary" id="enterBtn">Start Assessment</button>
-            <p style="font-size: 0.75rem; color: #64748b; margin-top: 1rem;">10 interactive tasks · timing tracked</p>
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="inName" placeholder="Enter your name">
         </div>
-    </div>
+        <div class="form-group">
+            <label>Roll Number</label>
+            <input type="text" id="inRoll" placeholder="Enter roll number">
+        </div>
+        <div class="form-group">
+            <label>Room Number</label>
+            <input type="text" id="inRoom" placeholder="Enter room number">
+        </div>
 
-    <div id="main-canvas">
-        <header>
-            <div>
-                <h2 style="margin:0;">Assessment: Application Packages</h2>
-                <p id="user-display" style="color:var(--text-muted); font-size:0.9rem;"></p>
+        <div class="error-msg" id="entryError">Please fill all fields correctly.</div>
+        <button class="btn btn-primary" id="enterBtn">Start Lab Assessment</button>
+    </div>
+</div>
+
+<div id="workspace" class="hidden">
+    <header class="assessment-header">
+        <h1>Lab Assessment: Application Packages</h1>
+        <p class="subtitle">Interactive Skill Validation</p>
+        <span class="grade-badge">Grade XI • Computer Science</span>
+    </header>
+
+    <div class="canvas-container">
+        <div class="status-bar">
+            <div class="student-info">
+                <span id="statName">Name</span>
+                <span id="statRoll">Roll</span>
+                <span id="statRoom">Room</span>
             </div>
-            <div style="text-align: right;">
-                <span style="font-size: 0.9rem; color: var(--text-muted);">Calculated Score</span>
-                <h2 id="live-score" style="margin:0; color: var(--accent);">0 / 10</h2>
+            <div class="progress-indicator">
+                Score: <span id="progressCount">0</span>/10
             </div>
-        </header>
+        </div>
 
         <div class="progress-container">
-            <div id="canvas-progress" class="progress-bar"></div>
+            <div class="progress-bar" id="progressBar"></div>
         </div>
 
-        <div class="canvas-card" id="c1">
-            <span class="canvas-badge">Task 1</span>
-            <h3>Word Processing: Spell Check</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Locate the spelling errors in the document space below. Correct the typos <strong>"computere"</strong> to <strong>"computer"</strong>, and <strong>"storrage"</strong> to <strong>"storage"</strong> to complete this validation block.
-            </div>
-            <div class="workspace">
-                <div class="btn-row">
-                    <button class="btn btn-sm" onclick="alert('Simulated: Paragraph Selected')">Select Paragraph</button>
-                    <button class="btn btn-sm" onclick="alert('Simulated: Action Undo Cache Cleared')">Undo Command</button>
-                </div>
-                <div id="text-sim" class="text-editor-sim" contenteditable="true" oninput="checkCanvas1()">
-Today the computere has affected all aspects of people's lives. Future holographic video storrage devices will scale up to 1000 terabytes.
-                </div>
-                <div id="v1" class="verification-text unverified">❌ Correct the typos</div>
-            </div>
-        </div>
+        <div class="stepper-container" id="stepper"></div>
 
-        <div class="canvas-card" id="c2">
-            <span class="canvas-badge">Task 2</span>
-            <h3>Document Designing: Header Setup</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Update the target Academic Institution name to match exactly <strong>"Einstein Academy"</strong> within the parameters input field below.
-            </div>
-            <div class="workspace">
-                <div class="form-group">
-                    <label>Set Header Institution String:</label>
-                    <input type="text" id="c2-input" value="Einstein College" oninput="checkCanvas2()">
-                </div>
-                <div class="notice-preview">
-                    <h2 id="c2-preview-title" style="text-align: center; color: #1e3a8a; text-decoration: underline;">Einstein College</h2>
-                    <p style="text-align: center; font-style: italic; color: #334155;">Announces admission open for BBS Programs</p>
-                </div>
-                <div id="v2" class="verification-text unverified">❌ Must be 'Einstein Academy'</div>
-            </div>
-        </div>
-
-        <div class="canvas-card" id="c3">
-            <span class="canvas-badge">Task 3</span>
-            <h3>Resume Layout Mapping</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Assign the appropriate Structural Component mapping locations to construct a standardized two-column layout.
-            </div>
-            <div class="workspace">
-                <div class="grid-2">
-                    <div>
-                        <label>Left Column Layout Components:</label>
-                        <select id="c3-s1" onchange="checkCanvas3()">
-                            <option value="">-- Choose Element --</option>
-                            <option value="profile">Contact Info & Skills Matrix</option>
-                            <option value="exp">Core Professional Experience</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Right Main Flow Layout Components:</label>
-                        <select id="c3-s2" onchange="checkCanvas3()">
-                            <option value="">-- Choose Element --</option>
-                            <option value="profile">Contact Info & Skills Matrix</option>
-                            <option value="exp">Core Professional Experience</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="v3" class="verification-text unverified">❌ Match left/right columns</div>
-
-                <details style="margin-top: 1.5rem; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem;">
-                    <summary style="cursor: pointer; color: var(--text-muted);">Confused? View Modern Resume Sample</summary>
-                    <div style="margin-top: 0.75rem; padding: 1.5rem; background: white; border: 1px solid #e2e8f0; font-family: system-ui, -apple-system, sans-serif; line-height: 1.5; color: #1a202c; border-radius: 6px;">
-                        <div style="text-align: center; border-bottom: 2px solid #1e3a8a; padding-bottom: 10px; margin-bottom: 15px;">
-                            <h2 style="margin: 0; font-size: 1.4rem; color: #1e3a8a; text-transform: uppercase;">Kedar Pd. Bhandari</h2>
-                            <p style="margin: 3px 0; font-size: 0.85rem; color: #718096;">bkedarnp@gmail.com | +977 9803453593 | Lalitpur, Nepal</p>
-                        </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 15px;">
-                            <div style="border-right: 1px solid #edf2f7; padding-right: 10px;">
-                                <h4 style="margin: 0 0 5px 0; font-size: 0.8rem; color: #1e3a8a; text-transform: uppercase; border-bottom: 1px solid #e2e8f0;">Core Skills</h4>
-                                <p style="font-size: 0.75rem; margin: 4px 0;">Python, C++, HTML/CSS, SQL, MS Office, STEAM Pedagogy</p>
-                                <h4 style="margin: 12px 0 5px 0; font-size: 0.8rem; color: #1e3a8a; text-transform: uppercase; border-bottom: 1px solid #e2e8f0;">Education</h4>
-                                <p style="font-size: 0.75rem; margin: 0; font-weight: 600;">MPhil in STEAM</p>
-                                <p style="font-size: 0.7rem; color: #718096; margin: 0;">Kathmandu University</p>
-                            </div>
-                            <div>
-                                <h4 style="margin: 0 0 5px 0; font-size: 0.8rem; color: #1e3a8a; text-transform: uppercase; border-bottom: 1px solid #e2e8f0;">Professional Experience</h4>
-                                <p style="font-size: 0.75rem; margin: 0; font-weight: 600;">Faculty of Computer Science</p>
-                                <p style="font-size: 0.7rem; color: #718096; margin: 0;">Einstein Academy | 2020 - Present</p>
-                                <p style="font-size: 0.75rem; margin: 8px 0 0 0; font-weight: 600;">Head of Computer Science</p>
-                                <p style="font-size: 0.7rem; color: #718096; margin: 0;">Yangrima School | 2018 - 2019</p>
-                            </div>
-                        </div>
-                    </div>
-                </details>
-            </div>
-        </div>
-
-        <div class="canvas-card" id="c4">
-            <span class="canvas-badge">Task 4</span>
-            <h3>Report Style & Hierarchy</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Match the document style layout criteria according to the standard report formatting requirements.
-            </div>
-            <div class="workspace">
-                <div class="form-group">
-                    <label>What is the mandatory Line Spacing for the report body?</label>
-                    <select id="c4-q1" onchange="checkCanvas4()">
-                        <option value="0">Select Spacing</option>
-                        <option value="1.0">1.0 (Single)</option>
-                        <option value="1.15">1.15 (Normal)</option>
-                        <option value="1.5">1.5</option>
-                        <option value="2.0">2.0</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>What is the correct alignment for 'Heading One'?</label>
-                    <select id="c4-q2" onchange="checkCanvas4()">
-                        <option value="0">Select Alignment</option>
-                        <option value="left">Left Aligned</option>
-                        <option value="center">Centered</option>
-                        <option value="right">Right Aligned</option>
-                    </select>
-                </div>
-                <div id="v4" class="verification-text unverified">❌ Check formatting rules</div>
-
-                <details style="margin-top: 1.5rem; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 6px; padding: 0.5rem;">
-                    <summary style="cursor: pointer; color: var(--text-muted);">Confused? View Sample Formatting</summary>
-                    <div style="margin-top: 0.75rem; padding: 1rem; background: white; border: 1px solid #cbd5e0; font-family: 'Times New Roman', Times, serif; line-height: 1.5; color: #000;">
-                        <div style="text-align: center; font-weight: bold; margin-bottom: 0.5rem;">Title / Heading One</div>
-                        <p style="text-indent: 0.5in; text-align: justify; margin-bottom: 0.5rem;">Video provides a powerful way to help you prove your point...</p>
-                        <div style="text-align: left; font-weight: bold; margin-bottom: 0.5rem;">Heading Two</div>
-                        <p style="text-indent: 0.5in; text-align: justify;">To make your document look professionally produced, Word provides header, footer, cover page, and text box designs...</p>
-                    </div>
-                </details>
-            </div>
-        </div>
-
-        <div class="canvas-card" id="c5">
-            <span class="canvas-badge">Task 5</span>
-            <h3>Spreadsheet Formula</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Write the exact cell multiplication engine syntax parameter required for row line item 2 (Rate * Qty) using uppercase notation. (e.g. <code>=B2*C2</code>)
-            </div>
-            <div class="workspace">
-                <table class="spreadsheet-table">
-                    <tr><th>Cell Row</th><th>A (Item)</th><th>B (Rate)</th><th>C (Qty)</th><th>D (Total)</th></tr>
-                    <tr><td><strong>2</strong></td><td>Book</td><td>300</td><td>10</td><td><input type="text" id="c5-formula" class="formula-input" placeholder="Enter Formula" oninput="checkCanvas5()"></td></tr>
-                </table>
-                <div id="v5" class="verification-text unverified">❌ Enter =B2*C2</div>
-            </div>
-        </div>
-
-        <div class="canvas-card" id="c6">
-            <span class="canvas-badge">Task 6</span>
-            <h3>Spreadsheet: VAT Calculation</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Change the active variable parameters tracking field to update the VAT rate from 13% to <strong>15%</strong> to verify dynamic evaluation changes.
-            </div>
-            <div class="workspace">
-                <div class="form-group" style="max-width:200px;">
-                    <label>Active Invoice VAT (%)</label>
-                    <input type="number" id="c6-vat" value="13" oninput="checkCanvas6()">
-                </div>
-                <div id="v6" class="verification-text unverified">❌ Set VAT to 15%</div>
-            </div>
-        </div>
-
-        <div class="canvas-card" id="c7">
-            <span class="canvas-badge">Task 7</span>
-            <h3>Spreadsheet: IF Logic</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Complete the conditional grading block criteria logic. Set the passing marks conditional criteria check threshold value (e.g., <code>&gt;32</code>).
-            </div>
-            <div class="workspace">
-                <div style="font-family: monospace; font-size: 0.9rem; margin-bottom: 1rem; color: #1d4ed8;">
-                    =IF(AND(English><input type="number" id="c7-marks" style="width:60px; padding:2px;" oninput="checkCanvas7()">, ...), "PASS", "FAILED")
-                </div>
-                <div id="v7" class="verification-text unverified">❌ Enter passing marks (32)</div>
-            </div>
-        </div>
-
-        <div class="canvas-card" id="c8">
-            <span class="canvas-badge">Task 8</span>
-            <h3>Spreadsheet: Chart Values</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Enter data coordinate metrics matching category "Alpha" series metric count value to <strong>5</strong> to scale visualization rendering columns.
-            </div>
-            <div class="workspace">
-                <div class="form-group" style="max-width: 150px;">
-                    <label>Alpha Metric Value</label>
-                    <input type="number" id="c8-val" value="1" oninput="checkCanvas8()">
-                </div>
-                <div class="chart-container">
-                    <div id="c8-bar" class="chart-bar" style="height: 20%;" data-val="1"></div>
-                </div>
-                <div style="text-align:center; width:80%; margin:0 auto;"><p class="chart-label">Alpha Array</p></div>
-                <div id="v8" class="verification-text unverified">❌ Set Alpha to 5</div>
-            </div>
-        </div>
-
-        <div class="canvas-card" id="c9">
-            <span class="canvas-badge">Task 9</span>
-            <h3>Presentation: Slide Layout</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Select the mandatory slide frame threshold capacity metrics window specified in the assignment manual parameters.
-            </div>
-            <div class="workspace">
-                <label>Required Slide Deck Length Range Requirement:</label>
-                <select id="c9-select" onchange="checkCanvas9()">
-                    <option value="">-- Choose Option --</option>
-                    <option value="wrong">3 to 5 Slides Layout</option>
-                    <option value="correct">10 to 12 Slides Layout</option>
-                    <option value="overflow">20+ Production Cards</option>
-                </select>
-                <div id="v9" class="verification-text unverified">❌ Select 10-12 slides</div>
-            </div>
-        </div>
-
-        <div class="canvas-card" id="c10">
-            <span class="canvas-badge">Task 10</span>
-            <h3>Database: Referential Integrity</h3>
-            <div class="instructions">
-                <strong>Objective:</strong> Select the appropriate constraints condition rule mechanism modifier inside the relational database configurations framework window.
-            </div>
-            <div class="workspace">
-                <label>Relational Configurations Setting Condition Parameter Selector:</label>
-                <select id="c10-select" onchange="checkCanvas10()">
-                    <option value="">-- Select Rule Parameter --</option>
-                    <option value="cascade">Allow Cascade Volatile Schema Override</option>
-                    <option value="integrity">Enforce Referential Integrity</option>
-                </select>
-                <div id="v10" class="verification-text unverified">❌ Select referential integrity</div>
-            </div>
-        </div>
-
-        <div style="margin: 3rem 0; text-align: center;">
-            <button type="button" id="submit-btn" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 2rem; width: auto;" onclick="dispatchPayload()">Submit All & Finish</button>
+        <div id="taskWorkspace">
+            <!-- Active task card will be rendered here -->
         </div>
     </div>
+</div>
 
-        <div class="celebration-overlay" id="final-screen" style="display: none;">
-        <div class="celebration-card">
-            <h2 style="color: var(--success);">🎉 Assessment Complete</h2>
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;" id="lbl-title"></p>
-            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; text-align: left; border:1px solid var(--border);">
-                <p><strong>Student:</strong> <span id="lbl-name" style="color:var(--primary-light);"></span></p>
-                <p><strong>Roll:</strong> <span id="lbl-roll" style="color:var(--primary-light);"></span>  <strong>Room:</strong> <span id="lbl-room" style="color:var(--primary-light);"></span></p>
-                <p><strong>Score:</strong> <span id="lbl-score" style="color:var(--accent); font-weight:bold;"></span></p>
-            </div>
-            <p style="font-size:0.85rem; color:#64748b; margin-top:15px;" id="lbl-timing"></p>
-            <p style="font-size:0.85rem; color:#64748b; margin-top:20px;">You may close this page.</p>
-        </div>
+<div class="celebration-overlay hidden" id="exitOverlay">
+    <div class="celebration-card">
+        <h2>🎉 Lab Complete</h2>
+        <p>Your interactive skill check has been recorded.</p>
+        <div id="summaryContent" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.9rem;"></div>
+        <p style="font-size: 0.8rem; color: #64748b;">You may now close this page.</p>
     </div>
-
 </div>
 
 <script>
-    const SUBMISSION_CONFIG = {
-        url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
-        fields: {
-            topic: "entry.1920009954",
-            name: "entry.2015805623",
-            roll: "entry.419024899",
-            room: "entry.2086415032",
-            status: "entry.1234471729",
-            startTime: "entry.597147393",
-            endTime: "entry.1045529602",
-            elapsedTime: "entry.2019742758"
-        }
-    };
-
-    let studentName = "";
-    let studentRoll = "";
-    let studentRoom = "";
-    let sessionTiming = { startTime: null, endTime: null };
-    let canvasScores = { c1:0, c2:0, c3:0, c4:0, c5:0, c6:0, c7:0, c8:0, c9:0, c10:0 };
-
-    function formatClockTime(date) {
-        return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+const SUBMISSION_CONFIG = {
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+    fields: {
+        topic: "entry.1920009954",
+        name: "entry.2015805623",
+        roll: "entry.419024899",
+        room: "entry.2086415032",
+        status: "entry.1234471729",
+        startTime: "entry.597147393",
+        endTime: "entry.1045529602",
+        elapsedTime: "entry.2019742758"
     }
+};
 
-    function formatElapsed(ms) {
-        const totalSeconds = Math.max(0, Math.round(ms / 1000));
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+const tasks = [
+    {
+        id: 1, type: 'spellcheck',
+        question: "Locate and correct the spelling errors: <b>'computere'</b> to <b>'computer'</b> and <b>'storrage'</b> to <b>'storage'</b>.",
+        initialText: "Today the computere has affected all aspects of people's lives. Future holographic video storrage devices will scale up to 1000 terabytes.",
+        check: (text) => text.includes('computer') && text.includes('storage') && !text.includes('computere') && !text.includes('storrage')
+    },
+    {
+        id: 2, type: 'branding',
+        question: "Update the header title to <b>'Einstein Academy'</b> and set the text alignment to <b>'Center'</b>.",
+        initialTitle: "Einstein College",
+        check: (val, align) => val.trim() === "Einstein Academy" && align === "center"
+    },
+    {
+        id: 3, type: 'mcq',
+        question: "For a professional two-column Resume, which component typically occupies the <b>narrower left column</b>?",
+        options: ["Core Professional Experience", "Detailed Project Descriptions", "Contact Info & Skills Matrix", "Education History"],
+        answer: 2
+    },
+    {
+        id: 4, type: 'mcq',
+        question: "According to standard academic report formatting, what is the required <b>Line Spacing</b> for the main body text?",
+        options: ["1.0 (Single)", "1.15", "1.5", "2.0 (Double)"],
+        answer: 2
+    },
+    {
+        id: 5, type: 'formula',
+        question: "In the spreadsheet below, write the formula for cell <b>D2</b> to calculate the <b>Total</b> (Rate * Qty). Use uppercase.",
+        answer: "=B2*C2",
+        hint: "Start with '=' followed by cell references."
+    },
+    {
+        id: 6, type: 'goal',
+        question: "Adjust the <b>VAT %</b> so the 'Total with Tax' for a 1000 NRs item becomes exactly <b>1130</b>.",
+        target: 13,
+        hint: "Total = 1000 + (1000 * VAT / 100)"
+    },
+    {
+        id: 7, type: 'text',
+        question: "Complete the IF logic to check if a student passed (Pass mark is 32):<br><code>=IF(A2 >= ____, 'PASS', 'FAIL')</code>",
+        answer: "32"
+    },
+    {
+        id: 8, type: 'chart',
+        question: "Adjust the <b>Alpha Metric</b> value to <b>80</b> to reach the target performance threshold on the chart.",
+        target: 80
+    },
+    {
+        id: 9, type: 'mcq',
+        question: "When creating a Presentation for a 15-minute speech, what is the recommended slide count to avoid 'Death by PowerPoint'?",
+        options: ["2-3 Slides", "10-12 Slides", "25-30 Slides", "50+ Slides"],
+        answer: 1
+    },
+    {
+        id: 10, type: 'mcq',
+        question: "In a Database, which setting ensures that a 'Student' cannot be deleted if they still have 'Grade' records linked to them?",
+        options: ["Auto-Numbering", "Data Validation", "Enforce Referential Integrity", "Cascade Update"],
+        answer: 2
     }
+];
 
-    document.getElementById('enterBtn').addEventListener('click', function() {
-        studentName = document.getElementById('student-name').value.trim();
-        studentRoll = document.getElementById('student-roll').value.trim();
-        studentRoom = document.getElementById('student-room').value.trim();
+let currentTaskIndex = 0;
+let studentData = { name: '', roll: '', room: '', startTime: null };
+const sessionState = tasks.map(() => ({ verified: false }));
 
-        if (!studentName || !studentRoll || !studentRoom) {
-            document.getElementById('entryError').style.display = 'block';
-            return;
-        }
-        document.getElementById('entryError').style.display = 'none';
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
-        sessionTiming.startTime = new Date();
-        document.getElementById('auth-panel').style.display = 'none';
-        document.getElementById('main-canvas').style.display = 'block';
-        document.getElementById('user-display').innerText = `${studentName} (${studentRoll})`;
-        updateGlobalState();
+function initStepper() {
+    const stepper = document.getElementById('stepper');
+    stepper.innerHTML = tasks.map((_, i) => `<div class="step-dot" id="dot-${i}"></div>`).join('');
+    updateStepper();
+}
+
+function updateStepper() {
+    tasks.forEach((_, i) => {
+        const dot = document.getElementById(`dot-${i}`);
+        if (!dot) return;
+        dot.className = 'step-dot';
+        if (i === currentTaskIndex) dot.classList.add('active');
+        if (sessionState[i].verified) dot.classList.add('verified');
     });
+}
 
-    function calculateTotalScore() {
-        return Object.values(canvasScores).reduce((a, b) => a + b, 0);
+function renderTask() {
+    const task = tasks[currentTaskIndex];
+    const container = document.getElementById('taskWorkspace');
+    container.innerHTML = '';
+
+    const card = document.createElement('div');
+    card.className = 'task-card task-card-active';
+
+    let interactionHtml = '';
+
+    if (task.type === 'spellcheck') {
+        interactionHtml = `
+            <div class="workspace-area">
+                <div id="editor" class="text-editor-sim" contenteditable="true">${task.initialText}</div>
+            </div>
+            <button class="btn btn-primary" id="checkBtn">Verify Spelling</button>
+        `;
+    } else if (task.type === 'branding') {
+        interactionHtml = `
+            <div class="workspace-area">
+                <div class="form-group">
+                    <label>Header Text</label>
+                    <input type="text" id="brandText" value="${task.initialTitle}">
+                </div>
+                <div class="form-group">
+                    <label>Alignment</label>
+                    <select id="brandAlign">
+                        <option value="left">Left</option>
+                        <option value="center">Center</option>
+                        <option value="right">Right</option>
+                    </select>
+                </div>
+                <div style="background:white; border:1px solid #ddd; padding:10px; margin-top:10px; text-align:left;" id="brandPreview">
+                    <h2 id="previewH2" style="margin:0;">${task.initialTitle}</h2>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="checkBtn">Verify Branding</button>
+        `;
+    } else if (task.type === 'mcq') {
+        const shuffledOptions = task.options.map((opt, i) => ({ text: opt, originalIdx: i }));
+        shuffleArray(shuffledOptions);
+        interactionHtml = `
+            <div class="option-grid" style="display:grid; gap:10px; margin-top:15px;">
+                ${shuffledOptions.map((opt) => `
+                    <div class="interactive-option" data-idx="${opt.originalIdx}" style="border:2px solid #e2e8f0; padding:12px; border-radius:10px; cursor:pointer;">
+                        ${opt.text}
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
+        `;
+    } else if (task.type === 'formula') {
+        interactionHtml = `
+            <div class="workspace-area">
+                <table class="spreadsheet-mini">
+                    <tr><th></th><th>A</th><th>B (Rate)</th><th>C (Qty)</th><th>D (Total)</th></tr>
+                    <tr><td>2</td><td>Book</td><td>300</td><td>10</td><td><input type="text" id="fInput" style="width:100%; border:none; text-align:center;" placeholder="Enter Formula"></td></tr>
+                </table>
+            </div>
+            <button class="btn btn-primary" id="checkBtn">Verify Formula</button>
+        `;
+    } else if (task.type === 'goal' || task.type === 'chart') {
+        const label = task.type === 'goal' ? 'VAT %' : 'Alpha Metric';
+        const val = task.type === 'goal' ? 0 : 10;
+        interactionHtml = `
+            <div class="workspace-area">
+                <div class="form-group">
+                    <label>${label}</label>
+                    <input type="number" id="goalInput" value="${val}">
+                </div>
+                ${task.type === 'chart' ? `<div class="chart-preview"><div id="vBar" class="chart-bar" style="height:10%;" data-label="Alpha"></div></div>` : ''}
+            </div>
+            <button class="btn btn-primary" id="checkBtn">Verify Value</button>
+        `;
+    } else {
+        interactionHtml = `
+            <div class="form-group mt-4">
+                <input type="text" id="taskInput" placeholder="Type answer here...">
+            </div>
+            <button class="btn btn-primary" id="checkBtn">Verify Answer</button>
+        `;
     }
 
-    function updateGlobalState() {
-        const total = calculateTotalScore();
-        document.getElementById('live-score').innerText = `${total} / 10`;
-        const percentage = (total / 10) * 100;
-        document.getElementById('canvas-progress').style.width = `${percentage}%`;
-    }
+    card.innerHTML = `
+        <div class="task-header">
+            <span class="task-num">Lab Task ${currentTaskIndex + 1} of ${tasks.length}</span>
+            <div class="verification-text unverified" id="verifyStatus">
+                <span class="status-icon">○</span> Unverified
+            </div>
+        </div>
+        <div class="task-question">${task.question}</div>
+        ${interactionHtml}
+        <div class="feedback-msg error" id="taskError"></div>
+    `;
 
-    function updateStatusElement(id, isValid, pendingText, verifiedText) {
-        const element = document.getElementById(id);
-        if(isValid) {
-            element.innerText = "✅ " + verifiedText;
-            element.className = "verification-text verified";
-        } else {
-            element.innerText = "❌ " + pendingText;
-            element.className = "verification-text unverified";
+    container.appendChild(card);
+    setupInteractions(card, task);
+}
+
+function setupInteractions(card, task) {
+    const checkBtn = card.querySelector('#checkBtn');
+
+    if (task.type === 'spellcheck') {
+        checkBtn.addEventListener('click', () => {
+            const text = card.querySelector('#editor').innerText;
+            if (task.check(text)) handleSuccess();
+            else showError("Spelling errors still present. Check 'computer' and 'storage'.");
+        });
+    } else if (task.type === 'branding') {
+        const inp = card.querySelector('#brandText');
+        const sel = card.querySelector('#brandAlign');
+        const h2 = card.querySelector('#previewH2');
+
+        inp.addEventListener('input', () => h2.innerText = inp.value);
+        sel.addEventListener('change', () => h2.style.textAlign = sel.value);
+
+        checkBtn.addEventListener('click', () => {
+            if (task.check(inp.value, sel.value)) handleSuccess();
+            else showError("Branding must match 'Einstein Academy' and be 'Center' aligned.");
+        });
+    } else if (task.type === 'mcq') {
+        let selectedIdx = null;
+        const options = card.querySelectorAll('.interactive-option');
+        options.forEach(el => {
+            el.addEventListener('click', () => {
+                options.forEach(opt => opt.style.borderColor = '#e2e8f0');
+                options.forEach(opt => opt.style.background = 'transparent');
+                el.style.borderColor = 'var(--secondary)';
+                el.style.background = '#eff6ff';
+                selectedIdx = parseInt(el.dataset.idx);
+            });
+        });
+
+        checkBtn.addEventListener('click', () => {
+            if (selectedIdx === null) {
+                showError("Please select an option first.");
+                return;
+            }
+            if (selectedIdx === task.answer) handleSuccess();
+            else showError("Incorrect. Think about the standard layout/requirements.");
+        });
+    } else if (task.type === 'formula') {
+        checkBtn.addEventListener('click', () => {
+            const val = card.querySelector('#fInput').value.trim();
+            if (val === task.answer) handleSuccess();
+            else showError("Check your cell references. Use =B2*C2");
+        });
+    } else if (task.type === 'goal' || task.type === 'chart') {
+        const inp = card.querySelector('#goalInput');
+        if (task.type === 'chart') {
+            inp.addEventListener('input', () => {
+                card.querySelector('#vBar').style.height = Math.min(inp.value, 100) + '%';
+            });
         }
+        checkBtn.addEventListener('click', () => {
+            if (parseInt(inp.value) === task.target) handleSuccess();
+            else showError("Target value not reached. Adjust the input.");
+        });
+    } else {
+        checkBtn.addEventListener('click', () => {
+            const val = card.querySelector('#taskInput').value.trim();
+            if (val === task.answer) handleSuccess();
+            else showError("Try again.");
+        });
     }
+}
 
-    function checkCanvas1() {
-        const text = document.getElementById('text-sim').innerText;
-        const valid = !text.includes('computere') && !text.includes('storrage') && text.includes('computer') && text.includes('storage');
-        canvasScores.c1 = valid ? 1 : 0;
-        updateStatusElement('v1', valid, "Correct the typos", "Spelling corrected");
-        updateGlobalState();
+function showError(msg) {
+    const err = document.getElementById('taskError');
+    err.textContent = `❌ ${msg}`;
+    err.style.display = 'block';
+    setTimeout(() => { err.style.display = 'none'; }, 3000);
+}
+
+function handleSuccess() {
+    const status = document.getElementById('verifyStatus');
+    const card = document.querySelector('.task-card-active');
+
+    sessionState[currentTaskIndex].verified = true;
+    status.className = 'verification-text verified';
+    status.innerHTML = '<span>✅</span> Verified';
+    card.classList.add('success-pulse');
+
+    updateProgress();
+    updateStepper();
+
+    setTimeout(() => {
+        if (currentTaskIndex < tasks.length - 1) {
+            currentTaskIndex++;
+            renderTask();
+        } else {
+            showFinalSubmission();
+        }
+    }, 800);
+}
+
+function updateProgress() {
+    const completed = sessionState.filter(s => s.verified).length;
+    document.getElementById('progressCount').textContent = completed;
+    document.getElementById('progressBar').style.width = `${(completed / tasks.length) * 100}%`;
+}
+
+document.getElementById('enterBtn').addEventListener('click', () => {
+    const name = document.getElementById('inName').value.trim();
+    const roll = document.getElementById('inRoll').value.trim();
+    const room = document.getElementById('inRoom').value.trim();
+
+    if (name && roll && room) {
+        studentData = { name, roll, room, startTime: new Date() };
+        document.getElementById('statName').textContent = name;
+        document.getElementById('statRoll').textContent = `Roll: ${roll}`;
+        document.getElementById('statRoom').textContent = `Room: ${room}`;
+
+        document.getElementById('entryOverlay').classList.add('hidden');
+        document.getElementById('workspace').classList.remove('hidden');
+        initStepper();
+        renderTask();
+    } else {
+        document.getElementById('entryError').style.display = 'block';
     }
+});
 
-    function checkCanvas2() {
-        const val = document.getElementById('c2-input').value.trim();
-        document.getElementById('c2-preview-title').innerText = val;
-        const valid = (val === "Einstein Academy");
-        canvasScores.c2 = valid ? 1 : 0;
-        updateStatusElement('v2', valid, "Must be 'Einstein Academy'", "Correct!");
-        updateGlobalState();
-    }
+function formatTime(date) {
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+}
 
-    function checkCanvas3() {
-        const s1 = document.getElementById('c3-s1').value;
-        const s2 = document.getElementById('c3-s2').value;
-        const valid = (s1 === "profile" && s2 === "exp");
-        canvasScores.c3 = valid ? 1 : 0;
-        updateStatusElement('v3', valid, "Match left/right columns", "Layout matched");
-        updateGlobalState();
-    }
+function formatElapsed(ms) {
+    const totalSec = Math.round(ms / 1000);
+    if (totalSec < 60) return `${totalSec}s`;
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return `${min}m ${sec}s`;
+}
 
-    function checkCanvas4() {
-        const q1 = document.getElementById('c4-q1').value;
-        const q2 = document.getElementById('c4-q2').value;
-        const valid = (q1 === "1.5" && q2 === "center");
-        canvasScores.c4 = valid ? 1 : 0;
-        updateStatusElement('v4', valid, "Check formatting rules", "Formatting correct");
-        updateGlobalState();
-    }
+function showFinalSubmission() {
+    const endTime = new Date();
+    const elapsedMs = endTime - studentData.startTime;
+    const elapsedStr = formatElapsed(elapsedMs);
+    const completed = sessionState.filter(s => s.verified).length;
 
-    function checkCanvas5() {
-        const val = document.getElementById('c5-formula').value.trim();
-        const valid = (val === "=B2*C2");
-        canvasScores.c5 = valid ? 1 : 0;
-        updateStatusElement('v5', valid, "Enter =B2*C2", "Formula correct");
-        updateGlobalState();
-    }
+    const summary = `
+        <strong>Topic:</strong> Application Packages Lab<br>
+        <strong>Student:</strong> ${studentData.name}<br>
+        <strong>Roll:</strong> ${studentData.roll} | <strong>Room:</strong> ${studentData.room}<br>
+        <strong>Time Taken:</strong> ${elapsedStr}<br>
+        <strong>Score:</strong> ${completed}/${tasks.length}
+    `;
 
-    function checkCanvas6() {
-        const val = document.getElementById('c6-vat').value;
-        const valid = (parseInt(val) === 15);
-        canvasScores.c6 = valid ? 1 : 0;
-        updateStatusElement('v6', valid, "Set VAT to 15%", "VAT updated");
-        updateGlobalState();
-    }
+    document.getElementById('summaryContent').innerHTML = summary;
+    document.getElementById('exitOverlay').classList.remove('hidden');
 
-    function checkCanvas7() {
-        const val = document.getElementById('c7-marks').value;
-        const valid = (parseInt(val) === 32);
-        canvasScores.c7 = valid ? 1 : 0;
-        updateStatusElement('v7', valid, "Enter passing marks (32)", "Pass marks correct");
-        updateGlobalState();
-    }
+    const formData = new FormData();
+    formData.append(SUBMISSION_CONFIG.fields.topic, "Application Packages Lab Assessment");
+    formData.append(SUBMISSION_CONFIG.fields.name, studentData.name);
+    formData.append(SUBMISSION_CONFIG.fields.roll, studentData.roll);
+    formData.append(SUBMISSION_CONFIG.fields.room, `XI - ${studentData.room}`);
+    formData.append(SUBMISSION_CONFIG.fields.status, `${completed}/${tasks.length}`);
+    formData.append(SUBMISSION_CONFIG.fields.startTime, formatTime(studentData.startTime));
+    formData.append(SUBMISSION_CONFIG.fields.endTime, formatTime(endTime));
+    formData.append(SUBMISSION_CONFIG.fields.elapsedTime, elapsedStr);
 
-    function checkCanvas8() {
-        const val = document.getElementById('c8-val').value;
-        const bar = document.getElementById('c8-bar');
-
-        let heightPercent = Math.min(Math.max(parseInt(val) * 20, 0), 100);
-        if(isNaN(heightPercent)) heightPercent = 0;
-
-        bar.style.height = `${heightPercent}%`;
-        bar.setAttribute('data-val', val);
-
-        const valid = (parseInt(val) === 5);
-        canvasScores.c8 = valid ? 1 : 0;
-        updateStatusElement('v8', valid, "Set Alpha to 5", "Chart value correct");
-        updateGlobalState();
-    }
-
-    function checkCanvas9() {
-        const val = document.getElementById('c9-select').value;
-        const valid = (val === "correct");
-        canvasScores.c9 = valid ? 1 : 0;
-        updateStatusElement('v9', valid, "Select 10-12 slides", "Slide count correct");
-        updateGlobalState();
-    }
-
-    function checkCanvas10() {
-        const val = document.getElementById('c10-select').value;
-        const valid = (val === "integrity");
-        canvasScores.c10 = valid ? 1 : 0;
-        updateStatusElement('v10', valid, "Select referential integrity", "Referential integrity set");
-        updateGlobalState();
-    }
-
-    function dispatchPayload() {
-        const finalScore = calculateTotalScore();
-        const scoreString = `${finalScore}/10`;
-        const topicTitle = "Application Packages";
-
-        sessionTiming.endTime = new Date();
-        const elapsedMs = sessionTiming.endTime - sessionTiming.startTime;
-        const startTimeString = formatClockTime(sessionTiming.startTime);
-        const endTimeString = formatClockTime(sessionTiming.endTime);
-        const elapsedString = formatElapsed(elapsedMs);
-
-        const formData = new FormData();
-        formData.append(SUBMISSION_CONFIG.fields.topic, topicTitle);
-        formData.append(SUBMISSION_CONFIG.fields.name, studentName);
-        formData.append(SUBMISSION_CONFIG.fields.roll, studentRoll);
-        formData.append(SUBMISSION_CONFIG.fields.room, `XI - ${studentRoom}`);
-        formData.append(SUBMISSION_CONFIG.fields.status, scoreString);
-        formData.append(SUBMISSION_CONFIG.fields.startTime, startTimeString);
-        formData.append(SUBMISSION_CONFIG.fields.endTime, endTimeString);
-        formData.append(SUBMISSION_CONFIG.fields.elapsedTime, elapsedString);
-
-        fetch(SUBMISSION_CONFIG.url, { method: 'POST', mode: 'no-cors', body: formData }).catch(() => {});
-
-        document.getElementById('lbl-title').innerText = topicTitle;
-        document.getElementById('lbl-name').innerText = studentName;
-        document.getElementById('lbl-roll').innerText = studentRoll;
-        document.getElementById('lbl-room').innerText = studentRoom;
-        document.getElementById('lbl-score').innerText = scoreString;
-        document.getElementById('lbl-timing').innerText = `⏱ Started: ${startTimeString} · Finished: ${endTimeString} · Time Taken: ${elapsedString}`;
-
-        document.getElementById('main-canvas').style.display = 'none';
-        document.getElementById('final-screen').style.display = 'flex';
-    }
+    fetch(SUBMISSION_CONFIG.url, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+    });
+}
 </script>
+
 </body>
 </html>

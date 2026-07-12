@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Web Foundations & CMS</title>
+    <link rel="stylesheet" href="../css/assessment.css">
+    <style>
+        :root {
+            --primary-color: #1e293b;
+            --secondary-color: #3b82f6;
+            --success-color: #10b981;
+            --accent-color: #ef4444;
+        }
+
+        .stepper-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s;
+        }
+        .step-dot.active { background: var(--secondary-color); transform: scale(1.2); }
+        .step-dot.verified { background: var(--success-color); }
+
+        #taskWorkspace { position: relative; min-height: 400px; }
+        .task-card-active { animation: slideIn 0.4s ease-out; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .option-grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; margin-top: 1rem; }
+        .interactive-option {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .interactive-option.selected { border-color: var(--secondary-color); background: #eff6ff; }
+
+        .verification-text { font-weight: 600; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .verification-text.unverified { color: #64748b; }
+        .verification-text.verified { color: var(--success-color); }
+
+        .feedback-msg { font-size: 0.85rem; margin-top: 0.5rem; min-height: 1.2rem; }
+        .feedback-msg.error { color: var(--accent-color); }
+
+        .drag-list { list-style: none; padding: 0; margin-top: 1rem; counter-reset: drag-counter; }
+        .drag-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            background: #fff;
+            transition: border-color 0.2s;
+        }
+        .drag-item:hover { border-color: var(--secondary-color); }
+        .drag-item::before { counter-increment: drag-counter; content: counter(drag-counter) ". "; font-weight: 600; color: #64748b; }
+        .drag-item .drag-label { flex: 1; }
+        .drag-btn {
+            background: #f1f5f9;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .drag-btn:hover { background: #e2e8f0; }
+
+        .code-input-area textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            margin-top: 1rem;
+            box-sizing: border-box;
+        }
+        .code-input-area textarea:focus { outline: none; border-color: var(--secondary-color); }
+
+        .hint-text { font-size: 0.82rem; color: #64748b; margin-top: 0.5rem; font-style: italic; }
+
+        .code-snippet {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="celebration-overlay" id="entryOverlay">
+    <div class="celebration-card">
+        <h2>Assessment: Web Foundations & CMS</h2>
+        <p>Unit 6 Track 1: Theory & Architecture. Complete all 12 tasks to submit.</p>
+        <div class="form-group">
+            <label for="inName">Full Name</label>
+            <input type="text" id="inName" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label for="inRoll">Roll Number</label>
+            <input type="text" id="inRoll" placeholder="Enter roll number">
+        </div>
+        <div class="form-group">
+            <label for="inRoom">Room Number</label>
+            <input type="text" id="inRoom" placeholder="Enter room number">
+        </div>
+        <div class="error-msg" id="entryError" style="display:none; color:var(--accent-color); margin-bottom:1rem;">Please fill all fields.</div>
+        <button class="btn btn-primary" id="enterBtn">Start Assessment</button>
+    </div>
+</div>
+
+<div id="workspace" class="hidden">
+    <header class="assessment-header">
+        <h1>Assessment: Web Foundations & CMS</h1>
+        <p class="subtitle">Frontend, Backend, and Web Architecture</p>
+        <span class="grade-badge">Grade XI • Computer Science</span>
+    </header>
+
+    <div class="canvas-container">
+        <div class="status-bar">
+            <div class="student-info">
+                <span id="statName">Name</span>
+                <span id="statRoll">Roll</span>
+                <span id="statRoom">Room</span>
+            </div>
+            <div class="progress-indicator">
+                Tasks: <span id="progressCount">0</span>/12
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="stepper-container" id="stepper"></div>
+
+        <div id="taskWorkspace"></div>
+    </div>
+</div>
+
+<div class="celebration-overlay hidden" id="exitOverlay">
+    <div class="celebration-card">
+        <h2>🎉 Assessment Complete</h2>
+        <div id="summaryContent" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.9rem;"></div>
+        <p style="font-size: 0.8rem; color: #64748b;">You may now close this page.</p>
+    </div>
+</div>
+
+<script>
+const SUBMISSION_CONFIG = {
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+    fields: {
+        topic: "entry.1920009954",
+        name: "entry.2015805623",
+        roll: "entry.419024899",
+        room: "entry.2086415032",
+        status: "entry.1234471729",
+        startTime: "entry.597147393",
+        endTime: "entry.1045529602",
+        elapsedTime: "entry.2019742758"
+    }
+};
+
+const tasks = [
+    {
+        id: 1, type: 'mcq',
+        question: "A classmate says: <i>'HTML is a programming language because it tells the browser what to display.'</i> Which is the most accurate correction?",
+        options: ["HTML is a markup language — it structures content, but cannot perform logic or calculations on its own.", "HTML is a scripting language — it runs in the browser and handles user interactions.", "HTML is a database language — it stores and retrieves data from servers.", "HTML is a styling language — it controls how elements look on the page."],
+        answer: 0
+    },
+    {
+        id: 2, type: 'drag',
+        question: "Arrange the following steps in the correct order as they happen when a search engine processes a new webpage:",
+        items: ["Crawler (Bot) discovers the URL", "Page content is parsed and stored in the Index", "Search Algorithm matches user query to indexed pages", "Ranked results are displayed to the user"],
+        correctOrder: [0, 1, 2, 3]
+    },
+    {
+        id: 3, type: 'code',
+        question: "Write the HTML code to link an <b>external CSS file</b> named <b>'styles.css'</b> located in the same folder as your HTML file.",
+        validate: (code) => {
+            const low = code.toLowerCase().replace(/\s+/g, ' ').trim();
+            return low.includes('<link') && low.includes('rel="stylesheet"') && low.includes('href="styles.css"');
+        },
+        hint: '<link rel="stylesheet" href="styles.css">'
+    },
+    {
+        id: 4, type: 'mcq',
+        question: "Rina builds a website on her laptop and it works perfectly. She sends the HTML file to a friend, but the friend sees only plain text with no styling. What is the <b>most likely</b> cause?",
+        options: ["The friend's browser does not support HTML5.", "The CSS file was not included — the HTML references it but the file was not sent.", "The website needs a domain name to work.", "Rina forgot to upload it to a web server."],
+        answer: 1
+    },
+    {
+        id: 5, type: 'mcq',
+        question: "Given the URL: <code>https://www.school.edu.np/library/books?grade=11</code>, which part represents the <b>query parameter</b>?",
+        options: ["https", "www.school.edu.np", "/library/books", "grade=11"],
+        answer: 3
+    },
+    {
+        id: 6, type: 'mcq',
+        question: "When you type <b>google.com</b> in a browser and press Enter, what is the <b>very first</b> thing that happens before any content loads?",
+        options: ["The browser sends an HTTP request directly to Google's server.", "A DNS lookup translates the domain name into an IP address.", "The browser downloads the HTML file from the cache.", "The search engine indexes the page."],
+        answer: 1
+    },
+    {
+        id: 7, type: 'drag',
+        question: "Match each CMS component to its correct role by arranging them in order: CMA, CDA, Database, Web Server",
+        items: ["CMA — GUI for creating and editing content", "CDA — Manages and delivers content after editing", "Database — Stores all content and metadata permanently", "Web Server — Hosts files and responds to browser requests"],
+        correctOrder: [0, 1, 2, 3]
+    },
+    {
+        id: 8, type: 'code',
+        question: "Write an <b>image tag</b> that loads <b>'logo.png'</b>, has a width of <b>200</b>, and includes the alt text <b>'School Logo'</b>.",
+        validate: (code) => {
+            const low = code.toLowerCase();
+            return low.includes('<img') && low.includes('src="logo.png"') && low.includes('width="200"') && low.includes('alt="school logo"');
+        },
+        hint: '<img src="logo.png" width="200" alt="School Logo">'
+    },
+    {
+        id: 9, type: 'mcq',
+        question: "A school's WordPress website is taking 15 seconds to load. The developer suspects the CMS is the cause. Which is the <b>most plausible</b> explanation?",
+        options: ["WordPress cannot handle more than 10 visitors at a time.", "Too many plugins and themes are adding heavy scripts and database queries.", "WordPress sites should always be built with HTML only.", "The domain name is too long for the server to process."],
+        answer: 1
+    },
+    {
+        id: 10, type: 'spot',
+        question: "Find the error in this HTML code:",
+        codeSnippet: '<html>\n  <head>\n    <title>My Page</title>\n  </head>\n  <body>\n    <h1>Welcome</h1>\n    <p>This is my page.\n  </body>\n</html>',
+        options: ["Missing <!DOCTYPE html> declaration", "The <title> tag is inside <head> instead of <body>", "The <p> tag is missing its closing </p> tag", "The <h1> tag should be <h2>"],
+        answer: 2
+    },
+    {
+        id: 11, type: 'mcq',
+        question: "A client wants to build a school news website where teachers can post articles themselves without knowing code. They also want a comments section and a photo gallery. Which approach is <b>most suitable</b>?",
+        options: ["Build a static HTML site — it is faster and simpler.", "Use a CMS like WordPress — it provides a content editor and supports plugins for galleries and comments.", "Use only CSS — it can handle all dynamic features.", "Use a text file on a USB drive — it is the most portable option."],
+        answer: 1
+    },
+    {
+        id: 12, type: 'mcq',
+        question: "What is the <b>key difference</b> between a <b>domain name</b> and a <b>URL</b>?",
+        options: ["They are exactly the same thing.", "A domain name is part of a URL — the URL also includes the protocol and path.", "A URL is a type of domain name used only for .com websites.", "Domain names are free, but URLs always cost money."],
+        answer: 1
+    }
+];
+
+let currentTaskIndex = 0;
+let studentData = { name: '', roll: '', room: '', startTime: null };
+const sessionState = tasks.map(() => ({ verified: false }));
+
+function initStepper() {
+    const stepper = document.getElementById('stepper');
+    stepper.innerHTML = tasks.map((_, i) => `<div class="step-dot" id="dot-${i}"></div>`).join('');
+}
+
+function updateStepper() {
+    tasks.forEach((_, i) => {
+        const dot = document.getElementById(`dot-${i}`);
+        if (!dot) return;
+        dot.className = 'step-dot';
+        if (i === currentTaskIndex) dot.classList.add('active');
+        if (sessionState[i].verified) dot.classList.add('verified');
+    });
+}
+
+function renderTask() {
+    const task = tasks[currentTaskIndex];
+    const container = document.getElementById('taskWorkspace');
+    container.innerHTML = '';
+
+    const card = document.createElement('div');
+    card.className = 'task-card task-card-active';
+
+    let bodyHTML = '';
+
+    if (task.type === 'mcq') {
+        const shuffledOptions = task.options.map((opt, i) => ({ text: opt, originalIdx: i }));
+        for (let i = shuffledOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+        }
+        bodyHTML = `
+            <div class="task-question">${task.question}</div>
+            <div class="option-grid">
+                ${shuffledOptions.map((opt) => `
+                    <div class="interactive-option" data-idx="${opt.originalIdx}">
+                        <span>${opt.text}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="feedback-msg error" id="taskError"></div>
+            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
+        `;
+    } else if (task.type === 'spot') {
+        const shuffledOptions = task.options.map((opt, i) => ({ text: opt, originalIdx: i }));
+        for (let i = shuffledOptions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+        }
+        bodyHTML = `
+            <div class="task-question">${task.question}</div>
+            <pre class="code-snippet">${task.codeSnippet}</pre>
+            <div class="option-grid">
+                ${shuffledOptions.map((opt) => `
+                    <div class="interactive-option" data-idx="${opt.originalIdx}">
+                        <span>${opt.text}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <div class="feedback-msg error" id="taskError"></div>
+            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
+        `;
+    } else if (task.type === 'code') {
+        bodyHTML = `
+            <div class="task-question">${task.question}</div>
+            <div class="code-input-area">
+                <textarea id="codeInput" placeholder="Type your code here..."></textarea>
+            </div>
+            <div class="hint-text" id="hintText" style="display:none;"></div>
+            <div class="feedback-msg error" id="taskError"></div>
+            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
+        `;
+    } else if (task.type === 'drag') {
+        const currentOrder = task.items.map((text, i) => ({ text, origIdx: i }));
+        for (let i = currentOrder.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [currentOrder[i], currentOrder[j]] = [currentOrder[j], currentOrder[i]];
+        }
+        bodyHTML = `
+            <div class="task-question">${task.question}</div>
+            <ul class="drag-list" id="dragList">
+                ${currentOrder.map((item, i) => `
+                    <li class="drag-item" data-orig="${item.origIdx}">
+                        <span class="drag-label">${item.text}</span>
+                        <button class="drag-btn drag-up" data-pos="${i}" title="Move up">&#9650;</button>
+                        <button class="drag-btn drag-down" data-pos="${i}" title="Move down">&#9660;</button>
+                    </li>
+                `).join('')}
+            </ul>
+            <div class="feedback-msg error" id="taskError"></div>
+            <button class="btn btn-primary mt-4" id="checkBtn">Verify Order</button>
+        `;
+    }
+
+    card.innerHTML = `
+        <div class="task-header">
+            <span class="task-num">Task ${currentTaskIndex + 1} of ${tasks.length}</span>
+            <div class="verification-text unverified" id="verifyStatus">○ Unverified</div>
+        </div>
+        ${bodyHTML}
+    `;
+
+    container.appendChild(card);
+    updateStepper();
+
+    // MCQ / spot: click-to-select + verify
+    if (task.type === 'mcq' || task.type === 'spot') {
+        let selectedIdx = null;
+        const options = card.querySelectorAll('.interactive-option');
+        options.forEach(el => {
+            el.addEventListener('click', () => {
+                options.forEach(opt => opt.classList.remove('selected'));
+                el.classList.add('selected');
+                selectedIdx = parseInt(el.dataset.idx);
+            });
+        });
+        card.querySelector('#checkBtn').addEventListener('click', () => {
+            if (selectedIdx === null) {
+                document.getElementById('taskError').textContent = "❌ Please select an option.";
+                return;
+            }
+            if (selectedIdx === task.answer) {
+                handleSuccess();
+            } else {
+                document.getElementById('taskError').textContent = "❌ Incorrect. Review the concept and try again.";
+            }
+        });
+    }
+
+    // Code type
+    if (task.type === 'code') {
+        card.querySelector('#checkBtn').addEventListener('click', () => {
+            const val = document.getElementById('codeInput').value;
+            if (!val.trim()) {
+                document.getElementById('taskError').textContent = "❌ Please enter your code.";
+                return;
+            }
+            if (task.validate(val)) {
+                handleSuccess();
+            } else {
+                document.getElementById('taskError').textContent = "❌ Not quite — review the syntax and try again.";
+                const hint = document.getElementById('hintText');
+                hint.textContent = "💡 Hint: " + task.hint;
+                hint.style.display = 'block';
+            }
+        });
+    }
+
+    // Drag type
+    if (task.type === 'drag') {
+        const dragList = card.querySelector('#dragList');
+
+        function refreshDragButtons() {
+            const items = dragList.querySelectorAll('.drag-item');
+            items.forEach((item, i) => {
+                const upBtn = item.querySelector('.drag-up');
+                const downBtn = item.querySelector('.drag-down');
+                upBtn.dataset.pos = i;
+                downBtn.dataset.pos = i;
+                upBtn.disabled = (i === 0);
+                downBtn.disabled = (i === items.length - 1);
+            });
+        }
+
+        function moveItem(fromIdx, direction) {
+            const items = Array.from(dragList.querySelectorAll('.drag-item'));
+            const toIdx = fromIdx + direction;
+            if (toIdx < 0 || toIdx >= items.length) return;
+            if (direction === -1) {
+                dragList.insertBefore(items[fromIdx], items[toIdx]);
+            } else {
+                dragList.insertBefore(items[toIdx], items[fromIdx]);
+            }
+            refreshDragButtons();
+        }
+
+        dragList.addEventListener('click', (e) => {
+            const btn = e.target.closest('.drag-btn');
+            if (!btn) return;
+            const idx = parseInt(btn.dataset.pos);
+            const dir = btn.classList.contains('drag-up') ? -1 : 1;
+            moveItem(idx, dir);
+        });
+
+        refreshDragButtons();
+
+        card.querySelector('#checkBtn').addEventListener('click', () => {
+            const items = Array.from(dragList.querySelectorAll('.drag-item'));
+            const currentOrder = items.map(el => parseInt(el.dataset.orig));
+            const isCorrect = currentOrder.length === task.correctOrder.length &&
+                currentOrder.every((val, i) => val === task.correctOrder[i]);
+            if (isCorrect) {
+                handleSuccess();
+            } else {
+                document.getElementById('taskError').textContent = "❌ Order is not correct. Think about the logical flow and try again.";
+            }
+        });
+    }
+}
+
+function handleSuccess() {
+    sessionState[currentTaskIndex].verified = true;
+    document.getElementById('verifyStatus').className = 'verification-text verified';
+    document.getElementById('verifyStatus').textContent = "✅ Verified";
+    updateProgress();
+    updateStepper();
+
+    setTimeout(() => {
+        if (currentTaskIndex < tasks.length - 1) {
+            currentTaskIndex++;
+            renderTask();
+        } else {
+            showFinalSubmission();
+        }
+    }, 800);
+}
+
+function updateProgress() {
+    const completed = sessionState.filter(s => s.verified).length;
+    document.getElementById('progressCount').textContent = completed;
+    document.getElementById('progressBar').style.width = `${(completed / tasks.length) * 100}%`;
+}
+
+document.getElementById('enterBtn').addEventListener('click', () => {
+    const name = document.getElementById('inName').value.trim();
+    const roll = document.getElementById('inRoll').value.trim();
+    const room = document.getElementById('inRoom').value.trim();
+
+    if (name && roll && room) {
+        studentData = { name, roll, room, startTime: new Date() };
+        document.getElementById('statName').textContent = name;
+        document.getElementById('statRoll').textContent = `Roll: ${roll}`;
+        document.getElementById('statRoom').textContent = `Room: ${room}`;
+        document.getElementById('entryOverlay').classList.add('hidden');
+        document.getElementById('workspace').classList.remove('hidden');
+        initStepper();
+        renderTask();
+    } else {
+        document.getElementById('entryError').style.display = 'block';
+    }
+});
+
+function formatTime(date) {
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+}
+
+function showFinalSubmission() {
+    const endTime = new Date();
+    const elapsedMs = endTime - studentData.startTime;
+    const totalSec = Math.round(elapsedMs / 1000);
+    const elapsedStr = totalSec < 60 ? `${totalSec}s` : `${Math.floor(totalSec / 60)}m ${totalSec % 60}s`;
+
+    const summary = `
+        <strong>Topic:</strong> Web Foundations & CMS<br>
+        <strong>Student:</strong> ${studentData.name}<br>
+        <strong>Roll:</strong> ${studentData.roll} | <strong>Room:</strong> ${studentData.room}<br>
+        <strong>Time Taken:</strong> ${elapsedStr}<br>
+        <strong>Status:</strong> 12/12 Verified
+    `;
+
+    document.getElementById('summaryContent').innerHTML = summary;
+    document.getElementById('exitOverlay').classList.remove('hidden');
+
+    const formData = new FormData();
+    formData.append(SUBMISSION_CONFIG.fields.topic, "Web Foundations & CMS Assessment");
+    formData.append(SUBMISSION_CONFIG.fields.name, studentData.name);
+    formData.append(SUBMISSION_CONFIG.fields.roll, studentData.roll);
+    formData.append(SUBMISSION_CONFIG.fields.room, `XI - ${studentData.room}`);
+    formData.append(SUBMISSION_CONFIG.fields.status, "Completed");
+    formData.append(SUBMISSION_CONFIG.fields.startTime, formatTime(studentData.startTime));
+    formData.append(SUBMISSION_CONFIG.fields.endTime, formatTime(endTime));
+    formData.append(SUBMISSION_CONFIG.fields.elapsedTime, elapsedStr);
+
+    fetch(SUBMISSION_CONFIG.url, { method: 'POST', mode: 'no-cors', body: formData });
+}
+</script>
+
+</body>
+</html>

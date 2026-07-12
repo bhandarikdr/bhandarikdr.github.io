@@ -70,7 +70,7 @@ The project uses separate CSS files for different sections:
 This project follows a uniform file naming convention to maintain consistency:
 
 - **Resource files** (HTML, CSS, images): All lowercase with underscores
-  - Examples: `computer_introduction_activity.html`, `application_packages_lab_guide.html`, `mystyle.css`
+   - Examples: `computer_introduction_activity.html`, `application_packages_lab_activity.html`, `mystyle.css`
   - Directories: `activities/`, `assessments/`, `assignments/`, `css/`, `images/`, `main_pages/`
 
 - **Documentation files**: All uppercase with underscores

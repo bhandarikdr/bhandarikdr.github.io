@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity: Web Foundations & CMS</title>
+    <link rel="stylesheet" href="../css/activity.css">
+</head>
+<body>
+
+<div class="container">
+    <header class="lab-header">
+        <h1>Activity: Web Foundations & CMS</h1>
+        <p class="subtitle">Understanding how the World Wide Web works and is managed</p>
+        <span class="grade-badge">Grade XI • Computer Science</span>
+        <span class="grade-badge" style="background: var(--warning-color); color: #fff; margin-left: 0.5rem; padding: 0.2rem 0.6rem; border-radius: 4px;">⏱️ ~25 min</span>
+    </header>
+
+    <div class="section-title">
+        <span class="badge">Part 1</span> Front-End vs. Back-End Development
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">Concept: Client-Side vs. Server-Side</div>
+        <p>Web development is divided into two broad areas: **Front-end** (Client-side) and **Back-end** (Server-side).</p>
+
+        <div class="question-block">
+            <strong>Exercise:</strong> Group the following technologies correctly:
+            <p><i>HTML, PHP, CSS, Ruby on Rails, JavaScript, Python, Node.js</i></p>
+            <details>
+                <summary>Reveal Grouping</summary>
+                <div class="answer-key">
+                    <strong>Front-End (Client-Side):</strong> HTML, CSS, JavaScript (The trinity of web content, design, and interactivity).<br>
+                    <strong>Back-End (Server-Side):</strong> PHP, Python, Ruby on Rails, Node.js (Handles logic, database communication, and dynamic content generation).
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <span class="badge">Part 2</span> Browsers & Search Engines
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">The Search Engine Mechanism</div>
+        <p>A search engine uses three core components to provide you with relevant results.</p>
+
+        <div class="matching-pairs">
+            <div class="match-card"><strong>Crawler (Bot)</strong><br>Scans the web automatically for new URLs, keywords, and updates.</div>
+            <div class="match-card"><strong>Index</strong><br>A massive database where discovered links and data are stored for retrieval.</div>
+            <div class="match-card"><strong>Search Algorithm</strong><br>The mechanism that matches keywords to the index to find the most suitable pages.</div>
+        </div>
+
+        <div class="question-block">
+            <strong>History Check:</strong> Who invented the first web browser in 1990?
+            <details>
+                <summary>Reveal Inventor</summary>
+                <div class="answer-key">Correct Answer: <strong>Sir Tim Berners-Lee</strong>. (The first graphical browser, *Mosaic*, followed in 1993).</div>
+            </details>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <span class="badge">Part 3</span> Protocols, URLs, and URIs
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">Deconstructing the URL</div>
+        <p>A URL (Uniform Resource Locator) is a specific type of URI (Uniform Resource Identifier). All URLs are URIs.</p>
+
+        <div class="code-block" style="background: var(--bg-light); border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; font-family: monospace; text-align: center; margin: 1rem 0;">
+            <span class="highlight">https</span>://<span class="highlight">www.google.com</span>/<span class="highlight">search</span>
+        </div>
+
+        <ul class="step-list">
+            <li><strong>Protocol:</strong> <code>https</code> (How data is transferred).</li>
+            <li><strong>Domain Name:</strong> <code>www.google.com</code> (The human-readable address).</li>
+            <li><strong>Path:</strong> <code>/search</code> (The specific location on the server).</li>
+        </ul>
+    </div>
+
+    <div class="section-title">
+        <span class="badge">Part 4</span> Content Management Systems (CMS)
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">CMA vs. CDA</div>
+        <p>A CMS (like WordPress, Joomla, or Drupal) is built from two major internal components.</p>
+
+        <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+            <div class="card" style="padding: 1rem; border-left: 5px solid var(--success-color);">
+                <strong>CMA</strong><br>
+                <small>Content Management Application: The GUI that allows you to create/modify content without coding.</small>
+            </div>
+            <div class="card" style="padding: 1rem; border-left: 5px solid var(--secondary-color);">
+                <strong>CDA</strong><br>
+                <small>Content Delivery Application: The back-end service that manages and delivers content after it's framed in the CMA.</small>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <strong>Critical Thinking:</strong> What is a common disadvantage of using a CMS?
+            <details>
+                <summary>Show Disadvantages</summary>
+                <div class="answer-key">
+                    <ul>
+                        <li>Requires regular software/plugin updates.</li>
+                        <li>Plugins can make the site heavy and slow.</li>
+                        <li>Hosting is often more expensive than static sites.</li>
+                    </ul>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <span class="badge">Part 5</span> Web Hosting & Domain Names
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">The Analogy</div>
+        <p>Think of building a website like building a house:</p>
+        <ul class="step-list">
+            <li><strong>Domain Name:</strong> The **Address** of the house (e.g., *einsteinacademy.edu.np*).</li>
+            <li><strong>Web Hosting:</strong> The **Actual House** where all your files live.</li>
+        </ul>
+        <p><strong>Note:</strong> You need both to make a site accessible. You can buy them together or separately (by pointing DNS settings).</p>
+    </div>
+
+    <div class="footer">
+        <div class="instruction-box setup">
+            <p><strong>Mastery Checklist:</strong></p>
+            <ul class="step-list mt-2">
+                <li>I can distinguish between Front-end (CSS/JS) and Back-end (PHP/Python).</li>
+                <li>I know that a Crawler builds the search engine index.</li>
+                <li>I can identify the Protocol, Domain, and Path in a URL.</li>
+                <li>I understand that CMA is the editor interface in a CMS.</li>
+                <li>I can explain the difference between a Domain and Hosting.</li>
+            </ul>
+        </div>
+
+        <p class="mt-4"><strong>Next Step:</strong></p>
+        <div style="text-align: center;">
+            <a href="../assessments/web_foundations_cms_assessment.html" class="formula" style="padding: 0.8rem 1.5rem; text-decoration: none; font-size: 1.1rem;">🚀 Take the Foundations & CMS Test</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

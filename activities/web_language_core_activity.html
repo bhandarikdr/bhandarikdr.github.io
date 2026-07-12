@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity: Web Language Core</title>
+    <link rel="stylesheet" href="../css/activity.css">
+    <style>
+        :root {
+            --box-margin-bg: #fee2e2;
+            --box-margin-border: #ef4444;
+            --box-border-bg: #e0f2fe;
+            --box-border-border: #0284c7;
+            --box-padding-bg: #dcfce7;
+            --box-padding-border: #16a34a;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="lab-header">
+        <h1>Activity: Web Language Core</h1>
+        <p class="subtitle">The theoretical rules and structure of HTML5 and CSS3</p>
+        <span class="grade-badge">Grade XI • Computer Science</span>
+        <span class="grade-badge" style="background: var(--warning-color); color: #fff; margin-left: 0.5rem; padding: 0.2rem 0.6rem; border-radius: 4px;">⏱️ ~25 min</span>
+    </header>
+
+    <div class="section-title">
+        <span class="badge">Part 1</span> Elements vs. Attributes
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">Understanding the Anatomy</div>
+        <p>In HTML, we use tags to create elements. Elements can have attributes that provide additional information.</p>
+
+        <div class="code-block" style="background: var(--bg-light); border: 2px solid var(--border-color); padding: 1rem; border-radius: 8px; font-family: monospace; text-align: center; margin: 1rem 0;">
+            &lt;img <span class="highlight">src</span>="mountain.png" <span class="highlight">width</span>="500"&gt;
+        </div>
+
+        <ul class="step-list">
+            <li><strong>Element:</strong> The entire block from start tag to end tag.</li>
+            <li><strong>Attributes:</strong> <code>src</code> and <code>width</code> (Always specified in the start tag).</li>
+            <li><strong>Empty Elements:</strong> Tags like <code>&lt;br&gt;</code> and <code>&lt;hr&gt;</code> that have no content or end tag.</li>
+        </ul>
+    </div>
+
+    <div class="section-title">
+        <span class="badge">Part 2</span> The HTML5 Skeleton
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">Head vs. Body</div>
+        <p>A standard HTML5 document is strictly organized into metadata and visible content.</p>
+
+        <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="card" style="border-top: 5px solid var(--primary-color);">
+                <strong>&lt;head&gt;</strong><br>
+                <small>Contains meta-information, titles, links to CSS, and scripts. Not visible to the user.</small>
+            </div>
+            <div class="card" style="border-top: 5px solid var(--secondary-color);">
+                <strong>&lt;body&gt;</strong><br>
+                <small>The container for all visible content (headings, paragraphs, images, tables).</small>
+            </div>
+        </div>
+
+        <div class="question-block">
+            <strong>True or False:</strong> The <code>&lt;title&gt;</code> tag defines the text shown on the browser tab, not the page content.
+            <details>
+                <summary>Reveal Answer</summary>
+                <div class="answer-key"><strong>True.</strong> Use <code>&lt;h1&gt;</code> for the main heading on the actual page content.</div>
+            </details>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <span class="badge">Part 3</span> The Cascading Priority
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">Which style wins?</div>
+        <p>CSS stands for **Cascading** Style Sheets because rules "cascade" down with a specific priority order.</p>
+
+        <ol class="step-list">
+            <li><strong>Inline Style:</strong> <code>&lt;h1 style="color: blue"&gt;</code> (Highest Priority)</li>
+            <li><strong>Internal Style:</strong> <code>&lt;style&gt;</code> block in the head.</li>
+            <li><strong>External Style:</strong> Linked <code>.css</code> file.</li>
+            <li><strong>Browser Default:</strong> Standard styling from Chrome/Firefox. (Lowest Priority)</li>
+        </ol>
+
+        <div class="question-block">
+            <strong>Exercise:</strong> If a paragraph is set to <code>green</code> in an external file, but <code>red</code> in an internal block, and <code>blue</code> inline, what color will the user see?
+            <details>
+                <summary>Check the Winner</summary>
+                <div class="answer-key">Winner: <strong>Blue</strong>. (Inline always overrides internal and external).</div>
+            </details>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <span class="badge">Part 4</span> The CSS Box Model
+    </div>
+
+    <div class="instruction-box">
+        <div class="quiz-question">Visualizing the Layers</div>
+        <p>Every HTML element is considered a rectangular box. Understanding the layers is key to layout design.</p>
+
+        <div style="background: var(--box-margin-bg); border: 2px dashed var(--box-margin-border); padding: 2rem; margin: 1rem 0; text-align: center;">
+            <div style="background: var(--box-border-bg); border: 2px solid var(--box-border-border); padding: 1.5rem;">
+                <div style="background: var(--box-padding-bg); border: 2px solid var(--box-padding-border); padding: 1rem;">
+                    <strong>Content</strong>
+                </div>
+                <small>Padding (Green)</small>
+            </div>
+            <small>Border (Blue) | Margin (Red Area)</small>
+        </div>
+
+        <ul class="step-list">
+            <li><strong>Content:</strong> The text or image itself.</li>
+            <li><strong>Padding:</strong> Space *inside* the border (clears area around content).</li>
+            <li><strong>Border:</strong> A line that goes around the padding and content.</li>
+            <li><strong>Margin:</strong> Space *outside* the border (clears area around the element).</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        <div class="instruction-box setup">
+            <p><strong>Language Master Checklist:</strong></p>
+            <ul class="step-list mt-2">
+                <li>I know that attributes are always found in the start tag.</li>
+                <li>I can identify empty elements (br, hr, img, source).</li>
+                <li>I understand the difference between head (meta) and body (visible).</li>
+                <li>I have memorized the CSS priority: Inline > Internal > External.</li>
+                <li>I can name the Box Model layers from innermost to outermost.</li>
+            </ul>
+        </div>
+
+        <p class="mt-4"><strong>Next Step:</strong></p>
+        <div style="text-align: center;">
+            <a href="../assessments/web_language_core_assessment.html" class="formula" style="padding: 0.8rem 1.5rem; text-decoration: none; font-size: 1.1rem;">🚀 Take the Language Core Test</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

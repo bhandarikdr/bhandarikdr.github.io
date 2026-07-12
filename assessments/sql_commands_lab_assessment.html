@@ -3,673 +3,586 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessment: SQL Commands</title>
+    <title>Lab Assessment: SQL Commands</title>
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
-        /* Specific Layout for SQL Lab Workspace */
-        body {
+        :root {
+            --primary: #1e293b;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --console-bg: #0f172a;
+        }
+
+        /* Stepper Styles */
+        .stepper-container {
             display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        header {
-            background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 100%);
-            color: white;
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-        }
-
-        header h1 {
-            font-size: 1.4rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center; gap: 10px;
-        }
-
-        .badge {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .student-info-display {
-            font-size: 0.9rem;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 6px 14px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-        }
-
-        .main-container {
-            display: flex;
-            flex: 1;
-            overflow: hidden;
-        }
-
-        /* Sidebar Lab Progress Tracking */
-        .sidebar {
-            width: 320px;
-            background-color: var(--panel-bg);
-            border-right: 1px solid var(--border-color);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        .sidebar-header {
-            padding: 15px 20px;
-            background-color: #f1f5f9;
-            font-weight: 600;
-            font-size: 0.95rem;
-            border-bottom: 1px solid var(--border-color);
-            color: #475569;
-        }
-
-        .task-list {
-            list-style: none;
-        }
-
-        .task-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid #f1f5f9;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .task-item:hover {
-            background-color: #f8fafc;
-        }
-
-        .task-item.active {
-            background-color: #eef2ff;
-            border-left: 4px solid var(--accent-color);
-        }
-
-        .status-dot {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid #cbd5e1;
-            display: inline-flex;
-            align-items: center;
             justify-content: center;
-            margin-top: 2px;
-            flex-shrink: 0;
-            font-size: 10px;
-            font-weight: bold;
-            color: transparent;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .step-dot.active {
+            background: var(--secondary);
+            transform: scale(1.2);
+        }
+        .step-dot.verified {
+            background: var(--success);
         }
 
-        .task-item.completed .status-dot {
-            background-color: var(--success);
-            border-color: var(--success);
-            color: white;
-        }
-
-        .task-item.completed .status-dot::after {
-            content: "✓";
-        }
-
-        .task-details h4 {
-            font-size: 0.9rem;
-            margin-bottom: 4px;
-            color: #334155;
-        }
-
-        .task-details p {
-            font-size: 0.75rem;
-            color: #64748b;
-            line-height: 1.3;
-        }
-
-        /* Playground Workspace */
-        .workspace {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: #f1f5f9;
-            padding: 20px;
-            gap: 20px;
-            overflow-y: auto;
-        }
-
-        .panel-row {
-            display: flex;
-            gap: 20px;
-            flex: 1;
-            min-height: 320px;
-        }
-
-        .panel {
-            background-color: var(--panel-bg);
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .panel-flex-1 { flex: 1; }
-        .panel-flex-2 { flex: 1.4; }
-
-        .panel-header {
-            padding: 12px 20px;
-            background-color: #ffffff;
-            border-bottom: 1px solid var(--border-color);
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Code Editor Panel */
-        .editor-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        /* Task Card Transitions */
+        #taskWorkspace {
             position: relative;
+            min-height: 500px;
+        }
+        .task-card-active {
+            animation: slideIn 0.4s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); background-color: #f0fdf4; }
+            100% { transform: scale(1); }
+        }
+        .success-pulse {
+            animation: successPulse 0.4s ease-out;
         }
 
-        textarea {
-            width: 100%;
-            flex: 1;
-            padding: 15px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.95rem;
-            border: none;
-            resize: none;
-            outline: none;
-            background-color: #fafafa;
-            color: #1e293b;
-            line-height: 1.5;
-        }
-
-        .action-bar {
-            padding: 10px 20px;
-            background-color: #f8fafc;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .quick-tags {
-            display: flex;
-            gap: 6px;
-        }
-
-        .tag-helper {
-            font-size: 0.75rem;
-            background-color: #f1f5f9;
-            color: #475569;
-            padding: 3px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            border: 1px solid #cbd5e1;
-        }
-
-        .tag-helper:hover {
-            background-color: #e2e8f0;
-        }
-
-        /* Terminal Console */
-        .console {
-            background-color: #0f172a;
-            color: #38bdf8;
-            font-family: 'Consolas', 'Courier New', monospace;
-            padding: 15px;
-            font-size: 0.85rem;
-            overflow-y: auto;
-            flex: 1;
-            line-height: 1.6;
-        }
-
-        .console-line { margin-bottom: 4px; }
-        .console-success { color: var(--success); }
-        .console-error { color: var(--error); }
-        .console-info { color: #e2e8f0; }
-
-        /* DB Visualizer Canvas */
-        .db-canvas {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
+        /* SQL Lab Specifics */
+        .sql-editor-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
-            background-size: 16px 16px;
+            gap: 1rem;
+            margin: 1rem 0;
         }
-
-        .db-status-bar {
-            display: flex;
-            gap: 15px;
-            font-size: 0.8rem;
-            font-weight: 600;
+        .sql-textarea {
+            width: 100%;
+            height: 120px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            padding: 1rem;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            resize: none;
+            font-size: 0.95rem;
         }
-
-        .status-indicator {
-            padding: 4px 10px;
-            border-radius: 4px;
-            background-color: #e2e8f0;
-            color: #475569;
+        .terminal-log {
+            background: var(--console-bg);
+            color: #38bdf8;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            min-height: 40px;
+            margin-bottom: 1rem;
         }
-
-        .status-indicator.active-status {
-            background-color: #dcfce7;
-            color: #166534;
+        .db-visualizer {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            overflow-x: auto;
         }
-
         .grid-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
-            background-color: white;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            font-size: 0.8rem;
         }
-
-        .grid-table th {
-            background-color: #475569;
-            color: white;
+        .grid-table th, .grid-table td {
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem;
             text-align: left;
-            padding: 10px 12px;
+        }
+        .grid-table th { background: #f1f5f9; }
+
+        .verification-text {
             font-weight: 600;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .verification-text.unverified { color: #64748b; }
+        .verification-text.verified { color: var(--success); }
+
+        .feedback-msg {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+        }
+        .feedback-msg.error { color: var(--error); }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .interactive-option {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .interactive-option.selected {
+            border-color: var(--secondary);
+            background: #eff6ff;
         }
 
-        .grid-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #f1f5f9;
-            color: #334155;
+        .matching-row {
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;
         }
-
-        .grid-table tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
-
-        .empty-state {
-            text-align: center;
-            color: #94a3b8;
-            padding: 30px;
-            font-style: italic;
-            border: 2px dashed #cbd5e1;
-            border-radius: 8px;
-            background-color: rgba(255,255,255,0.6);
-        }
+        .matching-row span { min-width: 120px; font-weight: 600; font-size: 0.9rem; }
+        .matching-row select { flex: 1; padding: 0.5rem; border-radius: 8px; border: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
 
-    <div class="celebration-overlay" id="init-modal">
-        <div class="celebration-card">
-            <h2>📋 Assessment Entry</h2>
-            <p style="color: #334155; margin-bottom: 1.5rem;">SQL Commands · Grade XII</p>
-            <input type="text" id="student-name" placeholder="Full Name" required>
-            <input type="text" id="student-roll" placeholder="Roll Number" required>
-            <input type="text" id="student-room" placeholder="Room Number" required>
-            <div id="entryError" class="error-msg" style="display:none;">All fields required.</div>
-            <button class="btn-primary" id="enterBtn">Start Assessment</button>
-            <p style="font-size: 0.75rem; color: #64748b; margin-top: 1rem;">10 interactive tasks · timing tracked</p>
-        </div>
-    </div>
+<div class="celebration-overlay" id="entryOverlay">
+    <div class="celebration-card">
+        <h2>Lab Assessment: SQL Commands</h2>
+        <p>Real-time SQL simulator: Practice DDL and DML commands.</p>
 
-    <header>
-        <h1>💻 Assessment: SQL Commands <span class="badge">Grade XII</span></h1>
-        <div id="student-meta-box" class="student-info-display" style="display:none;">Loading metadata...</div>
-        <div id="overall-progress" style="font-weight: 500;">Progress: 0/10 Completed</div>
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="inName" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label>Roll Number</label>
+            <input type="text" id="inRoll" placeholder="Enter roll number">
+        </div>
+        <div class="form-group">
+            <label>Room Number</label>
+            <input type="text" id="inRoom" placeholder="Enter room number">
+        </div>
+
+        <div class="error-msg" id="entryError">Please fill all fields correctly.</div>
+        <button class="btn btn-primary" id="enterBtn">Start Lab Assessment</button>
+    </div>
+</div>
+
+<div id="workspace" class="hidden">
+    <header class="assessment-header">
+        <h1>Lab Assessment: SQL Commands</h1>
+        <p class="subtitle">Virtual Database Environment</p>
+        <span class="grade-badge">Grade XII • Computer Science</span>
     </header>
 
-    <div class="main-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">Lab Tasks</div>
-            <ul class="task-list" id="task-list-container">
-                </ul>
-        </aside>
-
-        <main class="workspace">
-            <div class="panel-row">
-                <div class="panel panel-flex-1">
-                    <div class="panel-header">
-                        <span>SQL Query Input Editor</span>
-                        <div class="quick-tags">
-                            <span class="tag-helper" onclick="insertHelper('SELECT * FROM Books;')">SELECT</span>
-                            <span class="tag-helper" onclick="insertHelper('INSERT INTO Books ')">INSERT</span>
-                            <span class="tag-helper" onclick="insertHelper('UPDATE Books SET ')">UPDATE</span>
-                        </div>
-                    </div>
-                    <div class="editor-container">
-                        <textarea id="sql-input" placeholder="-- Type your SQL statement here...&#10;e.g., CREATE DATABASE LibraryDB;" autocomplete="off" spellcheck="false"></textarea>
-                    </div>
-                    <div class="action-bar">
-                        <button class="btn btn-secondary" onclick="resetCurrentStep()">Reset Step</button>
-                        <button class="btn btn-primary" onclick="executeSQL()">Run Command ⚡</button>
-                    </div>
-                </div>
-
-                <div class="panel panel-flex-2">
-                    <div class="panel-header">Live Virtual Database State Visualizer</div>
-                    <div class="db-canvas" id="visualization-canvas">
-                        <div class="db-status-bar">
-                            <div class="status-indicator" id="status-db">Database: None Selected</div>
-                            <div class="status-indicator" id="status-table">Table: Missing Structure</div>
-                        </div>
-                        <div id="canvas-content" style="flex:1; display:flex; flex-direction:column; justify-content:center;">
-                            </div>
-                    </div>
-                </div>
+    <div class="canvas-container">
+        <div class="status-bar">
+            <div class="student-info">
+                <span id="statName">Name</span>
+                <span id="statRoll">Roll</span>
+                <span id="statRoom">Room</span>
             </div>
-
-            <div class="panel" style="height: 180px; min-height: 180px;">
-                <div class="panel-header">System Terminal Message Output Console</div>
-                <div class="console" id="console-log">
-                    <div class="console-line console-info">Simulator ready. Waiting for student login...</div>
-                </div>
+            <div class="progress-indicator">
+                Tasks: <span id="progressCount">0</span>/10
             </div>
-        </main>
-    </div>
+        </div>
 
-    <div class="celebration-overlay" id="finish-modal" style="display: none;">
-        <div class="celebration-card">
-            <h2 style="color: var(--success);">🎉 Assessment Complete</h2>
-            <p style="color: var(--text-muted); margin-bottom: 1.5rem;" id="form-submit-status">Preparing summary...</p>
-            <div style="background: #f8fafc; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; text-align: left; border:1px solid var(--border);">
-                <p><strong>Student:</strong> <span id="report-name" style="color:var(--primary-light);"></span></p>
-                <p><strong>Roll:</strong> <span id="report-roll" style="color:var(--primary-light);"></span>  <strong>Room:</strong> <span id="report-room" style="color:var(--primary-light);"></span></p>
-                <p><strong>Status:</strong> <span id="report-status" style="color:var(--success); font-weight:bold;">Completed</span></p>
-            </div>
-            <p style="font-size:0.85rem; color:#64748b; margin-bottom: 10px;" id="timing-summary"></p>
-            <p style="font-size:0.85rem; color:#64748b; margin-top: 20px;">You may close this page.</p>
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="stepper-container" id="stepper"></div>
+
+        <div id="taskWorkspace">
+            <!-- Active task card will be rendered here -->
         </div>
     </div>
+</div>
 
-    <script>
-        const SUBMISSION_CONFIG = {
-            url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
-            fields: {
-                topic: "entry.1920009954",
-                name: "entry.2015805623",
-                roll: "entry.419024899",
-                room: "entry.2086415032",
-                status: "entry.1234471729",
-                startTime: "entry.597147393",
-                endTime: "entry.1045529602",
-                elapsedTime: "entry.2019742758"
-            }
-        };
+<div class="celebration-overlay hidden" id="exitOverlay">
+    <div class="celebration-card">
+        <h2>🎉 SQL Lab Complete</h2>
+        <p>Virtual schema optimized and verified.</p>
+        <div id="summaryContent" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.9rem;"></div>
+        <p style="font-size: 0.8rem; color: #64748b;">You may now close this page.</p>
+    </div>
+</div>
 
-        const tasks = [
-            { id: 1, title: "1. Create Database", desc: "Create a database named LibraryDB.", pattern: /CREATE\s+DATABASE\s+LibraryDB/i, hint: "CREATE DATABASE LibraryDB;" },
-            { id: 2, title: "2. Select Database", desc: "Switch to the LibraryDB database.", pattern: /USE\s+LibraryDB/i, hint: "USE LibraryDB;" },
-            { id: 3, title: "3. Create Table", desc: "Create a Books table with BookID, Title, Author, PublishedYear.", pattern: /CREATE\s+TABLE\s+Books/i, hint: "CREATE TABLE Books ( BookID int, Title varchar(255), Author varchar(255), PublishedYear int );" },
-            { id: 4, title: "4. Insert Data", desc: "Insert a record: (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925).", pattern: /INSERT\s+INTO\s+Books/i, hint: "INSERT INTO Books VALUES (1, 'The Great Gatsby', 'F. Scott Fitzgerald', 1925);" },
-            { id: 5, title: "5. Read Data", desc: "Query all rows from the Books table.", pattern: /SELECT\s+.*\s+FROM\s+Books/i, hint: "SELECT * FROM Books;" },
-            { id: 6, title: "6. Update Record", desc: "Update PublishedYear to 1926 for BookID 1.", pattern: /UPDATE\s+Books\s+SET/i, hint: "UPDATE Books SET PublishedYear = 1926 WHERE BookID = 1;" },
-            { id: 7, title: "7. Delete Row", desc: "Delete the row where BookID = 1.", pattern: /DELETE\s+FROM\s+Books/i, hint: "DELETE FROM Books WHERE BookID = 1;" },
-            { id: 8, title: "8. Alter Table", desc: "Add a Genre column to Books.", pattern: /ALTER\s+TABLE\s+Books\s+ADD/i, hint: "ALTER TABLE Books ADD Genre varchar(100);" },
-            { id: 9, title: "9. Create Index", desc: "Create an index on the Title column named idx_title.", pattern: /CREATE\s+INDEX\s+idx_title/i, hint: "CREATE INDEX idx_title ON Books(Title);" },
-            { id: 10, title: "10. Drop Database", desc: "Drop the LibraryDB database.", pattern: /DROP\s+DATABASE\s+LibraryDB/i, hint: "DROP DATABASE LibraryDB;" }
-        ];
+<script>
+const SUBMISSION_CONFIG = {
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+    fields: {
+        topic: "entry.1920009954",
+        name: "entry.2015805623",
+        roll: "entry.419024899",
+        room: "entry.2086415032",
+        status: "entry.1234471729",
+        startTime: "entry.597147393",
+        endTime: "entry.1045529602",
+        elapsedTime: "entry.2019742758"
+    }
+};
 
-        let currentStepIndex = 0;
-        let completedSteps = new Set();
-        let studentProfile = { name: "", roll: "", room: "" };
-        let sessionTiming = { startTime: null, endTime: null };
-        let dbState = {
-            hasDatabase: false,
-            dbName: null,
-            hasTable: false,
-            hasIndex: false,
-            columns: [],
-            rows: []
-        };
+const tasks = [
+    {
+        id: 1, type: 'sql',
+        question: "Create a new database named <b>LibraryDB</b>.",
+        pattern: /CREATE\s+DATABASE\s+LibraryDB/i,
+        initialLog: "System ready. Enter DDL command...",
+        hint: "CREATE DATABASE LibraryDB;"
+    },
+    {
+        id: 2, type: 'sql',
+        question: "Switch to the <b>LibraryDB</b> database context.",
+        pattern: /USE\s+LibraryDB/i,
+        hint: "USE LibraryDB;"
+    },
+    {
+        id: 3, type: 'sql',
+        question: "Create a table named <b>Books</b> with: <code>BookID (INT)</code>, <code>Title (VARCHAR)</code>, and <code>Price (INT)</code>.",
+        pattern: /CREATE\s+TABLE\s+Books/i,
+        hint: "CREATE TABLE Books (BookID INT, Title VARCHAR(255), Price INT);"
+    },
+    {
+        id: 4, type: 'matching',
+        question: "Match the SQL Data Types with their appropriate use cases.",
+        pairs: [
+            { term: "INT", desc: "Whole numbers (e.g., BookID, Age)" },
+            { term: "VARCHAR", desc: "Variable length strings (e.g., Names)" },
+            { term: "DATE", desc: "Calendar dates (YYYY-MM-DD)" },
+            { term: "DECIMAL", desc: "Precise money values (e.g., Salary)" }
+        ]
+    },
+    {
+        id: 5, type: 'sql',
+        question: "Insert a book: ID 1, Title 'Python Basics', Price 500.",
+        pattern: /INSERT\s+INTO\s+Books/i,
+        hint: "INSERT INTO Books VALUES (1, 'Python Basics', 500);"
+    },
+    {
+        id: 6, type: 'mcq',
+        question: "Which query correctly retrieves only the books with a price greater than 400?",
+        options: [
+            "SELECT * FROM Books WHERE Price > 400;",
+            "GET Books HAVING Price > 400;",
+            "SELECT Title FROM Books WHERE Price = 400;",
+            "FILTER Books BY Price > 400;"
+        ],
+        answer: 0
+    },
+    {
+        id: 7, type: 'sql',
+        question: "Update the Price to <b>550</b> for the book with BookID 1.",
+        pattern: /UPDATE\s+Books\s+SET/i,
+        hint: "UPDATE Books SET Price = 550 WHERE BookID = 1;"
+    },
+    {
+        id: 8, type: 'mcq',
+        question: "What is the result of running: <code>DELETE FROM Books;</code> (without a WHERE clause)?",
+        options: [
+            "Deletes only the first row",
+            "Deletes all rows from the table but keeps the structure",
+            "Deletes the entire table structure",
+            "Returns an error message"
+        ],
+        answer: 1
+    },
+    {
+        id: 9, type: 'sql',
+        question: "Add a new column <b>Author</b> (VARCHAR) to the Books table.",
+        pattern: /ALTER\s+TABLE\s+Books\s+ADD/i,
+        hint: "ALTER TABLE Books ADD Author VARCHAR(100);"
+    },
+    {
+        id: 10, type: 'mcq',
+        question: "Which constraint ensures that a column cannot have any duplicate values AND cannot be NULL?",
+        options: ["UNIQUE", "NOT NULL", "PRIMARY KEY", "FOREIGN KEY"],
+        answer: 2
+    }
+];
 
-        function formatClockTime(date) {
-            return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
-        }
+let currentTaskIndex = 0;
+let studentData = { name: '', roll: '', room: '', startTime: null };
+const sessionState = tasks.map(() => ({ verified: false }));
+let virtualDB = { db: null, table: null, rows: [] };
 
-        function formatElapsed(ms) {
-            const totalSeconds = Math.max(0, Math.round(ms / 1000));
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            return minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
-        }
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
-        document.getElementById('enterBtn').addEventListener('click', function() {
-            const name = document.getElementById('student-name').value.trim();
-            const roll = document.getElementById('student-roll').value.trim();
-            const room = document.getElementById('student-room').value.trim();
+function initStepper() {
+    const stepper = document.getElementById('stepper');
+    stepper.innerHTML = tasks.map((_, i) => `<div class="step-dot" id="dot-${i}"></div>`).join('');
+    updateStepper();
+}
 
-            if (!name || !roll || !room) {
-                document.getElementById('entryError').style.display = 'block';
-                return;
-            }
-            document.getElementById('entryError').style.display = 'none';
+function updateStepper() {
+    tasks.forEach((_, i) => {
+        const dot = document.getElementById(`dot-${i}`);
+        if (!dot) return;
+        dot.className = 'step-dot';
+        if (i === currentTaskIndex) dot.classList.add('active');
+        if (sessionState[i].verified) dot.classList.add('verified');
+    });
+}
 
-            studentProfile.name = name;
-            studentProfile.roll = roll;
-            studentProfile.room = room;
-            sessionTiming.startTime = new Date();
+function renderTask() {
+    const task = tasks[currentTaskIndex];
+    const container = document.getElementById('taskWorkspace');
+    container.innerHTML = '';
 
-            const metaBox = document.getElementById('student-meta-box');
-            metaBox.innerText = `Student: ${studentProfile.name} [Roll: ${studentProfile.roll} / Room: ${studentProfile.room}]`;
-            metaBox.style.display = 'block';
+    const card = document.createElement('div');
+    card.className = 'task-card task-card-active';
 
-            document.getElementById('init-modal').style.display = 'none';
-            logConsole(`Session started: ${studentProfile.name}`, 'success');
-            renderSidebar();
-            updateWorkspaceUI();
-        });
+    let interactionHtml = '';
 
-        function renderSidebar() {
-            const container = document.getElementById('task-list-container');
-            container.innerHTML = '';
-            tasks.forEach((task, index) => {
-                const li = document.createElement('li');
-                li.className = `task-item ${index === currentStepIndex ? 'active' : ''} ${completedSteps.has(index) ? 'completed' : ''}`;
-                li.onclick = () => selectStep(index);
-                li.innerHTML = `
-                    <div class="status-dot"></div>
-                    <div class="task-details">
-                        <h4>${task.title}</h4>
-                        <p>${task.desc}</p>
+    if (task.type === 'sql') {
+        interactionHtml = `
+            <div class="sql-editor-container">
+                <div class="terminal-log" id="sqlLog">${task.initialLog || "Database context: " + (virtualDB.db || "None")}</div>
+                <textarea class="sql-textarea" id="sqlIn" placeholder="-- Enter SQL command here..."></textarea>
+                <div class="db-visualizer" id="dbVis">
+                    ${renderDBVisualizer()}
+                </div>
+            </div>
+            <button class="btn btn-primary" id="checkBtn">Run Command ⚡</button>
+        `;
+    } else if (task.type === 'mcq') {
+        const shuffledOptions = task.options.map((opt, i) => ({ text: opt, originalIdx: i }));
+        shuffleArray(shuffledOptions);
+        interactionHtml = `
+            <div class="option-grid">
+                ${shuffledOptions.map((opt) => `
+                    <div class="interactive-option" data-idx="${opt.originalIdx}">
+                        <div class="radio-circle"></div>
+                        <span>${opt.text}</span>
                     </div>
-                `;
-                container.appendChild(li);
+                `).join('')}
+            </div>
+            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
+        `;
+    } else if (task.type === 'matching') {
+        const terms = task.pairs.map(p => p.term);
+        const descs = task.pairs.map(p => p.desc);
+        shuffleArray(descs);
+        interactionHtml = `
+            <div class="matching-container">
+                ${terms.map((term, i) => `
+                    <div class="matching-row">
+                        <span>${term}:</span>
+                        <select class="match-select" data-term="${term}">
+                            <option value="">Select description...</option>
+                            ${descs.map(d => `<option value="${d}">${d}</option>`).join('')}
+                        </select>
+                    </div>
+                `).join('')}
+                <button class="btn btn-primary" id="checkBtn">Verify Matching</button>
+            </div>
+        `;
+    }
+
+    card.innerHTML = `
+        <div class="task-header">
+            <span class="task-num">Lab Task ${currentTaskIndex + 1} of ${tasks.length}</span>
+            <div class="verification-text unverified" id="verifyStatus">
+                <span class="status-icon">○</span> Unverified
+            </div>
+        </div>
+        <div class="task-question">${task.question}</div>
+        ${interactionHtml}
+        <div class="feedback-msg error" id="taskError"></div>
+    `;
+
+    container.appendChild(card);
+    setupInteractions(card, task);
+}
+
+function renderDBVisualizer() {
+    if (!virtualDB.db) return `<p style="color:#94a3b8; font-style:italic; font-size:0.8rem;">No database selected.</p>`;
+    if (!virtualDB.table) return `<p style="color:#64748b; font-size:0.8rem;">Database: <b>${virtualDB.db}</b> (No tables created yet)</p>`;
+
+    let html = `<p style="font-size:0.8rem; margin-bottom:5px;">Table: <b>${virtualDB.table}</b></p>`;
+    html += `<table class="grid-table"><tr><th>BookID</th><th>Title</th><th>Price</th></tr>`;
+    if (virtualDB.rows.length === 0) {
+        html += `<tr><td colspan="3" style="text-align:center; color:#94a3b8;">Empty set</td></tr>`;
+    } else {
+        virtualDB.rows.forEach(r => {
+            html += `<tr><td>${r.id}</td><td>${r.title}</td><td>${r.price}</td></tr>`;
+        });
+    }
+    html += `</table>`;
+    return html;
+}
+
+function setupInteractions(card, task) {
+    const checkBtn = card.querySelector('#checkBtn');
+
+    if (task.type === 'sql') {
+        checkBtn.addEventListener('click', () => {
+            const query = card.querySelector('#sqlIn').value.trim();
+            const log = card.querySelector('#sqlLog');
+
+            if (task.pattern.test(query)) {
+                updateVirtualDB(task.id);
+                log.innerText = "Query OK, 1 row affected (0.01 sec)";
+                log.style.color = "#10b981";
+                handleSuccess();
+            } else {
+                log.innerText = "ERROR 1064 (42000): You have an error in your SQL syntax; check the manual...";
+                log.style.color = "#ef4444";
+                showError("The command doesn't match the objective. " + (task.hint ? "Hint: " + task.hint : ""));
+            }
+        });
+    } else if (task.type === 'mcq') {
+        let selectedIdx = null;
+        const options = card.querySelectorAll('.interactive-option');
+        options.forEach(el => {
+            el.addEventListener('click', () => {
+                options.forEach(opt => opt.classList.remove('selected'));
+                el.classList.add('selected');
+                selectedIdx = parseInt(el.dataset.idx);
             });
-            document.getElementById('overall-progress').innerText = `Progress: ${completedSteps.size}/${tasks.length} Completed`;
+        });
+        checkBtn.addEventListener('click', () => {
+            if (selectedIdx === null) { showError("Please select an option."); return; }
+            if (selectedIdx === task.answer) handleSuccess();
+            else showError("Incorrect choice. Re-read the query or logic.");
+        });
+    } else if (task.type === 'matching') {
+        checkBtn.addEventListener('click', () => {
+            const selects = card.querySelectorAll('.match-select');
+            let allCorrect = true;
+            selects.forEach(sel => {
+                const term = sel.dataset.term;
+                const val = sel.value;
+                const correctDesc = task.pairs.find(p => p.term === term).desc;
+                if (val !== correctDesc) allCorrect = false;
+            });
+            if (allCorrect) handleSuccess();
+            else showError("One or more matches are incorrect.");
+        });
+    }
+}
+
+function updateVirtualDB(taskId) {
+    if (taskId === 1) virtualDB.db = "LibraryDB";
+    if (taskId === 3) virtualDB.table = "Books";
+    if (taskId === 5) virtualDB.rows = [{id: 1, title: 'Python Basics', price: 500}];
+    if (taskId === 7) virtualDB.rows[0].price = 550;
+}
+
+function showError(msg) {
+    const err = document.getElementById('taskError');
+    err.textContent = `❌ ${msg}`;
+    err.style.display = 'block';
+    setTimeout(() => { err.style.display = 'none'; }, 3000);
+}
+
+function handleSuccess() {
+    const status = document.getElementById('verifyStatus');
+    const card = document.querySelector('.task-card-active');
+
+    sessionState[currentTaskIndex].verified = true;
+    status.className = 'verification-text verified';
+    status.innerHTML = '<span>✅</span> Verified';
+    card.classList.add('success-pulse');
+
+    updateProgress();
+    updateStepper();
+
+    setTimeout(() => {
+        if (currentTaskIndex < tasks.length - 1) {
+            currentTaskIndex++;
+            renderTask();
+        } else {
+            showFinalSubmission();
         }
+    }, 1000);
+}
 
-        function selectStep(index) {
-            currentStepIndex = index;
-            renderSidebar();
-            logConsole(`Switched to task #${index + 1}`, 'info');
-            document.getElementById('sql-input').value = '';
-            document.getElementById('sql-input').placeholder = `-- Hint:\n${tasks[index].hint}`;
-        }
+function updateProgress() {
+    const completed = sessionState.filter(s => s.verified).length;
+    document.getElementById('progressCount').textContent = completed;
+    document.getElementById('progressBar').style.width = `${(completed / tasks.length) * 100}%`;
+}
 
-        function insertHelper(text) {
-            const txtarea = document.getElementById('sql-input');
-            txtarea.value += text;
-            txtarea.focus();
-        }
+document.getElementById('enterBtn').addEventListener('click', () => {
+    const name = document.getElementById('inName').value.trim();
+    const roll = document.getElementById('inRoll').value.trim();
+    const room = document.getElementById('inRoom').value.trim();
 
-        function logConsole(msg, type = 'info') {
-            const consoleLog = document.getElementById('console-log');
-            const div = document.createElement('div');
-            div.className = `console-line console-${type}`;
-            div.innerText = `> ${msg}`;
-            consoleLog.appendChild(div);
-            consoleLog.scrollTop = consoleLog.scrollHeight;
-        }
+    if (name && roll && room) {
+        studentData = { name, roll, room, startTime: new Date() };
+        document.getElementById('statName').textContent = name;
+        document.getElementById('statRoll').textContent = `Roll: ${roll}`;
+        document.getElementById('statRoom').textContent = `Room: ${room}`;
 
-        function resetCurrentStep() {
-            document.getElementById('sql-input').value = '';
-            logConsole('Editor cleared.', 'info');
-        }
+        document.getElementById('entryOverlay').classList.add('hidden');
+        document.getElementById('workspace').classList.remove('hidden');
+        initStepper();
+        renderTask();
+    } else {
+        document.getElementById('entryError').style.display = 'block';
+    }
+});
 
-        function executeSQL() {
-            if(!studentProfile.name) return;
-            const query = document.getElementById('sql-input').value.trim();
-            if (!query) {
-                logConsole('Error: Query is empty.', 'error');
-                return;
-            }
+function formatTime(date) {
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+}
 
-            const currentTask = tasks[currentStepIndex];
+function formatElapsed(ms) {
+    const totalSec = Math.round(ms / 1000);
+    if (totalSec < 60) return `${totalSec}s`;
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return `${min}m ${sec}s`;
+}
 
-            if (currentTask.pattern.test(query)) {
-                processStateChange(currentStepIndex);
-                completedSteps.add(currentStepIndex);
-                logConsole('Correct! Task completed.', 'success');
+function showFinalSubmission() {
+    const endTime = new Date();
+    const elapsedMs = endTime - studentData.startTime;
+    const elapsedStr = formatElapsed(elapsedMs);
+    const completed = sessionState.filter(s => s.verified).length;
 
-                if (currentStepIndex < tasks.length - 1) {
-                    currentStepIndex++;
-                } else if (completedSteps.size === tasks.length) {
-                    triggerFormSync();
-                    document.getElementById('finish-modal').style.display = 'flex';
-                }
-                renderSidebar();
-                updateWorkspaceUI();
-                document.getElementById('sql-input').value = '';
-            } else {
-                logConsole('Error: Query does not match the expected pattern for this task.', 'error');
-            }
-        }
+    const summary = `
+        <strong>Topic:</strong> SQL Commands Lab<br>
+        <strong>Student:</strong> ${studentData.name}<br>
+        <strong>Roll:</strong> ${studentData.roll} | <strong>Room:</strong> ${studentData.room}<br>
+        <strong>Time Taken:</strong> ${elapsedStr}<br>
+        <strong>Score:</strong> ${completed}/${tasks.length} Verified
+    `;
 
-        function processStateChange(stepIndex) {
-            switch(stepIndex) {
-                case 0:
-                    dbState.hasDatabase = true;
-                    dbState.dbName = 'LibraryDB';
-                    break;
-                case 2:
-                    dbState.hasTable = true;
-                    dbState.columns = ['BookID', 'Title', 'Author', 'PublishedYear'];
-                    dbState.rows = [];
-                    break;
-                case 3:
-                    dbState.rows = [{ BookID: 1, Title: 'The Great Gatsby', Author: 'F. Scott Fitzgerald', PublishedYear: 1925 }];
-                    break;
-                case 5:
-                    if (dbState.rows.length > 0) dbState.rows[0].PublishedYear = 1926;
-                    break;
-                case 6:
-                    dbState.rows = [];
-                    break;
-                case 7:
-                    if (dbState.hasTable && !dbState.columns.includes('Genre')) dbState.columns.push('Genre');
-                    break;
-                case 8:
-                    dbState.hasIndex = true;
-                    break;
-                case 9:
-                    dbState.hasDatabase = false;
-                    dbState.dbName = null;
-                    dbState.hasTable = false;
-                    dbState.columns = [];
-                    dbState.rows = [];
-                    dbState.hasIndex = false;
-                    break;
-            }
-        }
+    document.getElementById('summaryContent').innerHTML = summary;
+    document.getElementById('exitOverlay').classList.remove('hidden');
 
-        function triggerFormSync() {
-            sessionTiming.endTime = new Date();
-            const elapsedMs = sessionTiming.endTime - sessionTiming.startTime;
-            const statusString = `Completed - ${completedSteps.size}/${tasks.length}`;
+    const formData = new FormData();
+    formData.append(SUBMISSION_CONFIG.fields.topic, "SQL Commands Lab Assessment");
+    formData.append(SUBMISSION_CONFIG.fields.name, studentData.name);
+    formData.append(SUBMISSION_CONFIG.fields.roll, studentData.roll);
+    formData.append(SUBMISSION_CONFIG.fields.room, `XII - ${studentData.room}`);
+    formData.append(SUBMISSION_CONFIG.fields.status, `${completed}/${tasks.length}`);
+    formData.append(SUBMISSION_CONFIG.fields.startTime, formatTime(studentData.startTime));
+    formData.append(SUBMISSION_CONFIG.fields.endTime, formatTime(endTime));
+    formData.append(SUBMISSION_CONFIG.fields.elapsedTime, elapsedStr);
 
-            const formData = new FormData();
-            formData.append(SUBMISSION_CONFIG.fields.topic, 'SQL Commands');
-            formData.append(SUBMISSION_CONFIG.fields.name, studentProfile.name);
-            formData.append(SUBMISSION_CONFIG.fields.roll, studentProfile.roll);
-            formData.append(SUBMISSION_CONFIG.fields.room, `XII - ${studentProfile.room}`);
-            formData.append(SUBMISSION_CONFIG.fields.status, statusString);
-            formData.append(SUBMISSION_CONFIG.fields.startTime, formatClockTime(sessionTiming.startTime));
-            formData.append(SUBMISSION_CONFIG.fields.endTime, formatClockTime(sessionTiming.endTime));
-            formData.append(SUBMISSION_CONFIG.fields.elapsedTime, formatElapsed(elapsedMs));
+    fetch(SUBMISSION_CONFIG.url, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+    });
+}
+</script>
 
-            document.getElementById('report-name').innerText = studentProfile.name;
-            document.getElementById('report-roll').innerText = studentProfile.roll;
-            document.getElementById('report-room').innerText = studentProfile.room;
-            document.getElementById('report-status').innerText = statusString;
-            document.getElementById('timing-summary').innerText = `⏱ Started: ${formatClockTime(sessionTiming.startTime)} · Finished: ${formatClockTime(sessionTiming.endTime)} · Time Taken: ${formatElapsed(elapsedMs)}`;
-            document.getElementById('form-submit-status').innerHTML = '✅ Submitted successfully.';
-
-            fetch(SUBMISSION_CONFIG.url, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: formData
-            }).catch(() => {});
-        }
-
-        function updateWorkspaceUI() {
-            const dbIndicator = document.getElementById('status-db');
-            const tblIndicator = document.getElementById('status-table');
-            const content = document.getElementById('canvas-content');
-
-            if (dbState.hasDatabase) {
-                dbIndicator.innerText = `Database: ${dbState.dbName}`;
-                dbIndicator.classList.add('active-status');
-            } else {
-                dbIndicator.innerText = 'Database: None';
-                dbIndicator.classList.remove('active-status');
-            }
-
-            if (dbState.hasTable) {
-                tblIndicator.innerText = `Table: Books (${dbState.columns.length} cols)`;
-                tblIndicator.classList.add('active-status');
-            } else {
-                tblIndicator.innerText = 'Table: Not created';
-                tblIndicator.classList.remove('active-status');
-            }
-
-            if (!dbState.hasDatabase) {
-                content.innerHTML = `<div class="empty-state">No database selected. Run CREATE DATABASE or USE first.</div>`;
-            } else if (!dbState.hasTable) {
-                content.innerHTML = `<div class="empty-state">Database loaded. Run CREATE TABLE to define a table.</div>`;
-            } else {
-                let tableHtml = `<table class="grid-table"><thead><tr>`;
-                dbState.columns.forEach(col => {
-                    tableHtml += `<th>${col}</th>`;
-                });
-                tableHtml += `</tr></thead><tbody>`;
-
-                if (dbState.rows.length === 0) {
-                    tableHtml += `<tr><td colspan="${dbState.columns.length}" style="text-align:center; color:#94a3b8; padding:20px;">No rows returned.</td></tr>`;
-                } else {
-                    dbState.rows.forEach(row => {
-                        tableHtml += `<tr>`;
-                        dbState.columns.forEach(col => {
-                            tableHtml += `<td>${row[col] !== undefined ? row[col] : '<span style="color:#cbd5e1; font-style:italic;">NULL</span>'}</td>`;
-                        });
-                        tableHtml += `</tr>`;
-                    });
-                }
-                tableHtml += `</tbody></table>`;
-
-                if (dbState.hasIndex) {
-                    tableHtml += `<div style="margin-top:10px; font-size:0.75rem; color:var(--success); font-weight:600;">⚡ Index: idx_title on Title</div>`;
-                }
-                content.innerHTML = tableHtml;
-            }
-        }
-    </script>
 </body>
 </html>

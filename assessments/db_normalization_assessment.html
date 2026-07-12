@@ -1,542 +1,622 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Assessment · Database Normalization · Grade XII</title>
-  <!-- core canvas.css (shared) -->
-  <link rel="stylesheet" href="../css/assessment.css" />
-  <!-- extra inline styles for light theme and task layout -->
-  <style>
-    /* light theme overrides + task cards */
-    body {
-      background: #f4f7fc;
-      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-      margin: 0;
-      padding: 0;
-      color: #1e293b;
-    }
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Database Normalization</title>
+    <link rel="stylesheet" href="../css/assessment.css">
+    <style>
+        :root {
+            --primary: #1e293b;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+        }
 
-    /* header / status bar */
-    .top-bar {
-      background: white;
-      border-radius: 20px;
-      padding: 1rem 1.8rem;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.02);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 2rem;
-    }
-    .student-badge {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      font-weight: 500;
-    }
-    .student-badge span {
-      background: #f1f5f9;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-    }
-    .progress-text {
-      background: #dbeafe;
-      padding: 0.2rem 1.2rem;
-      border-radius: 40px;
-      font-weight: 600;
-      color: #1e4a7a;
-    }
+        /* Stepper Styles */
+        .stepper-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .step-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .step-dot.active {
+            background: var(--secondary);
+            transform: scale(1.2);
+        }
+        .step-dot.verified {
+            background: var(--success);
+        }
 
-    /* progress bar */
-    .progress-track {
-      width: 100%;
-      height: 10px;
-      background: #e2e8f0;
-      border-radius: 20px;
-      margin: 0.8rem 0 1.8rem 0;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: #2563eb;
-      border-radius: 20px;
-      transition: width 0.25s ease;
-    }
+        /* Task Card Transitions */
+        #taskWorkspace {
+            position: relative;
+            min-height: 400px;
+        }
+        .task-card-active {
+            animation: slideIn 0.4s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes successPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); background-color: #f0fdf4; }
+            100% { transform: scale(1); }
+        }
+        .success-pulse {
+            animation: successPulse 0.4s ease-out;
+        }
 
-    /* task cards */
-    .task-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.8rem;
-    }
-    .task-card {
-      background: white;
-      border-radius: 1.5rem;
-      padding: 1.5rem 1.8rem;
-      border: 1px solid #e9eef3;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-      transition: border 0.2s;
-    }
-    .task-card.verified {
-      border-left: 8px solid #16a34a;
-    }
-    .task-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.6rem;
-    }
-    .task-title {
-      font-weight: 600;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .task-status {
-      font-size: 0.9rem;
-      background: #f1f5f9;
-      padding: 0.2rem 1rem;
-      border-radius: 40px;
-      color: #475569;
-    }
-    .task-status.verified {
-      background: #dcfce7;
-      color: #166534;
-    }
-    .task-desc {
-      margin: 0.2rem 0 0.8rem 0;
-      color: #334155;
-    }
-    .task-input {
-      margin-top: 0.5rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.8rem;
-    }
-    .task-input input[type="text"], 
-    .task-input select {
-      padding: 0.5rem 1rem;
-      border: 1px solid #cbd5e1;
-      border-radius: 40px;
-      font-size: 0.95rem;
-      background: white;
-      min-width: 200px;
-    }
-    .task-input input:focus, .task-input select:focus {
-      outline: 2px solid #2563eb;
-      border-color: transparent;
-    }
-    .verify-btn {
-      background: #2563eb;
-      border: none;
-      color: white;
-      padding: 0.4rem 1.6rem;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.15s;
-    }
-    .verify-btn:hover { background: #1d4ed8; }
-    .verify-btn:disabled {
-      opacity: 0.6;
-      cursor: default;
-    }
-    .feedback {
-      margin-top: 0.5rem;
-      font-size: 0.9rem;
-      color: #475569;
-    }
-    .feedback.correct { color: #16a34a; font-weight: 500; }
-    .feedback.wrong { color: #dc2626; }
+        /* Interaction Specifics */
+        .option-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+        .interactive-option {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .interactive-option:hover {
+            border-color: var(--secondary);
+            background: #f8fafc;
+        }
+        .interactive-option.selected {
+            border-color: var(--secondary);
+            background: #eff6ff;
+        }
 
-    /* entry / exit overlay (canvas.css provides base, we enhance) */
-    .celebration-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15,23,42,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      backdrop-filter: blur(2px);
-    }
-    .celebration-card {
-      background: white;
-      max-width: 480px;
-      width: 90%;
-      padding: 2.2rem 2rem;
-      border-radius: 2rem;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-      animation: popIn 0.3s ease;
-    }
-    @keyframes popIn {
-      0% { transform: scale(0.9); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    .celebration-card h2 {
-      margin-bottom: 1.2rem;
-      color: #0b2b4a;
-    }
-    .celebration-card label {
-      display: block;
-      margin: 0.8rem 0 0.2rem;
-      font-weight: 500;
-    }
-    .celebration-card input {
-      width: 100%;
-      padding: 0.6rem 1rem;
-      border: 1px solid #d1d9e6;
-      border-radius: 40px;
-      font-size: 1rem;
-    }
-    .celebration-card .error-msg {
-      color: #dc2626;
-      font-size: 0.85rem;
-      margin: 0.2rem 0 0.4rem;
-    }
-    .btn-primary {
-      background: #2563eb;
-      border: none;
-      color: white;
-      padding: 0.7rem 1.8rem;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 1rem;
-      width: 100%;
-      margin-top: 1.2rem;
-      cursor: pointer;
-    }
-    .btn-primary:hover { background: #1d4ed8; }
-    .exit-summary {
-      background: #f8fafc;
-      padding: 1rem;
-      border-radius: 1rem;
-      margin: 1rem 0;
-      font-size: 0.95rem;
-    }
-    .hidden { display: none !important; }
+        .matching-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+        .matching-row span { min-width: 140px; font-weight: 600; }
+        .matching-row select { flex: 1; padding: 0.5rem; border-radius: 8px; border: 1px solid #e2e8f0; }
 
-    /* small */
-    @media (max-width: 600px) {
-      .top-bar { flex-direction: column; align-items: stretch; gap: 0.5rem; }
-    }
-  </style>
+        .verification-text {
+            font-weight: 600;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .verification-text.unverified { color: #64748b; }
+        .verification-text.verified { color: var(--success); }
+
+        .feedback-msg {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+        }
+        .feedback-msg.error { color: var(--error); }
+
+        /* DB Visuals */
+        .db-table-mini {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            margin: 0.75rem 0;
+            background: white;
+        }
+        .db-table-mini th, .db-table-mini td {
+            border: 1px solid #cbd5e1;
+            padding: 0.4rem;
+            text-align: left;
+        }
+        .db-table-mini th { background: #f1f5f9; }
+
+        .drag-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .drag-item {
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .drag-item:active { cursor: grabbing; }
+    </style>
 </head>
 <body>
 
-  <!-- ============================================================ -->
-  <!-- ENTRY MODAL -->
-  <div id="entryOverlay" class="celebration-overlay">
+<div class="celebration-overlay" id="entryOverlay">
     <div class="celebration-card">
-      <h2>Lab Assessment</h2>
-      <p style="color:#475569; margin-bottom:1rem;">Database Normalization · Grade XII</p>
-      <label>Full Name</label>
-      <input type="text" id="studentName" placeholder="e.g. Ram Sharma" />
-      <div id="nameError" class="error-msg"></div>
+        <h2>Assessment: Database Normalization</h2>
+        <p>Advanced data architecture challenge for Grade XII.</p>
 
-      <label>Roll Number</label>
-      <input type="text" id="rollNumber" placeholder="e.g. 12" />
-      <div id="rollError" class="error-msg"></div>
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="inName" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label>Roll Number</label>
+            <input type="text" id="inRoll" placeholder="Enter roll number">
+        </div>
+        <div class="form-group">
+            <label>Room Number</label>
+            <input type="text" id="inRoom" placeholder="Enter room number">
+        </div>
 
-      <label>Room Number</label>
-      <input type="text" id="roomNumber" placeholder="e.g. 101" />
-      <div id="roomError" class="error-msg"></div>
-
-      <button class="btn-primary" id="startAssessmentBtn">Start Assessment</button>
+        <div class="error-msg" id="entryError">Please fill all fields correctly.</div>
+        <button class="btn btn-primary" id="enterBtn">Start Normalization Assessment</button>
     </div>
-  </div>
+</div>
 
-  <!-- ============================================================ -->
-  <!-- MAIN WORKSPACE -->
-  <div class="container" id="workspace" style="display:none;">
+<div id="workspace" class="hidden">
+    <header class="assessment-header">
+        <h1>Assessment: Database Normalization</h1>
+        <p class="subtitle">Anomalies, Dependencies & Normal Forms</p>
+        <span class="grade-badge">Grade XII • Computer Science</span>
+    </header>
 
-    <!-- top bar -->
-    <div class="top-bar">
-      <div class="student-badge">
-        <span id="displayName"></span>
-        <span id="displayRoll"></span>
-        <span id="displayRoom"></span>
-      </div>
-      <div class="progress-text" id="progressLabel">Progress: 0 / 10</div>
-    </div>
-
-    <!-- progress bar -->
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-
-    <!-- task grid -->
-    <div class="task-grid" id="taskContainer">
-      <!-- tasks injected by JS -->
-    </div>
-
-    <!-- submit button -->
-    <div style="text-align:center; margin: 2.5rem 0 1rem;">
-      <button class="btn-primary" id="submitAssessmentBtn" style="width:auto; padding:0.8rem 3rem; font-size:1.1rem;">
-        Submit Assessment
-      </button>
-    </div>
-  </div>
-
-  <!-- ============================================================ -->
-  <!-- EXIT MODAL (hidden initially) -->
-  <div id="exitOverlay" class="celebration-overlay hidden">
-    <div class="celebration-card">
-      <h2>Assessment Complete</h2>
-      <div class="exit-summary" id="exitSummary">
-        <!-- filled by JS -->
-      </div>
-      <p style="color:#475569; font-size:0.9rem;">Your responses have been recorded.</p>
-      <p style="color:#64748b; font-size:0.8rem; margin-top:0.5rem;">Timing data included.</p>
-      <!-- no restart button -->
-    </div>
-  </div>
-
-  <script>
-    (function() {
-      "use strict";
-
-      // ========== CONFIG ==========
-      const SUBMISSION_CONFIG = {
-        url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
-        fields: {
-          topic: "entry.1920009954",
-          name: "entry.2015805623",
-          roll: "entry.419024899",
-          room: "entry.2086415032",   // grade will be prepended
-          status: "entry.1234471729",
-          startTime: "entry.597147393",
-          endTime: "entry.1045529602",
-          elapsedTime: "entry.2019742758"
-        }
-      };
-
-      const TOPIC = "Database Normalization";
-      const GRADE = "XII";
-
-      // ========== STATE ==========
-      let studentName = '';
-      let rollNumber = '';
-      let roomNumber = '';
-      let startTime = null;
-      let endTime = null;
-      let elapsedMs = 0;
-      let tasks = [];
-      let taskStatus = []; // boolean per task
-
-      // DOM refs
-      const entryOverlay = document.getElementById('entryOverlay');
-      const workspace = document.getElementById('workspace');
-      const exitOverlay = document.getElementById('exitOverlay');
-      const exitSummary = document.getElementById('exitSummary');
-
-      const displayName = document.getElementById('displayName');
-      const displayRoll = document.getElementById('displayRoll');
-      const displayRoom = document.getElementById('displayRoom');
-      const progressLabel = document.getElementById('progressLabel');
-      const progressFill = document.getElementById('progressFill');
-      const taskContainer = document.getElementById('taskContainer');
-
-      // ========== TASK DEFINITIONS (10 tasks) ==========
-      function buildTasks() {
-        return [
-          { id: 0, q: '1. What is the main goal of normalization?', type: 'select', options: ['Reduce redundancy', 'Add more columns', 'Make tables larger'], correct: 'Reduce redundancy' },
-          { id: 1, q: '2. Which normal form requires atomic (single) values in each cell?', type: 'select', options: ['1NF', '2NF', '3NF'], correct: '1NF' },
-          { id: 2, q: '3. In 2NF, every non-key attribute must depend on:', type: 'select', options: ['Part of the key', 'The whole primary key', 'Another non-key'], correct: 'The whole primary key' },
-          { id: 3, q: '4. Transitive dependency is removed in which normal form?', type: 'select', options: ['1NF', '2NF', '3NF'], correct: '3NF' },
-          { id: 4, q: '5. In the Student Project table, Supervisor_Phone depends on Supervisor → this is a:', type: 'select', options: ['Partial dependency', 'Transitive dependency', 'Atomic value'], correct: 'Partial dependency' },
-          { id: 5, q: '6. If a table has no repeating groups, it is at least in:', type: 'select', options: ['1NF', '2NF', '3NF'], correct: '1NF' },
-          { id: 6, q: '7. Which anomaly occurs when changing a phone number in many rows?', type: 'select', options: ['Insertion', 'Deletion', 'Modification'], correct: 'Modification' },
-          { id: 7, q: '8. Splitting a table to remove partial dependency achieves:', type: 'select', options: ['1NF', '2NF', '3NF'], correct: '2NF' },
-          { id: 8, q: '9. In 3NF, a non-key column must not depend on:', type: 'select', options: ['The primary key', 'Another non-key column', 'A foreign key'], correct: 'Another non-key column' },
-          { id: 9, q: '10. The mantra for 2NF & 3NF is: “The key, the whole key, and _____”', type: 'text', correct: 'nothing but the key' }
-        ];
-      }
-
-      // ========== RENDER TASKS ==========
-      function renderTasks() {
-        tasks = buildTasks();
-        taskStatus = tasks.map(() => false);
-        let html = '';
-        tasks.forEach((t, idx) => {
-          const verified = taskStatus[idx];
-          html += `
-            <div class="task-card ${verified ? 'verified' : ''}" id="task-${idx}">
-              <div class="task-header">
-                <div class="task-title"><span class="badge" style="background:#2563eb;color:white;padding:0.1rem 0.8rem;border-radius:30px;font-size:0.8rem;">Q${idx+1}</span> ${t.q}</div>
-                <div class="task-status ${verified ? 'verified' : ''}" id="status-${idx}">${verified ? 'Verified' : 'Pending'}</div>
-              </div>
-              <div class="task-desc">${t.type === 'select' ? 'Choose the correct option:' : 'Type your answer:'}</div>
-              <div class="task-input">
-                ${t.type === 'select' 
-                  ? `<select id="input-${idx}">${t.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select>`
-                  : `<input type="text" id="input-${idx}" placeholder="type your answer..." />`
-                }
-                <button class="verify-btn" id="verify-${idx}" data-idx="${idx}">Verify</button>
-              </div>
-              <div class="feedback" id="feedback-${idx}"></div>
+    <div class="canvas-container">
+        <div class="status-bar">
+            <div class="student-info">
+                <span id="statName">Name</span>
+                <span id="statRoll">Roll</span>
+                <span id="statRoom">Room</span>
             </div>
-          `;
-        });
-        taskContainer.innerHTML = html;
-        // attach verify listeners
-        tasks.forEach((t, idx) => {
-          const btn = document.getElementById(`verify-${idx}`);
-          btn.addEventListener('click', () => verifyTask(idx));
-          // also allow Enter on text inputs
-          const inp = document.getElementById(`input-${idx}`);
-          if (inp && inp.tagName === 'INPUT') {
-            inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') verifyTask(idx); });
-          }
-        });
-        updateProgress();
-      }
+            <div class="progress-indicator">
+                Score: <span id="progressCount">0</span>/10
+            </div>
+        </div>
 
-      // ========== VERIFY LOGIC ==========
-      function verifyTask(idx) {
-        const task = tasks[idx];
-        const inputEl = document.getElementById(`input-${idx}`);
-        let userVal = '';
-        if (task.type === 'select') {
-          userVal = inputEl.value;
-        } else {
-          userVal = inputEl.value.trim();
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="stepper-container" id="stepper"></div>
+
+        <div id="taskWorkspace">
+            <!-- Active task card will be rendered here -->
+        </div>
+    </div>
+</div>
+
+<div class="celebration-overlay hidden" id="exitOverlay">
+    <div class="celebration-card">
+        <h2>🎉 Normalization Mastered</h2>
+        <p>You have successfully optimized the database schema.</p>
+        <div id="summaryContent" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.9rem;"></div>
+        <p style="font-size: 0.8rem; color: #64748b;">You may now close this page.</p>
+    </div>
+</div>
+
+<script>
+const SUBMISSION_CONFIG = {
+    url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
+    fields: {
+        topic: "entry.1920009954",
+        name: "entry.2015805623",
+        roll: "entry.419024899",
+        room: "entry.2086415032",
+        status: "entry.1234471729",
+        startTime: "entry.597147393",
+        endTime: "entry.1045529602",
+        elapsedTime: "entry.2019742758"
+    }
+};
+
+const tasks = [
+    {
+        id: 1, type: 'mcq',
+        question: "Observe this table snippet. If you change a Student's Phone, you must update multiple rows. Which anomaly is this?",
+        table: [
+            ['SID', 'SName', 'Phone', 'Course'],
+            ['101', 'Asha', '9801', 'Math'],
+            ['101', 'Asha', '9801', 'Science']
+        ],
+        options: ["Insertion Anomaly", "Deletion Anomaly", "Update/Modification Anomaly", "Redundancy Anomaly"],
+        answer: 2,
+        hint: "It occurs when data is changed in one place but not others."
+    },
+    {
+        id: 2, type: 'mcq',
+        question: "Which of these violations prevents a table from reaching the <b>First Normal Form (1NF)</b>?",
+        options: [
+            "A column containing multiple values (e.g. {Phone: '9801, 9802'})",
+            "A non-key attribute depending on part of a composite key",
+            "A non-key attribute depending on another non-key attribute",
+            "The presence of a Foreign Key"
+        ],
+        answer: 0,
+        hint: "1NF requires atomic (indivisible) values."
+    },
+    {
+        id: 3, type: 'mcq',
+        question: "In a table with composite primary key <b>(OrderID, ProductID)</b>, if the column 'Product_Name' depends only on 'ProductID', it is a:",
+        options: ["Full Functional Dependency", "Partial Dependency", "Transitive Dependency", "Multi-valued Dependency"],
+        answer: 1,
+        hint: "It depends on only *part* of the primary key."
+    },
+    {
+        id: 4, type: 'mcq',
+        question: "A table is in 2NF. It has columns: <b>ID (PK)</b>, <b>DeptID</b>, and <b>DeptLocation</b>. If DeptLocation depends on DeptID, which normal form is violated?",
+        options: ["1NF", "2NF", "3NF", "BCNF"],
+        answer: 2,
+        hint: "This is a transitive dependency (A -> B -> C)."
+    },
+    {
+        id: 5, type: 'matching',
+        question: "Match the Normal Form with its primary requirement.",
+        pairs: [
+            { term: "1NF", desc: "Atomic values / No repeating groups" },
+            { term: "2NF", desc: "No partial functional dependency" },
+            { term: "3NF", desc: "No transitive dependency" },
+            { term: "BCNF", desc: "Stronger than 3NF, every determinant is a key" }
+        ]
+    },
+    {
+        id: 6, type: 'mcq',
+        question: "You delete a 'Course' from a student record, and accidentally the student's entire profile is lost because it was the only record for them. This is a:",
+        options: ["Update Anomaly", "Deletion Anomaly", "Insertion Anomaly", "Referential Anomaly"],
+        answer: 1
+    },
+    {
+        id: 7, type: 'order',
+        question: "Arrange the normalization steps in the correct logical sequence to reach 3NF.",
+        items: [
+            "Ensure all values are atomic",
+            "Remove partial dependencies",
+            "Remove transitive dependencies"
+        ],
+        correctOrder: [
+            "Ensure all values are atomic",
+            "Remove partial dependencies",
+            "Remove transitive dependencies"
+        ]
+    },
+    {
+        id: 8, type: 'mcq',
+        question: "The rule: 'Non-key attributes must be functionally dependent on the key, the whole key, and nothing but the key' summarizes which normal form(s)?",
+        options: ["Only 1NF", "Only 2NF", "2NF and 3NF", "All normalization forms"],
+        answer: 2,
+        hint: "'Whole key' refers to 2NF; 'nothing but the key' refers to 3NF."
+    },
+    {
+        id: 9, type: 'mcq',
+        question: "Which of these is a valid way to resolve a <b>Partial Dependency</b> violation?",
+        options: [
+            "Merge the violating column into another table with a different key",
+            "Move the violating column and its determinant to a new table",
+            "Combine all columns into one single large table",
+            "Delete the violating rows"
+        ],
+        answer: 1
+    },
+    {
+        id: 10, type: 'text',
+        question: "A table is at 1NF if every attribute is ______. (Hint: starts with 'a')",
+        answer: "atomic",
+        hint: "Meaning the values cannot be broken down further."
+    }
+];
+
+let currentTaskIndex = 0;
+let studentData = { name: '', roll: '', room: '', startTime: null };
+const sessionState = tasks.map(() => ({ verified: false }));
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
+
+function initStepper() {
+    const stepper = document.getElementById('stepper');
+    stepper.innerHTML = tasks.map((_, i) => `<div class="step-dot" id="dot-${i}"></div>`).join('');
+    updateStepper();
+}
+
+function updateStepper() {
+    tasks.forEach((_, i) => {
+        const dot = document.getElementById(`dot-${i}`);
+        if (!dot) return;
+        dot.className = 'step-dot';
+        if (i === currentTaskIndex) dot.classList.add('active');
+        if (sessionState[i].verified) dot.classList.add('verified');
+    });
+}
+
+function renderTask() {
+    const task = tasks[currentTaskIndex];
+    const container = document.getElementById('taskWorkspace');
+    container.innerHTML = '';
+
+    const card = document.createElement('div');
+    card.className = 'task-card task-card-active';
+
+    let interactionHtml = '';
+
+    if (task.type === 'mcq') {
+        const shuffledOptions = task.options.map((opt, i) => ({ text: opt, originalIdx: i }));
+        shuffleArray(shuffledOptions);
+
+        let tableHtml = '';
+        if (task.table) {
+            tableHtml = `<table class="db-table-mini">
+                ${task.table.map((row, r) => `<tr>${row.map(cell => r===0 ? `<th>${cell}</th>` : `<td>${cell}</td>`).join('')}</tr>`).join('')}
+            </table>`;
         }
-        const feedback = document.getElementById(`feedback-${idx}`);
-        const statusEl = document.getElementById(`status-${idx}`);
-        const card = document.getElementById(`task-${idx}`);
 
-        // simple case-insensitive for text, exact for select
-        let isCorrect = false;
-        if (task.type === 'select') {
-          isCorrect = (userVal === task.correct);
-        } else {
-          // text: normalize case and trim
-          isCorrect = (userVal.toLowerCase() === task.correct.toLowerCase());
-        }
-
-        if (isCorrect) {
-          feedback.className = 'feedback correct';
-          feedback.textContent = 'Correct!';
-          taskStatus[idx] = true;
-          statusEl.textContent = 'Verified';
-          statusEl.className = 'task-status verified';
-          card.classList.add('verified');
-          // disable verify button
-          document.getElementById(`verify-${idx}`).disabled = true;
-        } else {
-          feedback.className = 'feedback wrong';
-          feedback.textContent = 'Not quite. Try again.';
-          taskStatus[idx] = false;
-          statusEl.textContent = 'Pending';
-          statusEl.className = 'task-status';
-          card.classList.remove('verified');
-        }
-        updateProgress();
-      }
-
-      // ========== UPDATE PROGRESS ==========
-      function updateProgress() {
-        const done = taskStatus.filter(v => v).length;
-        const total = taskStatus.length;
-        progressLabel.textContent = `Progress: ${done} / ${total}`;
-        const pct = total ? (done / total) * 100 : 0;
-        progressFill.style.width = pct + '%';
-      }
-
-      // ========== ENTRY ==========
-      document.getElementById('startAssessmentBtn').addEventListener('click', function() {
-        const name = document.getElementById('studentName').value.trim();
-        const roll = document.getElementById('rollNumber').value.trim();
-        const room = document.getElementById('roomNumber').value.trim();
-
-        let valid = true;
-        if (!name) { document.getElementById('nameError').textContent = 'Name is required.'; valid = false; } else { document.getElementById('nameError').textContent = ''; }
-        if (!roll) { document.getElementById('rollError').textContent = 'Roll number required.'; valid = false; } else { document.getElementById('rollError').textContent = ''; }
-        if (!room) { document.getElementById('roomError').textContent = 'Room number required.'; valid = false; } else { document.getElementById('roomError').textContent = ''; }
-
-        if (!valid) return;
-
-        // save
-        studentName = name;
-        rollNumber = roll;
-        roomNumber = room;
-        startTime = new Date();
-
-        // display
-        displayName.textContent = studentName;
-        displayRoll.textContent = rollNumber;
-        displayRoom.textContent = roomNumber;
-
-        // hide entry, show workspace
-        entryOverlay.style.display = 'none';
-        workspace.style.display = 'block';
-
-        // render tasks
-        renderTasks();
-      });
-
-      // ========== SUBMISSION ==========
-      document.getElementById('submitAssessmentBtn').addEventListener('click', function() {
-        const done = taskStatus.filter(v => v).length;
-        const total = taskStatus.length;
-        if (done < total) {
-          if (!confirm(`You have completed ${done}/${total} tasks. Submit anyway?`)) return;
-        }
-
-        // capture end time
-        endTime = new Date();
-        elapsedMs = endTime - startTime;
-        const elapsedStr = elapsedMs < 60000 ? Math.floor(elapsedMs/1000) + 's' : Math.floor(elapsedMs/60000) + 'm ' + Math.floor((elapsedMs%60000)/1000) + 's';
-        const startStr = startTime ? startTime.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', second:'2-digit', hour12:true}) : '';
-        const endStr = endTime ? endTime.toLocaleTimeString('en-US', {hour:'numeric', minute:'2-digit', second:'2-digit', hour12:true}) : '';
-
-        // build form data
-        const formData = new FormData();
-        const f = SUBMISSION_CONFIG.fields;
-        formData.append(f.topic, TOPIC);
-        formData.append(f.name, studentName);
-        formData.append(f.roll, rollNumber);
-        formData.append(f.room, `${GRADE} - ${roomNumber}`);   // prepend grade
-        formData.append(f.status, `${done}/${total}`);
-        formData.append(f.startTime, startStr);
-        formData.append(f.endTime, endStr);
-        formData.append(f.elapsedTime, elapsedStr);
-
-        // submit via fetch no-cors
-        fetch(SUBMISSION_CONFIG.url, {
-          method: 'POST',
-          mode: 'no-cors',
-          body: formData
-        }).catch(() => {}); // no-cors -> opaque, ignore
-
-        // show exit screen
-        exitSummary.innerHTML = `
-          <p><strong>${TOPIC}</strong> · Grade ${GRADE}</p>
-          <p>${studentName} · ${rollNumber} · ${roomNumber}</p>
-          <p>Completed: ${done}/${total} tasks</p>
-          <p>Start: ${startStr} · End: ${endStr} · Elapsed: ${elapsedStr}</p>
+        interactionHtml = `
+            ${tableHtml}
+            <div class="option-grid">
+                ${shuffledOptions.map((opt) => `
+                    <div class="interactive-option" data-idx="${opt.originalIdx}">
+                        <div class="radio-circle"></div>
+                        <span>${opt.text}</span>
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn btn-primary mt-4" id="checkBtn">Verify Answer</button>
         `;
-        exitOverlay.classList.remove('hidden');
-        // disable further interaction (overlay blocks)
-      });
+    } else if (task.type === 'order') {
+        const shuffled = [...task.items];
+        shuffleArray(shuffled);
+        interactionHtml = `
+            <div class="drag-container" id="sortableList">
+                ${shuffled.map(item => `
+                    <div class="drag-item" draggable="true" data-val="${item}">
+                        <i class="fa-solid fa-grip-vertical"></i> ${item}
+                    </div>
+                `).join('')}
+            </div>
+            <button class="btn btn-primary mt-4" id="checkBtn">Verify Order</button>
+        `;
+    } else if (task.type === 'matching') {
+        const terms = task.pairs.map(p => p.term);
+        const descs = task.pairs.map(p => p.desc);
+        shuffleArray(descs);
+        interactionHtml = `
+            <div class="matching-container">
+                ${terms.map((term, i) => `
+                    <div class="matching-row">
+                        <span>${term}:</span>
+                        <select class="match-select" data-term="${term}">
+                            <option value="">Select requirement...</option>
+                            ${descs.map(d => `<option value="${d}">${d}</option>`).join('')}
+                        </select>
+                    </div>
+                `).join('')}
+                <button class="btn btn-primary" id="checkBtn">Verify Matching</button>
+            </div>
+        `;
+    } else {
+        interactionHtml = `
+            <div class="form-group mt-4">
+                <input type="text" id="taskInput" placeholder="Type your answer here..." autocomplete="off">
+            </div>
+            <button class="btn btn-primary" id="checkBtn">Verify Answer</button>
+        `;
+    }
 
-      // ========== KEYBOARD: allow Enter on entry ==========
-      document.querySelectorAll('#entryOverlay input').forEach(inp => {
-        inp.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') document.getElementById('startAssessmentBtn').click();
+    card.innerHTML = `
+        <div class="task-header">
+            <span class="task-num">Task ${currentTaskIndex + 1} of ${tasks.length}</span>
+            <div class="verification-text unverified" id="verifyStatus">
+                <span class="status-icon">○</span> Unverified
+            </div>
+        </div>
+        <div class="task-question">${task.question}</div>
+        ${interactionHtml}
+        <div class="feedback-msg error" id="taskError"></div>
+    `;
+
+    container.appendChild(card);
+    setupInteractions(card, task);
+}
+
+function setupInteractions(card, task) {
+    const checkBtn = card.querySelector('#checkBtn');
+
+    if (task.type === 'mcq') {
+        let selectedIdx = null;
+        const options = card.querySelectorAll('.interactive-option');
+        options.forEach(el => {
+            el.addEventListener('click', () => {
+                options.forEach(opt => opt.classList.remove('selected'));
+                el.classList.add('selected');
+                selectedIdx = parseInt(el.dataset.idx);
+            });
         });
-      });
 
-    })();
-  </script>
+        checkBtn.addEventListener('click', () => {
+            if (selectedIdx === null) {
+                showError("Please select an option first.");
+                return;
+            }
+            if (selectedIdx === task.answer) handleSuccess();
+            else showError(task.hint || "Incorrect. Think about normalization rules.");
+        });
+    } else if (task.type === 'order') {
+        const list = card.querySelector('#sortableList');
+        let draggedItem = null;
+
+        list.addEventListener('dragstart', (e) => {
+            draggedItem = e.target;
+            setTimeout(() => e.target.style.opacity = '0.5', 0);
+        });
+        list.addEventListener('dragend', (e) => { e.target.style.opacity = '1'; });
+        list.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const afterElement = getDragAfterElement(list, e.clientY);
+            if (afterElement == null) list.appendChild(draggedItem);
+            else list.insertBefore(draggedItem, afterElement);
+        });
+
+        checkBtn.addEventListener('click', () => {
+            const currentOrder = [...list.querySelectorAll('.drag-item')].map(el => el.dataset.val);
+            if (JSON.stringify(currentOrder) === JSON.stringify(task.correctOrder)) handleSuccess();
+            else showError("Incorrect sequence.");
+        });
+    } else if (task.type === 'matching') {
+        checkBtn.addEventListener('click', () => {
+            const selects = card.querySelectorAll('.match-select');
+            let allCorrect = true;
+            selects.forEach(sel => {
+                const term = sel.dataset.term;
+                const val = sel.value;
+                const correctDesc = task.pairs.find(p => p.term === term).desc;
+                if (val !== correctDesc) allCorrect = false;
+            });
+            if (allCorrect) handleSuccess();
+            else showError("One or more matches are incorrect.");
+        });
+    } else {
+        const input = card.querySelector('#taskInput');
+        const verify = () => {
+            const val = input.value.trim().toLowerCase();
+            const correct = task.answer.toLowerCase();
+            if (val === correct) handleSuccess();
+            else showError(task.hint || "Try again.");
+        };
+        checkBtn.addEventListener('click', verify);
+        input.addEventListener('keypress', (e) => { if (e.key === 'Enter') verify(); });
+    }
+}
+
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.drag-item:not(.dragging)')];
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
+
+function showError(msg) {
+    const err = document.getElementById('taskError');
+    err.textContent = `❌ ${msg}`;
+    err.style.display = 'block';
+    setTimeout(() => { err.style.display = 'none'; }, 3000);
+}
+
+function handleSuccess() {
+    const status = document.getElementById('verifyStatus');
+    const card = document.querySelector('.task-card-active');
+
+    sessionState[currentTaskIndex].verified = true;
+    status.className = 'verification-text verified';
+    status.innerHTML = '<span>✅</span> Verified';
+    card.classList.add('success-pulse');
+
+    updateProgress();
+    updateStepper();
+
+    setTimeout(() => {
+        if (currentTaskIndex < tasks.length - 1) {
+            currentTaskIndex++;
+            renderTask();
+        } else {
+            showFinalSubmission();
+        }
+    }, 800);
+}
+
+function updateProgress() {
+    const completed = sessionState.filter(s => s.verified).length;
+    document.getElementById('progressCount').textContent = completed;
+    document.getElementById('progressBar').style.width = `${(completed / tasks.length) * 100}%`;
+}
+
+document.getElementById('enterBtn').addEventListener('click', () => {
+    const name = document.getElementById('inName').value.trim();
+    const roll = document.getElementById('inRoll').value.trim();
+    const room = document.getElementById('inRoom').value.trim();
+
+    if (name && roll && room) {
+        studentData = { name, roll, room, startTime: new Date() };
+        document.getElementById('statName').textContent = name;
+        document.getElementById('statRoll').textContent = `Roll: ${roll}`;
+        document.getElementById('statRoom').textContent = `Room: ${room}`;
+
+        document.getElementById('entryOverlay').classList.add('hidden');
+        document.getElementById('workspace').classList.remove('hidden');
+        initStepper();
+        renderTask();
+    } else {
+        document.getElementById('entryError').style.display = 'block';
+    }
+});
+
+function formatTime(date) {
+    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+}
+
+function formatElapsed(ms) {
+    const totalSec = Math.round(ms / 1000);
+    if (totalSec < 60) return `${totalSec}s`;
+    const min = Math.floor(totalSec / 60);
+    const sec = totalSec % 60;
+    return `${min}m ${sec}s`;
+}
+
+function showFinalSubmission() {
+    const endTime = new Date();
+    const elapsedMs = endTime - studentData.startTime;
+    const elapsedStr = formatElapsed(elapsedMs);
+    const completed = sessionState.filter(s => s.verified).length;
+
+    const summary = `
+        <strong>Topic:</strong> Database Normalization<br>
+        <strong>Student:</strong> ${studentData.name}<br>
+        <strong>Roll:</strong> ${studentData.roll} | <strong>Room:</strong> ${studentData.room}<br>
+        <strong>Time Taken:</strong> ${elapsedStr}<br>
+        <strong>Score:</strong> ${completed}/${tasks.length}
+    `;
+
+    document.getElementById('summaryContent').innerHTML = summary;
+    document.getElementById('exitOverlay').classList.remove('hidden');
+
+    const formData = new FormData();
+    formData.append(SUBMISSION_CONFIG.fields.topic, "Database Normalization Assessment");
+    formData.append(SUBMISSION_CONFIG.fields.name, studentData.name);
+    formData.append(SUBMISSION_CONFIG.fields.roll, studentData.roll);
+    formData.append(SUBMISSION_CONFIG.fields.room, `XII - ${studentData.room}`);
+    formData.append(SUBMISSION_CONFIG.fields.status, `${completed}/${tasks.length}`);
+    formData.append(SUBMISSION_CONFIG.fields.startTime, formatTime(studentData.startTime));
+    formData.append(SUBMISSION_CONFIG.fields.endTime, formatTime(endTime));
+    formData.append(SUBMISSION_CONFIG.fields.elapsedTime, elapsedStr);
+
+    fetch(SUBMISSION_CONFIG.url, {
+        method: 'POST',
+        mode: 'no-cors',
+        body: formData
+    });
+}
+</script>
+
 </body>
 </html>

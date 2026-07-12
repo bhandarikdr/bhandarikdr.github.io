@@ -8,6 +8,7 @@
     --primary-color: #1e293b;
     --secondary-color: #3b82f6;
     --accent-color: #ef4444;
+    --accent-hover: #dc2626;
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
     --text-color: #334155;
@@ -152,6 +153,7 @@ input:focus, select:focus, textarea:focus {
 
 .btn-primary:hover {
     background-color: var(--accent-hover);
+    color: white;
 }
 
 .btn-secondary {
