@@ -7,13 +7,12 @@
     <link rel="stylesheet" href="../css/assessment.css">
     <style>
         :root {
-            --primary: #1e293b;
-            --secondary: #3b82f6;
-            --success: #10b981;
-            --error: #ef4444;
+            --primary-color: #1e293b;
+            --secondary-color: #3b82f6;
+            --success-color: #10b981;
+            --accent-color: #ef4444;
         }
 
-        /* Stepper Styles */
         .stepper-container {
             display: flex;
             justify-content: center;
@@ -29,14 +28,13 @@
             transition: all 0.3s ease;
         }
         .step-dot.active {
-            background: var(--secondary);
+            background: var(--secondary-color);
             transform: scale(1.2);
         }
         .step-dot.verified {
-            background: var(--success);
+            background: var(--success-color);
         }
 
-        /* Task Card Transitions */
         #taskWorkspace {
             position: relative;
             min-height: 400px;
@@ -57,7 +55,6 @@
             animation: successPulse 0.4s ease-out;
         }
 
-        /* Interaction Specifics */
         .option-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -75,11 +72,11 @@
             gap: 0.75rem;
         }
         .interactive-option:hover {
-            border-color: var(--secondary);
+            border-color: var(--secondary-color);
             background: #f8fafc;
         }
         .interactive-option.selected {
-            border-color: var(--secondary);
+            border-color: var(--secondary-color);
             background: #eff6ff;
         }
 
@@ -100,16 +97,15 @@
             gap: 0.5rem;
         }
         .verification-text.unverified { color: #64748b; }
-        .verification-text.verified { color: var(--success); }
+        .verification-text.verified { color: var(--success-color); }
 
         .feedback-msg {
             font-size: 0.9rem;
             margin-top: 0.5rem;
             min-height: 1.2rem;
         }
-        .feedback-msg.error { color: var(--error); }
+        .feedback-msg.error { color: var(--accent-color); }
 
-        /* DB Visuals */
         .db-table-mini {
             width: 100%;
             border-collapse: collapse;
@@ -193,15 +189,13 @@
 
         <div class="stepper-container" id="stepper"></div>
 
-        <div id="taskWorkspace">
-            <!-- Active task card will be rendered here -->
-        </div>
+        <div id="taskWorkspace"></div>
     </div>
 </div>
 
 <div class="celebration-overlay hidden" id="exitOverlay">
     <div class="celebration-card">
-        <h2>🎉 Normalization Mastered</h2>
+        <h2>🎉 Assessment Complete</h2>
         <p>You have successfully optimized the database schema.</p>
         <div id="summaryContent" style="text-align: left; background: #f8fafc; padding: 1rem; border-radius: 12px; margin-bottom: 1.5rem; font-size: 0.9rem;"></div>
         <p style="font-size: 0.8rem; color: #64748b;">You may now close this page.</p>
