@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment Status Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+    <div class="nav-trigger"></div>
+    <nav class="glass-nav visible">
+        <a href="../index.html" class="nav-logo">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Kedar Bhandari</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../main_pages/csxi.html">Grade XI</a></li>
+            <li><a href="../main_pages/csxii.html">Grade XII</a></li>
+        </ul>
+    </nav>
+
+    <script>
+        const nav = document.querySelector('.glass-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY <= 50) {
+                nav.classList.add('visible');
+            } else {
+                nav.classList.remove('visible');
+            }
+        });
+    </script>
+
+    <header class="page-header">
+        <h1>Assessment Status</h1>
+        <p class="subtitle">Student submission overview from Google Form responses</p>
+        <span class="grade-badge">Live Data</span>
+    </header>
+
+    <main class="container">
+
+        <div class="loading-state" id="loadingState">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Loading assessment data...</p>
+        </div>
+
+        <div class="error-state hidden" id="errorState">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p id="errorMessage">Failed to load data.</p>
+            <button class="retry-btn" id="retryBtn">Retry</button>
+        </div>
+
+        <div class="dashboard-content hidden" id="dashboardContent">
+
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label for="gradeFilter"><i class="fa-solid fa-graduation-cap"></i> Grade</label>
+                    <select id="gradeFilter">
+                        <option value="all">All Grades</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="roomFilter"><i class="fa-solid fa-door-open"></i> Room</label>
+                    <select id="roomFilter">
+                        <option value="all">All Rooms</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="topicFilter"><i class="fa-solid fa-book"></i> Topic</label>
+                    <select id="topicFilter">
+                        <option value="all">All Topics</option>
+                    </select>
+                </div>
+                <button class="reset-btn" id="resetBtn">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+            </div>
+
+            <div class="overview-cards">
+                <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-file-lines"></i></div>
+                    <div class="stat-value" id="totalSubmissions">0</div>
+                    <div class="stat-label">Total Submissions</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-value" id="uniqueStudents">0</div>
+                    <div class="stat-label">Unique Students</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                    <div class="stat-value" id="avgScore">0%</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-value" id="completionRate">0%</div>
+                    <div class="stat-label">Completion Rate</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="col-sn">S.N.</th>
+                            <th class="col-name">Student Name</th>
+                            <th class="col-roll">Roll No.</th>
+                            <th class="col-topic">Topic</th>
+                            <th class="col-status">Status</th>
+                            <th class="col-time">Elapsed Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+                <div class="empty-state hidden" id="emptyState">
+                    <i class="fa-solid fa-inbox"></i>
+                    <p>No submissions match the selected filters.</p>
+                </div>
+            </div>
+
+            <footer class="dashboard-footer">
+                <p>Data sourced from assessment Google Form submissions. Last updated: <span id="lastUpdated">—</span></p>
+            </footer>
+
+        </div>
+    </main>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykNegn72LpaysfnNe6ikuaRWYa8SiWC48gw9iMGi44wmlesqmTvxDrCc-osWKMXM7h/exec';
+
+        let allData = [];
+        let allTopics = [];
+        let allRooms = [];
+        let currentFilters = { grade: 'all', room: 'all', topic: 'all' };
+
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const dashboardContent = document.getElementById('dashboardContent');
+        const errorMessage = document.getElementById('errorMessage');
+        const emptyState = document.getElementById('emptyState');
+
+        const gradeFilter = document.getElementById('gradeFilter');
+        const roomFilter = document.getElementById('roomFilter');
+        const topicFilter = document.getElementById('topicFilter');
+        const resetBtn = document.getElementById('resetBtn');
+        const retryBtn = document.getElementById('retryBtn');
+
+        async function fetchData() {
+            loadingState.classList.remove('hidden');
+            errorState.classList.add('hidden');
+            dashboardContent.classList.add('hidden');
+
+            try {
+                const response = await fetch(SCRIPT_URL);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                const json = await response.json();
+
+                if (json.error) throw new Error(json.error);
+
+                allData = json.data || [];
+                allTopics = json.topics || [];
+                allRooms = json.rooms || [];
+
+                document.getElementById('lastUpdated').textContent = json.generatedAt
+                    ? new Date(json.generatedAt).toLocaleString()
+                    : '—';
+
+                populateGradeFilter();
+                resetFilters();
+                loadingState.classList.add('hidden');
+                dashboardContent.classList.remove('hidden');
+            } catch (e) {
+                loadingState.classList.add('hidden');
+                errorState.classList.remove('hidden');
+                errorMessage.textContent = 'Failed to load data: ' + e.message;
+            }
+        }
+
+        function getGradeFromRoom(roomStr) {
+            return roomStr.split(' - ')[0].trim().toUpperCase();
+        }
+
+        function populateGradeFilter() {
+            const grades = new Set();
+            allRooms.forEach(function(r) {
+                grades.add(getGradeFromRoom(r));
+            });
+            const sorted = Array.from(grades).sort();
+
+            gradeFilter.innerHTML = '<option value="all">All Grades</option>';
+            sorted.forEach(function(g) {
+                const opt = document.createElement('option');
+                opt.value = g;
+                opt.textContent = 'Grade ' + g;
+                gradeFilter.appendChild(opt);
+            });
+        }
+
+        function populateRoomFilter() {
+            const filtered = currentFilters.grade === 'all'
+                ? allRooms
+                : allRooms.filter(function(r) {
+                    return getGradeFromRoom(r) === currentFilters.grade;
+                });
+
+            const sorted = filtered.slice().sort(function(a, b) {
+                const numA = parseInt(a.split(' - ')[1], 10);
+                const numB = parseInt(b.split(' - ')[1], 10);
+                return numA - numB;
+            });
+
+            roomFilter.innerHTML = '<option value="all">All Rooms</option>';
+            sorted.forEach(function(r) {
+                const opt = document.createElement('option');
+                opt.value = r;
+                opt.textContent = r;
+                roomFilter.appendChild(opt);
+            });
+        }
+
+        function populateTopicFilter() {
+            let pool = allData;
+
+            if (currentFilters.grade !== 'all') {
+                pool = pool.filter(function(d) {
+                    return d.grade === currentFilters.grade;
+                });
+            }
+            if (currentFilters.room !== 'all') {
+                pool = pool.filter(function(d) {
+                    return d.roomNo === currentFilters.room;
+                });
+            }
+
+            const topics = new Set();
+            pool.forEach(function(d) {
+                topics.add(d.topic);
+            });
+            const sorted = Array.from(topics).sort();
+
+            topicFilter.innerHTML = '<option value="all">All Topics</option>';
+            sorted.forEach(function(t) {
+                const opt = document.createElement('option');
+                opt.value = t;
+                opt.textContent = t;
+                topicFilter.appendChild(opt);
+            });
+        }
+
+        function getFilteredData() {
+            return allData.filter(function(d) {
+                if (currentFilters.grade !== 'all' && d.grade !== currentFilters.grade) return false;
+                if (currentFilters.room !== 'all' && d.roomNo !== currentFilters.room) return false;
+                if (currentFilters.topic !== 'all' && d.topic !== currentFilters.topic) return false;
+                return true;
+            });
+        }
+
+        function updateOverviewCards(filtered) {
+            document.getElementById('totalSubmissions').textContent = filtered.length;
+
+            const names = new Set();
+            filtered.forEach(function(d) {
+                names.add(d.studentName.toLowerCase());
+            });
+            document.getElementById('uniqueStudents').textContent = names.size;
+
+            let totalScore = 0;
+            let scoreCount = 0;
+            filtered.forEach(function(d) {
+                const parts = d.score.split('/');
+                if (parts.length === 2) {
+                    const num = parseInt(parts[0], 10);
+                    const den = parseInt(parts[1], 10);
+                    if (!isNaN(num) && !isNaN(den) && den > 0) {
+                        totalScore += (num / den) * 100;
+                        scoreCount++;
+                    }
+                }
+            });
+            const avg = scoreCount > 0 ? Math.round(totalScore / scoreCount) : 0;
+            document.getElementById('avgScore').textContent = avg + '%';
+
+            const completed = filtered.filter(function(d) {
+                return d.status === 'Completed';
+            }).length;
+            const rate = filtered.length > 0 ? Math.round((completed / filtered.length) * 100) : 0;
+            document.getElementById('completionRate').textContent = rate + '%';
+        }
+
+        function updateTable(filtered) {
+            const tbody = document.getElementById('tableBody');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            const sorted = filtered.slice().sort(function(a, b) {
+                return new Date(b.timestamp) - new Date(a.timestamp);
+            });
+
+            let html = '';
+            sorted.forEach(function(d, i) {
+                const statusClass = d.status === 'Completed' ? 'status-completed' : 'status-incomplete';
+                const statusIcon = d.status === 'Completed' ? '\u2705' : '\u23F3';
+                const statusText = statusIcon + ' ' + d.status + ' (' + d.score + ')';
+
+                html += '<tr>'
+                    + '<td class="col-sn">' + (i + 1) + '</td>'
+                    + '<td class="col-name">' + escapeHtml(d.studentName) + '</td>'
+                    + '<td class="col-roll">' + escapeHtml(d.rollNumber) + '</td>'
+                    + '<td class="col-topic">' + escapeHtml(d.topic) + '</td>'
+                    + '<td class="col-status"><span class="' + statusClass + '">' + statusText + '</span></td>'
+                    + '<td class="col-time">' + escapeHtml(d.elapsedTime) + '</td>'
+                    + '</tr>';
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function updateDashboard() {
+            const filtered = getFilteredData();
+            updateOverviewCards(filtered);
+            updateTable(filtered);
+        }
+
+        function resetFilters() {
+            currentFilters = { grade: 'all', room: 'all', topic: 'all' };
+            gradeFilter.value = 'all';
+            populateRoomFilter();
+            populateTopicFilter();
+            roomFilter.value = 'all';
+            topicFilter.value = 'all';
+            updateDashboard();
+        }
+
+        gradeFilter.addEventListener('change', function() {
+            currentFilters.grade = gradeFilter.value;
+            currentFilters.room = 'all';
+            currentFilters.topic = 'all';
+            populateRoomFilter();
+            populateTopicFilter();
+            roomFilter.value = 'all';
+            topicFilter.value = 'all';
+            updateDashboard();
+        });
+
+        roomFilter.addEventListener('change', function() {
+            currentFilters.room = roomFilter.value;
+            currentFilters.topic = 'all';
+            populateTopicFilter();
+            topicFilter.value = 'all';
+            updateDashboard();
+        });
+
+        topicFilter.addEventListener('change', function() {
+            currentFilters.topic = topicFilter.value;
+            updateDashboard();
+        });
+
+        resetBtn.addEventListener('click', resetFilters);
+        retryBtn.addEventListener('click', fetchData);
+
+        fetchData();
+    </script>
+</body>
+</html>
