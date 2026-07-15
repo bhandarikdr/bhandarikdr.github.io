@@ -33,16 +33,20 @@
 
             <div class="filter-bar">
                 <div class="filter-group">
-                    <label for="topicFilter"><i class="fa-solid fa-book"></i> Topic</label>
-                    <select id="topicFilter">
-                        <option value="all">All Topics</option>
-                    </select>
+                    <label for="topicInput"><i class="fa-solid fa-book"></i> Topic</label>
+                    <div class="combo-wrap" id="topicCombo">
+                        <input type="text" class="combo-input" id="topicInput" placeholder="All Topics" autocomplete="off">
+                        <input type="hidden" id="topicFilter" value="all">
+                        <ul class="combo-list" id="topicList"></ul>
+                    </div>
                 </div>
                 <div class="filter-group">
-                    <label for="nameFilter"><i class="fa-solid fa-user"></i> Student Name</label>
-                    <select id="nameFilter">
-                        <option value="all">All Students</option>
-                    </select>
+                    <label for="nameInput"><i class="fa-solid fa-user"></i> Student Name</label>
+                    <div class="combo-wrap" id="nameCombo">
+                        <input type="text" class="combo-input" id="nameInput" placeholder="All Students" autocomplete="off">
+                        <input type="hidden" id="nameFilter" value="all">
+                        <ul class="combo-list" id="nameList"></ul>
+                    </div>
                 </div>
                 <div class="filter-group">
                     <label for="rollFilter"><i class="fa-solid fa-hashtag"></i> Roll No.</label>
@@ -120,6 +124,10 @@
 
         const topicFilter = document.getElementById('topicFilter');
         const nameFilter = document.getElementById('nameFilter');
+        const topicInput = document.getElementById('topicInput');
+        const nameInput = document.getElementById('nameInput');
+        const topicList = document.getElementById('topicList');
+        const nameList = document.getElementById('nameList');
         const rollFilter = document.getElementById('rollFilter');
         const resetBtn = document.getElementById('resetBtn');
         const retryBtn = document.getElementById('retryBtn');
@@ -158,6 +166,74 @@
             }
         }
 
+        function initCombo(input, hidden, list, options, allLabel, onChange) {
+            function render(filterText) {
+                var ft = (filterText || '').toLowerCase();
+                var html = '<li class="combo-option all-option' + (hidden.value === 'all' ? ' selected' : '') + '" data-value="all">' + allLabel + '</li>';
+                options.forEach(function(opt) {
+                    if (ft && opt.toLowerCase().indexOf(ft) === -1) return;
+                    var sel = hidden.value === opt ? ' selected' : '';
+                    html += '<li class="combo-option' + sel + '" data-value="' + opt.replace(/"/g, '&quot;') + '">' + opt + '</li>';
+                });
+                list.innerHTML = html;
+            }
+
+            input.addEventListener('focus', function() {
+                render(input.value);
+                list.classList.add('open');
+            });
+
+            input.addEventListener('input', function() {
+                render(input.value);
+                list.classList.add('open');
+            });
+
+            list.addEventListener('click', function(e) {
+                var item = e.target.closest('.combo-option');
+                if (!item) return;
+                var val = item.getAttribute('data-value');
+                hidden.value = val;
+                input.value = val === 'all' ? '' : item.textContent;
+                list.classList.remove('open');
+                onChange(val);
+            });
+
+            input.addEventListener('keydown', function(e) {
+                var items = list.querySelectorAll('.combo-option');
+                var active = list.querySelector('.combo-option.active');
+                var idx = Array.from(items).indexOf(active);
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (!list.classList.contains('open')) { render(input.value); list.classList.add('open'); }
+                    if (active) active.classList.remove('active');
+                    idx = idx < items.length - 1 ? idx + 1 : 0;
+                    items[idx].classList.add('active');
+                    items[idx].scrollIntoView({ block: 'nearest' });
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (active) active.classList.remove('active');
+                    idx = idx > 0 ? idx - 1 : items.length - 1;
+                    items[idx].classList.add('active');
+                    items[idx].scrollIntoView({ block: 'nearest' });
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (active) active.click();
+                } else if (e.key === 'Escape') {
+                    list.classList.remove('open');
+                    input.blur();
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!input.closest('.combo-wrap').contains(e.target)) {
+                    list.classList.remove('open');
+                }
+            });
+
+            render('');
+        }
+
         function populateFilters() {
             var topics = new Set();
             var names = new Set();
@@ -166,20 +242,17 @@
                 names.add(d.studentName);
             });
 
-            topicFilter.innerHTML = '<option value="all">All Topics</option>';
-            Array.from(topics).sort().forEach(function(t) {
-                var opt = document.createElement('option');
-                opt.value = t;
-                opt.textContent = t;
-                topicFilter.appendChild(opt);
+            var topicOpts = Array.from(topics).sort();
+            var nameOpts = Array.from(names).sort();
+
+            initCombo(topicInput, topicFilter, topicList, topicOpts, 'All Topics', function(val) {
+                currentFilters.topic = val;
+                updateDashboard();
             });
 
-            nameFilter.innerHTML = '<option value="all">All Students</option>';
-            Array.from(names).sort().forEach(function(n) {
-                var opt = document.createElement('option');
-                opt.value = n;
-                opt.textContent = n;
-                nameFilter.appendChild(opt);
+            initCombo(nameInput, nameFilter, nameList, nameOpts, 'All Students', function(val) {
+                currentFilters.name = val;
+                updateDashboard();
             });
         }
 
@@ -297,19 +370,14 @@
             currentFilters = { topic: 'all', name: 'all', roll: '' };
             topicFilter.value = 'all';
             nameFilter.value = 'all';
+            topicInput.value = '';
+            nameInput.value = '';
             rollFilter.value = '';
+            topicList.innerHTML = '';
+            nameList.innerHTML = '';
+            populateFilters();
             updateDashboard();
         }
-
-        topicFilter.addEventListener('change', function() {
-            currentFilters.topic = topicFilter.value;
-            updateDashboard();
-        });
-
-        nameFilter.addEventListener('change', function() {
-            currentFilters.name = nameFilter.value;
-            updateDashboard();
-        });
 
         rollFilter.addEventListener('input', function() {
             updateDashboard();
