@@ -261,7 +261,7 @@
             return allData.filter(function(d) {
                 if (currentFilters.topic !== 'all' && d.topic !== currentFilters.topic) return false;
                 if (currentFilters.name !== 'all' && d.studentName !== currentFilters.name) return false;
-                if (rollVal && d.rollNumber.toLowerCase().indexOf(rollVal) === -1) return false;
+                if (rollVal && d.rollNumber.toLowerCase() !== rollVal) return false;
                 return true;
             });
         }
