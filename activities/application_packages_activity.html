@@ -6,7 +6,6 @@
 <title>Activity: Application Packages — Practice Before You're Assessed</title>
 <link rel="stylesheet" href="../css/activity.css">
 <style>
-  /* Only rules NOT already expected in activity.css */
   .tabs {
     display: flex; flex-wrap: wrap; gap: 0.5rem;
     margin: 1.5rem 0; border-bottom: 2px solid var(--border-color, #ddd);
@@ -27,7 +26,6 @@
     padding: 0.4rem 0.7rem; display: inline-block; margin-bottom: 0.75rem;
   }
 
-  /* Analyzer */
   #analyzerInput {
     width: 100%; min-height: 100px; box-sizing: border-box; padding: 0.75rem;
     border: 1px solid var(--border-color, #ccc); border-radius: 6px;
@@ -38,7 +36,6 @@
   .stat-box .num { font-size: 1.6rem; font-weight: 700; color: var(--primary-color); display: block; }
   .stat-box .lbl { font-size: 0.8rem; color: var(--text-muted, #666); }
 
-  /* Order-the-units */
   .order-pool { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
   .order-chip {
     padding: 0.4rem 0.85rem; border-radius: 999px; border: 1px solid var(--border-color, #ccc);
@@ -52,7 +49,6 @@
   .order-sequence .order-chip { cursor: default; opacity: 1; background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
   .order-feedback { margin-top: 0.6rem; font-weight: 600; }
 
-  /* Flip cards (features) */
   .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; margin-top: 1rem; }
   .flip-card { perspective: 1000px; height: 130px; cursor: pointer; }
   .flip-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
@@ -66,7 +62,6 @@
   .flip-front { background: var(--bg-secondary, #f7f7f9); font-weight: 600; }
   .flip-back { background: var(--primary-color); color: #fff; transform: rotateY(180deg); }
 
-  /* Word processor facts */
   .fact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem; }
   .fact-card {
     border: 1px solid var(--border-color, #ddd); border-radius: 8px; padding: 0.9rem 1rem;
@@ -98,7 +93,6 @@
   .compare-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
   .compare-detail { margin-top: 0.75rem; font-size: 0.88rem; min-height: 60px; }
 
-  /* Spreadsheet / cell reference */
   .sheet-grid {
     display: grid; grid-template-columns: 40px repeat(5, 1fr); gap: 4px; margin-top: 1rem; max-width: 560px;
   }
@@ -121,7 +115,6 @@
   .click-cell.picked { background: var(--primary-color); color: #fff; }
   .click-feedback { margin-top: 0.75rem; font-weight: 600; min-height: 24px; }
 
-  /* Presentation builder */
   .slide-preview {
     border: 2px dashed var(--border-color, #ccc); border-radius: 8px; aspect-ratio: 16/9; max-width: 480px;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -134,7 +127,6 @@
   }
   .toggle-chip.on { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
 
-  /* Pros/cons sorter */
   .sort-pool { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; }
   .sort-item {
     border: 1px solid var(--border-color, #ccc); border-radius: 6px; padding: 0.5rem 0.75rem;
@@ -149,7 +141,6 @@
   .sort-item.done.right { border-color: #2e9e5b; }
   .sort-item.done.wrong { border-color: #d9534f; }
 
-  /* Matching game (DBMS / domain) */
   .match-row { display: flex; gap: 0.75rem; align-items: center; margin: 0.5rem 0; flex-wrap: wrap; }
   .match-term {
     min-width: 140px; padding: 0.5rem 0.75rem; border-radius: 6px;
@@ -201,7 +192,6 @@
   <button class="tab-btn" data-tab="domain">Domain-Tool Sorter</button>
 </nav>
 
-<!-- 1. Word Processor Facts -->
 <section id="wpfacts" class="panel active">
   <h2 class="section-title">Word Processor Facts</h2>
   <div class="covers-note">Trains assessment tasks 1, 2, 3, and 7</div>
@@ -237,7 +227,6 @@
   </div>
 </section>
 
-<!-- 2. Document Units + Ordering -->
 <section id="analyzer" class="panel">
   <h2 class="section-title">Document Units</h2>
   <div class="covers-note">Trains assessment task 4</div>
@@ -262,7 +251,6 @@ You can undo mistakes, check spelling, and print the final result.</textarea>
   </div>
 </section>
 
-<!-- 3. Feature Flip Cards -->
 <section id="features" class="panel">
   <h2 class="section-title">Flip a Feature</h2>
   <div class="covers-note">Trains assessment tasks 5 and 6</div>
@@ -270,7 +258,6 @@ You can undo mistakes, check spelling, and print the final result.</textarea>
   <div class="card-grid" id="cardGrid"></div>
 </section>
 
-<!-- 4. Spreadsheet / Cell Reference -->
 <section id="sheet" class="panel">
   <h2 class="section-title">Formula & Cell Reference Playground</h2>
   <div class="covers-note">Trains assessment tasks 8, 9, 10, and 11</div>
@@ -287,7 +274,6 @@ You can undo mistakes, check spelling, and print the final result.</textarea>
   </div>
 </section>
 
-<!-- 5. Build a Slide -->
 <section id="slide" class="panel">
   <h2 class="section-title">Build a Slide</h2>
   <div class="covers-note">Trains assessment task 12</div>
@@ -300,7 +286,6 @@ You can undo mistakes, check spelling, and print the final result.</textarea>
   <div class="slide-preview" id="slidePreview"></div>
 </section>
 
-<!-- 6. Pros & Cons Sorter -->
 <section id="proscons" class="panel">
   <h2 class="section-title">PowerPoint: Advantage or Disadvantage?</h2>
   <div class="covers-note">Trains assessment task 13</div>
@@ -308,7 +293,6 @@ You can undo mistakes, check spelling, and print the final result.</textarea>
   <div class="sort-pool" id="sortPool"></div>
 </section>
 
-<!-- 7. DBMS Term Match -->
 <section id="dbms" class="panel">
   <h2 class="section-title">Match the Database Term</h2>
   <div class="covers-note">Trains assessment task 14</div>
@@ -319,7 +303,6 @@ You can undo mistakes, check spelling, and print the final result.</textarea>
   <div class="score-line" id="dbmsScore"></div>
 </section>
 
-<!-- 8. Domain-Specific Tool Sorter -->
 <section id="domain" class="panel">
   <h2 class="section-title">Sort the Domain-Specific Tool</h2>
   <div class="covers-note">Trains assessment task 15</div>
@@ -336,7 +319,6 @@ You can undo mistakes, check spelling, and print the final result.</textarea>
 </div>
 
 <script>
-// ---------- Tabs ----------
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -346,7 +328,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// ---------- 1a. Definition elimination ----------
 const defOptions = [
   ["Typing, editing, and manipulating a document into a desired form", true],
   ["Only printing physical typewritten pages", false],
@@ -377,7 +358,6 @@ function renderElim(containerId, options, hint) {
   });
 }
 
-// ---------- 1b. Timeline ----------
 const timelineData = [
   ["1960s", "Standalone machines like electric typewriters appear — you could edit without retyping the whole document."],
   ["1980s", "Word processing moves onto personal computers; WordPerfect becomes hugely popular."],
@@ -398,7 +378,6 @@ timelineData.forEach(([era, detail]) => {
   timelineRow.appendChild(btn);
 });
 
-// ---------- 1c. WP vs DTP compare ----------
 const compareData = {
   wp: "A word processor focuses on typing, editing, and formatting text — margins, fonts, spacing, spell-check, headers/footers.",
   dtp: "Desktop publishing goes further: finer control over page layout, heavy graphics placement, and full-color print production."
@@ -411,7 +390,6 @@ document.querySelectorAll('.compare-btn').forEach(btn => {
   });
 });
 
-// ---------- 2a. Document Analyzer ----------
 const analyzerInput = document.getElementById('analyzerInput');
 function analyze() {
   const text = analyzerInput.value;
@@ -427,7 +405,6 @@ function analyze() {
 analyzerInput.addEventListener('input', analyze);
 analyze();
 
-// ---------- 2b. Order the units ----------
 const correctOrder = ["Character", "Word", "Sentence", "Paragraph", "Page", "Chapter", "Document"];
 let orderPicked = [];
 function renderOrderPool() {
@@ -466,7 +443,6 @@ function resetOrder() {
 }
 resetOrder();
 
-// ---------- 3. Feature Flip Cards ----------
 const features = [
   ["File Management", "Create, save, delete, move, and search for files from within the program."],
   ["Undo & Redo", "Recover text removed by mistake, or re-apply a change you just undid."],
@@ -491,7 +467,6 @@ features.forEach(([name, desc]) => {
   cardGrid.appendChild(card);
 });
 
-// ---------- 4a. Spreadsheet Playground ----------
 const sheetGrid = document.getElementById('sheetGrid');
 const cols = ['A', 'B', 'C', 'D', 'E'];
 let sheetHtml = `<div class="head"></div>` + cols.map(c => `<div class="head">${c}</div>`).join('');
@@ -524,7 +499,6 @@ function recalc() {
 cols.forEach(c => document.getElementById('cell' + c).addEventListener('input', recalc));
 recalc();
 
-// ---------- 4b. Name-that-cell click grid ----------
 const clickGrid = document.getElementById('clickGrid');
 let clickHtml = `<div class="head"></div>` + cols.map(c => `<div class="head">${c}</div>`).join('');
 [1, 2, 3].forEach(row => {
@@ -543,7 +517,6 @@ document.querySelectorAll('.click-cell').forEach(cell => {
   });
 });
 
-// ---------- 5. Presentation Builder ----------
 const slidePreview = document.getElementById('slidePreview');
 const partState = { text: true, graphics: true, slideshow: true };
 document.querySelectorAll('.toggle-chip').forEach(chip => {
@@ -564,7 +537,6 @@ function renderSlide() {
 }
 renderSlide();
 
-// ---------- 6. Pros & Cons Sorter ----------
 const prosConsData = [
   ["It's easy to use as long as you have basic computer skills.", "advantage"],
   ["It makes presentations more engaging for an audience.", "advantage"],
@@ -592,7 +564,6 @@ prosConsData.forEach(([text, correct]) => {
   sortPool.appendChild(item);
 });
 
-// ---------- 7 & 8. Matching games ----------
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {

@@ -23,34 +23,28 @@
         </ul>
     </nav>
 
-    <script>
-        const nav = document.querySelector('.glass-nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY <= 50) {
-                nav.classList.add('visible');
-            } else {
-                nav.classList.remove('visible');
-            }
-        });
-
-        // Accordion behavior for resource sections
-        const resourceSections = document.querySelectorAll('.resource-section');
-        resourceSections.forEach(section => {
-            section.addEventListener('toggle', (e) => {
-                if (section.open) {
-                    resourceSections.forEach(otherSection => {
-                        if (otherSection !== section && otherSection.open) {
-                            otherSection.open = false;
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="../js/nav.js"></script>
 
     <div class="header-banner">
         <h1>Grade XII Computer Science</h1>
-        <p>Advanced Computational Concepts, Programming Structures & Database Environments</p>
+        <p>Resource Portal &bull; Advanced Computational Concepts & Systems</p>
+    </div>
+
+    <div class="grading-summary">
+        <div class="grading-card">
+            <div class="stat">
+                <div class="num">50 <small>marks</small></div>
+                <div class="label">Theory · External Board</div>
+            </div>
+            <div class="stat split">
+                <div class="num">25 <small>+ 25</small></div>
+                <div class="label">Practical · Internal + External</div>
+            </div>
+            <div class="stat">
+                <div class="num">7 <small>units</small></div>
+                <div class="label">Curriculum coverage</div>
+            </div>
+        </div>
     </div>
 
     <div class="course-container">
@@ -63,170 +57,176 @@
             </div>
         </div>
 
-            <div class="card">
-                <h2>📊 Scheme of Evaluation</h2>
-                <ul class="marks-list">
-                    <li>
-                        <span>Theory Examination (External Board)</span>
-                        <span class="badge marks-alt">50 Marks</span>
-                    </li>
-                    <li>
-                        <span>Practical Assessments (Internal + External)</span>
-                        <span class="badge marks">50 Marks</span>
-                    </li>
-                    <li style="font-weight: bold; padding-top: 15px;">
-                        <span>Total Weightage</span>
-                        <span>100 Marks</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h2>⚠️ Practical Marks Breakdown</h2>
-                <ul class="marks-list">
-                    <li>
-                        <span>Internal Portfolio (Attendance, Labs, Projects)</span>
-                        <span class="badge marks-alt">25 Marks</span>
-                    </li>
-                    <li>
-                        <span>External Lab Exam (Code Writing & Verification)</span>
-                        <span class="badge marks">5 Marks</span>
-                    </li>
-                    <li>
-                        <span>Live Execution & Technical Demo</span>
-                        <span class="badge marks">15 Marks</span>
-                    </li>
-                    <li>
-                        <span>Viva Voce (Oral Board Examination)</span>
-                        <span class="badge marks">5 Marks</span>
-                    </li>
-                </ul>
-            </div>
-
-        <div class="card">
-            <h2>📚 Syllabus Outline & Practical Involvement</h2>
-            <p>Our final-year curriculum spans 7 foundational content modules. Special emphasis will be oriented toward software lifecycle management, programmatic database manipulation, and complex operational procedures.</p>
-            
-            <div class="syllabus-grid">
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 1: DBMS Concept</h4>
-                            <p>Introduction to DBMS, advantages, database models, normalization, centralized vs. distributed databases, and database security. Practical focus on SQL DDL and DML for CRUD operations.</p>
-                        </div>
-                        <span class="status-badge status-practical">Theory & Practical (SQL CRUD)</span>
-                    </div>
-                    <div class="syllabus-actions">
-                        <div class="action-group">
-                            <a href="https://1drv.ms/f/c/46155f2903841d6e/IgBuHYQDKV8VIIBGGQcAAAAAAT7EY35QMVujXHfrpTOnwYg?e=6XhOPv" target="_blank" class="action-btn handouts">📖 Handouts</a>
-                        </div>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/sql_commands_lab_activity.html" target="_blank" class="action-btn lab-guide">🧪 SQL Lab</a>
-                            <a href="../assessments/sql_commands_lab_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/db_normalization_activity.html" target="_blank" class="action-btn activity">🧪 Normalization</a>
-                            <a href="../assessments/db_normalization_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/db_concepts_activity.html" target="_blank" class="action-btn activity">🧪 DBMS Concepts</a>
-                            <a href="../assessments/db_concepts_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/db_data_modeling_activity.html" target="_blank" class="action-btn activity">🧪 Data Modeling</a>
-                            <a href="../assessments/db_data_modeling_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 2: Concept of Network and Data Communication</h4>
-                            <p>Basic elements and models of communication systems, transmission media, LAN and WAN configurations, network architectures, topologies, devices, OSI Reference Model, and Internet Protocol Addressing.</p>
-                        </div>
-                        <span class="status-badge status-theory">Theory & Topologies</span>
-                    </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                    </div>
-                </div>
-
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 3: Web Technology II (CSS, JavaScript, PHP)</h4>
-                            <p>Client-side scripting with JavaScript (fundamentals, functions, control structures, object-based programming, event handling) and server-side scripting with PHP (variables, operators, database connectivity, SQL queries).</p>
-                        </div>
-                        <span class="status-badge status-practical">Highly Practical (JS & Server Tech)</span>
-                    </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                        <a href="#" class="action-btn lab-guide">🧪 Web Tech II Lab</a>
-                    </div>
-                </div>
-
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 4: Programming II</h4>
-                            <p>Review of C programming concepts, user-defined functions (prototypes, calls, returns), storage classes, recursion, structure and union differentiation, pointers, and sequential/random data file handling functions.</p>
-                        </div>
-                        <span class="status-badge status-practical">Highly Practical (C Language)</span>
-                    </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                        <a href="#" class="action-btn lab-guide">🧪 C Prog II Lab</a>
-                    </div>
-                </div>
-
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 5: OOP Concept</h4>
-                            <p>Introduction to Object-Oriented Programming paradigms, core features, advantages, and real-world software applications.</p>
-                        </div>
-                        <span class="status-badge status-theory">Theory & Concepts</span>
-                    </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                    </div>
-                </div>
-
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 6: Software Process Model (SDLC, Software Process only)</h4>
-                            <p>Software projects, development processes, Software Development Life Cycle (SDLC) models, roles of system analysts vs. software engineers, system design, and software quality factors.</p>
-                        </div>
-                        <span class="status-badge status-theory">Theory & Systems Planning</span>
-                    </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                    </div>
-                </div>
-
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 7: Recent Trends in ICT</h4>
-                            <p>Exploration of current and emerging developments across recent technological trends in Information and Communication Technology.</p>
-                        </div>
-                        <span class="status-badge status-theory">Theory & Industry Focus</span>
-                    </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                    </div>
-                </div>
-            </div>
+        <div class="section-head">
+            <span class="kicker">Syllabus & Resources — merged</span>
+            <h2>Unit-wise Curriculum & Materials</h2>
+            <p>Advanced modules, practical mastery, and every linked resource for Grade XII, all in one place.</p>
         </div>
 
-        <div class="alert-box critical">
-            <h2>📝 Critical Course Requirement: The Lab Report</h2>
+        <div class="unit-list">
+
+            <!-- Unit 1 -->
+            <details class="unit-card practical" open>
+                <summary>
+                    <span class="unit-num">01</span>
+                    <div class="unit-title-wrap">
+                        <h3>DBMS Concept</h3>
+                        <div class="unit-desc">DBMS advantages, models, normalization, centralized vs. distributed, SQL CRUD</div>
+                    </div>
+                    <span class="unit-badge">Theory & Practical (SQL CRUD)</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Introduction to DBMS, advantages, database models, normalization, centralized vs. distributed databases, and database security. Practical focus on SQL DDL and DML for CRUD operations.</p>
+                        <div class="resource-groups">
+                            <a class="res-pill" href="https://1drv.ms/f/c/46155f2903841d6e/IgBuHYQDKV8VIIBGGQcAAAAAAT7EY35QMVujXHfrpTOnwYg?e=6XhOPv" target="_blank"><span class="tag">PDF</span> Handouts</a>
+                            <a class="res-pill" href="https://1drv.ms/b/c/46155f2903841d6e/IQCTnM_Ri6evS7L6R-RmlNHiAfLN5Ws9qZ-pLozzQHgSBdQ?e=xL5wOf" target="_blank"><span class="tag">PDF</span> SQL Lab Guide</a>
+                            <a class="res-pill" href="../activities/sql_commands_lab_activity.html" target="_blank"><span class="tag">ACTIVITY</span> SQL Lab</a>
+                            <a class="res-pill" href="../assessments/sql_commands_lab_assessment.html" target="_blank"><span class="tag">TEST</span> SQL Lab Assessment</a>
+                            <a class="res-pill" href="../activities/db_normalization_activity.html" target="_blank"><span class="tag">ACTIVITY</span> Normalization</a>
+                            <a class="res-pill" href="../assessments/db_normalization_assessment.html" target="_blank"><span class="tag">TEST</span> Normalization Assessment</a>
+                            <a class="res-pill" href="../activities/db_concepts_activity.html" target="_blank"><span class="tag">ACTIVITY</span> DBMS Concepts</a>
+                            <a class="res-pill" href="../assessments/db_concepts_assessment.html" target="_blank"><span class="tag">TEST</span> DBMS Concepts Assessment</a>
+                            <a class="res-pill" href="../activities/db_data_modeling_activity.html" target="_blank"><span class="tag">ACTIVITY</span> Data Modeling</a>
+                            <a class="res-pill" href="../assessments/db_data_modeling_assessment.html" target="_blank"><span class="tag">TEST</span> Data Modeling Assessment</a>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Unit 2 -->
+            <details class="unit-card theory">
+                <summary>
+                    <span class="unit-num">02</span>
+                    <div class="unit-title-wrap">
+                        <h3>Networking & Data Communication</h3>
+                        <div class="unit-desc">Elements & models, transmission media, LAN/WAN, OSI Model, IP Addressing</div>
+                    </div>
+                    <span class="unit-badge">Theory & Topologies</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Basic elements and models of communication systems, transmission media, LAN and WAN configurations, network architectures, topologies, devices, OSI Reference Model, and Internet Protocol Addressing.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Unit 3 -->
+            <details class="unit-card practical">
+                <summary>
+                    <span class="unit-num">03</span>
+                    <div class="unit-title-wrap">
+                        <h3>Web Technology II</h3>
+                        <div class="unit-desc">JavaScript fundamentals, event handling, server-side scripting with PHP & SQL</div>
+                    </div>
+                    <span class="unit-badge">Highly Practical (JS & Server Tech)</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Client-side scripting with JavaScript (fundamentals, functions, control structures, object-based programming, event handling) and server-side scripting with PHP (variables, operators, database connectivity, SQL queries).</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                            <span class="res-pill disabled"><span class="tag">LAB</span> Web Tech II Lab</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Unit 4 -->
+            <details class="unit-card practical">
+                <summary>
+                    <span class="unit-num">04</span>
+                    <div class="unit-title-wrap">
+                        <h3>Programming II</h3>
+                        <div class="unit-desc">Advanced C: functions, recursion, structures, pointers, file handling</div>
+                    </div>
+                    <span class="unit-badge">Highly Practical (C Language)</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Review of C programming concepts, user-defined functions (prototypes, calls, returns), storage classes, recursion, structure and union differentiation, pointers, and sequential/random data file handling functions.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                            <span class="res-pill disabled"><span class="tag">LAB</span> C Prog II Lab</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Unit 5 -->
+            <details class="unit-card theory">
+                <summary>
+                    <span class="unit-num">05</span>
+                    <div class="unit-title-wrap">
+                        <h3>OOP Concept</h3>
+                        <div class="unit-desc">Object-Oriented paradigms, core features, advantages, real-world apps</div>
+                    </div>
+                    <span class="unit-badge">Theory & Concepts</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Introduction to Object-Oriented Programming paradigms, core features, advantages, and real-world software applications.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Unit 6 -->
+            <details class="unit-card theory">
+                <summary>
+                    <span class="unit-num">06</span>
+                    <div class="unit-title-wrap">
+                        <h3>Software Process Model</h3>
+                        <div class="unit-desc">SDLC models, roles of system analysts & engineers, design, quality factors</div>
+                    </div>
+                    <span class="unit-badge">Theory & Systems Planning</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Software projects, development processes, Software Development Life Cycle (SDLC) models, roles of system analysts vs. software engineers, system design, and software quality factors.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Unit 7 -->
+            <details class="unit-card theory">
+                <summary>
+                    <span class="unit-num">07</span>
+                    <div class="unit-title-wrap">
+                        <h3>Recent Trends in ICT</h3>
+                        <div class="unit-desc">Current and emerging developments in information and communication tech</div>
+                    </div>
+                    <span class="unit-badge">Theory & Industry Focus</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Exploration of current and emerging developments across recent technological trends in Information and Communication Technology.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
+        </div>
+
+        <div class="alert-box critical" style="margin-top: 40px;">
+            <h3>📝 Critical Course Requirement: The Lab Report</h3>
             <p>To successfully complete this course and be eligible for your practical marks, you are <strong>strictly required to submit a comprehensive lab report</strong> at the end of the academic year.</p>
             <p>This report is a compiled, systematic documentation of the SQL exercises, C programming solutions, and any other laboratory tasks you complete throughout the term.</p>
 
@@ -240,84 +240,49 @@
             <p style="margin-top: 20px; font-weight: bold;">Please do not leave this until the last minute. Treat every lab session as a step toward building your final report.</p>
         </div>
 
-        <div class="card">
-            <h2>📥 Download Center & Attached Resources</h2>
-            <p>Download your official curriculum guides, sample templates, and questions below:</p>
-            
-            <details class="resource-section" open>
-                <summary>📂 Resources</summary>
-                <div class="resource-grid">
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #ef4444;">PDF</div>
-                            <div>
-                                <span class="resource-name">Official Computer Science Curriculum</span>
-                                <span class="resource-meta">Combined Grade 11 & 12 Syllabus (CDC)</span>
-                            </div>
-                        </div>
-                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQDUO4A43UfwS7EjF-uiIX9VAdHE6rxfHjEiP2_ckRggXhI?e=1hbA59" target="_blank" class="inline-download-btn">View/Download</a>
-                    </div>
+        <div class="section-head" style="margin-top: 60px;">
+            <span class="kicker">Everything else</span>
+            <h2>Course-wide Downloads & Assignments</h2>
+            <p>Only resources that aren't tied to one specific unit stay here — the combined syllabus, the lab report template, and your assignments.</p>
+        </div>
 
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #2b6cb0;">DOCX</div>
-                            <div>
-                                <span class="resource-name">Lab Report Template Blueprint - Grade XII</span>
-                                <span class="resource-meta">A structure for laboratory report layouts</span>
-                            </div>
-                        </div>
-                        <a href="#" download class="inline-download-btn">View/Download</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon">PDF</div>
-                            <div>
-                                <span class="resource-name">Activity - SQL Lab Guide</span>
-                                <span class="resource-meta">Lab guide covering DDL and DML scripts</span>
-                            </div>
-                        </div>
-                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQCTnM_Ri6evS7L6R-RmlNHiAfLN5Ws9qZ-pLozzQHgSBdQ?e=xL5wOf" target="_blank" class="inline-download-btn">View/Download</a>
-                    </div>
+        <div class="two-col">
+            <div class="misc-card">
+                <h4><i class="fa-solid fa-folder-open"></i> Course-wide Resources</h4>
+                <div class="misc-item">
+                    <span><span class="filetype">PDF</span> Official Combined Syllabus (Grade 11 & 12, CDC)</span>
+                    <a href="https://1drv.ms/b/c/46155f2903841d6e/IQDUO4A43UfwS7EjF-uiIX9VAdHE6rxfHjEiP2_ckRggXhI?e=1hbA59" target="_blank">Download</a>
                 </div>
-            </details>
-
-            <details class="resource-section">
-                <summary>📝 Assignments</summary>
-                <div class="resource-grid">
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #f59e0b;">HTML</div>
-                            <div>
-                                <span class="resource-name">Grade XII - Assignment 1</span>
-                                <span class="resource-meta">Orientation reflective writing assignment</span>
-                            </div>
-                        </div>
-                        <a href="../assignments/gradexii_assignment1.html" target="_blank" class="inline-download-btn">View</a>
-                    </div>
+                <div class="misc-item">
+                    <span><span class="filetype">DOCX</span> Grade XII Lab Report Template</span>
+                    <a href="#" download>Download</a>
                 </div>
-            </details>
+            </div>
 
-            <details class="resource-section">
-                <summary>📊 Assessment Status</summary>
-                <div class="resource-grid">
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background: #eff6ff;">
-                                <i class="fa-solid fa-chart-bar" style="color: #3b82f6;"></i>
-                            </div>
-                            <div>
-                                <span class="resource-name">Assessment Dashboard</span>
-                                <span class="resource-meta">Student submission status, scores, and completion rates</span>
-                            </div>
-                        </div>
-                        <a href="../dashboard/assessment_status.html" target="_blank" class="inline-download-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Dashboard</a>
-                    </div>
+            <div class="misc-card">
+                <h4><i class="fa-solid fa-file-signature"></i> Assignments</h4>
+                <div class="misc-item">
+                    <span><span class="filetype">HTML</span> Assignment 1 — Orientation reflective essay</span>
+                    <a href="../assignments/gradexii_assignment1.html" target="_blank">View</a>
                 </div>
-            </details>
+            </div>
+        </div>
+
+        <div class="cta-band">
+            <div class="cta-inner">
+                <div>
+                    <h3>Track your assessment progress</h3>
+                    <p>See submission status, scores, and completion across all assessments.</p>
+                </div>
+                <a class="cta-btn" href="../assessment_status/grade_xii.html" target="_blank">Open Dashboard →</a>
+            </div>
         </div>
 
     </div>
+
+    <footer>
+        <p>&copy; 2026 Kedar Pd. Bhandari · Computer Science Resource Portal</p>
+    </footer>
 
 </body>
 </html>

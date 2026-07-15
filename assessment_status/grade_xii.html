@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade XII Assessment Status</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/assessment_status.css">
+</head>
+<body>
+
+    <header class="page-header">
+        <h1>Grade XII — Assessment Status</h1>
+        <p class="subtitle">Student submission overview for Grade XII Computer Science</p>
+        <span class="grade-badge">Grade XII</span>
+    </header>
+
+    <main class="container">
+
+        <div class="loading-state" id="loadingState">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            <p>Loading assessment data...</p>
+        </div>
+
+        <div class="error-state hidden" id="errorState">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p id="errorMessage">Failed to load data.</p>
+            <button class="retry-btn" id="retryBtn">Retry</button>
+        </div>
+
+        <div class="dashboard-content hidden" id="dashboardContent">
+
+            <div class="filter-bar">
+                <div class="filter-group">
+                    <label for="topicFilter"><i class="fa-solid fa-book"></i> Topic</label>
+                    <select id="topicFilter">
+                        <option value="all">All Topics</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="nameFilter"><i class="fa-solid fa-user"></i> Student Name</label>
+                    <select id="nameFilter">
+                        <option value="all">All Students</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="rollFilter"><i class="fa-solid fa-hashtag"></i> Roll No.</label>
+                    <input type="text" id="rollFilter" placeholder="Search roll number..." autocomplete="off">
+                </div>
+                <button class="reset-btn" id="resetBtn">
+                    <i class="fa-solid fa-rotate-left"></i> Reset
+                </button>
+            </div>
+
+            <div class="overview-cards">
+                <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+                    <div class="stat-value" id="totalStudents">0</div>
+                    <div class="stat-label">Total Students</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-chart-simple"></i></div>
+                    <div class="stat-value" id="avgScore">0%</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-value" id="avgTime">0s</div>
+                    <div class="stat-label">Avg Elapsed Time</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+                    <div class="stat-value" id="completionRate">0/0</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th class="col-sn">S.N.</th>
+                            <th class="col-name">Student Name</th>
+                            <th class="col-roll">Roll No.</th>
+                            <th class="col-topic">Topic</th>
+                            <th class="col-status">Status</th>
+                            <th class="col-time">Elapsed Time</th>
+                            <th class="col-date">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+                <div class="empty-state hidden" id="emptyState">
+                    <i class="fa-solid fa-inbox"></i>
+                    <p>No submissions match the selected filters.</p>
+                </div>
+            </div>
+
+            <footer class="dashboard-footer">
+                <p>Data sourced from assessment Google Form submissions. Last updated: <span id="lastUpdated">—</span></p>
+            </footer>
+
+        </div>
+    </main>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykNegn72LpaysfnNe6ikuaRWYa8SiWC48gw9iMGi44wmlesqmTvxDrCc-osWKMXM7h/exec';
+        const GRADE = 'XII';
+
+        let allData = [];
+        let currentFilters = { topic: 'all', name: 'all', roll: '' };
+
+        const loadingState = document.getElementById('loadingState');
+        const errorState = document.getElementById('errorState');
+        const dashboardContent = document.getElementById('dashboardContent');
+        const errorMessage = document.getElementById('errorMessage');
+        const emptyState = document.getElementById('emptyState');
+
+        const topicFilter = document.getElementById('topicFilter');
+        const nameFilter = document.getElementById('nameFilter');
+        const rollFilter = document.getElementById('rollFilter');
+        const resetBtn = document.getElementById('resetBtn');
+        const retryBtn = document.getElementById('retryBtn');
+
+        function getGradeFromRoom(roomStr) {
+            return roomStr.split(' - ')[0].trim().toUpperCase();
+        }
+
+        async function fetchData() {
+            loadingState.classList.remove('hidden');
+            errorState.classList.add('hidden');
+            dashboardContent.classList.add('hidden');
+
+            try {
+                const response = await fetch(SCRIPT_URL);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
+                const json = await response.json();
+                if (json.error) throw new Error(json.error);
+
+                allData = (json.data || []).filter(function(d) {
+                    return getGradeFromRoom(d.roomNo) === GRADE;
+                });
+
+                document.getElementById('lastUpdated').textContent = json.generatedAt
+                    ? new Date(json.generatedAt).toLocaleString()
+                    : '—';
+
+                populateFilters();
+                resetFilters();
+                loadingState.classList.add('hidden');
+                dashboardContent.classList.remove('hidden');
+            } catch (e) {
+                loadingState.classList.add('hidden');
+                errorState.classList.remove('hidden');
+                errorMessage.textContent = 'Failed to load data: ' + e.message;
+            }
+        }
+
+        function populateFilters() {
+            var topics = new Set();
+            var names = new Set();
+            allData.forEach(function(d) {
+                topics.add(d.topic);
+                names.add(d.studentName);
+            });
+
+            topicFilter.innerHTML = '<option value="all">All Topics</option>';
+            Array.from(topics).sort().forEach(function(t) {
+                var opt = document.createElement('option');
+                opt.value = t;
+                opt.textContent = t;
+                topicFilter.appendChild(opt);
+            });
+
+            nameFilter.innerHTML = '<option value="all">All Students</option>';
+            Array.from(names).sort().forEach(function(n) {
+                var opt = document.createElement('option');
+                opt.value = n;
+                opt.textContent = n;
+                nameFilter.appendChild(opt);
+            });
+        }
+
+        function getFilteredData() {
+            var rollVal = rollFilter.value.trim().toLowerCase();
+            return allData.filter(function(d) {
+                if (currentFilters.topic !== 'all' && d.topic !== currentFilters.topic) return false;
+                if (currentFilters.name !== 'all' && d.studentName !== currentFilters.name) return false;
+                if (rollVal && d.rollNumber.toLowerCase().indexOf(rollVal) === -1) return false;
+                return true;
+            });
+        }
+
+        function updateOverviewCards(filtered) {
+            var uniqueStudents = new Set();
+            filtered.forEach(function(d) {
+                uniqueStudents.add(d.studentName.toLowerCase() + '|' + d.rollNumber);
+            });
+            document.getElementById('totalStudents').textContent = uniqueStudents.size;
+
+            var totalScore = 0;
+            var scoreCount = 0;
+            var totalTimeMs = 0;
+            var timeCount = 0;
+            var completed = 0;
+            filtered.forEach(function(d) {
+                var parts = d.score.split('/');
+                if (parts.length === 2) {
+                    var num = parseInt(parts[0], 10);
+                    var den = parseInt(parts[1], 10);
+                    if (!isNaN(num) && !isNaN(den) && den > 0) {
+                        totalScore += (num / den) * 100;
+                        scoreCount++;
+                    }
+                }
+                if (d.status === 'Completed') {
+                    completed++;
+                    var timeParts = d.elapsedTime.match(/(?:(\d+)h\s*)?(?:(\d+)m\s*)?(\d+)s/);
+                    if (timeParts) {
+                        var h = parseInt(timeParts[1] || '0', 10);
+                        var m = parseInt(timeParts[2] || '0', 10);
+                        var s = parseInt(timeParts[3], 10);
+                        totalTimeMs += (h * 3600 + m * 60 + s) * 1000;
+                        timeCount++;
+                    }
+                }
+            });
+
+            var avg = scoreCount > 0 ? Math.round(totalScore / scoreCount) : 0;
+            document.getElementById('avgScore').textContent = avg + '%';
+
+            var avgMs = timeCount > 0 ? totalTimeMs / timeCount : 0;
+            document.getElementById('avgTime').textContent = formatElapsed(avgMs);
+
+            document.getElementById('completionRate').textContent = completed + '/' + filtered.length;
+        }
+
+        function formatElapsed(ms) {
+            var totalSec = Math.round(ms / 1000);
+            if (totalSec < 60) return totalSec + 's';
+            var min = Math.floor(totalSec / 60);
+            var sec = totalSec % 60;
+            return min + 'm ' + sec + 's';
+        }
+
+        function updateTable(filtered) {
+            var tbody = document.getElementById('tableBody');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            var sorted = filtered.slice().sort(function(a, b) {
+                return new Date(b.timestamp) - new Date(a.timestamp);
+            });
+
+            var html = '';
+            sorted.forEach(function(d, i) {
+                var statusClass = d.status === 'Completed' ? 'status-completed' : 'status-incomplete';
+                var statusIcon = d.status === 'Completed' ? '\u2705' : '\u23F3';
+                var statusText = statusIcon + ' ' + d.status + ' (' + d.score + ')';
+                var dateStr = d.timestamp ? new Date(d.timestamp).toLocaleDateString() : '—';
+
+                html += '<tr>'
+                    + '<td class="col-sn">' + (i + 1) + '</td>'
+                    + '<td class="col-name">' + escapeHtml(d.studentName) + '</td>'
+                    + '<td class="col-roll">' + escapeHtml(d.rollNumber) + '</td>'
+                    + '<td class="col-topic">' + escapeHtml(d.topic) + '</td>'
+                    + '<td class="col-status"><span class="' + statusClass + '">' + statusText + '</span></td>'
+                    + '<td class="col-time">' + escapeHtml(d.elapsedTime) + '</td>'
+                    + '<td class="col-date">' + dateStr + '</td>'
+                    + '</tr>';
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function updateDashboard() {
+            var filtered = getFilteredData();
+            updateOverviewCards(filtered);
+            updateTable(filtered);
+        }
+
+        function resetFilters() {
+            currentFilters = { topic: 'all', name: 'all', roll: '' };
+            topicFilter.value = 'all';
+            nameFilter.value = 'all';
+            rollFilter.value = '';
+            updateDashboard();
+        }
+
+        topicFilter.addEventListener('change', function() {
+            currentFilters.topic = topicFilter.value;
+            updateDashboard();
+        });
+
+        nameFilter.addEventListener('change', function() {
+            currentFilters.name = nameFilter.value;
+            updateDashboard();
+        });
+
+        rollFilter.addEventListener('input', function() {
+            updateDashboard();
+        });
+
+        resetBtn.addEventListener('click', resetFilters);
+        retryBtn.addEventListener('click', fetchData);
+
+        fetchData();
+    </script>
+</body>
+</html>

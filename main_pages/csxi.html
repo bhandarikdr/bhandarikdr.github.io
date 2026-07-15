@@ -23,34 +23,28 @@
         </ul>
     </nav>
 
-    <script>
-        const nav = document.querySelector('.glass-nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY <= 50) {
-                nav.classList.add('visible');
-            } else {
-                nav.classList.remove('visible');
-            }
-        });
-
-        // Accordion behavior for resource sections
-        const resourceSections = document.querySelectorAll('.resource-section');
-        resourceSections.forEach(section => {
-            section.addEventListener('toggle', (e) => {
-                if (section.open) {
-                    resourceSections.forEach(otherSection => {
-                        if (otherSection !== section && otherSection.open) {
-                            otherSection.open = false;
-                        }
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="../js/nav.js"></script>
 
     <div class="header-banner">
         <h1>Grade XI Computer Science</h1>
-        <p>Course Orientation & Syllabus Overview &bull; Resource Portal</p>
+        <p>Resource Portal &bull; Course Orientation & Syllabus</p>
+    </div>
+
+    <div class="grading-summary">
+        <div class="grading-card">
+            <div class="stat">
+                <div class="num">50 <small>marks</small></div>
+                <div class="label">Theory · Written Exam</div>
+            </div>
+            <div class="stat split">
+                <div class="num">25 <small>+ 25</small></div>
+                <div class="label">Practical · Internal + External</div>
+            </div>
+            <div class="stat">
+                <div class="num">8 <small>units</small></div>
+                <div class="label">Curriculum coverage</div>
+            </div>
+        </div>
     </div>
 
     <div class="course-container">
@@ -63,176 +57,203 @@
             </div>
         </div>
 
-        <div class="card">
-            <h2>📊 Course Grading & Assessment Structure</h2>
-            <p>Your final evaluation is split equally between your performance in the classroom and your hands-on laboratory capabilities:</p>
-            
-            <div class="grid-2">
-                <div class="stat-box">
-                    <div class="number">50</div>
-                    <div class="label">Theory (Written Examination) Marks</div>
-                </div>
-                <div class="stat-box">
-                    <div class="number">50</div>
-                    <div class="label">Practical Marks (Internal & External)</div>
-                </div>
-            </div>
-
-            <div class="alert-box">
-                <strong>⚠️ Important Breakdown:</strong> The 50 practical marks are split into two components. 25 marks come from your ongoing Internal Evaluation (classroom participation, terminal exams, and your project report/presentation). The remaining 25 marks come from an External Practical Examination where you will be tested on your writing process, live demonstration of tasks, and a viva voce.
-            </div>
+        <div class="section-head">
+            <span class="kicker">Syllabus & Resources — merged</span>
+            <h2>Unit-wise Curriculum & Materials</h2>
+            <p>Topic scope, practical involvement, and every linked resource for a unit now live in the same card — all you need in one place.</p>
         </div>
 
-        <div class="card">
-            <h2>📚 Syllabus Outline & Practical Involvement</h2>
-            <p>Our curriculum is divided into 8 core content areas. While some units focus primarily on fundamental concepts, others involve significant laboratory practice. Below is the mapping of units with their involvement status:</p>
-            
-            <div class="syllabus-grid">
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 1: Computer System</h4>
-                            <p>Evolution and classification of computers, hardware components (CPU, ALU, CU, Registers), Memory types (Primary, Secondary, Cache), and Computer Architecture (Von Neumann model).</p>
-                        </div>
-                        <span class="status-badge status-theory">Theory Focus</span>
-                    </div>
-                    <div class="syllabus-actions">
-                        <a href="https://1drv.ms/f/c/46155f2903841d6e/IgBuHYQDKV8VIIBG0gAAAAAAAaifhK3eKzMc0IDtHoqsoC8?e=rmcWc7" target="_blank" class="action-btn handouts">📖 Handouts</a>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/computer_introduction_activity.html" target="_blank" class="action-btn activity">🧪 CS Intro</a>
-                            <a href="../assessments/computer_introduction_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/computer_system_&_io_activity.html" target="_blank" class="action-btn activity">🧪 Sys & IO</a>
-                            <a href="../assessments/computer_system_&_io_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                    </div>
-                </div>
+        <div class="unit-list">
 
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 2: Number System & Boolean Logic</h4>
-                            <p>Binary, Octal, Decimal, and Hexadecimal conversions. 1's and 2's complement arithmetic. Introduction to Boolean logic, logic gates, and truth tables.</p>
-                        </div>
-                        <span class="status-badge status-theory">Theory & Numericals</span>
+            <!-- Unit 1 -->
+            <details class="unit-card theory" open>
+                <summary>
+                    <span class="unit-num">01</span>
+                    <div class="unit-title-wrap">
+                        <h3>Computer System</h3>
+                        <div class="unit-desc">Evolution & classification, hardware components, memory types, Von Neumann model</div>
                     </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
+                    <span class="unit-badge">Theory Focus</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Evolution and classification of computers, hardware components (CPU, ALU, CU, Registers), Memory types (Primary, Secondary, Cache), and Computer Architecture (Von Neumann model).</p>
+                        <div class="resource-groups">
+                            <a class="res-pill" href="https://1drv.ms/f/c/46155f2903841d6e/IgBuHYQDKV8VIIBG0gAAAAAAAaifhK3eKzMc0IDtHoqsoC8?e=rmcWc7" target="_blank"><span class="tag">PDF</span> Handouts</a>
+                            <a class="res-pill" href="../activities/computer_introduction_activity.html" target="_blank"><span class="tag">ACTIVITY</span> CS Intro</a>
+                            <a class="res-pill" href="../assessments/computer_introduction_assessment.html" target="_blank"><span class="tag">TEST</span> CS Intro Assessment</a>
+                            <a class="res-pill" href="../activities/computer_system_&_io_activity.html" target="_blank"><span class="tag">ACTIVITY</span> Sys & IO</a>
+                            <a class="res-pill" href="../assessments/computer_system_&_io_assessment.html" target="_blank"><span class="tag">TEST</span> Sys & IO Assessment</a>
+                        </div>
                     </div>
                 </div>
+            </details>
 
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 3: Computer Software & Operating System</h4>
-                            <p>System and Application software. OS functions and types. Navigation of GUI-based OS and introduction to CLI with basic Windows CMD practice.</p>
-                        </div>
-                        <span class="status-badge status-practical">Theory & CMD Practice</span>
+            <!-- Unit 2 -->
+            <details class="unit-card theory">
+                <summary>
+                    <span class="unit-num">02</span>
+                    <div class="unit-title-wrap">
+                        <h3>Number System & Boolean Logic</h3>
+                        <div class="unit-desc">Conversions, complement arithmetic, Boolean logic, gates & truth tables</div>
                     </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                        <a href="#" class="action-btn lab-guide">🧪 CMD Lab</a>
+                    <span class="unit-badge">Theory & Numericals</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Binary, Octal, Decimal, and Hexadecimal conversions. 1's and 2's complement arithmetic. Introduction to Boolean logic, logic gates, and truth tables.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                        </div>
                     </div>
                 </div>
+            </details>
 
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 4: Application Package</h4>
-                            <p>In-depth features of Word Processing (Mail Merge, Tables), Spreadsheets (Complex Formulas, Functions, Charts), and Presentation tools.</p>
-                        </div>
-                        <span class="status-badge status-practical">Highly Practical</span>
+            <!-- Unit 3 -->
+            <details class="unit-card theory">
+                <summary>
+                    <span class="unit-num">03</span>
+                    <div class="unit-title-wrap">
+                        <h3>Computer Software & Operating System</h3>
+                        <div class="unit-desc">Software types, OS functions, GUI navigation, CLI & Windows CMD practice</div>
                     </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/application_packages_lab_activity.html" target="_blank" class="action-btn lab-guide">🧪 App Packages Lab</a>
-                            <a href="../assessments/application_packages_lab_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/application_packages_activity.html" target="_blank" class="action-btn activity">🧪 App Packages</a>
-                            <a href="../assessments/application_packages_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
+                    <span class="unit-badge">Theory & CMD Practice</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">System and Application software. OS functions and types. Navigation of GUI-based OS and introduction to CLI with basic Windows CMD practice.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                            <span class="res-pill disabled"><span class="tag">LAB</span> CMD Lab</span>
                         </div>
                     </div>
                 </div>
+            </details>
 
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 5: Programming Concepts & Logics</h4>
-                            <p>Program design tools (Algorithms, Flowcharts, Pseudocode). C Programming: Data types, Variables, Control structures (If-else, Switch, Loops).</p>
-                        </div>
-                        <span class="status-badge status-practical">Highly Practical (C)</span>
+            <!-- Unit 4 -->
+            <details class="unit-card practical">
+                <summary>
+                    <span class="unit-num">04</span>
+                    <div class="unit-title-wrap">
+                        <h3>Application Package</h3>
+                        <div class="unit-desc">Word processing, spreadsheets, presentation tools — mail merge, formulas, charts</div>
                     </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                        <a href="#" class="action-btn lab-guide">🧪 C Prog Lab</a>
+                    <span class="unit-badge">Highly Practical</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">In-depth features of Word Processing (Mail Merge, Tables), Spreadsheets (Complex Formulas, Functions, Charts), and Presentation tools.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                            <a class="res-pill" href="https://1drv.ms/b/c/46155f2903841d6e/IQAxjW3IJ5WXSpjYTJ3clbOJAV4YEUHwlJMxCfkFTENNP6w?e=cijzTN" target="_blank"><span class="tag">PDF</span> Lab Questions</a>
+                            <a class="res-pill" href="../activities/application_packages_lab_activity.html" target="_blank"><span class="tag">ACTIVITY</span> Lab</a>
+                            <a class="res-pill" href="../assessments/application_packages_lab_assessment.html" target="_blank"><span class="tag">TEST</span> Lab Assessment</a>
+                            <a class="res-pill" href="../activities/application_packages_activity.html" target="_blank"><span class="tag">ACTIVITY</span> App Packages</a>
+                            <a class="res-pill" href="../assessments/application_packages_assessment.html" target="_blank"><span class="tag">TEST</span> App Packages Assessment</a>
+                        </div>
                     </div>
                 </div>
+            </details>
 
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 6: Web Technology I</h4>
-                            <p>Foundations of WWW and HTTP. Building static web pages using HTML5 tags and styling with basic CSS properties.</p>
-                        </div>
-                        <span class="status-badge status-practical">Highly Practical (HTML/CSS)</span>
+            <!-- Unit 5 -->
+            <details class="unit-card practical">
+                <summary>
+                    <span class="unit-num">05</span>
+                    <div class="unit-title-wrap">
+                        <h3>Programming Concepts & Logics</h3>
+                        <div class="unit-desc">Algorithms, flowcharts, pseudocode, C programming fundamentals</div>
                     </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/web_foundations_cms_activity.html" target="_blank" class="action-btn activity">🧪 Web Intro</a>
-                            <a href="../assessments/web_foundations_cms_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/web_language_core_activity.html" target="_blank" class="action-btn activity">🧪 HTML & CSS</a>
-                            <a href="../assessments/web_language_core_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
-                        </div>
-                        <span class="action-separator">|</span>
-                        <div class="action-group">
-                            <a href="../activities/web_tech_i_lab_activity.html" target="_blank" class="action-btn lab-guide">🧪 Web Lab</a>
-                            <a href="../assessments/web_tech_i_lab_assessment.html" target="_blank" class="action-btn test-yourself">📝 Test</a>
+                    <span class="unit-badge">Highly Practical (C)</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Program design tools (Algorithms, Flowcharts, Pseudocode). C Programming: Data types, Variables, Control structures (If-else, Switch, Loops).</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                            <span class="res-pill disabled"><span class="tag">LAB</span> C Prog Lab</span>
                         </div>
                     </div>
                 </div>
+            </details>
 
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 7: Multimedia</h4>
-                            <p>Exploration of multimedia elements: Text, Graphics, Audio, Video, and Animation. Discussion on applications in education and industry.</p>
-                        </div>
-                        <span class="status-badge status-theory">Theory & Discussion</span>
+            <!-- Unit 6 -->
+            <details class="unit-card practical">
+                <summary>
+                    <span class="unit-num">06</span>
+                    <div class="unit-title-wrap">
+                        <h3>Web Technology I</h3>
+                        <div class="unit-desc">WWW & HTTP foundations, static web pages using HTML5 & basic CSS</div>
                     </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
+                    <span class="unit-badge">Highly Practical (C)</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Foundations of WWW and HTTP. Building static web pages using HTML5 tags and styling with basic CSS properties.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                            <a class="res-pill" href="../activities/web_foundations_cms_activity.html" target="_blank"><span class="tag">ACTIVITY</span> Web Intro</a>
+                            <a class="res-pill" href="../assessments/web_foundations_cms_assessment.html" target="_blank"><span class="tag">TEST</span> Web Intro Assessment</a>
+                            <a class="res-pill" href="../activities/web_language_core_activity.html" target="_blank"><span class="tag">ACTIVITY</span> HTML & CSS</a>
+                            <a class="res-pill" href="../assessments/web_language_core_assessment.html" target="_blank"><span class="tag">TEST</span> HTML & CSS Assessment</a>
+                            <a class="res-pill" href="../activities/web_tech_i_lab_activity.html" target="_blank"><span class="tag">ACTIVITY</span> Web Lab</a>
+                            <a class="res-pill" href="../assessments/web_tech_i_lab_assessment.html" target="_blank"><span class="tag">TEST</span> Web Lab Assessment</a>
+                        </div>
                     </div>
                 </div>
+            </details>
 
-                <div class="syllabus-item">
-                    <div class="syllabus-header">
-                        <div class="syllabus-text">
-                            <h4>Unit 8: Information Security & Cyber Law</h4>
-                            <p>Security threats (Viruses, Phishing) and countermeasures. Overview of digital ethics, Cyber Law, and the Electronic Transaction Act of Nepal.</p>
-                        </div>
-                        <span class="status-badge status-theory">Theory Focus</span>
+            <!-- Unit 7 -->
+            <details class="unit-card theory">
+                <summary>
+                    <span class="unit-num">07</span>
+                    <div class="unit-title-wrap">
+                        <h3>Multimedia</h3>
+                        <div class="unit-desc">Multimedia elements, applications in education and industry</div>
                     </div>
-                    <div class="syllabus-actions">
-                        <a href="#" class="action-btn handouts">📖 Handouts</a>
+                    <span class="unit-badge">Theory & Discussion</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Exploration of multimedia elements: Text, Graphics, Audio, Video, and Animation. Discussion on applications in education and industry.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </details>
+
+            <!-- Unit 8 -->
+            <details class="unit-card theory">
+                <summary>
+                    <span class="unit-num">08</span>
+                    <div class="unit-title-wrap">
+                        <h3>Information Security & Cyber Law</h3>
+                        <div class="unit-desc">Security threats, countermeasures, digital ethics, Cyber Law of Nepal</div>
+                    </div>
+                    <span class="unit-badge">Theory & Discussion</span>
+                    <i class="fa-solid fa-chevron-down chev"></i>
+                </summary>
+                <div class="unit-body">
+                    <div class="unit-body-inner">
+                        <p class="unit-full-desc">Security threats (Viruses, Phishing) and countermeasures. Overview of digital ethics, Cyber Law, and the Electronic Transaction Act of Nepal.</p>
+                        <div class="resource-groups">
+                            <span class="res-pill disabled"><span class="tag">PDF</span> Handouts</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+
         </div>
 
-        <div class="alert-box critical">
-            <h2>📝 Critical Course Requirement: The Lab Report</h2>
+        <div class="alert-box critical" style="margin-top: 40px;">
+            <h3>📝 Critical Course Requirement: The Lab Report</h3>
             <p>To successfully complete this course and be eligible for your practical marks, you are <strong>strictly required to submit a comprehensive lab report</strong> at the end of the academic year.</p>
             <p>This report is a compiled, systematic documentation of all the laboratory experiments, coding challenges, website mockups, and software exercises you perform throughout the term.</p>
             
@@ -246,120 +267,49 @@
             <p style="margin-top: 20px; font-weight: bold;">Please do not leave this until the last minute. Treat every lab session as a step toward building your final report.</p>
         </div>
 
-        <div class="card">
-            <h2>📥 Download Center & Attached Resources</h2>
-            <p>Download your official curriculum guides, sample templates, assignments and lab questions below:</p>
-            
-            <details class="resource-section" open>
-                <summary>📂 Resources</summary>
-                <div class="resource-grid">
+        <div class="section-head" style="margin-top: 60px;">
+            <span class="kicker">Everything else</span>
+            <h2>Course-wide Downloads & Assignments</h2>
+            <p>Only resources that aren't tied to one specific unit stay here — the combined syllabus, the lab report template, and your assignments.</p>
+        </div>
 
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #ef4444;">PDF</div>
-                            <div>
-                                <span class="resource-name">Official Computer Science Curriculum</span>
-                                <span class="resource-meta">Combined Grade 11 & 12 Syllabus (CDC)</span>
-                            </div>
-                        </div>
-                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQDUO4A43UfwS7EjF-uiIX9VAdHE6rxfHjEiP2_ckRggXhI?e=1hbA59" target="_blank" class="inline-download-btn">View/Download</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #2b6cb0;">DOCX</div>
-                            <div>
-                                <span class="resource-name">Grade XI Lab Report Sample</span>
-                                <span class="resource-meta">Official Format & Structural Template</span>
-                            </div>
-                        </div>
-                        <a href="#" download class="inline-download-btn">View/Download</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon">PDF</div>
-                            <div>
-                                <span class="resource-name">Application Packages Lab Questions</span>
-                                <span class="resource-meta">Lab Guide for Unit 4</span>
-                            </div>
-                        </div>
-                        <a href="https://1drv.ms/b/c/46155f2903841d6e/IQAxjW3IJ5WXSpjYTJ3clbOJAV4YEUHwlJMxCfkFTENNP6w?e=cijzTN" target="_blank" class="inline-download-btn">View/Download</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #f59e0b;">HTML</div>
-                            <div>
-                                <span class="resource-name">Web Foundations & CMS</span>
-                                <span class="resource-meta">Unit 6 Theory (Track 1)</span>
-                            </div>
-                        </div>
-                        <a href="../activities/web_foundations_cms_activity.html" target="_blank" class="inline-download-btn">View</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #f59e0b;">HTML</div>
-                            <div>
-                                <span class="resource-name">Web Language Core</span>
-                                <span class="resource-meta">Unit 6 Theory (Track 2)</span>
-                            </div>
-                        </div>
-                        <a href="../activities/web_language_core_activity.html" target="_blank" class="inline-download-btn">View</a>
-                    </div>
-
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #10b981;">HTML</div>
-                            <div>
-                                <span class="resource-name">Web Tech I Lab Activity</span>
-                                <span class="resource-meta">Unit 6 Practical (Track 3)</span>
-                            </div>
-                        </div>
-                        <a href="../activities/web_tech_i_lab_activity.html" target="_blank" class="inline-download-btn">View</a>
-                    </div>
-
+        <div class="two-col">
+            <div class="misc-card">
+                <h4><i class="fa-solid fa-folder-open"></i> Course-wide Resources</h4>
+                <div class="misc-item">
+                    <span><span class="filetype">PDF</span> Official Combined Syllabus (Grade 11 & 12, CDC)</span>
+                    <a href="https://1drv.ms/b/c/46155f2903841d6e/IQDUO4A43UfwS7EjF-uiIX9VAdHE6rxfHjEiP2_ckRggXhI?e=1hbA59" target="_blank">Download</a>
                 </div>
-            </details>
-
-            <details class="resource-section">
-                <summary>📝 Assignments</summary>
-                <div class="resource-grid">
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background-color: #f59e0b;">HTML</div>
-                            <div>
-                                <span class="resource-name">Grade XI - Assignment 1</span>
-                                <span class="resource-meta">Orientation reflective writing assignment</span>
-                            </div>
-                        </div>
-                        <a href="../assignments/gradexi_assignment1.html" target="_blank" class="inline-download-btn">View</a>
-                    </div>
-
+                <div class="misc-item">
+                    <span><span class="filetype">DOCX</span> Grade XI Lab Report Sample</span>
+                    <a href="#" download>Download</a>
                 </div>
-            </details>
+            </div>
 
-            <details class="resource-section">
-                <summary>📊 Assessment Status</summary>
-                <div class="resource-grid">
-                    <div class="resource-box">
-                        <div class="resource-info">
-                            <div class="resource-icon" style="background: #eff6ff;">
-                                <i class="fa-solid fa-chart-bar" style="color: #3b82f6;"></i>
-                            </div>
-                            <div>
-                                <span class="resource-name">Assessment Dashboard</span>
-                                <span class="resource-meta">Student submission status, scores, and completion rates</span>
-                            </div>
-                        </div>
-                        <a href="../dashboard/assessment_status.html" target="_blank" class="inline-download-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open Dashboard</a>
-                    </div>
+            <div class="misc-card">
+                <h4><i class="fa-solid fa-file-signature"></i> Assignments</h4>
+                <div class="misc-item">
+                    <span><span class="filetype">HTML</span> Assignment 1 — Orientation reflective essay</span>
+                    <a href="../assignments/gradexi_assignment1.html" target="_blank">View</a>
                 </div>
-            </details>
+            </div>
+        </div>
+
+        <div class="cta-band">
+            <div class="cta-inner">
+                <div>
+                    <h3>Track your assessment progress</h3>
+                    <p>See submission status, scores, and completion across all assessments.</p>
+                </div>
+                <a class="cta-btn" href="../assessment_status/grade_xi.html" target="_blank">Open Dashboard →</a>
+            </div>
         </div>
 
     </div>
+
+    <footer>
+        <p>&copy; 2026 Kedar Pd. Bhandari · Computer Science Resource Portal</p>
+    </footer>
 
 </body>
 </html>

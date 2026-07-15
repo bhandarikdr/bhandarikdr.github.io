@@ -3,41 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assessment Status Dashboard</title>
+    <title>Grade XI Assessment Status</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="../css/assessment_status.css">
 </head>
 <body>
 
-    <div class="nav-trigger"></div>
-    <nav class="glass-nav visible">
-        <a href="../index.html" class="nav-logo">
-            <i class="fa-solid fa-user-graduate"></i>
-            <span>Kedar Bhandari</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="../index.html">Home</a></li>
-            <li><a href="../main_pages/csxi.html">Grade XI</a></li>
-            <li><a href="../main_pages/csxii.html">Grade XII</a></li>
-        </ul>
-    </nav>
-
-    <script>
-        const nav = document.querySelector('.glass-nav');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY <= 50) {
-                nav.classList.add('visible');
-            } else {
-                nav.classList.remove('visible');
-            }
-        });
-    </script>
-
     <header class="page-header">
-        <h1>Assessment Status</h1>
-        <p class="subtitle">Student submission overview from Google Form responses</p>
-        <span class="grade-badge">Live Data</span>
+        <h1>Grade XI — Assessment Status</h1>
+        <p class="subtitle">Student submission overview for Grade XI Computer Science</p>
+        <span class="grade-badge">Grade XI</span>
     </header>
 
     <main class="container">
@@ -57,22 +33,20 @@
 
             <div class="filter-bar">
                 <div class="filter-group">
-                    <label for="gradeFilter"><i class="fa-solid fa-graduation-cap"></i> Grade</label>
-                    <select id="gradeFilter">
-                        <option value="all">All Grades</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="roomFilter"><i class="fa-solid fa-door-open"></i> Room</label>
-                    <select id="roomFilter">
-                        <option value="all">All Rooms</option>
-                    </select>
-                </div>
-                <div class="filter-group">
                     <label for="topicFilter"><i class="fa-solid fa-book"></i> Topic</label>
                     <select id="topicFilter">
                         <option value="all">All Topics</option>
                     </select>
+                </div>
+                <div class="filter-group">
+                    <label for="nameFilter"><i class="fa-solid fa-user"></i> Student Name</label>
+                    <select id="nameFilter">
+                        <option value="all">All Students</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="rollFilter"><i class="fa-solid fa-hashtag"></i> Roll No.</label>
+                    <input type="text" id="rollFilter" placeholder="Search roll number..." autocomplete="off">
                 </div>
                 <button class="reset-btn" id="resetBtn">
                     <i class="fa-solid fa-rotate-left"></i> Reset
@@ -81,14 +55,9 @@
 
             <div class="overview-cards">
                 <div class="card stat-card">
-                    <div class="stat-icon"><i class="fa-solid fa-file-lines"></i></div>
-                    <div class="stat-value" id="totalSubmissions">0</div>
-                    <div class="stat-label">Total Submissions</div>
-                </div>
-                <div class="card stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
-                    <div class="stat-value" id="uniqueStudents">0</div>
-                    <div class="stat-label">Unique Students</div>
+                    <div class="stat-value" id="totalStudents">0</div>
+                    <div class="stat-label">Total Students</div>
                 </div>
                 <div class="card stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-chart-simple"></i></div>
@@ -96,9 +65,14 @@
                     <div class="stat-label">Average Score</div>
                 </div>
                 <div class="card stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-clock"></i></div>
+                    <div class="stat-value" id="avgTime">0s</div>
+                    <div class="stat-label">Avg Elapsed Time</div>
+                </div>
+                <div class="card stat-card">
                     <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
-                    <div class="stat-value" id="completionRate">0%</div>
-                    <div class="stat-label">Completion Rate</div>
+                    <div class="stat-value" id="completionRate">0/0</div>
+                    <div class="stat-label">Completed</div>
                 </div>
             </div>
 
@@ -112,6 +86,7 @@
                             <th class="col-topic">Topic</th>
                             <th class="col-status">Status</th>
                             <th class="col-time">Elapsed Time</th>
+                            <th class="col-date">Date</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -132,11 +107,10 @@
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbykNegn72LpaysfnNe6ikuaRWYa8SiWC48gw9iMGi44wmlesqmTvxDrCc-osWKMXM7h/exec';
+        const GRADE = 'XI';
 
         let allData = [];
-        let allTopics = [];
-        let allRooms = [];
-        let currentFilters = { grade: 'all', room: 'all', topic: 'all' };
+        let currentFilters = { topic: 'all', name: 'all', roll: '' };
 
         const loadingState = document.getElementById('loadingState');
         const errorState = document.getElementById('errorState');
@@ -144,11 +118,15 @@
         const errorMessage = document.getElementById('errorMessage');
         const emptyState = document.getElementById('emptyState');
 
-        const gradeFilter = document.getElementById('gradeFilter');
-        const roomFilter = document.getElementById('roomFilter');
         const topicFilter = document.getElementById('topicFilter');
+        const nameFilter = document.getElementById('nameFilter');
+        const rollFilter = document.getElementById('rollFilter');
         const resetBtn = document.getElementById('resetBtn');
         const retryBtn = document.getElementById('retryBtn');
+
+        function getGradeFromRoom(roomStr) {
+            return roomStr.split(' - ')[0].trim().toUpperCase();
+        }
 
         async function fetchData() {
             loadingState.classList.remove('hidden');
@@ -159,18 +137,17 @@
                 const response = await fetch(SCRIPT_URL);
                 if (!response.ok) throw new Error('HTTP ' + response.status);
                 const json = await response.json();
-
                 if (json.error) throw new Error(json.error);
 
-                allData = json.data || [];
-                allTopics = json.topics || [];
-                allRooms = json.rooms || [];
+                allData = (json.data || []).filter(function(d) {
+                    return getGradeFromRoom(d.roomNo) === GRADE;
+                });
 
                 document.getElementById('lastUpdated').textContent = json.generatedAt
                     ? new Date(json.generatedAt).toLocaleString()
                     : '—';
 
-                populateGradeFilter();
+                populateFilters();
                 resetFilters();
                 loadingState.classList.add('hidden');
                 dashboardContent.classList.remove('hidden');
@@ -181,120 +158,95 @@
             }
         }
 
-        function getGradeFromRoom(roomStr) {
-            return roomStr.split(' - ')[0].trim().toUpperCase();
-        }
-
-        function populateGradeFilter() {
-            const grades = new Set();
-            allRooms.forEach(function(r) {
-                grades.add(getGradeFromRoom(r));
-            });
-            const sorted = Array.from(grades).sort();
-
-            gradeFilter.innerHTML = '<option value="all">All Grades</option>';
-            sorted.forEach(function(g) {
-                const opt = document.createElement('option');
-                opt.value = g;
-                opt.textContent = 'Grade ' + g;
-                gradeFilter.appendChild(opt);
-            });
-        }
-
-        function populateRoomFilter() {
-            const filtered = currentFilters.grade === 'all'
-                ? allRooms
-                : allRooms.filter(function(r) {
-                    return getGradeFromRoom(r) === currentFilters.grade;
-                });
-
-            const sorted = filtered.slice().sort(function(a, b) {
-                const numA = parseInt(a.split(' - ')[1], 10);
-                const numB = parseInt(b.split(' - ')[1], 10);
-                return numA - numB;
-            });
-
-            roomFilter.innerHTML = '<option value="all">All Rooms</option>';
-            sorted.forEach(function(r) {
-                const opt = document.createElement('option');
-                opt.value = r;
-                opt.textContent = r;
-                roomFilter.appendChild(opt);
-            });
-        }
-
-        function populateTopicFilter() {
-            let pool = allData;
-
-            if (currentFilters.grade !== 'all') {
-                pool = pool.filter(function(d) {
-                    return d.grade === currentFilters.grade;
-                });
-            }
-            if (currentFilters.room !== 'all') {
-                pool = pool.filter(function(d) {
-                    return d.roomNo === currentFilters.room;
-                });
-            }
-
-            const topics = new Set();
-            pool.forEach(function(d) {
+        function populateFilters() {
+            var topics = new Set();
+            var names = new Set();
+            allData.forEach(function(d) {
                 topics.add(d.topic);
+                names.add(d.studentName);
             });
-            const sorted = Array.from(topics).sort();
 
             topicFilter.innerHTML = '<option value="all">All Topics</option>';
-            sorted.forEach(function(t) {
-                const opt = document.createElement('option');
+            Array.from(topics).sort().forEach(function(t) {
+                var opt = document.createElement('option');
                 opt.value = t;
                 opt.textContent = t;
                 topicFilter.appendChild(opt);
             });
+
+            nameFilter.innerHTML = '<option value="all">All Students</option>';
+            Array.from(names).sort().forEach(function(n) {
+                var opt = document.createElement('option');
+                opt.value = n;
+                opt.textContent = n;
+                nameFilter.appendChild(opt);
+            });
         }
 
         function getFilteredData() {
+            var rollVal = rollFilter.value.trim().toLowerCase();
             return allData.filter(function(d) {
-                if (currentFilters.grade !== 'all' && d.grade !== currentFilters.grade) return false;
-                if (currentFilters.room !== 'all' && d.roomNo !== currentFilters.room) return false;
                 if (currentFilters.topic !== 'all' && d.topic !== currentFilters.topic) return false;
+                if (currentFilters.name !== 'all' && d.studentName !== currentFilters.name) return false;
+                if (rollVal && d.rollNumber.toLowerCase().indexOf(rollVal) === -1) return false;
                 return true;
             });
         }
 
         function updateOverviewCards(filtered) {
-            document.getElementById('totalSubmissions').textContent = filtered.length;
-
-            const names = new Set();
+            var uniqueStudents = new Set();
             filtered.forEach(function(d) {
-                names.add(d.studentName.toLowerCase());
+                uniqueStudents.add(d.studentName.toLowerCase() + '|' + d.rollNumber);
             });
-            document.getElementById('uniqueStudents').textContent = names.size;
+            document.getElementById('totalStudents').textContent = uniqueStudents.size;
 
-            let totalScore = 0;
-            let scoreCount = 0;
+            var totalScore = 0;
+            var scoreCount = 0;
+            var totalTimeMs = 0;
+            var timeCount = 0;
+            var completed = 0;
             filtered.forEach(function(d) {
-                const parts = d.score.split('/');
+                var parts = d.score.split('/');
                 if (parts.length === 2) {
-                    const num = parseInt(parts[0], 10);
-                    const den = parseInt(parts[1], 10);
+                    var num = parseInt(parts[0], 10);
+                    var den = parseInt(parts[1], 10);
                     if (!isNaN(num) && !isNaN(den) && den > 0) {
                         totalScore += (num / den) * 100;
                         scoreCount++;
                     }
                 }
+                if (d.status === 'Completed') {
+                    completed++;
+                    var timeParts = d.elapsedTime.match(/(?:(\d+)h\s*)?(?:(\d+)m\s*)?(\d+)s/);
+                    if (timeParts) {
+                        var h = parseInt(timeParts[1] || '0', 10);
+                        var m = parseInt(timeParts[2] || '0', 10);
+                        var s = parseInt(timeParts[3], 10);
+                        totalTimeMs += (h * 3600 + m * 60 + s) * 1000;
+                        timeCount++;
+                    }
+                }
             });
-            const avg = scoreCount > 0 ? Math.round(totalScore / scoreCount) : 0;
+
+            var avg = scoreCount > 0 ? Math.round(totalScore / scoreCount) : 0;
             document.getElementById('avgScore').textContent = avg + '%';
 
-            const completed = filtered.filter(function(d) {
-                return d.status === 'Completed';
-            }).length;
-            const rate = filtered.length > 0 ? Math.round((completed / filtered.length) * 100) : 0;
-            document.getElementById('completionRate').textContent = rate + '%';
+            var avgMs = timeCount > 0 ? totalTimeMs / timeCount : 0;
+            document.getElementById('avgTime').textContent = formatElapsed(avgMs);
+
+            document.getElementById('completionRate').textContent = completed + '/' + filtered.length;
+        }
+
+        function formatElapsed(ms) {
+            var totalSec = Math.round(ms / 1000);
+            if (totalSec < 60) return totalSec + 's';
+            var min = Math.floor(totalSec / 60);
+            var sec = totalSec % 60;
+            return min + 'm ' + sec + 's';
         }
 
         function updateTable(filtered) {
-            const tbody = document.getElementById('tableBody');
+            var tbody = document.getElementById('tableBody');
 
             if (filtered.length === 0) {
                 tbody.innerHTML = '';
@@ -304,15 +256,16 @@
 
             emptyState.classList.add('hidden');
 
-            const sorted = filtered.slice().sort(function(a, b) {
+            var sorted = filtered.slice().sort(function(a, b) {
                 return new Date(b.timestamp) - new Date(a.timestamp);
             });
 
-            let html = '';
+            var html = '';
             sorted.forEach(function(d, i) {
-                const statusClass = d.status === 'Completed' ? 'status-completed' : 'status-incomplete';
-                const statusIcon = d.status === 'Completed' ? '\u2705' : '\u23F3';
-                const statusText = statusIcon + ' ' + d.status + ' (' + d.score + ')';
+                var statusClass = d.status === 'Completed' ? 'status-completed' : 'status-incomplete';
+                var statusIcon = d.status === 'Completed' ? '\u2705' : '\u23F3';
+                var statusText = statusIcon + ' ' + d.status + ' (' + d.score + ')';
+                var dateStr = d.timestamp ? new Date(d.timestamp).toLocaleDateString() : '—';
 
                 html += '<tr>'
                     + '<td class="col-sn">' + (i + 1) + '</td>'
@@ -321,6 +274,7 @@
                     + '<td class="col-topic">' + escapeHtml(d.topic) + '</td>'
                     + '<td class="col-status"><span class="' + statusClass + '">' + statusText + '</span></td>'
                     + '<td class="col-time">' + escapeHtml(d.elapsedTime) + '</td>'
+                    + '<td class="col-date">' + dateStr + '</td>'
                     + '</tr>';
             });
 
@@ -328,48 +282,36 @@
         }
 
         function escapeHtml(str) {
-            const div = document.createElement('div');
+            var div = document.createElement('div');
             div.textContent = str;
             return div.innerHTML;
         }
 
         function updateDashboard() {
-            const filtered = getFilteredData();
+            var filtered = getFilteredData();
             updateOverviewCards(filtered);
             updateTable(filtered);
         }
 
         function resetFilters() {
-            currentFilters = { grade: 'all', room: 'all', topic: 'all' };
-            gradeFilter.value = 'all';
-            populateRoomFilter();
-            populateTopicFilter();
-            roomFilter.value = 'all';
+            currentFilters = { topic: 'all', name: 'all', roll: '' };
             topicFilter.value = 'all';
+            nameFilter.value = 'all';
+            rollFilter.value = '';
             updateDashboard();
         }
 
-        gradeFilter.addEventListener('change', function() {
-            currentFilters.grade = gradeFilter.value;
-            currentFilters.room = 'all';
-            currentFilters.topic = 'all';
-            populateRoomFilter();
-            populateTopicFilter();
-            roomFilter.value = 'all';
-            topicFilter.value = 'all';
-            updateDashboard();
-        });
-
-        roomFilter.addEventListener('change', function() {
-            currentFilters.room = roomFilter.value;
-            currentFilters.topic = 'all';
-            populateTopicFilter();
-            topicFilter.value = 'all';
-            updateDashboard();
-        });
-
         topicFilter.addEventListener('change', function() {
             currentFilters.topic = topicFilter.value;
+            updateDashboard();
+        });
+
+        nameFilter.addEventListener('change', function() {
+            currentFilters.name = nameFilter.value;
+            updateDashboard();
+        });
+
+        rollFilter.addEventListener('input', function() {
             updateDashboard();
         });
 

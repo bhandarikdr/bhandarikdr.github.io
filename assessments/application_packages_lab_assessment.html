@@ -49,7 +49,7 @@
         }
         .chart-bar {
             flex: 1;
-            background: var(--secondary);
+            background: var(--secondary-color);
             transition: height 0.3s ease;
             position: relative;
         }
@@ -128,21 +128,8 @@
     </div>
 </div>
 
+<script src="../js/assessment-core.js"></script>
 <script>
-const SUBMISSION_CONFIG = {
-    url: "https://docs.google.com/forms/d/e/1FAIpQLSfGf84mAWH8lnGsDDXufaIsJhfzJ0YQ9jySZj9h5uarnr9uNg/formResponse",
-    fields: {
-        topic: "entry.1920009954",
-        name: "entry.2015805623",
-        roll: "entry.419024899",
-        room: "entry.2086415032",
-        status: "entry.1234471729",
-        startTime: "entry.597147393",
-        endTime: "entry.1045529602",
-        elapsedTime: "entry.2019742758"
-    }
-};
-
 const tasks = [
     {
         id: 1, type: 'spellcheck',
@@ -204,51 +191,17 @@ const tasks = [
     }
 ];
 
-let currentTaskIndex = 0;
-let studentData = { name: '', roll: '', room: '', startTime: null };
-const sessionState = tasks.map(() => ({ verified: false }));
+function getTaskLabel() { return "Lab Task"; }
 
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
-
-function initStepper() {
-    const stepper = document.getElementById('stepper');
-    stepper.innerHTML = tasks.map((_, i) => `<div class="step-dot" id="dot-${i}"></div>`).join('');
-    updateStepper();
-}
-
-function updateStepper() {
-    tasks.forEach((_, i) => {
-        const dot = document.getElementById(`dot-${i}`);
-        if (!dot) return;
-        dot.className = 'step-dot';
-        if (i === currentTaskIndex) dot.classList.add('active');
-        if (sessionState[i].verified) dot.classList.add('verified');
-    });
-}
-
-function renderTask() {
-    const task = tasks[currentTaskIndex];
-    const container = document.getElementById('taskWorkspace');
-    container.innerHTML = '';
-
-    const card = document.createElement('div');
-    card.className = 'task-card task-card-active';
-
-    let interactionHtml = '';
-
+function renderCustomTask(task) {
     if (task.type === 'spellcheck') {
-        interactionHtml = `
+        return `
             <div class="workspace-area">
                 <div id="editor" class="text-editor-sim" contenteditable="true">${task.initialText}</div>
             </div>
         `;
     } else if (task.type === 'branding') {
-        interactionHtml = `
+        return `
             <div class="workspace-area">
                 <div class="form-group">
                     <label>Header Text</label>
@@ -258,7 +211,7 @@ function renderTask() {
                     <label>Alignment</label>
                     <select id="brandAlign">
                         <option value="left">Left</option>
-                        <option value="center">Center</option>
+                        <option value="center" selected>Center</option>
                         <option value="right">Right</option>
                     </select>
                 </div>
@@ -267,20 +220,8 @@ function renderTask() {
                 </div>
             </div>
         `;
-    } else if (task.type === 'mcq') {
-        const shuffledOptions = task.options.map((opt, i) => ({ text: opt, originalIdx: i }));
-        shuffleArray(shuffledOptions);
-        interactionHtml = `
-            <div class="option-grid" style="display:grid; gap:10px; margin-top:15px;">
-                ${shuffledOptions.map((opt) => `
-                    <div class="interactive-option" data-idx="${opt.originalIdx}" style="border:2px solid #e2e8f0; padding:12px; border-radius:10px; cursor:pointer;">
-                        ${opt.text}
-                    </div>
-                `).join('')}
-            </div>
-        `;
     } else if (task.type === 'formula') {
-        interactionHtml = `
+        return `
             <div class="workspace-area">
                 <table class="spreadsheet-mini">
                     <tr><th></th><th>A</th><th>B (Rate)</th><th>C (Qty)</th><th>D (Total)</th></tr>
@@ -291,7 +232,7 @@ function renderTask() {
     } else if (task.type === 'goal' || task.type === 'chart') {
         const label = task.type === 'goal' ? 'VAT %' : 'Alpha Metric';
         const val = task.type === 'goal' ? 0 : 10;
-        interactionHtml = `
+        return `
             <div class="workspace-area">
                 <div class="form-group">
                     <label>${label}</label>
@@ -300,49 +241,11 @@ function renderTask() {
                 ${task.type === 'chart' ? `<div class="chart-preview"><div id="vBar" class="chart-bar" style="height:10%;" data-label="Alpha"></div></div>` : ''}
             </div>
         `;
-    } else {
-        interactionHtml = `
-            <div class="form-group mt-4">
-                <input type="text" id="taskInput" placeholder="Type answer here...">
-            </div>
-        `;
     }
-
-    card.innerHTML = `
-        <div class="task-header">
-            <span class="task-num">Lab Task ${currentTaskIndex + 1} of ${tasks.length}</span>
-            <div class="verification-text unverified" id="verifyStatus">
-                <span class="status-icon">○</span> Unverified
-            </div>
-        </div>
-        <div class="task-question">${task.question}</div>
-        ${interactionHtml}
-        <div class="feedback-msg error" id="taskError"></div>
-        <div class="btn-row">
-            <button class="btn btn-primary" id="verifyBtn">Verify Answer</button>
-            <button class="btn btn-secondary" id="nextBtn" disabled>Next →</button>
-        </div>
-    `;
-
-    container.appendChild(card);
-    setupInteractions(card, task);
-
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            if (currentTaskIndex < tasks.length - 1) {
-                currentTaskIndex++;
-                renderTask();
-            } else {
-                showFinalSubmission();
-            }
-        });
-    }
+    return '';
 }
 
-function setupInteractions(card, task) {
-    const verifyBtn = card.querySelector('#verifyBtn');
-
+function setupCustomInteractions(card, task, verifyBtn) {
     if (task.type === 'spellcheck') {
         verifyBtn.addEventListener('click', () => {
             const text = card.querySelector('#editor').innerText;
@@ -361,32 +264,11 @@ function setupInteractions(card, task) {
             if (task.check(inp.value, sel.value)) handleSuccess();
             else showError("Branding must match 'Einstein Academy' and be 'Center' aligned.");
         });
-    } else if (task.type === 'mcq') {
-        let selectedIdx = null;
-        const options = card.querySelectorAll('.interactive-option');
-        options.forEach(el => {
-            el.addEventListener('click', () => {
-                options.forEach(opt => opt.style.borderColor = '#e2e8f0');
-                options.forEach(opt => opt.style.background = 'transparent');
-                el.style.borderColor = 'var(--secondary)';
-                el.style.background = '#eff6ff';
-                selectedIdx = parseInt(el.dataset.idx);
-            });
-        });
-
-        verifyBtn.addEventListener('click', () => {
-            if (selectedIdx === null) {
-                showError("Please select an option first.");
-                return;
-            }
-            if (selectedIdx === task.answer) handleSuccess();
-            else showError("Incorrect. Think about the standard layout/requirements.");
-        });
     } else if (task.type === 'formula') {
         verifyBtn.addEventListener('click', () => {
             const val = card.querySelector('#fInput').value.trim();
             if (val === task.answer) handleSuccess();
-            else showError("Check your cell references. Use =B2*C2");
+            else showError(task.hint || "Check your cell references.");
         });
     } else if (task.type === 'goal' || task.type === 'chart') {
         const inp = card.querySelector('#goalInput');
@@ -399,113 +281,10 @@ function setupInteractions(card, task) {
             if (parseInt(inp.value) === task.target) handleSuccess();
             else showError("Target value not reached. Adjust the input.");
         });
-    } else {
-        verifyBtn.addEventListener('click', () => {
-            const val = card.querySelector('#taskInput').value.trim();
-            if (val === task.answer) handleSuccess();
-            else showError("Try again.");
-        });
     }
 }
 
-function showError(msg) {
-    const err = document.getElementById('taskError');
-    err.textContent = `❌ ${msg}`;
-    err.style.display = 'block';
-    setTimeout(() => { err.style.display = 'none'; }, 3000);
-}
-
-function handleSuccess() {
-    const status = document.getElementById('verifyStatus');
-    const card = document.querySelector('.task-card-active');
-
-    sessionState[currentTaskIndex].verified = true;
-    status.className = 'verification-text verified';
-    status.innerHTML = '<span>✅</span> Verified';
-    card.classList.add('success-pulse');
-
-    updateProgress();
-    updateStepper();
-
-    const nextBtn = document.getElementById('nextBtn');
-    if (nextBtn) {
-        nextBtn.disabled = false;
-        nextBtn.classList.remove('btn-secondary');
-        nextBtn.classList.add('btn-success');
-    }
-}
-
-function updateProgress() {
-    const completed = sessionState.filter(s => s.verified).length;
-    document.getElementById('progressCount').textContent = completed;
-    document.getElementById('progressBar').style.width = `${(completed / tasks.length) * 100}%`;
-}
-
-document.getElementById('enterBtn').addEventListener('click', () => {
-    const name = document.getElementById('inName').value.trim();
-    const roll = document.getElementById('inRoll').value.trim();
-    const room = document.getElementById('inRoom').value.trim();
-
-    if (name && roll && room) {
-        studentData = { name, roll, room, startTime: new Date() };
-        document.getElementById('statName').textContent = name;
-        document.getElementById('statRoll').textContent = `Roll: ${roll}`;
-        document.getElementById('statRoom').textContent = `Room: ${room}`;
-
-        document.getElementById('entryOverlay').classList.add('hidden');
-        document.getElementById('workspace').classList.remove('hidden');
-        initStepper();
-        renderTask();
-    } else {
-        document.getElementById('entryError').style.display = 'block';
-    }
-});
-
-function formatTime(date) {
-    return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
-}
-
-function formatElapsed(ms) {
-    const totalSec = Math.round(ms / 1000);
-    if (totalSec < 60) return `${totalSec}s`;
-    const min = Math.floor(totalSec / 60);
-    const sec = totalSec % 60;
-    return `${min}m ${sec}s`;
-}
-
-function showFinalSubmission() {
-    const endTime = new Date();
-    const elapsedMs = endTime - studentData.startTime;
-    const elapsedStr = formatElapsed(elapsedMs);
-    const completed = sessionState.filter(s => s.verified).length;
-
-    const summary = `
-        <strong>Topic:</strong> Application Packages Lab<br>
-        <strong>Student:</strong> ${studentData.name}<br>
-        <strong>Roll:</strong> ${studentData.roll} | <strong>Room:</strong> ${studentData.room}<br>
-        <strong>Time Taken:</strong> ${elapsedStr}<br>
-        <strong>Score:</strong> ${completed}/${tasks.length}
-    `;
-
-    document.getElementById('summaryContent').innerHTML = summary;
-    document.getElementById('exitOverlay').classList.remove('hidden');
-
-    const formData = new FormData();
-    formData.append(SUBMISSION_CONFIG.fields.topic, "Application Packages Lab Assessment");
-    formData.append(SUBMISSION_CONFIG.fields.name, studentData.name);
-    formData.append(SUBMISSION_CONFIG.fields.roll, studentData.roll);
-    formData.append(SUBMISSION_CONFIG.fields.room, `XI - ${studentData.room}`);
-    formData.append(SUBMISSION_CONFIG.fields.status, `${completed}/${tasks.length}`);
-    formData.append(SUBMISSION_CONFIG.fields.startTime, formatTime(studentData.startTime));
-    formData.append(SUBMISSION_CONFIG.fields.endTime, formatTime(endTime));
-    formData.append(SUBMISSION_CONFIG.fields.elapsedTime, elapsedStr);
-
-    fetch(SUBMISSION_CONFIG.url, {
-        method: 'POST',
-        mode: 'no-cors',
-        body: formData
-    });
-}
+init(tasks);
 </script>
 
 </body>
