@@ -307,9 +307,29 @@ input:focus, select:focus, textarea:focus {
 .matching-row {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
+    gap: 0.75rem;
+    margin: 0.5rem 0;
 }
+.matching-row span { font-weight: 500; min-width: 120px; }
+.matching-row select { flex: 1; padding: 0.4rem; border: 1px solid var(--border-color); border-radius: 6px; }
+
+/* Mini data tables (for inline examples) */
+.db-table-mini { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin: 0.75rem 0; background: white; }
+.db-table-mini th, .db-table-mini td { border: 1px solid #cbd5e1; padding: 0.4rem; text-align: left; }
+.db-table-mini th { background: #f1f5f9; }
+
+/* Drag order lists */
+.drag-order-list { list-style: none; padding: 0; margin: 0.5rem 0; }
+.drag-order-list li { padding: 0.5rem 0.75rem; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 0.3rem; cursor: grab; }
+
+/* Text answer inputs */
+.text-answer-input { width: 100%; padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 6px; font-size: 0.9rem; }
+.text-answer-input:focus { outline: none; border-color: var(--secondary-color); box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); }
+
+/* Code snippets */
+.code-snippet { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 0.75rem 0; font-size: 0.85rem; }
+.code-snippet pre { margin: 0; }
+.code-snippet code { font-family: 'Fira Code', monospace; }
 
 /* Verification Status */
 .verification-text {
