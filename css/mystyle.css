@@ -333,20 +333,21 @@ section h2 i { color: var(--primary); }
 .res-pill.disabled { opacity: 0.5; pointer-events: none; }
 .res-pill .tag { font-family: monospace; font-size: 0.65rem; color: var(--text-light); text-transform: uppercase; }
 
-/* Activity-Assessment Pairs — Table Layout */
-.pair-table {
-    width: 100%; border-collapse: separate; border-spacing: 0 4px;
-    margin-top: 8px;
+/* Activity-Assessment Separator */
+.pair-sep {
+    display: inline-block;
+    width: 2px; height: 18px;
+    background: var(--border-color);
+    vertical-align: middle;
+    margin: 0 4px;
+    border-radius: 1px;
 }
-.pair-table td {
-    padding: 0; vertical-align: middle;
-}
-.pair-table td:first-child { padding-right: 4px; }
-.pair-table td:last-child { padding-left: 4px; }
-.pair-table .standalone td {
-    padding: 0;
-}
-.pair-table .standalone td + td { display: none; }
+.pair-sep.c1 { background: #3b82f6; } /* blue */
+.pair-sep.c2 { background: #10b981; } /* green */
+.pair-sep.c3 { background: #8b5cf6; } /* purple */
+.pair-sep.c4 { background: #f59e0b; } /* amber */
+.pair-sep.c5 { background: #ef4444; } /* red */
+.pair-sep.c6 { background: #06b6d4; } /* cyan */
 
 /* Section Shell */
 .section { max-width: 1000px; margin: 0 auto; padding: 60px 20px 0; }
