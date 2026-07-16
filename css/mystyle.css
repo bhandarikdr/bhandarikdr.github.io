@@ -333,21 +333,19 @@ section h2 i { color: var(--primary); }
 .res-pill.disabled { opacity: 0.5; pointer-events: none; }
 .res-pill .tag { font-family: monospace; font-size: 0.65rem; color: var(--text-light); text-transform: uppercase; }
 
-/* Activity-Assessment Separator */
-.pair-sep {
-    display: inline-block;
-    width: 2px; height: 18px;
-    background: var(--border-color);
-    vertical-align: middle;
-    margin: 0 4px;
-    border-radius: 1px;
-}
-.pair-sep.c1 { background: #3b82f6; } /* blue */
-.pair-sep.c2 { background: #10b981; } /* green */
-.pair-sep.c3 { background: #8b5cf6; } /* purple */
-.pair-sep.c4 { background: #f59e0b; } /* amber */
-.pair-sep.c5 { background: #ef4444; } /* red */
-.pair-sep.c6 { background: #06b6d4; } /* cyan */
+/* Activity-Assessment Pair Colors */
+.pair-c1 .tag { color: #3b82f6; border-color: #3b82f6; }
+.pair-c1 { border-left: 3px solid #3b82f6; padding-left: 10px; }
+.pair-c2 .tag { color: #10b981; border-color: #10b981; }
+.pair-c2 { border-left: 3px solid #10b981; padding-left: 10px; }
+.pair-c3 .tag { color: #8b5cf6; border-color: #8b5cf6; }
+.pair-c3 { border-left: 3px solid #8b5cf6; padding-left: 10px; }
+.pair-c4 .tag { color: #f59e0b; border-color: #f59e0b; }
+.pair-c4 { border-left: 3px solid #f59e0b; padding-left: 10px; }
+.pair-c5 .tag { color: #ef4444; border-color: #ef4444; }
+.pair-c5 { border-left: 3px solid #ef4444; padding-left: 10px; }
+.pair-c6 .tag { color: #06b6d4; border-color: #06b6d4; }
+.pair-c6 { border-left: 3px solid #06b6d4; padding-left: 10px; }
 
 /* Section Shell */
 .section { max-width: 1000px; margin: 0 auto; padding: 60px 20px 0; }
