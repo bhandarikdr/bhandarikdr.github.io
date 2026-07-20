@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Boolean Logic</title>
+    <link rel="stylesheet" href="../css/assessment.css">
+    <style>
+        .overline { text-decoration: overline; }
+    </style>
+</head>
+<body>
+    <div class="canvas-container">
+        <div id="entryModal" class="celebration-overlay">
+            <div class="celebration-card">
+                <h1>Boolean Algebra & Logic</h1>
+                <p>Grade XI • Computer Science Assessment</p>
+                <div id="entryError" class="error-msg hidden"></div>
+                <div class="form-group">
+                    <input type="text" id="studentName" placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="studentRoll" placeholder="Roll Number">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="studentRoom" placeholder="Room Number">
+                </div>
+                <button id="enterBtn" class="btn btn-primary">Start Assessment</button>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="student-info">
+                <span id="displayName">Student</span> | <span id="displayRoll">00</span> | <span id="displayRoom">Room</span>
+            </div>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+        </div>
+
+        <div id="taskWorkspace">
+            <div class="stepper-container" id="stepper"></div>
+            <div id="cardMount"></div>
+        </div>
+    </div>
+
+    <script src="../js/assessment-core.js"></script>
+    <script>
+        const TASKS = [
+            {
+                id: 1,
+                type: 'mcq',
+                question: "Which law states: A · (B + C) = A·B + A·C?",
+                options: ["Commutative Law", "Associative Law", "Distributive Law", "Absorption Law"],
+                answer: 2,
+                hint: "This law 'distributes' the AND operation over the OR operation."
+            },
+            {
+                id: 2,
+                type: 'mcq',
+                question: "According to the Absorption Law, what is the simplified form of A + (A · B)?",
+                options: ["B", "A", "A + B", "1"],
+                answer: 1,
+                hint: "If A is 1, the result is 1 regardless of B. If A is 0, the result is 0."
+            },
+            {
+                id: 3,
+                type: 'text',
+                question: "Apply De Morgan's Theorem to ¬(A · B). What is the equivalent expression? (Use ' for NOT, + for OR)",
+                acceptedAnswers: ["A' + B'", "A'+B'", "NOT A + NOT B"],
+                placeholder: "e.g. A' + B'",
+                hint: "Break the bar, change the sign: NAND becomes OR with inverted inputs."
+            },
+            {
+                id: 4,
+                type: 'text',
+                question: "Apply De Morgan's Theorem to ¬(A + B). What is the equivalent expression? (Use ' for NOT, . for AND)",
+                acceptedAnswers: ["A' . B'", "A'.B'", "A'B'", "NOT A . NOT B"],
+                placeholder: "e.g. A' . B'",
+                hint: "NOR becomes AND with inverted inputs."
+            },
+            {
+                id: 5,
+                type: 'mcq',
+                question: "What is the result of A + A according to the Idempotent Law?",
+                options: ["2A", "1", "0", "A"],
+                answer: 3,
+                hint: "A variable ORed with itself is always the variable itself."
+            },
+            {
+                id: 6,
+                type: 'mcq',
+                question: "Identify the gate from this truth table: (0,0)→1, (0,1)→1, (1,0)→1, (1,1)→0.",
+                options: ["NOR", "NAND", "XOR", "XNOR"],
+                answer: 1,
+                hint: "This is the complement of the AND gate."
+            },
+            {
+                id: 7,
+                type: 'mcq',
+                question: "Which gate produces a HIGH (1) output ONLY when its two inputs are different?",
+                options: ["OR", "AND", "XOR", "XNOR"],
+                answer: 2,
+                hint: "Exclusive OR: True if A or B is true, but not both."
+            },
+            {
+                id: 8,
+                type: 'mcq',
+                question: "If both inputs of a NAND gate are tied together to a single input A, it behaves as which gate?",
+                options: ["AND", "OR", "NOT", "Buffer"],
+                answer: 2,
+                hint: "NAND(A, A) is the same as NOT A."
+            },
+            {
+                id: 9,
+                type: 'mcq',
+                question: "Circuit Trace: Input A=1, B=0 are fed into an AND gate. Its output and a third input C=1 are fed into an OR gate. What is the final output?",
+                options: ["0", "1", "Unknown", "Error"],
+                answer: 1,
+                hint: "(1 AND 0) = 0. Then (0 OR 1) = 1."
+            },
+            {
+                id: 10,
+                type: 'mcq',
+                question: "Which law states that A · A̅ = 0?",
+                options: ["Identity Law", "Complement Law", "Annulment Law", "Double Negation"],
+                answer: 1,
+                hint: "A variable ANDed with its opposite is always 0."
+            },
+            {
+                id: 11,
+                type: 'mcq',
+                question: "Which law states that changing the sequence of variables (e.g. A+B = B+A) does not affect the output?",
+                options: ["Associative Law", "Commutative Law", "Distributive Law", "Idempotent Law"],
+                answer: 1,
+                hint: "Think about 'commuting' or moving between places."
+            },
+            {
+                id: 12,
+                type: 'mcq',
+                question: "In Boolean notation, what does the overbar (e.g. A̅) represent?",
+                options: ["Logical AND", "Logical OR", "Logical NOT", "Logical XOR"],
+                answer: 2,
+                hint: "It represents the inversion or complement of the variable."
+            }
+        ];
+
+        function init(tasks) {
+            const enterBtn = document.getElementById('enterBtn');
+            const entryModal = document.getElementById('entryModal');
+            const entryError = document.getElementById('entryError');
+
+            enterBtn.addEventListener('click', () => {
+                const name = document.getElementById('studentName').value.trim();
+                const roll = document.getElementById('studentRoll').value.trim();
+                const room = document.getElementById('studentRoom').value.trim();
+
+                if (!name || !roll || !room) {
+                    entryError.textContent = "Please fill all fields.";
+                    entryError.classList.remove('hidden');
+                    return;
+                }
+
+                studentData.name = name;
+                studentData.roll = roll;
+                studentData.room = room;
+                studentData.startTime = new Date();
+
+                document.getElementById('displayName').textContent = name;
+                document.getElementById('displayRoll').textContent = roll;
+                document.getElementById('displayRoom').textContent = room;
+
+                entryModal.classList.add('hidden');
+                assessmentTasks = TASKS;
+                sessionState = assessmentTasks.map(() => ({ verified: false }));
+                initStepper();
+                renderTask();
+            });
+        }
+
+        init(TASKS);
+    </script>
+</body>
+</html>

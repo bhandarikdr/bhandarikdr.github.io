@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Systems & Binary Arithmetic</title>
+    <link rel="stylesheet" href="../css/activity.css">
+    <style>
+        .simulator {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .sim-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .sim-input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-family: monospace;
+            flex: 1;
+            min-width: 150px;
+        }
+        .sim-select {
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+        .sim-btn {
+            padding: 8px 16px;
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .sim-btn:hover {
+            opacity: 0.9;
+        }
+        .sim-result {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            border-left: 4px solid var(--secondary-color);
+        }
+        .step-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .math-res {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .sub {
+            vertical-align: sub;
+            font-size: 0.7em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="lab-header">
+            <h1>Activity: Number Systems & Binary Arithmetic</h1>
+            <p class="subtitle">Conversions, arithmetic operations, and complement methods with interactive tools</p>
+            <span class="grade-badge">Grade XI • Computer Science</span>
+            <span class="grade-badge" style="background: var(--warning-color); color: white; margin-left: 0.5rem;">⏱️ ~35 min</span>
+        </header>
+
+        <div class="section-title"><span class="badge">Part 1</span> Number System Conversions</div>
+        <p>Computers understand binary (base 2). Humans use decimal (base 10), octal (base 8), and hexadecimal (base 16). Understanding how to convert between these is fundamental to computer science.</p>
+
+        <div class="simulator" id="baseConverter">
+            <div class="quiz-question">Tool: Base Converter with Step-by-Step Working</div>
+            <div class="sim-controls">
+                <input type="text" id="convInput" class="sim-input" placeholder="Enter number (e.g. 29)" aria-label="Number to convert">
+                <select id="fromBase" class="sim-select" aria-label="Source base">
+                    <option value="10">From Decimal (10)</option>
+                    <option value="2">From Binary (2)</option>
+                    <option value="8">From Octal (8)</option>
+                    <option value="16">From Hex (16)</option>
+                </select>
+                <select id="toBase" class="sim-select" aria-label="Target base">
+                    <option value="2">To Binary (2)</option>
+                    <option value="10">To Decimal (10)</option>
+                    <option value="8">To Octal (8)</option>
+                    <option value="16">To Hex (16)</option>
+                </select>
+                <button class="sim-btn" onclick="convertBase()">Convert</button>
+            </div>
+            <div id="convResult" class="sim-result">Result and steps will appear here...</div>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 1: Decimal to Binary (The Remainder Method)</div>
+            <p>To convert decimal to binary, we repeatedly divide by 2 and record the remainders from bottom to top.</p>
+            <ol class="step-list">
+                <li>Divide the decimal number by 2.</li>
+                <li>Write down the remainder (0 or 1).</li>
+                <li>Repeat until the quotient is 0.</li>
+                <li>Read remainders in reverse order (MSB to LSB).</li>
+            </ol>
+            <details>
+                <summary>Practice Problem: Convert 25₁₀ to Binary</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    25 / 2 = 12 rem 1
+    12 / 2 = 6 rem 0
+    6 / 2 = 3 rem 0
+    3 / 2 = 1 rem 1
+    1 / 2 = 0 rem 1
+    Result: 11001₂</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 2: Binary to Decimal (Positional Weight)</div>
+            <p>Each bit in a binary number has a weight of 2ⁿ. Sum the weights of all '1' bits.</p>
+            <table class="data-table">
+                <tr><th>Bit</th><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+                <tr><th>Weight</th><td>2³=8</td><td>2²=4</td><td>2¹=2</td><td>2⁰=1</td></tr>
+                <tr><th>Value</th><td>8</td><td>0</td><td>2</td><td>1</td></tr>
+            </table>
+            <p>Total: 8 + 0 + 2 + 1 = 11₁₀</p>
+            <details>
+                <summary>Practice: What is 10101₂ in Decimal?</summary>
+                <div class="inline-answer">16 + 0 + 4 + 0 + 1 = 21₁₀</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 3: Decimal to Octal (Base 8)</div>
+            <p>Similar to binary conversion, but divide by 8. Use the powers of 8 table for reference.</p>
+            <table class="data-table">
+                <tr><th>Power</th><td>8³</td><td>8²</td><td>8¹</td><td>8⁰</td></tr>
+                <tr><th>Value</th><td>512</td><td>64</td><td>8</td><td>1</td></tr>
+            </table>
+            <details>
+                <summary>Practice Problem: Convert 173₁₀ to Octal</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    173 / 8 = 21 rem 5
+    21 / 8 = 2 rem 5
+    2 / 8 = 0 rem 2
+    Result: 255₈</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 4: Decimal to Hexadecimal (Base 16)</div>
+            <p>Divide by 16. Remember the mapping for remainders > 9:</p>
+            <p class="info-note">10=A, 11=B, 12=C, 13=D, 14=E, 15=F</p>
+            <details>
+                <summary>Practice Problem: Convert 450₁₀ to Hexadecimal</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    450 / 16 = 28 rem 2
+    28 / 16 = 1 rem 12 (C)
+    1 / 16 = 0 rem 1
+    Result: 1C2₁₆</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 5: The Shortcut (Binary ↔ Octal/Hex)</div>
+            <p>Instead of going through decimal, use groupings:</p>
+            <ul>
+                <li><strong>Octal:</strong> Group binary bits in <strong>3s</strong> (e.g., 101 011₂ = 53₈)</li>
+                <li><strong>Hexadecimal:</strong> Group binary bits in <strong>4s</strong> (e.g., 1010 1100₂ = AC₁₆)</li>
+            </ul>
+            <details>
+                <summary>Practice: Convert 111101₂ to Octal and Hex</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    Octal: 111 | 101 = 75₈
+    Hex: 0011 | 1101 = 3D₁₆</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 6: Mixed Conversion Challenge</div>
+            <p>Test your ability to cross between multiple bases.</p>
+            <details>
+                <summary>Challenge 1: (72)₈ = (?)₁₆</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    Step 1: 72₈ to Binary = 111 010₂
+    Step 2: 0011 1010₂ to Hex = 3A₁₆</pre>
+            </details>
+            <details>
+                <summary>Challenge 2: (A5)₁₆ = (?)₈</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    Step 1: A5₁₆ to Binary = 1010 0101₂
+    Step 2: 010 100 101₂ to Octal = 245₈</pre>
+            </details>
+        </div>
+
+        <div class="section-title"><span class="badge">Part 2</span> Binary Arithmetic</div>
+
+        <div class="simulator" id="arithmeticCalculator">
+            <div class="quiz-question">Tool: Binary Arithmetic Calculator</div>
+            <div class="sim-controls">
+                <input type="text" id="numA" class="sim-input" placeholder="Binary A (e.g. 1010)" aria-label="First binary number">
+                <select id="op" class="sim-select" aria-label="Operation">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">×</option>
+                    <option value="/">÷</option>
+                </select>
+                <input type="text" id="numB" class="sim-input" placeholder="Binary B (e.g. 11)" aria-label="Second binary number">
+                <button class="sim-btn" onclick="calculateBinary()">Calculate</button>
+            </div>
+            <div id="arithResult" class="sim-result">Working steps will appear here...</div>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 7: Binary Addition</div>
+            <ul>
+                <li>0 + 0 = 0</li>
+                <li>0 + 1 = 1</li>
+                <li>1 + 1 = 0 (Carry 1)</li>
+                <li>1 + 1 + 1 = 1 (Carry 1)</li>
+            </ul>
+            <details>
+                <summary>Practice: 1011 + 1101</summary>
+                <div class="inline-answer">11000₂</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 8: Binary Subtraction (Borrow Method)</div>
+            <p>When subtracting a larger bit from a smaller one (0-1), borrow 1 from the next higher column. The borrowed 1 acts as 2 in the current column (10 - 1 = 1).</p>
+            <details>
+                <summary>Worked Example: 1001 - 110</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">   1001 (9)
+-  0110 (6)
+-------
+   0011 (3)</pre>
+            </details>
+            <details>
+                <summary>Practice: 1010 - 11</summary>
+                <div class="inline-answer">0111₂ (10 - 3 = 7)</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 9: Binary Multiplication</div>
+            <p>Similar to decimal multiplication. Multiply by each bit and sum the partial products.</p>
+            <details>
+                <summary>Practice: 101 x 11</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">  101
+x  11
+-----
+  101 (101 x 1)
++1010 (101 x 10)
+-----
+ 1111 (15₁₀)</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 10: Binary Division</div>
+            <p>Use the long division method. It's actually easier than decimal because you only compare if the divisor goes in 0 or 1 times.</p>
+            <details>
+                <summary>Practice: 1100 / 11</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    11 goes into 11 exactly 1 time.
+    Result: 100₂ (12 / 3 = 4)</pre>
+            </details>
+        </div>
+
+        <div class="section-title"><span class="badge">Part 3</span> Complements & Signed Numbers</div>
+
+        <div class="simulator" id="complementFinder">
+            <div class="quiz-question">Tool: 1's & 2's Complement Finder</div>
+            <div class="sim-controls">
+                <input type="text" id="compInput" class="sim-input" placeholder="Binary number" aria-label="Binary to complement">
+                <button class="sim-btn" onclick="findComplements()">Find Complements</button>
+            </div>
+            <div id="compResult" class="sim-result">Step-by-step complementation...</div>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 11: 1's Complement Practice</div>
+            <p>Just flip every bit: 0 → 1 and 1 → 0.</p>
+            <details>
+                <summary>Practice: Find 1's complement of 1100101</summary>
+                <div class="inline-answer">0011010</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 12: Subtraction using 1's Complement</div>
+            <p>Add the 1's complement of the subtrahend. If a carry is generated, add it to the LSB (End-around carry).</p>
+            <details>
+                <summary>Worked Example: 7 - 3 (using 4-bit)</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    7 = 0111
+    3 = 0011 → 1's comp = 1100
+    Sum: 0111 + 1100 = (1)0011
+    End-around carry: 0011 + 1 = 0100 (4₁₀)</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 13: Subtraction using 2's Complement</div>
+            <p>Add the 2's complement. Discard the final carry for positive results.</p>
+            <details>
+                <summary>Practice: 10 - 4 (using 8-bit)</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    10 = 00001010
+    4 = 00000100 → 2's comp = 11111100
+    Sum: 00001010 + 11111100 = (1)00000110
+    Discard carry: 00000110 (6₁₀)</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 14: Signed 8-bit Representation</div>
+            <p>In signed 2's complement, the leftmost bit (MSB) is the sign bit (0 = positive, 1 = negative).</p>
+            <details>
+                <summary>Practice: Represent -13 in 8-bit signed binary</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    +13 = 00001101
+    1's comp = 11110010
+    2's comp = 11110011 (Result)</pre>
+            </details>
+        </div>
+
+        <div class="cta-band" style="margin-top: 40px; background: var(--secondary-color); color: white; border-radius: 12px; padding: 30px; text-align: center;">
+            <h2>Mastered the numbers?</h2>
+            <p>Test your speed and accuracy in the Number Systems Assessment.</p>
+            <a href="../assessments/number_system_assessment.html" class="sim-btn" style="background: white; color: var(--secondary-color); text-decoration: none; display: inline-block; margin-top: 15px;">Launch Assessment →</a>
+        </div>
+    </div>
+
+    <script>
+        const SUB = '₀₁₂₃₄₅₆₇₈₉';
+
+        function sub(n) {
+            return String(n).split('').map(d => SUB[+d] || d).join('');
+        }
+
+        function isValidForBase(input, base) {
+            const validDigits = '0123456789ABCDEF'.slice(0, base);
+            return input.toUpperCase().split('').every(ch => validDigits.includes(ch));
+        }
+
+        function convertBase() {
+            const input = document.getElementById('convInput').value.trim();
+            const from = parseInt(document.getElementById('fromBase').value);
+            const to = parseInt(document.getElementById('toBase').value);
+            const out = document.getElementById('convResult');
+
+            if (!input) return out.innerHTML = "Please enter a value.";
+            if (!isValidForBase(input, from))
+                return out.innerHTML = `Error: "${input}" is not a valid base-${from} number. Digits allowed: 0-${'123456789ABCDEF'[from-2] || (from-1)}`;
+
+            const decimal = parseInt(input, from);
+            const result = decimal.toString(to).toUpperCase();
+
+            let steps = `<span class="step-label">Step 1: Convert ${input}${sub(from)} to Decimal</span>`;
+            steps += `<div class="math-res">${decimal}${sub(10)}</div>`;
+            steps += `<span class="step-label" style="margin-top:10px">Step 2: Convert ${decimal}${sub(10)} to Base ${to}</span>`;
+            steps += `<div class="math-res">${result}${sub(to)}</div>`;
+
+            out.innerHTML = steps;
+        }
+
+        function calculateBinary() {
+            const a = document.getElementById('numA').value.trim();
+            const b = document.getElementById('numB').value.trim();
+            const op = document.getElementById('op').value;
+            const out = document.getElementById('arithResult');
+
+            if (!a || !b) return out.innerHTML = "Enter both binary numbers.";
+            if (!isValidForBase(a, 2) || !isValidForBase(b, 2))
+                return out.innerHTML = "Invalid binary input. Use only 0 and 1.";
+
+            const decA = parseInt(a, 2);
+            const decB = parseInt(b, 2);
+
+            let resDec;
+            switch(op) {
+                case '+': resDec = decA + decB; break;
+                case '-': resDec = decA - decB; break;
+                case '*': resDec = decA * decB; break;
+                case '/': resDec = Math.floor(decA / decB); break;
+            }
+
+            const binA = a, binB = b;
+            const binResult = (resDec >>> 0).toString(2);
+            const colWidth = Math.max(binA.length, binB.length, binResult.length);
+
+            const padZero = (s) => s.padStart(colWidth, '0');
+
+            let steps = `<pre style="margin:0; white-space:pre; font-family:monospace; font-size:1.2rem; font-weight:bold; color:var(--primary-color); background:transparent; border:none; padding:0">`;
+            steps += `   ${padZero(binA)} (${decA})\n`;
+            steps += `${op}  ${padZero(binB)} (${decB})\n`;
+            steps += `${'─'.repeat(3 + colWidth)}\n`;
+            steps += `   ${padZero(binResult)} (${resDec})`;
+            steps += `</pre>`;
+            out.innerHTML = steps;
+        }
+
+        function findComplements() {
+            const input = document.getElementById('compInput').value.trim();
+            const out = document.getElementById('compResult');
+            if (!/^[01]+$/.test(input)) return out.innerHTML = "Invalid binary.";
+
+            const ones = input.split('').map(b => b === '0' ? '1' : '0').join('');
+            const twos = (parseInt(ones, 2) + 1).toString(2).padStart(input.length, '0');
+
+            let steps = `<span class="step-label">1's Complement (Flip all bits):</span>`;
+            steps += `<div class="math-res">${ones}</div>`;
+            steps += `<span class="step-label" style="margin-top:10px">2's Complement (1's + 1):</span>`;
+            steps += `<div class="math-res">${twos}</div>`;
+            out.innerHTML = steps;
+        }
+    </script>
+</body>
+</html>

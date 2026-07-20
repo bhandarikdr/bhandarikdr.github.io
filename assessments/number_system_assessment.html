@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Number Systems</title>
+    <link rel="stylesheet" href="../css/assessment.css">
+</head>
+<body>
+    <div class="canvas-container">
+        <div id="entryModal" class="celebration-overlay">
+            <div class="celebration-card">
+                <h1>Number Systems</h1>
+                <p>Grade XI • Computer Science Assessment</p>
+                <div id="entryError" class="error-msg hidden"></div>
+                <div class="form-group">
+                    <input type="text" id="studentName" placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="studentRoll" placeholder="Roll Number">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="studentRoom" placeholder="Room Number">
+                </div>
+                <button id="enterBtn" class="btn btn-primary">Start Assessment</button>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="student-info">
+                <span id="displayName">Student</span> | <span id="displayRoll">00</span> | <span id="displayRoom">Room</span>
+            </div>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+        </div>
+
+        <div id="taskWorkspace">
+            <div class="stepper-container" id="stepper"></div>
+            <div id="cardMount"></div>
+        </div>
+    </div>
+
+    <script src="../js/assessment-core.js"></script>
+    <script>
+        const TASKS = [
+            {
+                id: 1,
+                type: 'mcq',
+                question: "Convert the binary number 1001100₂ to its decimal equivalent.",
+                options: ["72", "76", "78", "80"],
+                answer: 1,
+                hint: "1·2⁶ + 0·2⁵ + 0·2⁴ + 1·2³ + 1·2² + 0·2¹ + 0·2⁰ = 64 + 8 + 4"
+            },
+            {
+                id: 2,
+                type: 'mcq',
+                question: "What is the binary equivalent of the decimal number 173₁₀?",
+                options: ["10101101", "10101011", "11001011", "10111101"],
+                answer: 0,
+                hint: "Repeatedly divide by 2: 173/2 = 86 (1), 86/2 = 43 (0), 43/2 = 21 (1)..."
+            },
+            {
+                id: 3,
+                type: 'mcq',
+                question: "Convert the octal number 572₈ to binary.",
+                options: ["10111110", "101111010", "110111010", "101111001"],
+                answer: 1,
+                hint: "5=101, 7=111, 2=010. Combine them."
+            },
+            {
+                id: 4,
+                type: 'mcq',
+                question: "Convert the hexadecimal number A3F₁₆ to decimal.",
+                options: ["2591", "2623", "2711", "2621"],
+                answer: 1,
+                hint: "A=10, 3=3, F=15. Calculate: 10·16² + 3·16¹ + 15·16⁰"
+            },
+            {
+                id: 5,
+                type: 'mcq',
+                question: "Perform binary addition: 1011₂ + 111₂",
+                options: ["10010", "11000", "10011", "10110"],
+                answer: 0,
+                hint: "1011 (11) + 111 (7) = 18₁₀ = 10010₂. Column addition: 1+1=0(c1), 1+1+1=1(c1), 0+1+1=0(c1), 1+1=10."
+            },
+            {
+                id: 6,
+                type: 'text',
+                question: "Perform binary subtraction: 1001₂ - 110₂. Enter the binary result.",
+                acceptedAnswers: ["011", "11"],
+                placeholder: "Binary result",
+                hint: "Borrowing from the 8s place makes 9-6=3. Binary 3 is 011."
+            },
+            {
+                id: 7,
+                type: 'mcq',
+                question: "Find the 1's complement of 101010₂.",
+                options: ["010101", "101011", "010100", "111000"],
+                answer: 0,
+                hint: "Invert all bits: 1 becomes 0, 0 becomes 1."
+            },
+            {
+                id: 8,
+                type: 'text',
+                question: "Find the 2's complement of 1100₂. Enter the 4-bit binary result.",
+                acceptedAnswers: ["0100"],
+                placeholder: "4-bit binary",
+                hint: "1's complement is 0011. Add 1: 0011 + 1 = 0100."
+            },
+            {
+                id: 9,
+                type: 'mcq',
+                question: "Perform 12 - 5 using 2's complement in 8-bit. What is the result before discarding the carry?",
+                options: ["100000111", "111111001", "100000101", "000000111"],
+                answer: 0,
+                hint: "12 = 00001100. -5 = 11111011. Sum = 1 00000111."
+            },
+            {
+                id: 10,
+                type: 'mcq',
+                question: "Which 8-bit binary number represents -13 in 2's complement form?",
+                options: ["11110011", "11110010", "10001101", "11111101"],
+                answer: 0,
+                hint: "+13 = 00001101. 1's comp = 11110010. 2's comp = 11110011."
+            },
+            {
+                id: 11,
+                type: 'mcq',
+                question: "Multiply 1011₂ by 11₂.",
+                options: ["100001", "11111", "10011", "10101"],
+                answer: 0,
+                hint: "1011 (11) * 3 = 33. Binary 33 is 100001 (32+1)."
+            },
+            {
+                id: 12,
+                type: 'mcq',
+                question: "In the binary number 11101₂, which digit is the Most Significant Digit (MSD)?",
+                options: ["The leftmost '1'", "The rightmost '1'", "The '0'", "The '1' in the 2s place"],
+                answer: 0,
+                hint: "MSD (or MSB) is the bit with the highest positional value (leftmost)."
+            }
+        ];
+
+        function init(tasks) {
+            const enterBtn = document.getElementById('enterBtn');
+            const entryModal = document.getElementById('entryModal');
+            const entryError = document.getElementById('entryError');
+
+            enterBtn.addEventListener('click', () => {
+                const name = document.getElementById('studentName').value.trim();
+                const roll = document.getElementById('studentRoll').value.trim();
+                const room = document.getElementById('studentRoom').value.trim();
+
+                if (!name || !roll || !room) {
+                    entryError.textContent = "Please fill all fields.";
+                    entryError.classList.remove('hidden');
+                    return;
+                }
+
+                studentData.name = name;
+                studentData.roll = roll;
+                studentData.room = room;
+                studentData.startTime = new Date();
+
+                document.getElementById('displayName').textContent = name;
+                document.getElementById('displayRoll').textContent = roll;
+                document.getElementById('displayRoom').textContent = room;
+
+                entryModal.classList.add('hidden');
+                assessmentTasks = TASKS;
+                sessionState = assessmentTasks.map(() => ({ verified: false }));
+                initStepper();
+                renderTask();
+            });
+        }
+
+        init(TASKS);
+    </script>
+</body>
+</html>

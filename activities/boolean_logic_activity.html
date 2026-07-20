@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boolean Algebra & Digital Logic</title>
+    <link rel="stylesheet" href="../css/activity.css">
+    <style>
+        .simulator {
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .gate-explorer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) { .gate-explorer { grid-template-columns: 1fr; } }
+        .input-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+        .io-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid var(--border-color);
+            background: #eee;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .io-btn.on {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .gate-display {
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-color);
+        }
+        .gate-img {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        .output-lamp {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 10px auto;
+            background: #555;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        .output-lamp.active {
+            background: #4ade80;
+            box-shadow: 0 0 15px #4ade80;
+        }
+        .tt-small {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 15px;
+        }
+        .tt-small th, .tt-small td {
+            border: 1px solid var(--border-color);
+            padding: 4px;
+            text-align: center;
+        }
+        .tt-highlight { background: rgba(59, 130, 246, 0.1); font-weight: bold; }
+        .overline { text-decoration: overline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="lab-header">
+            <h1>Activity: Boolean Algebra & Digital Logic</h1>
+            <p class="subtitle">Laws, simplification, De Morgan's theorem, and logic gate analysis with interactive tools</p>
+            <span class="grade-badge">Grade XI • Computer Science</span>
+            <span class="grade-badge" style="background: var(--warning-color); color: white; margin-left: 0.5rem;">⏱️ ~35 min</span>
+        </header>
+
+        <div class="section-title"><span class="badge">Part 1</span> Boolean Laws & Postulates</div>
+        <p>Boolean Algebra, developed by George Boole, is used to simplify digital circuits. Just like regular algebra has rules, Boolean algebra has laws for AND, OR, and NOT operations.</p>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 1: The Core Postulates</div>
+            <p>Every variable can only be 0 or 1. Master these fundamental behaviors:</p>
+            <table class="data-table">
+                <tr><th>Law Name</th><th>OR (Addition)</th><th>AND (Multiplication)</th></tr>
+                <tr><td><strong>Annulment</strong></td><td>A + 1 = 1</td><td>A · 0 = 0</td></tr>
+                <tr><td><strong>Identity</strong></td><td>A + 0 = A</td><td>A · 1 = A</td></tr>
+                <tr><td><strong>Idempotent</strong></td><td>A + A = A</td><td>A · A = A</td></tr>
+                <tr><td><strong>Complement</strong></td><td>A + A̅ = 1</td><td>A · A̅ = 0</td></tr>
+                <tr><td><strong>Double Negation</strong></td><td colspan="2">A̿ = A (Double bar cancels out)</td></tr>
+            </table>
+            <details>
+                <summary>Practice: Simplify (A + 0) · (B · 0)</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    Step 1: (A + 0) = A (Identity)
+    Step 2: (B · 0) = 0 (Annulment)
+    Step 3: A · 0 = 0 (Annulment)
+    Result: 0</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 2: Commutative, Associative, & Distributive Laws</div>
+            <ul>
+                <li><strong>Commutative:</strong> Order doesn't matter (A + B = B + A)</li>
+                <li><strong>Associative:</strong> Grouping doesn't matter [A + (B + C) = (A + B) + C]</li>
+                <li><strong>Distributive:</strong> A · (B + C) = A·B + A·C</li>
+            </ul>
+            <details>
+                <summary>Challenge: Which law is used in A + B·C = (A + B)(A + C)?</summary>
+                <div class="inline-answer">This is the second <strong>Distributive Law</strong> (OR over AND).</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 3: Absorption Law</div>
+            <p>A term that contains its own component is "absorbed."</p>
+            <p class="info-note">Rule: A + (A · B) = A</p>
+            <details>
+                <summary>Practice: Simplify B · (B + A)</summary>
+                <div class="inline-answer">By Absorption Law (AND version), B · (B + A) = B.</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 4: Law Identification Challenge</div>
+            <p>Name the law applied in each step:</p>
+            <details>
+                <summary>1. X + (Y + Z) = (X + Y) + Z</summary>
+                <div class="inline-answer">Associative Law</div>
+            </details>
+            <details>
+                <summary>2. X · X̅ = 0</summary>
+                <div class="inline-answer">Complement Law</div>
+            </details>
+            <details>
+                <summary>3. X + 1 = 1</summary>
+                <div class="inline-answer">Annulment Law</div>
+            </details>
+        </div>
+
+        <div class="section-title"><span class="badge">Part 2</span> De Morgan's & Simplification</div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 5: De Morgan's Theorems</div>
+            <p>The mnemonic is <strong>"Break the bar, change the sign."</strong></p>
+            <ul>
+                <li><strong>Theorem 1:</strong> <span class="overline">A · B</span> = A̅ + B̅</li>
+                <li><strong>Theorem 2:</strong> <span class="overline">A + B</span> = A̅ · B̅</li>
+            </ul>
+            <details>
+                <summary>Practice: Rewrite <span class="overline">X + Y + Z</span></summary>
+                <div class="inline-answer">X̅ · Y̅ · Z̅</div>
+            </details>
+            <details>
+                <summary>Practice: Rewrite <span class="overline">P̅ · Q</span></summary>
+                <div class="inline-answer">P̿ + Q̅ = P + Q̅</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 6: Step-by-Step Simplification</div>
+            <p>Simplify: (A + B)(A + C)</p>
+            <ol class="step-list">
+                <li>Expand using Distributive Law: A·A + A·C + A·B + B·C</li>
+                <li>Apply Idempotent Law (A·A = A): A + A·C + A·B + B·C</li>
+                <li>Factor out A: A(1 + C) + A·B + B·C</li>
+                <li>Apply Annulment (1 + C = 1): A·1 + A·B + B·C</li>
+                <li>Identity (A·1 = A): A + A·B + B·C</li>
+                <li>Apply Absorption (A + AB = A): A + B·C</li>
+            </ol>
+            <details>
+                <summary>Result check: Is (A + B)(A + C) = A + BC?</summary>
+                <div class="inline-answer">Yes, this proves the Distributive Law A + BC = (A+B)(A+C).</div>
+            </details>
+        </div>
+
+        <div class="simulator" id="ttBuilder">
+            <div class="quiz-question">Tool: Expression Truth Table Builder</div>
+            <p>Select a Boolean expression to see its complete behavior.</p>
+            <select id="exprSelect" class="sim-select" style="width: 100%; margin-bottom: 10px;" onchange="buildTable()" aria-label="Select boolean expression">
+                <option value="A_AND_B">A · B (AND)</option>
+                <option value="A_OR_B">A + B (OR)</option>
+                <option value="NAND">¬(A · B) (NAND)</option>
+                <option value="XOR">A ⊕ B (XOR)</option>
+                <option value="ABSORP">A + (A · B) (Absorption)</option>
+                <option value="DISTRIB">A + (B · C) (Distributive Law result)</option>
+            </select>
+            <div id="tableContainer"></div>
+        </div>
+
+        <div class="section-title"><span class="badge">Part 3</span> Logic Gate Analysis</div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 7: Basic Gates (AND, OR, NOT)</div>
+            <p>The building blocks of logic.</p>
+            <details>
+                <summary>Practice: If A=1, B=0, what is (A AND B) OR (NOT A)?</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    (1 AND 0) = 0
+    NOT 1 = 0
+    0 OR 0 = 0</pre>
+            </details>
+        </div>
+
+        <div class="simulator">
+            <div class="quiz-question">Tool: Interactive Logic Gate Explorer</div>
+            <div class="gate-explorer">
+                <div class="input-panel">
+                    <span class="step-label">Input A</span>
+                    <button id="btnA" class="io-btn" onclick="toggleInput('A')">0</button>
+                    <span class="step-label" id="labelB">Input B</span>
+                    <button id="btnB" class="io-btn" onclick="toggleInput('B')">0</button>
+                </div>
+                <div class="gate-display">
+                    <select id="gateType" class="sim-select" onchange="updateGate()" aria-label="Select gate type">
+                        <option value="AND">AND</option>
+                        <option value="OR">OR</option>
+                        <option value="NOT">NOT (Inverter)</option>
+                        <option value="NAND">NAND</option>
+                        <option value="NOR">NOR</option>
+                        <option value="XOR">XOR</option>
+                        <option value="XNOR">XNOR</option>
+                    </select>
+                    <div id="gateName" class="gate-img">AND</div>
+                    <div id="lamp" class="output-lamp"></div>
+                    <div id="gateOutText" style="font-weight:bold">Output: 0</div>
+                </div>
+            </div>
+            <div id="miniTTContainer"></div>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 8: XOR vs XNOR</div>
+            <p><strong>XOR (Exclusive OR)</strong> is true if inputs are DIFFERENT. <strong>XNOR</strong> is its complement (true if inputs are SAME).</p>
+            <table class="data-table">
+                <tr><th>A</th><th>B</th><th>XOR</th><th>XNOR</th></tr>
+                <tr><td>0</td><td>0</td><td>0</td><td>1</td></tr>
+                <tr><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+                <tr><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+                <tr><td>1</td><td>1</td><td>0</td><td>1</td></tr>
+            </table>
+            <details>
+                <summary>Puzzle: When is XOR = 1 and XNOR = 0?</summary>
+                <div class="inline-answer">When inputs are (0,1) or (1,0).</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 9: Universal Gates</div>
+            <p>NAND and NOR are called <strong>Universal Gates</strong> because any other logic gate can be built using only them.</p>
+            <details>
+                <summary>Think: How to make a NOT gate using NAND?</summary>
+                <div class="inline-answer">Connect both inputs of the NAND gate together to the same signal. A NAND (A, A) results in A̅.</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 10: Gate Identification Puzzle</div>
+            <p>Identify the gate from its behavior:</p>
+            <details>
+                <summary>Gate 1: Output is 0 ONLY if both inputs are 1.</summary>
+                <div class="inline-answer">NAND Gate</div>
+            </details>
+            <details>
+                <summary>Gate 2: Output is 1 ONLY if both inputs are 0.</summary>
+                <div class="inline-answer">NOR Gate</div>
+            </details>
+            <details>
+                <summary>Gate 3: Output is the same as the input but reversed.</summary>
+                <div class="inline-answer">NOT Gate (Inverter)</div>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 11: Multi-gate Circuit Trace</div>
+            <p>Trace this circuit: (A, B) → NAND → (Result 1). Then (Result 1, C) → OR → Final Out.</p>
+            <details>
+                <summary>Trace: A=1, B=1, C=0. What is Final Out?</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    Step 1: (1 NAND 1) = 0
+    Step 2: (0 OR 0) = 0
+    Final Out: 0</pre>
+            </details>
+            <details>
+                <summary>Trace: A=0, B=1, C=0. What is Final Out?</summary>
+                <pre class="inline-answer" style="margin:0; display:inline-block">    Step 1: (0 NAND 1) = 1
+    Step 2: (1 OR 0) = 1
+    Final Out: 1</pre>
+            </details>
+        </div>
+
+        <div class="instruction-box">
+            <div class="quiz-question">Task 12: Application Summary</div>
+            <p>Logic gates are used to build adders, multiplexers, and memory units in a computer's CPU.</p>
+            <p class="info-note">Mastering these 7 gates allows you to understand how a processor calculates anything!</p>
+        </div>
+
+        <div class="cta-band" style="margin-top: 40px; background: var(--success-color); color: white; border-radius: 12px; padding: 30px; text-align: center;">
+            <h2>Logic puzzles await!</h2>
+            <p>Ready to trace circuits and simplify expressions under pressure?</p>
+            <a href="../assessments/boolean_logic_assessment.html" class="sim-btn" style="background: white; color: var(--success-color); text-decoration: none; display: inline-block; margin-top: 15px;">Launch Assessment →</a>
+        </div>
+    </div>
+
+    <script>
+        let inputs = { A: 0, B: 0 };
+        const gates = {
+            AND: (a, b) => a & b,
+            OR: (a, b) => a | b,
+            NOT: (a) => a === 0 ? 1 : 0,
+            NAND: (a, b) => (a & b) === 1 ? 0 : 1,
+            NOR: (a, b) => (a | b) === 1 ? 0 : 1,
+            XOR: (a, b) => a ^ b,
+            XNOR: (a, b) => (a ^ b) === 0 ? 1 : 0
+        };
+
+        function toggleInput(id) {
+            inputs[id] = inputs[id] === 0 ? 1 : 0;
+            const btn = document.getElementById('btn' + id);
+            btn.innerText = inputs[id];
+            btn.classList.toggle('on', inputs[id] === 1);
+            updateGate();
+        }
+
+        function updateGate() {
+            const type = document.getElementById('gateType').value;
+            const lamp = document.getElementById('lamp');
+            const outText = document.getElementById('gateOutText');
+            const nameDisp = document.getElementById('gateName');
+            const btnB = document.getElementById('btnB');
+            const labelB = document.getElementById('labelB');
+
+            nameDisp.innerText = type;
+
+            if (type === 'NOT') {
+                btnB.style.display = 'none';
+                labelB.style.display = 'none';
+            } else {
+                btnB.style.display = 'block';
+                labelB.style.display = 'block';
+            }
+
+            const result = gates[type](inputs.A, inputs.B);
+            lamp.classList.toggle('active', result === 1);
+            outText.innerText = "Output: " + result;
+            renderMiniTT(type, result);
+        }
+
+        function renderMiniTT(type, currentOut) {
+            const container = document.getElementById('miniTTContainer');
+            let rows = type === 'NOT' ? [[0],[1]] : [[0,0],[0,1],[1,0],[1,1]];
+
+            let html = `<table class="tt-small"><tr><th>A</th>${type === 'NOT' ? '' : '<th>B</th>'}<th>Q</th></tr>`;
+            rows.forEach(r => {
+                const out = type === 'NOT' ? gates[type](r[0]) : gates[type](r[0], r[1]);
+                const isCurrent = type === 'NOT' ? (r[0] === inputs.A) : (r[0] === inputs.A && r[1] === inputs.B);
+                html += `<tr class="${isCurrent ? 'tt-highlight' : ''}"><td>${r[0]}</td>${type === 'NOT' ? '' : '<td>'+r[1]+'</td>'}<td>${out}</td></tr>`;
+            });
+            html += `</table>`;
+            container.innerHTML = html;
+        }
+
+        function buildTable() {
+            const val = document.getElementById('exprSelect').value;
+            const container = document.getElementById('tableContainer');
+            let html = `<table class="tt-small"><tr><th>A</th><th>B</th>`;
+
+            if (val === 'DISTRIB') html += `<th>C</th><th>A + (B·C)</th>`;
+            else html += `<th>Result</th>`;
+            html += `</tr>`;
+
+            const rows = val === 'DISTRIB' ?
+                [[0,0,0],[0,0,1],[0,1,0],[0,1,1],[1,0,0],[1,0,1],[1,1,0],[1,1,1]] :
+                [[0,0],[0,1],[1,0],[1,1]];
+
+            rows.forEach(r => {
+                let res;
+                if (val === 'A_AND_B') res = r[0] & r[1];
+                if (val === 'A_OR_B') res = r[0] | r[1];
+                if (val === 'NAND') res = (r[0] & r[1]) ? 0 : 1;
+                if (val === 'XOR') res = r[0] ^ r[1];
+                if (val === 'ABSORP') res = r[0]; // A + AB = A
+                if (val === 'DISTRIB') res = r[0] | (r[1] & r[2]);
+
+                html += `<tr><td>${r[0]}</td><td>${r[1]}</td>${val==='DISTRIB'?'<td>'+r[2]+'</td>':''}<td>${res}</td></tr>`;
+            });
+            html += `</table>`;
+            container.innerHTML = html;
+        }
+
+        updateGate();
+        buildTable();
+    </script>
+</body>
+</html>

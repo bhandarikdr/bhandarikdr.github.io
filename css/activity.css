@@ -467,7 +467,8 @@ summary {
 .data-table tr:last-child td { border-bottom: none; }
 
 /* Inline answer */
-.inline-answer { background: #f1f5f9; padding: 0.4rem 1rem; border-radius: 40px; display: inline-block; margin: 0.5rem 0; }
+.inline-answer { background: #f1f5f9; padding: 0.4rem 0.6rem; border-radius: 8px; display: inline-block; margin: 0.5rem 0; white-space: pre-wrap; font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace; }
+pre.inline-answer { font-size: 1.05rem; font-weight: 600; color: var(--primary-color); line-height: 1.6; }
 
 /* Info/split/mnemonic boxes */
 .info-note { background: var(--bg-light); padding: 0.6rem 1.2rem; border-radius: 1rem; margin: 1rem 0; }
