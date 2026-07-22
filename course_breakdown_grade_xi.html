@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Breakdown — Grade XI Computer Science</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/mystyle.css">
+    <style>
+        .breakdown-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.92rem; }
+        .breakdown-table th,
+        .breakdown-table td { border: 1px solid var(--border-color); padding: 12px 14px; vertical-align: top; }
+        .breakdown-table th { background: var(--primary-color); color: #fff; font-weight: 600; text-align: center; font-size: 0.85rem; letter-spacing: 0.3px; }
+        .breakdown-table td { background: #fff; line-height: 1.6; }
+        .breakdown-table td strong { color: var(--primary-color); }
+        .college-header { text-align: center; margin-bottom: 8px; }
+        .college-header h2 { border-bottom: none; justify-content: center; }
+        .college-meta { text-align: center; color: var(--text-light); font-size: 0.9rem; margin-bottom: 20px; }
+        .college-meta strong { color: var(--text-main); }
+        .sign-off { text-align: right; margin-top: 16px; font-weight: 600; color: var(--text-light); font-size: 0.9rem; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; color: var(--primary-light); font-weight: 600; font-size: 0.9rem; margin-bottom: 20px; }
+        .back-link:hover { text-decoration: underline; }
+        @media (max-width: 768px) {
+            .breakdown-table { font-size: 0.82rem; }
+            .breakdown-table th, .breakdown-table td { padding: 8px 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav-trigger"></div>
+    <nav class="glass-nav visible">
+        <a href="index.html" class="nav-logo">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Kedar Bhandari</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="main_pages/csxi.html" class="active">Grade XI</a></li>
+            <li><a href="main_pages/csxii.html">Grade XII</a></li>
+        </ul>
+    </nav>
+
+    <script src="js/nav.js"></script>
+
+    <div class="header-banner">
+        <h1>Grade XI Computer Science</h1>
+        <p>Course Breakdown &bull; Academic Year 2083</p>
+    </div>
+
+    <div class="course-container">
+        <a class="back-link" href="main_pages/csxi.html"><i class="fa-solid fa-arrow-left"></i> Back to Grade XI</a>
+
+        <div class="card">
+            <div class="college-header">
+                <h2>Pinnacle Academy SS College</h2>
+            </div>
+            <div class="college-meta">
+                <strong>Lagankhel, Lalitpur</strong><br>
+                Subject: Computer Science &nbsp;|&nbsp; Class: XI
+            </div>
+
+            <table class="breakdown-table">
+                <thead>
+                    <tr>
+                        <th>First Terminal Examination</th>
+                        <th>Second Terminal Examination</th>
+                        <th>Third Terminal Examination</th>
+                        <th>Revision</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Ch 1.</strong> Computer System<br>
+                            &mdash; Introduction to Computer<br>
+                            &mdash; Computer System and I/O devices<br><br>
+                            <strong>Ch 2.</strong> Number System and Conversion<br><br>
+                            <strong>Boolean Logic:</strong><br>
+                            &mdash; Number System and Conversion<br>
+                            &mdash; Logic function and Boolean Algebra<br><br>
+                            <strong>Ch 4.</strong> Application Package<br>
+                            &mdash; Word Processor<br>
+                            &mdash; Presentation Tool<br><br>
+                            <strong>Ch 6.</strong> HTML (up to Table tags)<br><br>
+                            <strong>Ch 7.</strong> Multimedia<br>
+                            &mdash; Introduction<br>
+                            &mdash; Components<br>
+                            &mdash; Applications
+                        </td>
+                        <td>
+                            <strong>Ch 3.</strong> Computer Software and Operating System<br><br>
+                            <strong>Ch 6.</strong> Web Technology I<br>
+                            &mdash; HTML (Remaining)<br>
+                            &mdash; Cascading Style Sheet<br><br>
+                            <strong>Ch 5.</strong> Programming Concepts and Logics<br>
+                            &mdash; Programming Concept<br><br>
+                            <strong>Ch 4.</strong> Application Package<br>
+                            &mdash; Spreadsheet Package<br>
+                            &mdash; Domain Specific Tools
+                        </td>
+                        <td>
+                            <strong>Ch 5.</strong> Programming Concepts and Logics<br>
+                            &mdash; C Programming Language<br>
+                            &mdash; Array<br>
+                            &mdash; String Handling Functions<br><br>
+                            <strong>Ch 8.</strong> Information Security and Cyber Law
+                        </td>
+                        <td>
+                            Presentation session<br><br>
+                            Project Work submission<br><br>
+                            Preparation for practical and final board Exam
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="sign-off">By Rajan KC</div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Kedar Pd. Bhandari &middot; Computer Science Resource Portal</p>
+    </footer>
+
+</body>
+</html>
